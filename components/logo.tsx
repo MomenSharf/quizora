@@ -5,9 +5,15 @@ type LogoProps = {
   className?: string;
   iconClassName?: string;
   textClassName?: string;
+  iconOnly?: boolean;
 };
 
-export function Logo({ className, iconClassName, textClassName }: LogoProps) {
+export function Logo({
+  className,
+  iconClassName,
+  textClassName,
+  iconOnly = false,
+}: LogoProps) {
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <div className="p-1 bg-primary rounded">
@@ -15,7 +21,12 @@ export function Logo({ className, iconClassName, textClassName }: LogoProps) {
           className={cn("fill-white stroke-white size-8", iconClassName)}
         />
       </div>
-      <span className={cn("text-xl font-medium", textClassName)}>Quizora</span>
+
+      {!iconOnly && (
+        <span className={cn("text-xl font-medium", textClassName)}>
+          QUIZORA
+        </span>
+      )}
     </div>
   );
 }

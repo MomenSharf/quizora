@@ -6,6 +6,8 @@
 
 @theme inline {
   /* Main colors */
+  --color-secondary-background: var(--secondary-background);
+
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
 
@@ -64,7 +66,9 @@
 
 :root {
   /* Main colors */
-   --success: oklch(0.723 0.219 149.579);
+  --secondary-background: oklch(0.98 0.01 250);
+
+  --success: oklch(0.723 0.219 149.579);
   --success-foreground: oklch(0.982 0.018 155.826);
 
   --warning: oklch(0.795 0.184 86.047);
@@ -99,7 +103,7 @@
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
+  --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.541 0.281 293.009);
   --sidebar-primary-foreground: oklch(0.969 0.016 293.756);

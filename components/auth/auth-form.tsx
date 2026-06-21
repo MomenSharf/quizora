@@ -6,9 +6,7 @@ import { EmailSchema, emailSchema } from "@/lib/validation/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconCheck, IconMail } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
-import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Icons } from "../icons";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
@@ -45,9 +43,8 @@ export function AuthForm({ authMode }: { authMode: AuthMode }) {
         <Controller
           name="email"
           control={form.control}
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <Field
-              // data-invalid={fieldState.invalid}
               className="p-0.5 rounded-lg bg-muted"
             >
               <div className="flex gap-2 sm:gap-3 items-center px-4 py-2 bg-white rounded-lg">
@@ -61,10 +58,10 @@ export function AuthForm({ authMode }: { authMode: AuthMode }) {
                   >
                     Email Address
                   </FieldLabel>
+                  
                   <Input
                     {...field}
                     id="email"
-                    // aria-invalid={fieldState.invalid}
                     placeholder={
                       authMode === "login"
                         ? "Welcome back! Enter your email"

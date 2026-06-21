@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
-import { Outfit, Inter } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "sonner";
+import Sidebar from "@/components/layout/sidebar";
 import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
+import { Inter, Outfit } from "next/font/google";
+import "./globals.css";
+import { Providers } from "./provider";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const font = Outfit({
   variable: "--font-outfit",
@@ -22,11 +23,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("h-full", "antialiased", font.className, "font-sans", inter.variable)}>
+    <html
+      lang="en"
+      className={cn(
+        "h-full",
+        "antialiased",
+        font.className,
+        "font-sans",
+        inter.variable,
+      )}
+    >
       <body className="min-h-full flex flex-col">
         <main>
+          <Providers>
           {children}
-          <Toaster />
+          </Providers>
         </main>
       </body>
     </html>
