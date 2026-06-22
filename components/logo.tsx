@@ -16,9 +16,9 @@ export function Logo({
 }: LogoProps) {
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <div className="p-1 bg-primary rounded">
+      <div className="p-2 bg-primary rounded-lg">
         <Icons.logo
-          className={cn("fill-white stroke-white size-8", iconClassName)}
+          className={cn("fill-white stroke-white size-6", iconClassName)}
         />
       </div>
 

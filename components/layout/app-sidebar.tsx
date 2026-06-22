@@ -1,25 +1,30 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 
-import { NavUser } from "@/components/nav-user"
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { IconBooks, IconSmartHome } from "@tabler/icons-react"
+  SidebarTrigger,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import { IconBooks, IconSmartHome } from "@tabler/icons-react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   FrameIcon,
-  Inbox, MapIcon, PieChartIcon,
-  Sparkles
-} from "lucide-react"
-import { NavMain } from "./nav-main"
-import { NavProjects } from "./nav-projects"
-import { SidebarLogo } from "./sidebar-logo"
-import { Separator } from "../ui/separator"
+  Inbox,
+  MapIcon,
+  PieChartIcon,
+  Sparkles,
+} from "lucide-react";
+import { Separator } from "../ui/separator";
+import { NavMain } from "./nav-main";
+import { NavProjects } from "./nav-projects";
+import { SidebarLogo } from "./sidebar-logo";
 
 // This is sample data.
 const data = {
@@ -28,7 +33,7 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
- 
+
   navMain: [
     {
       title: "Home",
@@ -57,35 +62,39 @@ const data = {
     {
       name: "Design Engineering",
       url: "#",
-      icon: (
-        <FrameIcon
-        />
-      ),
+      icon: <FrameIcon />,
     },
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: (
-        <PieChartIcon
-        />
-      ),
+      icon: <PieChartIcon />,
     },
     {
       name: "Travel",
       url: "#",
-      icon: (
-        <MapIcon
-        />
-      ),
+      icon: <MapIcon />,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { open, isMobile } = useSidebar();
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <SidebarLogo  />
+      <SidebarHeader className="relative">
+        <SidebarLogo />
+        <AnimatePresence>
+          {!open && (
+            <motion.div
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 12, transition: { duration: 0 } }}
+              transition={{ duration: 0.2, delay: 0.15 }}
+            >
+              <SidebarTrigger className="ml-auto cursor-pointer" />
+            </motion.div>
+          )}
+        </AnimatePresence>
         <Separator className="space-y-2" />
       </SidebarHeader>
       <SidebarContent className="px-2">
@@ -97,5 +106,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

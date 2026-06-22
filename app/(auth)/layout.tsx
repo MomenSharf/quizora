@@ -1,5 +1,7 @@
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Logo } from "@/components/logo";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AuthLayout({
   children,
@@ -7,10 +9,14 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
+
     <main className="grid min-h-screen md:grid-cols-2">
-      <div className="flex flex-col">
-        <div className="flex mt-5 ml-5">
+      <div className="flex flex-col p-3">
+        <div className="flex mt-5 justify-between">
+        <Link href="/">
           <Logo />
+        </Link>
+          <ThemeToggle />
         </div>
 
         <div className="flex-1 p-6 flex justify-center items-center">

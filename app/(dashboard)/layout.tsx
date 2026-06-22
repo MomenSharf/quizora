@@ -1,13 +1,13 @@
-import Sidebar from "@/components/layout/sidebar";
+import DashboardLayout from "@/components/layout/dashboard-layout";
 
-export default function DashboardLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <div className="min-h-screen">
-      <Sidebar>{children}</Sidebar>
+      <DashboardLayout>{children}</DashboardLayout>
     </div>
   );
 }

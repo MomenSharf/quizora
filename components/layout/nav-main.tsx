@@ -22,7 +22,7 @@ export function NavMain({
   }[];
 }) {
   return (
-    <SidebarMenu>
+    <SidebarMenu className="mt-1">
       {items.map((item) => (
         <SidebarMenuItem key={item.title}>
           <SidebarMenuButton

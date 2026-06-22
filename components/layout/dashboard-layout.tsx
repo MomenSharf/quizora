@@ -5,13 +5,13 @@ import {
 } from "@/components/ui/sidebar";
 import Header from "./header";
 
-export default function Sidebar({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className="bg-secondary-background">
       <Header />
-        <main className="flex-1">{children}</main>
+        <div className="flex-1">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
