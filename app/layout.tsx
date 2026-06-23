@@ -1,4 +1,3 @@
-import Sidebar from "@/components/layout/sidebar";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
@@ -25,6 +24,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
         "h-full",
         "antialiased",
@@ -35,9 +35,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <main>
-          <Providers>
-          {children}
-          </Providers>
+          <Providers>{children}</Providers>
         </main>
       </body>
     </html>

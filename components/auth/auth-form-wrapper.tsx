@@ -33,7 +33,7 @@ const AuthFormWrapper = ({ authMode }: { authMode: AuthMode }) => {
               href={item.route}
               className={`rounded-lg py-3 text-center transition-colors ${
                 isActive
-                  ? "bg-background shadow-sm"
+                  ? "bg-background shadow-sm dark:text-background dark:bg-foreground"
                   : "text-muted-foreground hover:bg-background/50"
               }`}
             >
