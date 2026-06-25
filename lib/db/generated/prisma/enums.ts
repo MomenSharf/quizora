@@ -9,7 +9,24 @@
 * 🟢 You can import this file directly.
 */
 
+export const QuizStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type QuizStatus = (typeof QuizStatus)[keyof typeof QuizStatus]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const QuestionType = {
+  SINGLE_CHOICE: 'SINGLE_CHOICE',
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  SHORT_TEXT: 'SHORT_TEXT',
+  LONG_TEXT: 'LONG_TEXT',
+  EMAIL: 'EMAIL',
+  NUMBER: 'NUMBER',
+  DATE: 'DATE',
+  RATING: 'RATING'
+} as const
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]

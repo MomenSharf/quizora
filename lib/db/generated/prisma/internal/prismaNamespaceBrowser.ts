@@ -54,7 +54,13 @@ export const ModelName = {
   User: 'User',
   Account: 'Account',
   Session: 'Session',
-  VerificationToken: 'VerificationToken'
+  VerificationToken: 'VerificationToken',
+  Quiz: 'Quiz',
+  Question: 'Question',
+  Answer: 'Answer',
+  QuizResult: 'QuizResult',
+  QuizResponse: 'QuizResponse',
+  ResponseAnswer: 'ResponseAnswer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -123,6 +129,83 @@ export const VerificationTokenScalarFieldEnum = {
 } as const
 
 export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
+export const QuizScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  coverImage: 'coverImage',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  publishedAt: 'publishedAt'
+} as const
+
+export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof QuizScalarFieldEnum]
+
+
+export const QuestionScalarFieldEnum = {
+  id: 'id',
+  quizId: 'quizId',
+  title: 'title',
+  description: 'description',
+  image: 'image',
+  type: 'type',
+  required: 'required',
+  position: 'position'
+} as const
+
+export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
+
+
+export const AnswerScalarFieldEnum = {
+  id: 'id',
+  questionId: 'questionId',
+  text: 'text',
+  image: 'image',
+  score: 'score',
+  position: 'position'
+} as const
+
+export type AnswerScalarFieldEnum = (typeof AnswerScalarFieldEnum)[keyof typeof AnswerScalarFieldEnum]
+
+
+export const QuizResultScalarFieldEnum = {
+  id: 'id',
+  quizId: 'quizId',
+  title: 'title',
+  description: 'description',
+  image: 'image',
+  scoreMin: 'scoreMin',
+  scoreMax: 'scoreMax'
+} as const
+
+export type QuizResultScalarFieldEnum = (typeof QuizResultScalarFieldEnum)[keyof typeof QuizResultScalarFieldEnum]
+
+
+export const QuizResponseScalarFieldEnum = {
+  id: 'id',
+  quizId: 'quizId',
+  email: 'email',
+  score: 'score',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type QuizResponseScalarFieldEnum = (typeof QuizResponseScalarFieldEnum)[keyof typeof QuizResponseScalarFieldEnum]
+
+
+export const ResponseAnswerScalarFieldEnum = {
+  id: 'id',
+  responseId: 'responseId',
+  questionId: 'questionId',
+  answerId: 'answerId',
+  textValue: 'textValue',
+  numberValue: 'numberValue'
+} as const
+
+export type ResponseAnswerScalarFieldEnum = (typeof ResponseAnswerScalarFieldEnum)[keyof typeof ResponseAnswerScalarFieldEnum]
 
 
 export const SortOrder = {

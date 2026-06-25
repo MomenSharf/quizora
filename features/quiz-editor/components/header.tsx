@@ -23,20 +23,18 @@ const Header = () => {
         <div className="max-sm:hidden">
           <EditableTitle title="Quiz Title" />
         </div>
+        <div className="flex flex-col items-center gap-1">
+          <div className="flex justify-center items-center p-1 rounded-full bg-success size-5">
+            <IconCheck className="text-primary-foreground" />
+          </div>
+          <p className="text-xs text-muted-foreground">All chages saved</p>
+        </div>
       </div>
       <QuizEditorTabs />
 
       <div className="flex items-center gap-2">
         {/* <ThemeToggle /> */}
-      
-          <div className="flex flex-col items-center gap-1">
 
-         <div className="flex justify-center items-center p-1 rounded-full bg-success size-5">
-          
-          <IconCheck className="text-primary-foreground" />
-          </div>
-          <p className="text-xs text-muted-foreground">All chages saved</p>
-         </div>
         <Button className="cursor-pointer" size="lg">
           <IconPlayerPlay />
           <div className="max-sm:hidden">Preview</div>
