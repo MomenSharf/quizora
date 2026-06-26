@@ -80,7 +80,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { open, isMobile } = useSidebar();
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" className="bg-white dark:bg-sidebar" {...props}>
       <SidebarHeader className="relative">
         <SidebarLogo />
         <AnimatePresence>

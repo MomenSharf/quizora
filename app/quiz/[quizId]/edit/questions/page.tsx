@@ -1,5 +1,5 @@
-import QuestionsEditorLayout from "@/features/quiz-editor/components/questions-editor/questions-editor-layout";
+import QuestionEditorContent from "@/features/quiz-editor/components/questions-editor/question-editor-content";
 
 export default function page() {
-  return <QuestionsEditorLayout />;
+  return <QuestionEditorContent />;
 }

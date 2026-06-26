@@ -11,13 +11,14 @@ import QuizEditorTabs from "./quiz-editor-tabs";
 
 const Header = () => {
   return (
-    <header className="md:col-span-2 p-2  border-b flex justify-between items-center gap-1">
+    // <header className="md:col-span-2 p-2  border-b flex justify-between items-center gap-1">
+    <header className="h-16.25 p-2  border-b flex justify-between items-center gap-1">
       <div className="flex items-center gap-3">
         <Button
           size="icon"
-          className="cursor-pointer group relative overflow-hidden hover:bg-primary size-12"
+          className="cursor-pointer group relative overflow-hidden hover:bg-primary size-10 sm:size-12"
         >
-          <Icons.logo className="absolute stroke-primary-foreground fill-primary-foreground group-hover:-translate-y-7 group-hover:opacity-0 transition-all size-6" />
+          <Icons.logo className="absolute stroke-primary-foreground fill-primary-foreground group-hover:-translate-y-7 group-hover:opacity-0 transition-all size-4 sm:size-6" />
           <IconChevronLeft className="absolute translate-y-7 group-hover:translate-y-0 transition-transform" />
         </Button>
         <div className="max-sm:hidden">
@@ -27,13 +28,13 @@ const Header = () => {
           <div className="flex justify-center items-center p-1 rounded-full bg-success size-5">
             <IconCheck className="text-primary-foreground" />
           </div>
-          <p className="text-xs text-muted-foreground">All chages saved</p>
+          <p className="text-xs text-muted-foreground text-xs">saved</p>
         </div>
       </div>
       <QuizEditorTabs />
 
       <div className="flex items-center gap-2">
-        {/* <ThemeToggle /> */}
+        <ThemeToggle />
 
         <Button className="cursor-pointer" size="lg">
           <IconPlayerPlay />

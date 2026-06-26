@@ -47,7 +47,7 @@ const items = [
 ];
 const QuizEditorNavigation = () => {
   return (
-    <div className="flex md:flex-col justify-center gap-2 p-2">
+    <div className="flex sm:flex-col justify-center gap-2 p-2">
       {items.map((item) => {
         const isActive = item.title === 'Cover'
         return (
@@ -56,9 +56,9 @@ const QuizEditorNavigation = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`flex flex-col justify-center items-center gap-1 rounded-lg p-1 hover:bg-muted size-12 ${isActive ? 'bg-primary' : ''}`}
+                className={`flex flex-col justify-center items-center gap-1 rounded-lg p-1 hover:bg-muted size-10 sm:size-10 ${isActive ? 'bg-primary' : ''}`}
               >
-                <item.icon className={`text-muted-foreground size-5 ${isActive ? 'text-primary-foreground' : ''}`} />
+                <item.icon className={`text-muted-foreground size-4 sm:size-5 ${isActive ? 'text-primary-foreground' : ''}`} />
                
               </Button>
             </TooltipTrigger>
