@@ -9,6 +9,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import MenuBar from "./menu-bar";
+import { TextStyleKit } from '@tiptap/extension-text-style'
 
 interface RichTextEditorProps {
   content: string;
@@ -51,9 +52,11 @@ export default function RichTextEditor({
       Placeholder.configure({
         placeholder,
       }),
-      
+
       Superscript,
       Subscript,
+
+      TextStyleKit
     ],
 
     content,

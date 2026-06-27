@@ -10,14 +10,10 @@ import {
   IconAlignRight,
   IconArrowBackUp,
   IconArrowForwardUp,
-  IconBlockquote,
   IconBold,
   IconClearFormatting,
-  IconCode,
-  IconHighlight,
   IconItalic,
   IconList,
-  IconListCheck,
   IconListNumbers,
   IconSeparatorHorizontal,
   IconStrikethrough,
@@ -26,9 +22,10 @@ import {
   IconUnderline,
 } from "@tabler/icons-react";
 import { Heading1, Heading2, Heading3, LucideIcon } from "lucide-react";
-import { Separator } from "../ui/separator";
-import UndoRedo from "./menu-bar-items/undo-redo";
 import ToolbarGroup from "./toolbar-gruop";
+import FontSizeSelect from "./menu-bar-items/font-size-select ";
+import { Separator } from "../ui/separator";
+import TextColorPicker from "./menu-bar-items/text-color-picker";
 
 export type ToolbarItem = {
   key: string;
@@ -46,25 +43,6 @@ export type ToolbarGroup = {
 
 export default function MenuBar({ editor }: { editor: Editor }) {
   const groups: Record<string, ToolbarGroup> = {
-    history: {
-      label: "History",
-      collapsible: false,
-      items: [
-        {
-          key: "undo",
-          icon: IconArrowBackUp,
-          onClick: () => editor.chain().focus().undo().run(),
-          disabled: !editor.can().undo(),
-        },
-        {
-          key: "redo",
-          icon: IconArrowForwardUp,
-          onClick: () => editor.chain().focus().redo().run(),
-          disabled: !editor.can().redo(),
-        },
-      ],
-    },
-
     heading: {
       label: "Headings",
       collapsible: true,
@@ -132,7 +110,6 @@ export default function MenuBar({ editor }: { editor: Editor }) {
           onClick: () =>
             editor.chain().focus().unsetAllMarks().clearNodes().run(),
         },
-        
       ],
     },
 
@@ -185,25 +162,44 @@ export default function MenuBar({ editor }: { editor: Editor }) {
         },
       ],
     },
-    scripts: {
-  label: "Scripts",
-  collapsible: false,
-  items: [
-    {
-      key: "superscript",
-      icon: IconSuperscript,
-      onClick: () => editor.chain().focus().toggleSuperscript().run(),
-      pressed: editor.isActive("superscript"),
-    },
-    {
-      key: "subscript",
-      icon: IconSubscript,
-      onClick: () => editor.chain().focus().toggleSubscript().run(),
-      pressed: editor.isActive("subscript"),
-    },
-  ],
-},
 
+    scripts: {
+      label: "Scripts",
+      collapsible: false,
+      items: [
+        {
+          key: "superscript",
+          icon: IconSuperscript,
+          onClick: () => editor.chain().focus().toggleSuperscript().run(),
+          pressed: editor.isActive("superscript"),
+        },
+        {
+          key: "subscript",
+          icon: IconSubscript,
+          onClick: () => editor.chain().focus().toggleSubscript().run(),
+          pressed: editor.isActive("subscript"),
+        },
+      ],
+    },
+
+    history: {
+      label: "History",
+      collapsible: false,
+      items: [
+        {
+          key: "undo",
+          icon: IconArrowBackUp,
+          onClick: () => editor.chain().focus().undo().run(),
+          disabled: !editor.can().undo(),
+        },
+        {
+          key: "redo",
+          icon: IconArrowForwardUp,
+          onClick: () => editor.chain().focus().redo().run(),
+          disabled: !editor.can().redo(),
+        },
+      ],
+    },
   };
   return (
     <div
@@ -211,6 +207,10 @@ export default function MenuBar({ editor }: { editor: Editor }) {
         "flex items-center justify-start gap-1 bg-background p-1 overflow-y-auto scrollbar-thin rounded-t-md border border-b-0",
       )}
     >
+      <FontSizeSelect editor={editor} />
+      <TextColorPicker editor={editor} />
+
+      <Separator orientation="vertical" className="ml-1" />
       {Object.entries(groups).map(([name, group]) => (
         <ToolbarGroup
           key={name}
@@ -218,6 +218,11 @@ export default function MenuBar({ editor }: { editor: Editor }) {
           items={group.items}
         />
       ))}
+      {/* 
+      link
+      code
+      image
+      */}
     </div>
   );
 }
