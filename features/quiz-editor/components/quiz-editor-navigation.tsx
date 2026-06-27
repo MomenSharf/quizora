@@ -47,7 +47,7 @@ const items = [
 ];
 const QuizEditorNavigation = () => {
   return (
-    <div className="flex sm:flex-col justify-center gap-2 p-2">
+    <aside className="flex sm:flex-col justify-start gap-2 p-2 border sm:border-r">
       {items.map((item) => {
         const isActive = item.title === 'Cover'
         return (
@@ -71,7 +71,7 @@ const QuizEditorNavigation = () => {
           </Tooltip>
         );
       })}
-    </div>
+    </aside>
   );
 };
 

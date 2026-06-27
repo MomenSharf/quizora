@@ -35,19 +35,20 @@ function Sortable({
     >
       <Button
         variant="ghost"
-        className={cn("w-full h-12 px-1.5 cursor-grab transition-all duration-150", {
-          "cursor-grabbing scale-[1.02] shadow-2xl ring-2 ring-primary opacity-90 rotate-[0.5deg] z-50":
-            isDragging,
-        })}
+        className={cn(
+          "w-full h-12 px-1.5 cursor-grab transition-all duration-150",
+          {
+            "cursor-grabbing scale-[1.02] shadow-2xl ring-2 ring-primary opacity-90 rotate-[0.5deg] z-50":
+              isDragging,
+          },
+        )}
         size="lg"
         ref={handleRef}
         tabIndex={0}
       >
-        <IconPick className="text-muted-foreground size-5 mr-1" />
+        <IconPick className="text-muted-foreground" />
 
-        <p className="flex-1 text-start truncate">
-          {question.prompt}
-        </p>
+        <p className="flex-1 text-start truncate">{question.prompt}</p>
         <div
           className={cn(buttonVariants({ variant: "ghost", size: "icon-sm" }))}
           tabIndex={0}
@@ -74,14 +75,16 @@ const QuestionEditorNavigation = () => {
   ]);
 
   return (
-    <div className="flex flex-col gap-1 sm:gap-2 w-full sm:w-3xs overflow-y-auto scrollbar-thin py-2 bg-sidebar border-b sm:border-r">
-      <h3 className="font-semibold text-muted-foreground text-sm px-2">QUESTIONS</h3>
+    <div className="flex flex-col gap-1 sm:gap-2 w-full sm:w-14 sm:min-w-14 md:w-3xs  md:min-w-3xs overflow-y-auto scrollbar-thin py-2 bg-sidebar border-b sm:border-r">
+      <h3 className="font-semibold text-muted-foreground text-sm px-2">
+        QUESTIONS
+      </h3>
       <DragDropProvider
         onDragEnd={(event) => {
           setQuestions((questions) => move(questions, event));
         }}
       >
-        <ul className="flex flex-col gap-0.5 items-center list-none">
+        <ul className="flex flex-col gap-0.5 px-0.5 items-center list-none">
           {questions.map((question, index) => (
             <Sortable
               key={question.id}

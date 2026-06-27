@@ -1,7 +1,8 @@
-import Header from "@/features/quiz-editor/components/header";
-import QuestionsEditorLayout from "@/features/quiz-editor/components/questions-editor/questions-editor-layout";
-import QuizEditorNavigation from "@/features/quiz-editor/components/quiz-editor-navigation";
+import QuestionEditorNavigation from "@/features/quiz-editor/components/questions-editor/questions-editor-navigation";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <QuestionsEditorLayout>{children}</QuestionsEditorLayout>;
+  return<div className="w-full h-full flex flex-col sm:flex-row">
+        <QuestionEditorNavigation />
+        <div className="bg-secondary-background flex-1 min-w-0">{children}</div>
+      </div>;
 }

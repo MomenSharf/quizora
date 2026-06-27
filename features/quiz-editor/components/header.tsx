@@ -28,7 +28,7 @@ const Header = () => {
           <div className="flex justify-center items-center p-1 rounded-full bg-success size-5">
             <IconCheck className="text-primary-foreground" />
           </div>
-          <p className="text-xs text-muted-foreground text-xs">saved</p>
+          <p className="text-xs text-muted-foreground">saved</p>
         </div>
       </div>
       <QuizEditorTabs />
