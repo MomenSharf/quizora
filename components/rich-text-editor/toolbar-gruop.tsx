@@ -6,7 +6,7 @@ import { IconChevronsLeft, IconChevronsRight } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Toggle } from "@/components/ui/toggle";
-import { cn } from "@/lib/utils";
+import { capitalize, cn } from "@/lib/utils";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ToolbarItem } from "./menu-bar";
@@ -52,7 +52,7 @@ export default function CollapsibleToolbarGroup({
                 <Icon className="size-4" />
               </Toggle>
             </TooltipTrigger>
-            <TooltipContent>{key}</TooltipContent>
+            <TooltipContent>{capitalize(key)}</TooltipContent>
           </Tooltip>
         ))}
       </div>

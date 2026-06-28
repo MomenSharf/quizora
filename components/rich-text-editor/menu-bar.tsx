@@ -26,6 +26,8 @@ import ToolbarGroup from "./toolbar-gruop";
 import FontSizeSelect from "./menu-bar-items/font-size-select ";
 import { Separator } from "../ui/separator";
 import TextColorPicker from "./menu-bar-items/text-color-picker";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { AddLink } from "./menu-bar-items/add-link";
 
 export type ToolbarItem = {
   key: string;
@@ -207,8 +209,11 @@ export default function MenuBar({ editor }: { editor: Editor }) {
         "flex items-center justify-start gap-1 bg-background p-1 overflow-y-auto scrollbar-thin rounded-t-md border border-b-0",
       )}
     >
-      <FontSizeSelect editor={editor} />
-      <TextColorPicker editor={editor} />
+     
+            <FontSizeSelect editor={editor} />
+            <TextColorPicker editor={editor} />
+     
+   
 
       <Separator orientation="vertical" className="ml-1" />
       {Object.entries(groups).map(([name, group]) => (
@@ -218,6 +223,7 @@ export default function MenuBar({ editor }: { editor: Editor }) {
           items={group.items}
         />
       ))}
+      <AddLink editor={editor} />
       {/* 
       link
       code

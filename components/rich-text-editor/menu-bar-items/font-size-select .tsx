@@ -10,6 +10,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const FONT_SIZES = [
   "10px",
@@ -26,11 +31,7 @@ const FONT_SIZES = [
   "64px",
 ];
 
-export default function FontSizeSelect({
-  editor,
-}: {
-  editor: Editor;
-}) {
+export default function FontSizeSelect({ editor }: { editor: Editor }) {
   const [value, setValue] = useState("16px");
 
   useEffect(() => {
@@ -64,15 +65,22 @@ export default function FontSizeSelect({
 
         editor.chain().focus().setFontSize(value).run();
       }}
-      
     >
-      <SelectTrigger className="w-18 text-xs">
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <SelectTrigger className="w-18 text-xs">
+              <SelectValue />
+            </SelectTrigger>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>Font Size</TooltipContent>
+      </Tooltip>
 
-        <SelectValue/>
-      </SelectTrigger>
-
-      <SelectContent>
-        <SelectItem value="default" className="text-xs">Default</SelectItem>
+      <SelectContent className="min-w-0 w-18 p-1">
+        <SelectItem value="default" className="text-xs">
+          Default
+        </SelectItem>
 
         {FONT_SIZES.map((size) => (
           <SelectItem key={size} value={size} className="text-xs">

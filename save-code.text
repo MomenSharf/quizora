@@ -1,101 +1,143 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { DragDropProvider } from "@dnd-kit/react";
-import { useSortable } from "@dnd-kit/react/sortable";
-import { move } from "@dnd-kit/helpers";
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
+import type { Editor } from "@tiptap/react";
+import { useMemo } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
-  IconDots,
-  IconDragDrop2,
-  IconMenu4,
-  IconPick,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Toggle } from "@/components/ui/toggle";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  IconLetterA,
+  IconTextColor
 } from "@tabler/icons-react";
-import { GripVertical } from "lucide-react";
 
-function Sortable({
-  id,
-  index,
-  question,
-}: {
-  id: number;
-  index: number;
-  question: { id: number; prompt: string; type: string };
-}) {
-  const [element, setElement] = useState<Element | null>(null);
-  const handleRef = useRef<HTMLButtonElement | null>(null);
-  const { isDragging } = useSortable({ id, index, element, handle: handleRef });
+export const COLORS = [
+  { key: "black", value: "#000000" },
+  { key: "dark-gray", value: "#434343" },
+  { key: "gray", value: "#666666" },
+  { key: "light-gray", value: "#999999" },
+  { key: "silver", value: "#cccccc" },
+  { key: "white", value: "#ffffff" },
 
-  return (
-    <li
-      ref={setElement}
-      className={cn(buttonVariants({ variant: "ghost" }), "w-full items p-0")}
-      data-shadow={isDragging || undefined}
-    >
-      <Button
-        variant="ghost"
-        className="w-full cursor-grab"
-        size="lg"
-        ref={handleRef}
-      >
-        <div
-          className={cn(buttonVariants({ variant: "ghost", size: "icon-sm" }))}
-        >
-          <IconPick className="text-muted-foreground" />
-        </div>
-        <p className="flex-1 text-start">{question.prompt}</p>
-        <div
-          className={cn(buttonVariants({ variant: "ghost", size: "icon-sm" }))}
-        >
-          <IconDots
-            className="text-muted-foreground"
-            onClick={(e) => {
-              console.log('d');
-              
-            }}
-          />
-        </div>
-      </Button>
-    </li>
-  );
-}
+  { key: "red", value: "#e53935" },
+  { key: "orange", value: "#fb8c00" },
+  { key: "yellow", value: "#fdd835" },
+  { key: "green", value: "#43a047" },
+  { key: "cyan", value: "#00acc1" },
+  { key: "blue", value: "#1e88e5" },
 
-const QuestionEditorNavigation = () => {
-  const [questions, setQuestions] = useState([
-    { id: 1, prompt: "Question 1", type: "multiple_choice" },
-    { id: 2, prompt: "Question 2", type: "checkbox" },
-    { id: 3, prompt: "Question 3", type: "short_text" },
-    { id: 4, prompt: "Question 4", type: "long_text" },
-    { id: 5, prompt: "Question 5", type: "true_false" },
-    { id: 6, prompt: "Question 6", type: "rating" },
-    { id: 7, prompt: "Question 7", type: "multiple_choice" },
-    { id: 8, prompt: "Question 8", type: "checkbox" },
-    { id: 9, prompt: "Question 9", type: "short_text" },
-    { id: 10, prompt: "Question 10", type: "long_text" },
-  ]);
+  { key: "indigo", value: "#3949ab" },
+  { key: "purple", value: "#8e24aa" },
+  { key: "pink", value: "#d81b60" },
+  { key: "brown", value: "#6d4c41" },
+  { key: "blue-gray", value: "#546e7a" },
+  { key: "lime", value: "#7cb342" },
 
-  return (
-    <div className="flex flex-col gap-3 w-full sm:w-2xs overflow-y-auto p-2 bg-sidebar">
-      <h3 className="font-semibold text-muted-foreground text-sm">QUESTIONS</h3>
-      <DragDropProvider
-        onDragEnd={(event) => {
-          setQuestions((questions) => move(questions, event));
-        }}
-      >
-        <ul className="flex flex-col gap-0.5 items-center list-none">
-          {questions.map((question, index) => (
-            <Sortable
-              key={question.id}
-              id={question.id}
-              index={index}
-              question={question}
-            />
-          ))}
-        </ul>
-      </DragDropProvider>
-    </div>
-  );
+  { key: "light-red", value: "#ef5350" },
+  { key: "light-orange", value: "#ffb74d" },
+  { key: "light-yellow", value: "#fff176" },
+  { key: "light-green", value: "#81c784" },
+  { key: "light-cyan", value: "#4dd0e1" },
+  { key: "light-blue", value: "#64b5f6" },
+] as const;
+
+export type ColorKey = (typeof COLORS)[number]["key"];
+type Props = {
+  editor: Editor;
 };
 
-export default QuestionEditorNavigation;
+export default function TextColorPicker({ editor }: Props) {
+  const currentColor = useMemo(() => {
+    return editor.getAttributes("textStyle").color ?? "#000000";
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor.state]);
+
+  const textCurrentColor = COLORS.find(({ value }) => value === currentColor)?.key;
+
+  return (
+    <Popover>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="icon" className="relative" >
+                <IconTextColor  style={{ color: currentColor }} />
+              </Button>
+            </PopoverTrigger>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>Text Color {textCurrentColor && ` - ${textCurrentColor}`}</TooltipContent>
+      </Tooltip>
+
+      <PopoverContent className="w-60 p-3">
+        <div className="space-y-3">
+          <Button
+            variant="outline"
+            className="w-full justify-start"
+            onClick={() => editor.chain().focus().unsetColor().run()}
+          >
+            Default
+          </Button>
+
+          <div className="grid grid-cols-6 gap-2">
+            {COLORS.map(({ key, value: color }) => {
+              const active =
+                currentColor?.toLowerCase() === color.toLowerCase();
+
+              return (
+                <Tooltip key={key}>
+                  <TooltipTrigger asChild>
+                    <Toggle
+                      onPressedChange={() =>
+                        editor.chain().focus().setColor(color).run()
+                      }
+                      pressed={active}
+                      style={{ color: color }}
+                      className="flex justify-center items-center p-0"
+                    >
+                      <span
+                        className="flex items-center justify-center rounded-full border size-6"
+                        style={{ borderColor: color }}
+                      >
+                        <IconLetterA />
+                      </span>
+
+                      {/* <span
+                    className="size-4 rounded-full border"
+                    style={{ backgroundColor: color }}
+                  /> */}
+                    </Toggle>
+                  </TooltipTrigger>
+
+                  <TooltipContent>{key}</TooltipContent>
+                </Tooltip>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Custom</span>
+
+            <input
+              type="color"
+              value={currentColor}
+              onChange={(e) =>
+                editor.chain().focus().setColor(e.target.value).run()
+              }
+              className="h-9 w-12 cursor-pointer rounded border bg-transparent p-1"
+            />
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}

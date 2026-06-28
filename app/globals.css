@@ -163,3 +163,7 @@
     @apply font-sans;
   }
 }
+
+.tiptap a {
+  @apply text-primary underline underline-offset-4 transition-colors hover:text-primary/80;
+}
