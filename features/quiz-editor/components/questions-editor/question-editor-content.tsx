@@ -6,7 +6,7 @@ const QuestionEditorContent = () => {
   return (
     <div className="scrollbar-thin flex flex-col h-full overflow-y-auto">
       <QuestionEditorContentHeader />
-      <div className="flex flex-col gap-2 m-10 mt-10 max-w-full">
+      <div className="flex flex-col gap-2 mt-10 max-w-full p-2">
        
        <RichTextEditor content="Hello World" onChange={() => {}} placeholder="Start typing..." />
       </div>

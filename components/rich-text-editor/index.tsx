@@ -60,7 +60,7 @@ export default function RichTextEditor({
       TextStyleKit,
 
       Link.configure({
-        openOnClick: true,
+        openOnClick: false,
         autolink: true,
         linkOnPaste: true,
         defaultProtocol: "https",
@@ -73,7 +73,7 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "min-h-[180px] rounded-br-md rounded-bl-md border bg-background px-4 py-3 focus:outline-none prose dark:prose-invert max-w-none",
+          "min-h-[140px] rounded-md border bg-background px-4 py-3 focus:outline-none prose dark:prose-invert max-w-none",
       },
     },
 
@@ -95,7 +95,7 @@ export default function RichTextEditor({
   if (!editor) return null;
 
   return (
-    <div className="">
+    <div className="space-y-1 relative">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>

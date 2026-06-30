@@ -86,7 +86,7 @@ export function AddLink({ editor }: LinkPopoverProps) {
           </Button>
 
           <Button size="sm" onClick={handleApply}>
-            Apply
+            Add
           </Button>
         </div>
       </PopoverContent>

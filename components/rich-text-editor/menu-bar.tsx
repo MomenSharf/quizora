@@ -11,6 +11,8 @@ import {
   IconArrowBackUp,
   IconArrowForwardUp,
   IconBold,
+  IconChevronsLeft,
+  IconChevronsRight,
   IconClearFormatting,
   IconItalic,
   IconList,
@@ -22,12 +24,14 @@ import {
   IconUnderline,
 } from "@tabler/icons-react";
 import { Heading1, Heading2, Heading3, LucideIcon } from "lucide-react";
-import ToolbarGroup from "./toolbar-gruop";
-import FontSizeSelect from "./menu-bar-items/font-size-select ";
+import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import TextColorPicker from "./menu-bar-items/text-color-picker";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { AddLink } from "./menu-bar-items/add-link";
+import FontSizeSelect from "./menu-bar-items/font-size-select ";
+import TextColorPicker from "./menu-bar-items/text-color-picker";
+import ToolbarGroup from "./toolbar-gruop";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useSlider } from "@/hooks/use-slider";
 
 export type ToolbarItem = {
   key: string;
@@ -44,6 +48,15 @@ export type ToolbarGroup = {
 };
 
 export default function MenuBar({ editor }: { editor: Editor }) {
+  const {
+    ref,
+    canScrollLeft,
+    canScrollRight,
+    scrollNext,
+    scrollPrevious,
+    overflow,
+  } = useSlider<HTMLDivElement>(100);
+
   const groups: Record<string, ToolbarGroup> = {
     heading: {
       label: "Headings",
@@ -204,31 +217,70 @@ export default function MenuBar({ editor }: { editor: Editor }) {
     },
   };
   return (
-    <div
-      className={cn(
-        "flex items-center justify-start gap-1 bg-background p-1 overflow-y-auto scrollbar-thin rounded-t-md border border-b-0",
-      )}
-    >
-     
-            <FontSizeSelect editor={editor} />
-            <TextColorPicker editor={editor} />
-     
-   
+    <div className="absolute  left-0 z-10 w-fit max-w-full h-12 -top-14 border border-primary transition-all rounded-md">
+      <div
+        ref={ref}
+        className={cn(
+          "w-full h-full flex items-center justify-start gap-1 bg-background rounded-md p-1 px-12 overflow-y-auto scrollbar-none",
+          overflow === "none" && "px-1" ,
+        )}
+      >
+        <FontSizeSelect editor={editor} />
+        <TextColorPicker editor={editor} />
 
-      <Separator orientation="vertical" className="ml-1" />
-      {Object.entries(groups).map(([name, group]) => (
-        <ToolbarGroup
-          key={name}
-          collapsible={group.collapsible}
-          items={group.items}
-        />
-      ))}
-      <AddLink editor={editor} />
-      {/* 
-      link
-      code
-      image
-      */}
+        <Separator orientation="vertical" className="ml-1" />
+        {Object.entries(groups).map(([name, group]) => (
+          <ToolbarGroup
+            key={name}
+            collapsible={group.collapsible}
+            items={group.items}
+          />
+        ))}
+        <AddLink editor={editor} />
+      </div>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "h-full absolute left-0 top-0 z-10 bg-background cursor-pointer border-0 border-r-2  border-primary rounded-r-none",
+              overflow === "none" ? "hidden" : "flex",
+            )}
+            disabled={!canScrollLeft}
+            onClick={scrollPrevious}
+            style={{
+              display: overflow === "none" ? "none" : "flex",
+            }}
+          >
+            <IconChevronsLeft />
+          </Button>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          <p>Sclll Left</p>
+        </TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "h-full absolute right-0 top-0 z-10 bg-background cursor-pointer border-0 border-l-2  border-primary rounded-l-none",
+              overflow === "none" ? "hidden" : "flex",
+            )}
+            disabled={!canScrollRight}
+            onClick={scrollNext}
+          >
+            <IconChevronsRight />
+          </Button>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          <p>Scroll Right</p>
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }
