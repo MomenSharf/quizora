@@ -2,10 +2,18 @@
 
 import { useState } from "react";
 import type { Editor as TiptapEditor } from "@tiptap/react";
-import MonacoEditor from "@monaco-editor/react";
+import CodeMirror from "@uiw/react-codemirror";
+import { html } from "@codemirror/lang-html";
+import { oneDark } from "@codemirror/theme-one-dark";
+import { autocompletion } from "@codemirror/autocomplete";
 import prettier from "prettier/standalone";
 import htmlParser from "prettier/plugins/html";
-import { Code2, Copy, RotateCcw, Wand2 } from "lucide-react";
+import {
+  Code2,
+  Copy,
+  RotateCcw,
+  Wand2,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,36 +33,38 @@ interface HtmlEditorDialogProps {
 export function HtmlEditorDialog({
   editor,
 }: HtmlEditorDialogProps) {
-  const [html, setHtml] = useState("");
+  const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function format() {
     try {
-      const formatted = await prettier.format(html, {
+      const formatted = await prettier.format(value, {
         parser: "html",
         plugins: [htmlParser],
       });
 
-      setHtml(formatted);
+      setValue(formatted);
     } catch {}
   }
 
   function apply() {
-    editor.commands.setContent(html);
+    editor.commands.setContent(value);
   }
 
   function reset() {
-    setHtml(editor.getHTML());
+    setValue(editor.getHTML());
   }
 
   async function copy() {
-    await navigator.clipboard.writeText(html);
+    await navigator.clipboard.writeText(value);
   }
 
   return (
     <Dialog
       onOpenChange={(open) => {
         if (open) {
-          setHtml(editor.getHTML());
+          setLoading(true);
+          setValue(editor.getHTML());
         }
       }}
     >
@@ -101,37 +111,36 @@ export function HtmlEditorDialog({
           </Button>
 
           <span className="ml-auto text-xs text-muted-foreground">
-            {html.length} chars
+            {value.length} chars
           </span>
         </div>
 
-        <div className="flex-1 overflow-hidden">
-          <MonacoEditor
-            language="html"
-            theme="vs-dark"
-            value={html}
-            onChange={(value) => setHtml(value ?? "")}
+        <div className="relative flex-1 overflow-hidden">
+          {loading && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-background text-sm text-muted-foreground">
+              Loading editor...
+            </div>
+          )}
+
+          <CodeMirror
+            value={value}
             height="100%"
-            options={{
-              minimap: {
-                enabled: false,
-              },
-              automaticLayout: true,
-              wordWrap: "on",
-              fontSize: 14,
-              lineHeight: 22,
-              tabSize: 2,
-              insertSpaces: true,
-              scrollBeyondLastLine: false,
-              smoothScrolling: true,
-              formatOnPaste: true,
-              formatOnType: true,
-              autoIndent: "full",
-              padding: {
-                top: 16,
-                bottom: 16,
-              },
+            theme={oneDark}
+            extensions={[
+              html(),
+              autocompletion(),
+            ]}
+            onChange={setValue}
+            onCreateEditor={() => setLoading(false)}
+            basicSetup={{
+              lineNumbers: true,
+              foldGutter: true,
+              highlightActiveLine: true,
+              bracketMatching: true,
+              closeBrackets: true,
+              autocompletion: true,
             }}
+            className="h-full text-sm"
           />
         </div>
 

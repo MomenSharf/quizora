@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react";
 import type { Editor } from "@tiptap/react";
 
+import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
   Tooltip,
   TooltipContent,
@@ -31,12 +33,15 @@ const FONT_SIZES = [
   "64px",
 ];
 
-export default function FontSizeSelect({ editor }: { editor: Editor }) {
+export default function FontSizeDialog({
+  editor,
+}: {
+  editor: Editor;
+}) {
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState("16px");
 
   useEffect(() => {
-    if (!editor) return;
-
     const update = () => {
       setValue(editor.getAttributes("textStyle").fontSize || "16px");
     };
@@ -52,42 +57,79 @@ export default function FontSizeSelect({ editor }: { editor: Editor }) {
     };
   }, [editor]);
 
+  const apply = () => {
+    const size = value.trim();
+
+    if (!size) {
+      editor.chain().focus().unsetFontSize().run();
+    } else {
+      editor
+        .chain()
+        .focus()
+        .setFontSize(/^\d+$/.test(size) ? `${size}px` : size)
+        .run();
+    }
+
+    setOpen(false);
+  };
+
+  const reset = () => {
+    editor.chain().focus().unsetFontSize().run();
+    setValue("16px");
+    setOpen(false);
+  };
+
   return (
-    <Select
-      value={value}
-      onValueChange={(value) => {
-        setValue(value);
-
-        if (value === "default") {
-          editor.chain().focus().unsetFontSize().run();
-          return;
-        }
-
-        editor.chain().focus().setFontSize(value).run();
-      }}
-    >
+    <Dialog open={open} onOpenChange={setOpen}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div>
-            <SelectTrigger className="w-18 text-xs">
-              <SelectValue />
-            </SelectTrigger>
-          </div>
+          <DialogTrigger asChild>
+            <Button variant="ghost" size="sm" className="text-xs">
+              {value}
+            </Button>
+          </DialogTrigger>
         </TooltipTrigger>
+
         <TooltipContent>Font Size</TooltipContent>
       </Tooltip>
 
-      <SelectContent className="min-w-0 w-18 p-1">
-        <SelectItem value="default" className="text-xs">
-          Default
-        </SelectItem>
+      <DialogContent className="sm:max-w-xs">
+        <DialogHeader>
+          <DialogTitle>Font Size</DialogTitle>
+        </DialogHeader>
 
-        {FONT_SIZES.map((size) => (
-          <SelectItem key={size} value={size} className="text-xs">
-            {size}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+        <Input
+          value={value}
+          placeholder="16px"
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              apply();
+            }
+          }}
+        />
+
+        <div className="grid grid-cols-4 gap-2">
+          {FONT_SIZES.map((size) => (
+            <Button
+              key={size}
+              variant={size === value ? "default" : "outline"}
+              size="sm"
+              onClick={() => setValue(size)}
+            >
+              {size}
+            </Button>
+          ))}
+        </div>
+
+        <div className="flex justify-between">
+          <Button variant="outline" onClick={reset}>
+            Default
+          </Button>
+
+          <Button onClick={apply}>Apply</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

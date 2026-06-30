@@ -1,23 +1,32 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { Editor } from "@tiptap/react";
-import { useMemo, useState } from "react";
+import { IconLetterA, IconTextColor } from "@tabler/icons-react";
+import { HexColorPicker } from "react-colorful";
 
 import { Button } from "@/components/ui/button";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Toggle } from "@/components/ui/toggle";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { IconLetterA, IconTextColor } from "@tabler/icons-react";
-import { HexColorPicker } from "react-colorful";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
+
 export const COLORS = [
   { key: "black", value: "#000000" },
   { key: "dark-gray", value: "#434343" },
@@ -48,104 +57,129 @@ export const COLORS = [
   { key: "light-blue", value: "#64b5f6" },
 ] as const;
 
-export type ColorKey = (typeof COLORS)[number]["key"];
 type Props = {
   editor: Editor;
 };
 
-export default function TextColorPicker({ editor }: Props) {
-  const [color, setColor] = useState("#aabbcc");
+export default function TextColorDialog({ editor }: Props) {
+  const [open, setOpen] = useState(false);
+  const [currentColor, setCurrentColor] = useState("#000000");
+  const [color, setColor] = useState("#000000");
 
-  const currentColor = useMemo(() => {
-    return editor.getAttributes("textStyle").color ?? "#000000";
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor.state]);
+  useEffect(() => {
+    const update = () => {
+      setCurrentColor(
+        editor.getAttributes("textStyle").color ?? "#000000",
+      );
+    };
 
-  const textCurrentColor = COLORS.find(
-    ({ value }) => value === currentColor,
-  )?.key;
+    update();
+
+    editor.on("selectionUpdate", update);
+    editor.on("transaction", update);
+
+    return () => {
+      editor.off("selectionUpdate", update);
+      editor.off("transaction", update);
+    };
+  }, [editor]);
+
+  const apply = () => {
+    editor.chain().focus().setColor(color).run();
+    setOpen(false);
+  };
+
+  const reset = () => {
+    editor.chain().focus().unsetColor().run();
+    setOpen(false);
+  };
 
   return (
-    <Popover>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+
+        if (nextOpen) {
+          setColor(currentColor);
+        }
+      }}
+    >
       <Tooltip>
         <TooltipTrigger asChild>
           <div>
-            <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative">
+            <DialogTrigger asChild>
+              <Button variant="ghost" size="icon">
                 <IconTextColor style={{ color: currentColor }} />
               </Button>
-            </PopoverTrigger>
+            </DialogTrigger>
           </div>
         </TooltipTrigger>
-        <TooltipContent>
-          Text Color - {textCurrentColor ? textCurrentColor : color}
-        </TooltipContent>
+
+        <TooltipContent>Text Color</TooltipContent>
       </Tooltip>
 
-      <PopoverContent className="w-60 p-3">
-        <Tabs defaultValue="colors" className="">
-          <TabsList className="w-full">
-            <TabsTrigger value="colors">Colors</TabsTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Text Color</DialogTitle>
+        </DialogHeader>
+
+        <Tabs defaultValue="palette">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="palette">Palette</TabsTrigger>
             <TabsTrigger value="custom">Custom</TabsTrigger>
           </TabsList>
-          <TabsContent value="colors">
-            <div className="space-y-3">
-              <Button
-                variant="outline"
-                className="justify-start w-full cursor-pointer"
-                onClick={() => editor.chain().focus().unsetColor().run()}
-              >
-                Default
-              </Button>
 
-              <div className="grid grid-cols-6 gap-2">
-                {COLORS.map(({ key, value: color }) => {
-                  const active =
-                    currentColor?.toLowerCase() === color.toLowerCase();
+          <TabsContent value="palette" className="mt-4">
+            <div className="grid grid-cols-6 gap-2">
+              {COLORS.map(({ key, value }) => {
+                const selected =
+                  color.toLowerCase() === value.toLowerCase();
 
-                  return (
-                    <Tooltip key={key}>
-                      <TooltipTrigger asChild>
-                        <Toggle
-                          onPressedChange={() =>
-                            editor.chain().focus().setColor(color).run()
-                          }
-                          pressed={active}
-                          style={{ color: color }}
-                          className="flex justify-center items-center p-0 cursor-pointer"
-                        >
-                          <span
-                            className="flex items-center justify-center rounded-full border size-6"
-                            style={{ borderColor: color }}
-                          >
-                            <IconLetterA />
-                          </span>
-                        </Toggle>
-                      </TooltipTrigger>
+                return (
+                  <Button
+                    key={key}
+                    size="icon"
+                    variant="outline"
+                    title={key}
+                    onClick={() => setColor(value)}
+                    className={cn(selected && "border-primary")}
+                  >
+                    <IconLetterA style={{ color: value }} />
+                  </Button>
+                );
+              })}
+            </div>
+          </TabsContent>
 
-                      <TooltipContent>{key}</TooltipContent>
-                    </Tooltip>
-                  );
-                })}
+          <TabsContent value="custom" className="mt-4">
+            <div className="flex flex-col items-center gap-4">
+              <HexColorPicker color={color} onChange={setColor} />
+
+              <div className="flex w-full items-center gap-3">
+                <div
+                  className="size-10 rounded-md border"
+                  style={{ backgroundColor: color }}
+                />
+
+                <Input
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                  placeholder="#000000"
+                />
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="custom">
-            <div className="flex flex-col items-center gap-3">
-              <HexColorPicker color={color} onChange={setColor} />
-              <p style={{ color: color }} className="font-bold self-start">
-                Current Color
-              </p>
-              <Button
-                onClick={() => editor.chain().focus().setColor(color).run()}
-                className="cursor-pointer"
-              >
-                Apply
-              </Button>
-            </div>
-          </TabsContent>
         </Tabs>
-      </PopoverContent>
-    </Popover>
+
+        <div className="flex justify-between">
+          <Button variant="outline" onClick={reset}>
+            Default
+          </Button>
+
+          <Button onClick={apply}>Apply</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

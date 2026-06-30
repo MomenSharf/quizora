@@ -32,6 +32,7 @@ import TextColorPicker from "./menu-bar-items/text-color-picker";
 import ToolbarGroup from "./toolbar-gruop";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useSlider } from "@/hooks/use-slider";
+import { HtmlEditorDialog } from "./menu-bar-items/html-editor";
 
 export type ToolbarItem = {
   key: string;
@@ -217,7 +218,7 @@ export default function MenuBar({ editor }: { editor: Editor }) {
     },
   };
   return (
-    <div className="absolute  left-0 z-10 w-fit max-w-full h-12 -top-14 border border-primary transition-all rounded-md">
+    <div className="hidden group-focus-within:block absolute  left-0 z-10 w-fit max-w-full h-12 -top-14 border border-primary transition-all rounded-md">
       <div
         ref={ref}
         className={cn(
@@ -237,6 +238,7 @@ export default function MenuBar({ editor }: { editor: Editor }) {
           />
         ))}
         <AddLink editor={editor} />
+        <HtmlEditorDialog editor={editor} />
       </div>
       <Tooltip>
         <TooltipTrigger asChild>

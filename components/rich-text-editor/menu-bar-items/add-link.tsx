@@ -1,26 +1,33 @@
 "use client";
 
 import type { Editor } from "@tiptap/react";
+import { IconLink } from "@tabler/icons-react";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
-import { IconLink } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
 
-interface LinkPopoverProps {
+interface AddLinkProps {
   editor: Editor;
 }
 
-export function AddLink({ editor }: LinkPopoverProps) {
+export function AddLink({ editor }: AddLinkProps) {
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState("");
+
+  const isActive = editor.isActive("link");
 
   const handleOpenChange = (nextOpen: boolean) => {
     if (nextOpen) {
@@ -60,14 +67,25 @@ export function AddLink({ editor }: LinkPopoverProps) {
   };
 
   return (
-    <Popover open={open} onOpenChange={handleOpenChange}>
-      <PopoverTrigger asChild>
-        <Toggle size="sm" pressed={editor.isActive("link")} aria-label="Link">
-          <IconLink className="size-4" />
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger asChild>
+        <Toggle size="sm" pressed={isActive} aria-label="Link">
+          <IconLink className={cn("size-4", isActive && "text-primary")} />
         </Toggle>
-      </PopoverTrigger>
-      <PopoverContent className="w-80 space-y-1">
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>
+            {isActive ? "Edit Link" : "Add Link"}
+          </DialogTitle>
+          <DialogDescription>
+            Enter the URL for this link.
+          </DialogDescription>
+        </DialogHeader>
+
         <Input
+          autoFocus
           placeholder="https://example.com"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
@@ -79,17 +97,22 @@ export function AddLink({ editor }: LinkPopoverProps) {
           }}
         />
 
-        <div className="flex justify-between">
-          <Button variant="destructive" size="sm" onClick={handleRemove}>
+        <DialogFooter className="flex-row justify-between">
+          <Button
+            type="button"
+            variant="destructive"
+            onClick={handleRemove}
+            disabled={!isActive}
+          >
             <Trash2 className="mr-2 size-4" />
             Remove
           </Button>
 
-          <Button size="sm" onClick={handleApply}>
-            Add
+          <Button type="button" onClick={handleApply}>
+            {isActive ? "Save" : "Add"}
           </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

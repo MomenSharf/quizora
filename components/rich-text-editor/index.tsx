@@ -23,6 +23,7 @@ export default function RichTextEditor({
   onChange,
   placeholder = "Start typing...",
 }: RichTextEditorProps) {
+  
   const editor = useEditor({
     immediatelyRender: false,
     shouldRerenderOnTransaction: true,
@@ -95,7 +96,7 @@ export default function RichTextEditor({
   if (!editor) return null;
 
   return (
-    <div className="space-y-1 relative">
+    <div className="space-y-1 relative group">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>
