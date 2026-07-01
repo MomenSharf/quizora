@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { IconPick, IconSettings2 } from "@tabler/icons-react";
 
-const QuestionEditorContentHeader = () => {
+const QuestionHeader = () => {
   return (
     <div className="flex p-2 items-center justify-between gap-3 border-b bg-background">
       <div className="flex gap-1.5 items-center">
@@ -17,4 +17,4 @@ const QuestionEditorContentHeader = () => {
   );
 };
 
-export default QuestionEditorContentHeader;
+export default QuestionHeader;

@@ -7,12 +7,12 @@ import {
 } from "@tabler/icons-react";
 import { EditableTitle } from "./editable-title";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
-import QuizEditorTabs from "./quiz-editor-tabs";
+import QuizTabs from "./quiz-tabs";
 
 const Header = () => {
   return (
     // <header className="md:col-span-2 p-2  border-b flex justify-between items-center gap-1">
-    <header className="h-16.25 p-2  border-b flex justify-between items-center gap-1">
+    <header className="h-16.25 p-2  border- flex justify-between items-center gap-1">
       <div className="flex items-center gap-3">
         <Button
           size="icon"
@@ -31,7 +31,7 @@ const Header = () => {
           <p className="text-xs text-muted-foreground">saved</p>
         </div>
       </div>
-      <QuizEditorTabs />
+      <QuizTabs />
 
       <div className="flex items-center gap-2">
         <ThemeToggle />

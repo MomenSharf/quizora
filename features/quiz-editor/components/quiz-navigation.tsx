@@ -45,9 +45,9 @@ const items = [
     icon: IconSettings,
   },
 ];
-const QuizEditorNavigation = () => {
+const QuizNavigation = () => {
   return (
-    <aside className="flex sm:flex-col justify-start gap-2 p-2 border sm:border-r">
+    <aside className="flex justify-center sm:flex-col sm:justify-start gap-2 p-2">
       {items.map((item) => {
         const isActive = item.title === 'Cover'
         return (
@@ -75,4 +75,4 @@ const QuizEditorNavigation = () => {
   );
 };
 
-export default QuizEditorNavigation;
+export default QuizNavigation;

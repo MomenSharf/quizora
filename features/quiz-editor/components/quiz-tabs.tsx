@@ -14,7 +14,7 @@ const items = [
   },
 ];
 
-function QuizEditorTabs() {
+function QuizTabs() {
   const [route, setRoute] = useState(items[0].route);
 
   return (
@@ -44,4 +44,4 @@ function QuizEditorTabs() {
   );
 }
 
-export default QuizEditorTabs;
+export default QuizTabs;

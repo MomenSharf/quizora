@@ -11,8 +11,15 @@ import {
   IconDragDrop2,
   IconMenu4,
   IconPick,
+  IconPlus,
 } from "@tabler/icons-react";
 import { GripVertical } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 function Sortable({
   id,
@@ -60,7 +67,7 @@ function Sortable({
   );
 }
 
-const QuestionEditorNavigation = () => {
+const QuestionNavigation = () => {
   const [questions, setQuestions] = useState([
     { id: 1, prompt: "Question 1", type: "multiple_choice" },
     // { id: 2, prompt: "Question 2", type: "checkbox" },
@@ -75,16 +82,19 @@ const QuestionEditorNavigation = () => {
   ]);
 
   return (
-    <div className="flex flex-col gap-1 sm:gap-2 w-full sm:w-14 sm:min-w-14 md:w-3xs  md:min-w-3xs overflow-y-auto scrollbar-thin py-2 bg-sidebar border-b sm:border-r">
-      <h3 className="font-semibold text-muted-foreground text-sm px-2">
-        QUESTIONS
-      </h3>
+    <div className="flex flex-col gap-2 sm:gap-2 w-full sm:w-14 sm:min-w-14 md:w-3xs  md:min-w-3xs overflow-y-auto scrollbar-thin p-2 py-3 bg-sidebar border-b sm:border-r">
+      <div className="flex justify-between items-center gap-1">
+        <h3 className="font-semibold text-muted-foreground text-sm">
+          QUESTIONS
+        </h3>
+        <Badge variant="outline">10</Badge>
+      </div>
       <DragDropProvider
         onDragEnd={(event) => {
           setQuestions((questions) => move(questions, event));
         }}
       >
-        <ul className="flex flex-col gap-0.5 px-0.5 items-center list-none">
+        <ul className="flex flex-col gap-0.5 items-center list-none">
           {questions.map((question, index) => (
             <Sortable
               key={question.id}
@@ -95,8 +105,12 @@ const QuestionEditorNavigation = () => {
           ))}
         </ul>
       </DragDropProvider>
+      <Button>
+        <IconPlus />
+        Add Question
+      </Button>
     </div>
   );
 };
 
-export default QuestionEditorNavigation;
+export default QuestionNavigation;
