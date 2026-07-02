@@ -6,9 +6,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="h-screen grid grid-rows-[65px_1fr] ">
       <Header />
 
-      <main className="h-[100vh-65px] grid grid-rows-[auto_1fr] sm:grid-cols-[auto_1fr] sm:grid-rows-1 overflow-hidden ">
+      <main className="h-[100vh-65px] grid grid-rows-[auto_1fr] md:grid-cols-[auto_1fr] md:grid-rows-1 overflow-hidden ">
         <QuizNavigation />
-        <div className="flex flex-1 min-w-0 border-t sm:border rounded-t-lg overflow-hidden">{children}</div>
+        <div className="flex flex-1 min-w-0 border-t sm:border rounded-t-lg overflow-x-hidden">{children}</div>
       </main>
     </div>
   );

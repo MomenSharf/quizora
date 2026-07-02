@@ -47,7 +47,7 @@ const items = [
 ];
 const QuizNavigation = () => {
   return (
-    <aside className="flex justify-center sm:flex-col sm:justify-start gap-2 p-2">
+    <aside className="min-w-16.25 flex justify-center md:flex-col md:justify-start gap-2 p-2">
       {items.map((item) => {
         const isActive = item.title === 'Cover'
         return (

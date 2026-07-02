@@ -20,7 +20,7 @@ const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
     <Card
       onClick={() => onSelect?.(type.id)}
       className={cn(
-        "group relative flex h-full min-h-57.5 cursor-pointer flex-col overflow-hidden rounded-3xl border bg-card transition-all duration-300",
+        "group relative flex h-full p-3 cursor-pointer flex-col overflow-hidden rounded-3xl border bg-card transition-all duration-300",
         "hover:-translate-y-1 hover:scale-[1.015]",
         "hover:border-primary/40 hover:bg-accent/30 hover:shadow-xl",
         "active:scale-[0.985]",
@@ -29,7 +29,7 @@ const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
       {(type.badge || type.isNew || type.isPopular) && (
         <Badge
           variant="secondary"
-          className="absolute right-12 top-4 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide"
+          className="absolute right-4 top-4 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide"
         >
           {type.badge ?? (type.isNew ? "New" : "Popular")}
         </Badge>
@@ -47,15 +47,16 @@ const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
 
 
 
-      <CardContent className="flex flex-1 flex-col p-5">
+      <CardContent className="flex flex-1 flex-col gap-2 p-1">
         <QuestionTypeIcon
           icon={type.icon}
           color={type.color}
-          iconClassName="size-8"
+          className="max-sm:size-8 max-sm:rounded-md"
+          iconClassName="max-sm:size-4 size-6"
         />
 
-        <div className="mt-6 space-y-2">
-          <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">
+        <div className="space-y-1">
+          <h3 className="text-base font-semibold transition-colors group-hover:text-primary">
             {type.label}
           </h3>
 
@@ -64,7 +65,7 @@ const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
           </p>
         </div>
 
-        <div className="mt-auto flex items-center justify-between pt-8">
+        <div className="mt-auto flex items-center justify-between">
           <span className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-primary">
             Create
           </span>
@@ -73,7 +74,7 @@ const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
         </div>
       </CardContent>
 
-      <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-primary/10" />
+      <div className="pointer-events-none absolute inset-0 rounded-3xl bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-primary/10" />
     </Card>
   );
 };

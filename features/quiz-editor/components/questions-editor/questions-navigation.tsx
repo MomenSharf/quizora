@@ -82,7 +82,7 @@ const QuestionNavigation = () => {
   ]);
 
   return (
-    <div className="flex flex-col gap-2 sm:gap-2 w-full sm:w-14 sm:min-w-14 md:w-3xs  md:min-w-3xs overflow-y-auto scrollbar-thin p-2 py-3 bg-sidebar border-b sm:border-r">
+    <div className="hidden md:flex flex-col gap-2  w-full md:w-56  md:min-w-56 lg:w-72 lg:min-w-60 overflow-y-auto scrollbar-thin p-2 py-3 bg-sidebar border-b sm:border-r">
       <div className="flex justify-between items-center gap-1">
         <h3 className="font-semibold text-muted-foreground text-sm">
           QUESTIONS
