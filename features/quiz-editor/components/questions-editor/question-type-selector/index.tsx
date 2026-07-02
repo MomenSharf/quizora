@@ -1,9 +1,8 @@
 "use client";
 
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import QuestionTypeHoverCard from "./question-type-hover-card";
-import { IconCircleCheck } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
+import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import QuestionTypeCard from "./question-type-card";
 
 type Props = {
   onSelect?: (typeId: string) => void;
@@ -24,14 +23,16 @@ export default function QuestionTypeSelector({ onSelect }: Props) {
           </p>
         </div>
 
-        <Badge variant='outline' className="text-muted-foreground">
+        <Badge variant="outline" className="text-muted-foreground">
           <span className="size-2 rounded-full bg-emerald-500" />
           {QUESTION_TYPES.length} question types
         </Badge>
       </div>
 
-<div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch">        {QUESTION_TYPES.map((type) => {
-          return <QuestionTypeHoverCard key={type.id} type={type} />;
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch">
+        {" "}
+        {QUESTION_TYPES.map((type) => {
+          return <QuestionTypeCard key={type.id} type={type} />;
         })}
       </div>
     </div>

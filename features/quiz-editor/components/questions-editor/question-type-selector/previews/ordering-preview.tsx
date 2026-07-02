@@ -3,8 +3,8 @@
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 import { GripVertical } from "lucide-react";
 
-export default function OrderPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "order");
+export default function OrderingPreview() {
+  const type = QUESTION_TYPES.find((t) => t.id === "ORDERING");
   if (!type) return null;
 
   const color = type.color;

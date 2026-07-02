@@ -3,3 +3,4 @@
 # make auth page image more beautiful
 # add qestion type small illustrations
 # make question type previews interactive
+# fix editor logo back button

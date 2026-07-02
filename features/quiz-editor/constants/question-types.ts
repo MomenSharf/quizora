@@ -1,22 +1,37 @@
 import {
-  IconCircleCheck,
-  IconChecks,
-  IconListNumbers,
   IconArrowsExchange,
-  IconPencil,
-  IconTextPlus,
-  IconMap,
-  IconMapPin,
-  IconTargetArrow,
   IconArrowsLeftRight,
   IconCards,
-  IconSearch,
+  IconChecks,
+  IconCircleCheck,
+  IconHandClick,
+  IconListNumbers,
+  IconMap,
+  IconPencil,
+  IconTargetArrow,
+  IconTextPlus,
+  TablerIcon
 } from "@tabler/icons-react";
-import { QuestionTypeUI } from "../types/question-types";
 
-export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
+import { QuestionType } from "../validation/question/base";
+import { LucideIcon } from "lucide-react";
+
+export type QuestionTypeUI = {
+  id: QuestionType;
+  label: string;
+  shortLabel: string;
+  description: string;
+  bestFor: string;
+  icon: LucideIcon | TablerIcon;
+  color: string;
+  backgroundColor: string;
+  isPopular?: boolean;
+  isNew?: boolean;
+  badge?: string;
+};
+export const QUESTION_TYPES = [
   {
-    id: "single_select",
+    id: "SINGLE_SELECT",
     label: "Single Select",
     shortLabel: "Single",
     description: "Choose one correct answer.",
@@ -26,8 +41,9 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
     backgroundColor: "#EFF6FF",
     isPopular: true,
   },
+
   {
-    id: "multiple_select",
+    id: "MULTIPLE_SELECT",
     label: "Multiple Select",
     shortLabel: "Multiple",
     description: "Choose multiple correct answers.",
@@ -38,8 +54,9 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
     backgroundColor: "#F5F3FF",
     isPopular: true,
   },
+
   {
-    id: "order",
+    id: "ORDERING",
     label: "Order It",
     shortLabel: "Order",
     description: "Arrange items into the correct order.",
@@ -48,8 +65,9 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
     color: "#F59E0B",
     backgroundColor: "#FFFBEB",
   },
+
   {
-    id: "match",
+    id: "MATCH",
     label: "Match It",
     shortLabel: "Match",
     description: "Connect matching pairs together.",
@@ -58,8 +76,9 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
     color: "#06B6D4",
     backgroundColor: "#ECFEFF",
   },
+
   {
-    id: "text_answer",
+    id: "TYPE_ANSWER",
     label: "Type Answer",
     shortLabel: "Text",
     description: "Answer by typing the correct text.",
@@ -68,8 +87,9 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
     color: "#10B981",
     backgroundColor: "#ECFDF5",
   },
+
   {
-    id: "fill_blank",
+    id: "FILL_BLANK",
     label: "Fill in the Blank",
     shortLabel: "Blank",
     description: "Complete the missing words.",
@@ -79,8 +99,9 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
     color: "#14B8A6",
     backgroundColor: "#F0FDFA",
   },
+
   {
-    id: "location",
+    id: "LOCATION",
     label: "Location",
     shortLabel: "Location",
     description: "Select the correct location on a map.",
@@ -92,7 +113,7 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
   },
 
   {
-    id: "guess",
+    id: "GUESS",
     label: "Guess It",
     shortLabel: "Guess",
     description: "Find the answer using clues.",
@@ -103,10 +124,8 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
     isNew: true,
   },
 
-  // ================= NEW TYPES =================
-
   {
-    id: "range",
+    id: "RANGE",
     label: "Range",
     shortLabel: "Range",
     description: "Select a value or interval within a range.",
@@ -115,25 +134,28 @@ export const QUESTION_TYPES: readonly QuestionTypeUI[] = [
     color: "#F97316",
     backgroundColor: "#FFF7ED",
   },
+
   {
-    id: "flashcard",
-    label: "Flashcard",
-    shortLabel: "Card",
+    id: "FLASHCARDS",
+    label: "Flashcards",
+    shortLabel: "Cards",
     description: "Flip to reveal answer or explanation.",
     bestFor: "Memorization and spaced repetition learning.",
     icon: IconCards,
     color: "#EC4899",
     backgroundColor: "#FDF2F8",
   },
+
   {
-    id: "tap_find",
+    id: "TAP_FIND",
     label: "Tap & Find",
     shortLabel: "Tap",
     description: "Tap on the correct object or area in an image.",
     bestFor:
       "Visual identification and hotspot-based learning on images or maps.",
-    icon: IconSearch,
+    icon: IconHandClick,
     color: "#0EA5E9",
     backgroundColor: "#F0F9FF",
+    isNew: true,
   },
-] as const;
+] satisfies readonly QuestionTypeUI[];

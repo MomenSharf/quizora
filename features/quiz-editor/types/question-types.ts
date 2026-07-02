@@ -1,21 +1,9 @@
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import type { LucideIcon } from "lucide-react";
 
-export type QuestionTypeId =
-  | "single_select"
-  | "multiple_select"
-  | "order"
-  | "match"
-  | "text_answer"
-  | "fill_blank"
-  | "location"
-  | "pinpoint"
-  | "guess"
-  | "range"
-  | "tap_find"
-  | "flashcard";
 
 export interface QuestionTypeUI {
-  id: QuestionTypeId;
+  id: QuestionType;
 
   label: string;
   shortLabel: string;

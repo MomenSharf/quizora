@@ -20,16 +20,29 @@ export type QuizModel = runtime.Types.Result.DefaultSelection<Prisma.$QuizPayloa
 
 export type AggregateQuiz = {
   _count: QuizCountAggregateOutputType | null
+  _avg: QuizAvgAggregateOutputType | null
+  _sum: QuizSumAggregateOutputType | null
   _min: QuizMinAggregateOutputType | null
   _max: QuizMaxAggregateOutputType | null
 }
 
+export type QuizAvgAggregateOutputType = {
+  version: number | null
+}
+
+export type QuizSumAggregateOutputType = {
+  version: number | null
+}
+
 export type QuizMinAggregateOutputType = {
   id: string | null
+  slug: string | null
   title: string | null
   description: string | null
-  coverImage: string | null
   status: $Enums.QuizStatus | null
+  visibility: $Enums.Visibility | null
+  version: number | null
+  ownerId: string | null
   createdAt: Date | null
   updatedAt: Date | null
   publishedAt: Date | null
@@ -37,10 +50,13 @@ export type QuizMinAggregateOutputType = {
 
 export type QuizMaxAggregateOutputType = {
   id: string | null
+  slug: string | null
   title: string | null
   description: string | null
-  coverImage: string | null
   status: $Enums.QuizStatus | null
+  visibility: $Enums.Visibility | null
+  version: number | null
+  ownerId: string | null
   createdAt: Date | null
   updatedAt: Date | null
   publishedAt: Date | null
@@ -48,10 +64,16 @@ export type QuizMaxAggregateOutputType = {
 
 export type QuizCountAggregateOutputType = {
   id: number
+  slug: number
   title: number
   description: number
-  coverImage: number
   status: number
+  visibility: number
+  version: number
+  ownerId: number
+  settings: number
+  appearance: number
+  tags: number
   createdAt: number
   updatedAt: number
   publishedAt: number
@@ -59,12 +81,23 @@ export type QuizCountAggregateOutputType = {
 }
 
 
+export type QuizAvgAggregateInputType = {
+  version?: true
+}
+
+export type QuizSumAggregateInputType = {
+  version?: true
+}
+
 export type QuizMinAggregateInputType = {
   id?: true
+  slug?: true
   title?: true
   description?: true
-  coverImage?: true
   status?: true
+  visibility?: true
+  version?: true
+  ownerId?: true
   createdAt?: true
   updatedAt?: true
   publishedAt?: true
@@ -72,10 +105,13 @@ export type QuizMinAggregateInputType = {
 
 export type QuizMaxAggregateInputType = {
   id?: true
+  slug?: true
   title?: true
   description?: true
-  coverImage?: true
   status?: true
+  visibility?: true
+  version?: true
+  ownerId?: true
   createdAt?: true
   updatedAt?: true
   publishedAt?: true
@@ -83,10 +119,16 @@ export type QuizMaxAggregateInputType = {
 
 export type QuizCountAggregateInputType = {
   id?: true
+  slug?: true
   title?: true
   description?: true
-  coverImage?: true
   status?: true
+  visibility?: true
+  version?: true
+  ownerId?: true
+  settings?: true
+  appearance?: true
+  tags?: true
   createdAt?: true
   updatedAt?: true
   publishedAt?: true
@@ -131,6 +173,18 @@ export type QuizAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: QuizAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: QuizSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: QuizMinAggregateInputType
@@ -161,20 +215,30 @@ export type QuizGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: QuizCountAggregateInputType | true
+  _avg?: QuizAvgAggregateInputType
+  _sum?: QuizSumAggregateInputType
   _min?: QuizMinAggregateInputType
   _max?: QuizMaxAggregateInputType
 }
 
 export type QuizGroupByOutputType = {
   id: string
+  slug: string | null
   title: string
   description: string | null
-  coverImage: string | null
   status: $Enums.QuizStatus
+  visibility: $Enums.Visibility
+  version: number
+  ownerId: string | null
+  settings: runtime.JsonValue | null
+  appearance: runtime.JsonValue | null
+  tags: string[]
   createdAt: Date
   updatedAt: Date
   publishedAt: Date | null
   _count: QuizCountAggregateOutputType | null
+  _avg: QuizAvgAggregateOutputType | null
+  _sum: QuizSumAggregateOutputType | null
   _min: QuizMinAggregateOutputType | null
   _max: QuizMaxAggregateOutputType | null
 }
@@ -199,61 +263,81 @@ export type QuizWhereInput = {
   OR?: Prisma.QuizWhereInput[]
   NOT?: Prisma.QuizWhereInput | Prisma.QuizWhereInput[]
   id?: Prisma.StringFilter<"Quiz"> | string
+  slug?: Prisma.StringNullableFilter<"Quiz"> | string | null
   title?: Prisma.StringFilter<"Quiz"> | string
   description?: Prisma.StringNullableFilter<"Quiz"> | string | null
-  coverImage?: Prisma.StringNullableFilter<"Quiz"> | string | null
   status?: Prisma.EnumQuizStatusFilter<"Quiz"> | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityFilter<"Quiz"> | $Enums.Visibility
+  version?: Prisma.IntFilter<"Quiz"> | number
+  ownerId?: Prisma.StringNullableFilter<"Quiz"> | string | null
+  settings?: Prisma.JsonNullableFilter<"Quiz">
+  appearance?: Prisma.JsonNullableFilter<"Quiz">
+  tags?: Prisma.StringNullableListFilter<"Quiz">
   createdAt?: Prisma.DateTimeFilter<"Quiz"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Quiz"> | Date | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Quiz"> | Date | string | null
   questions?: Prisma.QuestionListRelationFilter
-  results?: Prisma.QuizResultListRelationFilter
-  responses?: Prisma.QuizResponseListRelationFilter
 }
 
 export type QuizOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  settings?: Prisma.SortOrderInput | Prisma.SortOrder
+  appearance?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   questions?: Prisma.QuestionOrderByRelationAggregateInput
-  results?: Prisma.QuizResultOrderByRelationAggregateInput
-  responses?: Prisma.QuizResponseOrderByRelationAggregateInput
 }
 
 export type QuizWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.QuizWhereInput | Prisma.QuizWhereInput[]
   OR?: Prisma.QuizWhereInput[]
   NOT?: Prisma.QuizWhereInput | Prisma.QuizWhereInput[]
   title?: Prisma.StringFilter<"Quiz"> | string
   description?: Prisma.StringNullableFilter<"Quiz"> | string | null
-  coverImage?: Prisma.StringNullableFilter<"Quiz"> | string | null
   status?: Prisma.EnumQuizStatusFilter<"Quiz"> | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityFilter<"Quiz"> | $Enums.Visibility
+  version?: Prisma.IntFilter<"Quiz"> | number
+  ownerId?: Prisma.StringNullableFilter<"Quiz"> | string | null
+  settings?: Prisma.JsonNullableFilter<"Quiz">
+  appearance?: Prisma.JsonNullableFilter<"Quiz">
+  tags?: Prisma.StringNullableListFilter<"Quiz">
   createdAt?: Prisma.DateTimeFilter<"Quiz"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Quiz"> | Date | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Quiz"> | Date | string | null
   questions?: Prisma.QuestionListRelationFilter
-  results?: Prisma.QuizResultListRelationFilter
-  responses?: Prisma.QuizResponseListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type QuizOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  settings?: Prisma.SortOrderInput | Prisma.SortOrder
+  appearance?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.QuizCountOrderByAggregateInput
+  _avg?: Prisma.QuizAvgOrderByAggregateInput
   _max?: Prisma.QuizMaxOrderByAggregateInput
   _min?: Prisma.QuizMinOrderByAggregateInput
+  _sum?: Prisma.QuizSumOrderByAggregateInput
 }
 
 export type QuizScalarWhereWithAggregatesInput = {
@@ -261,10 +345,16 @@ export type QuizScalarWhereWithAggregatesInput = {
   OR?: Prisma.QuizScalarWhereWithAggregatesInput[]
   NOT?: Prisma.QuizScalarWhereWithAggregatesInput | Prisma.QuizScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Quiz"> | string
+  slug?: Prisma.StringNullableWithAggregatesFilter<"Quiz"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"Quiz"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Quiz"> | string | null
-  coverImage?: Prisma.StringNullableWithAggregatesFilter<"Quiz"> | string | null
   status?: Prisma.EnumQuizStatusWithAggregatesFilter<"Quiz"> | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityWithAggregatesFilter<"Quiz"> | $Enums.Visibility
+  version?: Prisma.IntWithAggregatesFilter<"Quiz"> | number
+  ownerId?: Prisma.StringNullableWithAggregatesFilter<"Quiz"> | string | null
+  settings?: Prisma.JsonNullableWithAggregatesFilter<"Quiz">
+  appearance?: Prisma.JsonNullableWithAggregatesFilter<"Quiz">
+  tags?: Prisma.StringNullableListFilter<"Quiz">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Quiz"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Quiz"> | Date | string
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Quiz"> | Date | string | null
@@ -272,66 +362,88 @@ export type QuizScalarWhereWithAggregatesInput = {
 
 export type QuizCreateInput = {
   id?: string
+  slug?: string | null
   title: string
   description?: string | null
-  coverImage?: string | null
   status?: $Enums.QuizStatus
+  visibility?: $Enums.Visibility
+  version?: number
+  ownerId?: string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizCreatetagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   questions?: Prisma.QuestionCreateNestedManyWithoutQuizInput
-  results?: Prisma.QuizResultCreateNestedManyWithoutQuizInput
-  responses?: Prisma.QuizResponseCreateNestedManyWithoutQuizInput
 }
 
 export type QuizUncheckedCreateInput = {
   id?: string
+  slug?: string | null
   title: string
   description?: string | null
-  coverImage?: string | null
   status?: $Enums.QuizStatus
+  visibility?: $Enums.Visibility
+  version?: number
+  ownerId?: string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizCreatetagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutQuizInput
-  results?: Prisma.QuizResultUncheckedCreateNestedManyWithoutQuizInput
-  responses?: Prisma.QuizResponseUncheckedCreateNestedManyWithoutQuizInput
 }
 
 export type QuizUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizUpdatetagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   questions?: Prisma.QuestionUpdateManyWithoutQuizNestedInput
-  results?: Prisma.QuizResultUpdateManyWithoutQuizNestedInput
-  responses?: Prisma.QuizResponseUpdateManyWithoutQuizNestedInput
 }
 
 export type QuizUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizUpdatetagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutQuizNestedInput
-  results?: Prisma.QuizResultUncheckedUpdateManyWithoutQuizNestedInput
-  responses?: Prisma.QuizResponseUncheckedUpdateManyWithoutQuizNestedInput
 }
 
 export type QuizCreateManyInput = {
   id?: string
+  slug?: string | null
   title: string
   description?: string | null
-  coverImage?: string | null
   status?: $Enums.QuizStatus
+  visibility?: $Enums.Visibility
+  version?: number
+  ownerId?: string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizCreatetagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
@@ -339,10 +451,16 @@ export type QuizCreateManyInput = {
 
 export type QuizUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizUpdatetagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -350,32 +468,59 @@ export type QuizUpdateManyMutationInput = {
 
 export type QuizUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizUpdatetagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type QuizCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  coverImage?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  settings?: Prisma.SortOrder
+  appearance?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
 }
 
+export type QuizAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
+}
+
 export type QuizMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  coverImage?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
@@ -383,13 +528,20 @@ export type QuizMaxOrderByAggregateInput = {
 
 export type QuizMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  coverImage?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  visibility?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
+}
+
+export type QuizSumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
 }
 
 export type QuizScalarRelationFilter = {
@@ -397,8 +549,29 @@ export type QuizScalarRelationFilter = {
   isNot?: Prisma.QuizWhereInput
 }
 
+export type QuizCreatetagsInput = {
+  set: string[]
+}
+
 export type EnumQuizStatusFieldUpdateOperationsInput = {
   set?: $Enums.QuizStatus
+}
+
+export type EnumVisibilityFieldUpdateOperationsInput = {
+  set?: $Enums.Visibility
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type QuizUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type QuizCreateNestedOneWithoutQuestionsInput = {
@@ -415,58 +588,38 @@ export type QuizUpdateOneRequiredWithoutQuestionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.QuizUpdateToOneWithWhereWithoutQuestionsInput, Prisma.QuizUpdateWithoutQuestionsInput>, Prisma.QuizUncheckedUpdateWithoutQuestionsInput>
 }
 
-export type QuizCreateNestedOneWithoutResultsInput = {
-  create?: Prisma.XOR<Prisma.QuizCreateWithoutResultsInput, Prisma.QuizUncheckedCreateWithoutResultsInput>
-  connectOrCreate?: Prisma.QuizCreateOrConnectWithoutResultsInput
-  connect?: Prisma.QuizWhereUniqueInput
-}
-
-export type QuizUpdateOneRequiredWithoutResultsNestedInput = {
-  create?: Prisma.XOR<Prisma.QuizCreateWithoutResultsInput, Prisma.QuizUncheckedCreateWithoutResultsInput>
-  connectOrCreate?: Prisma.QuizCreateOrConnectWithoutResultsInput
-  upsert?: Prisma.QuizUpsertWithoutResultsInput
-  connect?: Prisma.QuizWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.QuizUpdateToOneWithWhereWithoutResultsInput, Prisma.QuizUpdateWithoutResultsInput>, Prisma.QuizUncheckedUpdateWithoutResultsInput>
-}
-
-export type QuizCreateNestedOneWithoutResponsesInput = {
-  create?: Prisma.XOR<Prisma.QuizCreateWithoutResponsesInput, Prisma.QuizUncheckedCreateWithoutResponsesInput>
-  connectOrCreate?: Prisma.QuizCreateOrConnectWithoutResponsesInput
-  connect?: Prisma.QuizWhereUniqueInput
-}
-
-export type QuizUpdateOneRequiredWithoutResponsesNestedInput = {
-  create?: Prisma.XOR<Prisma.QuizCreateWithoutResponsesInput, Prisma.QuizUncheckedCreateWithoutResponsesInput>
-  connectOrCreate?: Prisma.QuizCreateOrConnectWithoutResponsesInput
-  upsert?: Prisma.QuizUpsertWithoutResponsesInput
-  connect?: Prisma.QuizWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.QuizUpdateToOneWithWhereWithoutResponsesInput, Prisma.QuizUpdateWithoutResponsesInput>, Prisma.QuizUncheckedUpdateWithoutResponsesInput>
-}
-
 export type QuizCreateWithoutQuestionsInput = {
   id?: string
+  slug?: string | null
   title: string
   description?: string | null
-  coverImage?: string | null
   status?: $Enums.QuizStatus
+  visibility?: $Enums.Visibility
+  version?: number
+  ownerId?: string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizCreatetagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
-  results?: Prisma.QuizResultCreateNestedManyWithoutQuizInput
-  responses?: Prisma.QuizResponseCreateNestedManyWithoutQuizInput
 }
 
 export type QuizUncheckedCreateWithoutQuestionsInput = {
   id?: string
+  slug?: string | null
   title: string
   description?: string | null
-  coverImage?: string | null
   status?: $Enums.QuizStatus
+  visibility?: $Enums.Visibility
+  version?: number
+  ownerId?: string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizCreatetagsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
-  results?: Prisma.QuizResultUncheckedCreateNestedManyWithoutQuizInput
-  responses?: Prisma.QuizResponseUncheckedCreateNestedManyWithoutQuizInput
 }
 
 export type QuizCreateOrConnectWithoutQuestionsInput = {
@@ -487,164 +640,36 @@ export type QuizUpdateToOneWithWhereWithoutQuestionsInput = {
 
 export type QuizUpdateWithoutQuestionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizUpdatetagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  results?: Prisma.QuizResultUpdateManyWithoutQuizNestedInput
-  responses?: Prisma.QuizResponseUpdateManyWithoutQuizNestedInput
 }
 
 export type QuizUncheckedUpdateWithoutQuestionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
+  visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  appearance?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tags?: Prisma.QuizUpdatetagsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  results?: Prisma.QuizResultUncheckedUpdateManyWithoutQuizNestedInput
-  responses?: Prisma.QuizResponseUncheckedUpdateManyWithoutQuizNestedInput
-}
-
-export type QuizCreateWithoutResultsInput = {
-  id?: string
-  title: string
-  description?: string | null
-  coverImage?: string | null
-  status?: $Enums.QuizStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  publishedAt?: Date | string | null
-  questions?: Prisma.QuestionCreateNestedManyWithoutQuizInput
-  responses?: Prisma.QuizResponseCreateNestedManyWithoutQuizInput
-}
-
-export type QuizUncheckedCreateWithoutResultsInput = {
-  id?: string
-  title: string
-  description?: string | null
-  coverImage?: string | null
-  status?: $Enums.QuizStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  publishedAt?: Date | string | null
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutQuizInput
-  responses?: Prisma.QuizResponseUncheckedCreateNestedManyWithoutQuizInput
-}
-
-export type QuizCreateOrConnectWithoutResultsInput = {
-  where: Prisma.QuizWhereUniqueInput
-  create: Prisma.XOR<Prisma.QuizCreateWithoutResultsInput, Prisma.QuizUncheckedCreateWithoutResultsInput>
-}
-
-export type QuizUpsertWithoutResultsInput = {
-  update: Prisma.XOR<Prisma.QuizUpdateWithoutResultsInput, Prisma.QuizUncheckedUpdateWithoutResultsInput>
-  create: Prisma.XOR<Prisma.QuizCreateWithoutResultsInput, Prisma.QuizUncheckedCreateWithoutResultsInput>
-  where?: Prisma.QuizWhereInput
-}
-
-export type QuizUpdateToOneWithWhereWithoutResultsInput = {
-  where?: Prisma.QuizWhereInput
-  data: Prisma.XOR<Prisma.QuizUpdateWithoutResultsInput, Prisma.QuizUncheckedUpdateWithoutResultsInput>
-}
-
-export type QuizUpdateWithoutResultsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questions?: Prisma.QuestionUpdateManyWithoutQuizNestedInput
-  responses?: Prisma.QuizResponseUpdateManyWithoutQuizNestedInput
-}
-
-export type QuizUncheckedUpdateWithoutResultsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutQuizNestedInput
-  responses?: Prisma.QuizResponseUncheckedUpdateManyWithoutQuizNestedInput
-}
-
-export type QuizCreateWithoutResponsesInput = {
-  id?: string
-  title: string
-  description?: string | null
-  coverImage?: string | null
-  status?: $Enums.QuizStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  publishedAt?: Date | string | null
-  questions?: Prisma.QuestionCreateNestedManyWithoutQuizInput
-  results?: Prisma.QuizResultCreateNestedManyWithoutQuizInput
-}
-
-export type QuizUncheckedCreateWithoutResponsesInput = {
-  id?: string
-  title: string
-  description?: string | null
-  coverImage?: string | null
-  status?: $Enums.QuizStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  publishedAt?: Date | string | null
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutQuizInput
-  results?: Prisma.QuizResultUncheckedCreateNestedManyWithoutQuizInput
-}
-
-export type QuizCreateOrConnectWithoutResponsesInput = {
-  where: Prisma.QuizWhereUniqueInput
-  create: Prisma.XOR<Prisma.QuizCreateWithoutResponsesInput, Prisma.QuizUncheckedCreateWithoutResponsesInput>
-}
-
-export type QuizUpsertWithoutResponsesInput = {
-  update: Prisma.XOR<Prisma.QuizUpdateWithoutResponsesInput, Prisma.QuizUncheckedUpdateWithoutResponsesInput>
-  create: Prisma.XOR<Prisma.QuizCreateWithoutResponsesInput, Prisma.QuizUncheckedCreateWithoutResponsesInput>
-  where?: Prisma.QuizWhereInput
-}
-
-export type QuizUpdateToOneWithWhereWithoutResponsesInput = {
-  where?: Prisma.QuizWhereInput
-  data: Prisma.XOR<Prisma.QuizUpdateWithoutResponsesInput, Prisma.QuizUncheckedUpdateWithoutResponsesInput>
-}
-
-export type QuizUpdateWithoutResponsesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questions?: Prisma.QuestionUpdateManyWithoutQuizNestedInput
-  results?: Prisma.QuizResultUpdateManyWithoutQuizNestedInput
-}
-
-export type QuizUncheckedUpdateWithoutResponsesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumQuizStatusFieldUpdateOperationsInput | $Enums.QuizStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutQuizNestedInput
-  results?: Prisma.QuizResultUncheckedUpdateManyWithoutQuizNestedInput
 }
 
 
@@ -654,14 +679,10 @@ export type QuizUncheckedUpdateWithoutResponsesInput = {
 
 export type QuizCountOutputType = {
   questions: number
-  results: number
-  responses: number
 }
 
 export type QuizCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   questions?: boolean | QuizCountOutputTypeCountQuestionsArgs
-  results?: boolean | QuizCountOutputTypeCountResultsArgs
-  responses?: boolean | QuizCountOutputTypeCountResponsesArgs
 }
 
 /**
@@ -681,42 +702,38 @@ export type QuizCountOutputTypeCountQuestionsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.QuestionWhereInput
 }
 
-/**
- * QuizCountOutputType without action
- */
-export type QuizCountOutputTypeCountResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.QuizResultWhereInput
-}
-
-/**
- * QuizCountOutputType without action
- */
-export type QuizCountOutputTypeCountResponsesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.QuizResponseWhereInput
-}
-
 
 export type QuizSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   title?: boolean
   description?: boolean
-  coverImage?: boolean
   status?: boolean
+  visibility?: boolean
+  version?: boolean
+  ownerId?: boolean
+  settings?: boolean
+  appearance?: boolean
+  tags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
   questions?: boolean | Prisma.Quiz$questionsArgs<ExtArgs>
-  results?: boolean | Prisma.Quiz$resultsArgs<ExtArgs>
-  responses?: boolean | Prisma.Quiz$responsesArgs<ExtArgs>
   _count?: boolean | Prisma.QuizCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quiz"]>
 
 export type QuizSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   title?: boolean
   description?: boolean
-  coverImage?: boolean
   status?: boolean
+  visibility?: boolean
+  version?: boolean
+  ownerId?: boolean
+  settings?: boolean
+  appearance?: boolean
+  tags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
@@ -724,10 +741,16 @@ export type QuizSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type QuizSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   title?: boolean
   description?: boolean
-  coverImage?: boolean
   status?: boolean
+  visibility?: boolean
+  version?: boolean
+  ownerId?: boolean
+  settings?: boolean
+  appearance?: boolean
+  tags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
@@ -735,20 +758,24 @@ export type QuizSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type QuizSelectScalar = {
   id?: boolean
+  slug?: boolean
   title?: boolean
   description?: boolean
-  coverImage?: boolean
   status?: boolean
+  visibility?: boolean
+  version?: boolean
+  ownerId?: boolean
+  settings?: boolean
+  appearance?: boolean
+  tags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
 }
 
-export type QuizOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "coverImage" | "status" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["quiz"]>
+export type QuizOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "status" | "visibility" | "version" | "ownerId" | "settings" | "appearance" | "tags" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["quiz"]>
 export type QuizInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   questions?: boolean | Prisma.Quiz$questionsArgs<ExtArgs>
-  results?: boolean | Prisma.Quiz$resultsArgs<ExtArgs>
-  responses?: boolean | Prisma.Quiz$responsesArgs<ExtArgs>
   _count?: boolean | Prisma.QuizCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type QuizIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -758,15 +785,19 @@ export type $QuizPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Quiz"
   objects: {
     questions: Prisma.$QuestionPayload<ExtArgs>[]
-    results: Prisma.$QuizResultPayload<ExtArgs>[]
-    responses: Prisma.$QuizResponsePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    slug: string | null
     title: string
     description: string | null
-    coverImage: string | null
     status: $Enums.QuizStatus
+    visibility: $Enums.Visibility
+    version: number
+    ownerId: string | null
+    settings: runtime.JsonValue | null
+    appearance: runtime.JsonValue | null
+    tags: string[]
     createdAt: Date
     updatedAt: Date
     publishedAt: Date | null
@@ -1165,8 +1196,6 @@ readonly fields: QuizFieldRefs;
 export interface Prisma__QuizClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   questions<T extends Prisma.Quiz$questionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Quiz$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  results<T extends Prisma.Quiz$resultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Quiz$resultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  responses<T extends Prisma.Quiz$responsesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Quiz$responsesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1197,10 +1226,16 @@ export interface Prisma__QuizClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface QuizFieldRefs {
   readonly id: Prisma.FieldRef<"Quiz", 'String'>
+  readonly slug: Prisma.FieldRef<"Quiz", 'String'>
   readonly title: Prisma.FieldRef<"Quiz", 'String'>
   readonly description: Prisma.FieldRef<"Quiz", 'String'>
-  readonly coverImage: Prisma.FieldRef<"Quiz", 'String'>
   readonly status: Prisma.FieldRef<"Quiz", 'QuizStatus'>
+  readonly visibility: Prisma.FieldRef<"Quiz", 'Visibility'>
+  readonly version: Prisma.FieldRef<"Quiz", 'Int'>
+  readonly ownerId: Prisma.FieldRef<"Quiz", 'String'>
+  readonly settings: Prisma.FieldRef<"Quiz", 'Json'>
+  readonly appearance: Prisma.FieldRef<"Quiz", 'Json'>
+  readonly tags: Prisma.FieldRef<"Quiz", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"Quiz", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Quiz", 'DateTime'>
   readonly publishedAt: Prisma.FieldRef<"Quiz", 'DateTime'>
@@ -1618,54 +1653,6 @@ export type Quiz$questionsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.QuestionScalarFieldEnum | Prisma.QuestionScalarFieldEnum[]
-}
-
-/**
- * Quiz.results
- */
-export type Quiz$resultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the QuizResult
-   */
-  select?: Prisma.QuizResultSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the QuizResult
-   */
-  omit?: Prisma.QuizResultOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.QuizResultInclude<ExtArgs> | null
-  where?: Prisma.QuizResultWhereInput
-  orderBy?: Prisma.QuizResultOrderByWithRelationInput | Prisma.QuizResultOrderByWithRelationInput[]
-  cursor?: Prisma.QuizResultWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.QuizResultScalarFieldEnum | Prisma.QuizResultScalarFieldEnum[]
-}
-
-/**
- * Quiz.responses
- */
-export type Quiz$responsesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the QuizResponse
-   */
-  select?: Prisma.QuizResponseSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the QuizResponse
-   */
-  omit?: Prisma.QuizResponseOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.QuizResponseInclude<ExtArgs> | null
-  where?: Prisma.QuizResponseWhereInput
-  orderBy?: Prisma.QuizResponseOrderByWithRelationInput | Prisma.QuizResponseOrderByWithRelationInput[]
-  cursor?: Prisma.QuizResponseWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.QuizResponseScalarFieldEnum | Prisma.QuizResponseScalarFieldEnum[]
 }
 
 /**

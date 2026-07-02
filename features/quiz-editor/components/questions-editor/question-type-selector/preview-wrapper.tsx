@@ -3,14 +3,18 @@
 import { QuestionTypeUI } from "@/features/quiz-editor/types/question-types";
 import { Lightbulb } from "lucide-react";
 import { QuestionTypeIcon } from "./question-type-icon";
+import { PREVIEW_MAP } from "./preview-map";
 
 export default function PreviewWrapper({
   type,
-  children,
 }: {
   type: QuestionTypeUI;
-  children: React.ReactNode;
 }) {
+   const Component = PREVIEW_MAP[type.id];
+
+  if (!Component) return null;
+
+  return <Component />;
   return (
     <div className="overflow-hidden rounded-2xl bg-card">
       <div className="border-b p-3">
@@ -26,7 +30,7 @@ export default function PreviewWrapper({
       </div>
 
       <div className="space-y-3 p-3">
-        <div>{children}</div>
+          {PREVIEW_MAP[type.id]}
 
         <div className="rounded-xl border bg-muted/40 p-4">
           <div className="flex items-start gap-3">

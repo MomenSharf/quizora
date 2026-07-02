@@ -1,0 +1,42 @@
+import { z } from "zod";
+import { BaseQuestionSchema } from "./base";
+
+export const TrueFalseDataSchema = z.object({
+  correctAnswer: z.boolean(),
+});
+
+export const TrueFalseSettingsSchema = z.object({
+  trueLabel: z
+    .string()
+    .trim()
+    .min(1)
+    .max(50)
+    .default("True"),
+
+  falseLabel: z
+    .string()
+    .trim()
+    .min(1)
+    .max(50)
+    .default("False"),
+
+  randomizeOrder: z.boolean().default(false),
+});
+
+export const TrueFalseQuestionSchema = BaseQuestionSchema.extend({
+  type: z.literal("TRUE_FALSE"),
+
+  data: TrueFalseDataSchema,
+
+  settings: TrueFalseSettingsSchema,
+});
+
+export type TrueFalseData = z.infer<typeof TrueFalseDataSchema>;
+
+export type TrueFalseSettings = z.infer<
+  typeof TrueFalseSettingsSchema
+>;
+
+export type TrueFalseQuestion = z.infer<
+  typeof TrueFalseQuestionSchema
+>;

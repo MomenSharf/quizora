@@ -18,15 +18,46 @@ export const QuizStatus = {
 export type QuizStatus = (typeof QuizStatus)[keyof typeof QuizStatus]
 
 
+export const Visibility = {
+  PRIVATE: 'PRIVATE',
+  UNLISTED: 'UNLISTED',
+  PUBLIC: 'PUBLIC'
+} as const
+
+export type Visibility = (typeof Visibility)[keyof typeof Visibility]
+
+
+export const ThemeMode = {
+  LIGHT: 'LIGHT',
+  DARK: 'DARK',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type ThemeMode = (typeof ThemeMode)[keyof typeof ThemeMode]
+
+
+export const Difficulty = {
+  EASY: 'EASY',
+  MEDIUM: 'MEDIUM',
+  HARD: 'HARD'
+} as const
+
+export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty]
+
+
 export const QuestionType = {
-  SINGLE_CHOICE: 'SINGLE_CHOICE',
-  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
-  SHORT_TEXT: 'SHORT_TEXT',
-  LONG_TEXT: 'LONG_TEXT',
-  EMAIL: 'EMAIL',
-  NUMBER: 'NUMBER',
-  DATE: 'DATE',
-  RATING: 'RATING'
+  SINGLE_SELECT: 'SINGLE_SELECT',
+  MULTIPLE_SELECT: 'MULTIPLE_SELECT',
+  TRUE_FALSE: 'TRUE_FALSE',
+  FILL_BLANK: 'FILL_BLANK',
+  TYPE_ANSWER: 'TYPE_ANSWER',
+  MATCH: 'MATCH',
+  ORDERING: 'ORDERING',
+  LOCATION: 'LOCATION',
+  FLASHCARD: 'FLASHCARD',
+  GUESS: 'GUESS',
+  RANGE: 'RANGE',
+  TAB_FIND: 'TAB_FIND'
 } as const
 
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]

@@ -71,23 +71,3 @@ export type Quiz = Prisma.QuizModel
  * 
  */
 export type Question = Prisma.QuestionModel
-/**
- * Model Answer
- * 
- */
-export type Answer = Prisma.AnswerModel
-/**
- * Model QuizResult
- * 
- */
-export type QuizResult = Prisma.QuizResultModel
-/**
- * Model QuizResponse
- * 
- */
-export type QuizResponse = Prisma.QuizResponseModel
-/**
- * Model ResponseAnswer
- * 
- */
-export type ResponseAnswer = Prisma.ResponseAnswerModel

@@ -56,11 +56,7 @@ export const ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Quiz: 'Quiz',
-  Question: 'Question',
-  Answer: 'Answer',
-  QuizResult: 'QuizResult',
-  QuizResponse: 'QuizResponse',
-  ResponseAnswer: 'ResponseAnswer'
+  Question: 'Question'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -133,10 +129,16 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 
 export const QuizScalarFieldEnum = {
   id: 'id',
+  slug: 'slug',
   title: 'title',
   description: 'description',
-  coverImage: 'coverImage',
   status: 'status',
+  visibility: 'visibility',
+  version: 'version',
+  ownerId: 'ownerId',
+  settings: 'settings',
+  appearance: 'appearance',
+  tags: 'tags',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   publishedAt: 'publishedAt'
@@ -148,64 +150,23 @@ export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof Quiz
 export const QuestionScalarFieldEnum = {
   id: 'id',
   quizId: 'quizId',
+  type: 'type',
   title: 'title',
   description: 'description',
-  image: 'image',
-  type: 'type',
-  required: 'required',
-  position: 'position'
+  explanation: 'explanation',
+  hint: 'hint',
+  points: 'points',
+  order: 'order',
+  imageUrl: 'imageUrl',
+  tags: 'tags',
+  difficulty: 'difficulty',
+  data: 'data',
+  settings: 'settings',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
-
-
-export const AnswerScalarFieldEnum = {
-  id: 'id',
-  questionId: 'questionId',
-  text: 'text',
-  image: 'image',
-  score: 'score',
-  position: 'position'
-} as const
-
-export type AnswerScalarFieldEnum = (typeof AnswerScalarFieldEnum)[keyof typeof AnswerScalarFieldEnum]
-
-
-export const QuizResultScalarFieldEnum = {
-  id: 'id',
-  quizId: 'quizId',
-  title: 'title',
-  description: 'description',
-  image: 'image',
-  scoreMin: 'scoreMin',
-  scoreMax: 'scoreMax'
-} as const
-
-export type QuizResultScalarFieldEnum = (typeof QuizResultScalarFieldEnum)[keyof typeof QuizResultScalarFieldEnum]
-
-
-export const QuizResponseScalarFieldEnum = {
-  id: 'id',
-  quizId: 'quizId',
-  email: 'email',
-  score: 'score',
-  startedAt: 'startedAt',
-  completedAt: 'completedAt'
-} as const
-
-export type QuizResponseScalarFieldEnum = (typeof QuizResponseScalarFieldEnum)[keyof typeof QuizResponseScalarFieldEnum]
-
-
-export const ResponseAnswerScalarFieldEnum = {
-  id: 'id',
-  responseId: 'responseId',
-  questionId: 'questionId',
-  answerId: 'answerId',
-  textValue: 'textValue',
-  numberValue: 'numberValue'
-} as const
-
-export type ResponseAnswerScalarFieldEnum = (typeof ResponseAnswerScalarFieldEnum)[keyof typeof ResponseAnswerScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -214,6 +175,21 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -230,4 +206,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
