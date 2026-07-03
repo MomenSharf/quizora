@@ -1,81 +1,47 @@
-import { QuestionTypeUI } from "@/features/quiz-editor/types/question-types";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight } from "lucide-react";
-import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
-import { QuestionTypeIcon } from "./question-type-icon";
-import { IconHelp } from "@tabler/icons-react";
+"use client";
 
-interface QuestionTypeCardProps {
-  type: QuestionTypeUI;
-  onSelect?: (typeId: string) => void;
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+import Link from "next/link";
+import { useState } from "react";
+
+const items = [
+  {
+    text: "Editor",
+    route: "/edit",
+  },
+  {
+    text: "Publish",
+    route: "/publish",
+  },
+];
+
+function QuizTabs() {
+  const [route, setRoute] = useState(items[0].route);
+
+  return (
+    <div className="grid grid-cols-2 gap-1 rounded-full bg-muted p-1">
+      {items.map((item) => {
+        const isActive = item.route === route;
+
+        return (
+          <Link
+            key={item.route}
+            href={item.route}
+            className={`rounded-full py-1 px-3 text-center transition-all max-sm:text-xs ${
+              isActive
+                ? "bg-background shadow-sm dark:text-background dark:bg-foreground"
+                : "text-muted-foreground hover:bg-background/50"
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              setRoute(item.route);
+            }}
+          >
+            {item.text}
+          </Link>
+        );
+      })}
+    </div>
+  );
 }
 
-const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
-  
-  return (
-    <Card
-      onClick={() => onSelect?.(type.id)}
-      className={cn(
-        "group relative flex h-full min-h-57.5 cursor-pointer flex-col overflow-hidden rounded-3xl border bg-card transition-all duration-300",
-        "hover:-translate-y-1 hover:scale-[1.015]",
-        "hover:border-primary/40 hover:bg-accent/30 hover:shadow-xl",
-        "active:scale-[0.985]",
-      )}
-    >
-      {(type.badge || type.isNew || type.isPopular) && (
-        <Badge
-          variant="secondary"
-          className="absolute right-12 top-4 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide"
-        >
-          {type.badge ?? (type.isNew ? "New" : "Popular")}
-        </Badge>
-      )}
-      {/* {(type.badge || type.isNew || type.isPopular) && (
-        <Badge
-          variant="outline"
-          
-          className="absolute right-4 top-4 rounded-full size-8"
-        >
-          <IconHelp  />
-        </Badge>
-      )} */}
-
-
-
-
-      <CardContent className="flex flex-1 flex-col p-5">
-        <QuestionTypeIcon
-          icon={type.icon}
-          color={type.color}
-          iconClassName="size-8"
-        />
-
-        <div className="mt-6 space-y-2">
-          <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">
-            {type.label}
-          </h3>
-
-          <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-            {type.description}
-          </p>
-        </div>
-
-        <div className="mt-auto flex items-center justify-between pt-8">
-          <span className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-primary">
-            Create
-          </span>
-
-          <ArrowRight className="size-4 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-primary group-hover:opacity-100" />
-        </div>
-      </CardContent>
-
-      <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-primary/10" />
-    </Card>
-  );
-};
-
-export default QuestionTypeCard;
+export default QuizTabs;

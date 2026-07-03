@@ -1,169 +1,64 @@
-import { nanoid } from "nanoid";
-import { QuestionType, ThemeMode } from "@/lib/db/generated/prisma/client";
+import { createId } from "@paralleldrive/cuid2";
+import { produce } from "immer";
 
-import type {
-  EditorState,
-  FlashcardEditor,
-  QuestionBlankEditor,
-  QuestionEditor,
-  QuestionLocationEditor,
-  QuestionMatchEditor,
-  QuestionOptionEditor,
-  QuestionSettingsEditor,
-  QuizAppearanceEditor,
-  QuizEditor,
-  QuizMetadata,
-  QuizSettingsEditor,
-} from "./quiz-editor.types";
+import type { EditorState, QuizEditor } from "./quiz-editor.types";
+import { Quiz } from "../validation/quiz";
+import { Question } from "../validation/question";
 
-export const DEFAULT_METADATA: QuizMetadata = {
+export const createDefaultQuiz = (): QuizEditor => ({
   id: "",
-  title: "",
-  description: null,
   slug: null,
   status: "DRAFT",
-  visibility: "PRIVATE",
-};
+  version: 1,
 
-export const DEFAULT_SETTINGS: QuizSettingsEditor = {
-  shuffleQuestions: false,
-  shuffleOptions: false,
+  quiz: {
+    info: {
+      title: "",
+      description: "",
+      thumbnail: undefined,
+      tags: [],
+      language: "en",
+      category: undefined,
+    },
 
-  showCorrectAnswers: true,
-  showExplanation: true,
+    settings: {
+      visibility: "PRIVATE",
+      shuffleQuestions: false,
+      shuffleOptions: false,
+      showCorrectAnswers: true,
+      showScore: true,
+      showExplanations: true,
+      allowRetry: true,
+      saveProgress: true,
+      requireAllQuestions: false,
+      passingScore: 60,
+      attempts: 0,
+      timeLimit: 0,
+    },
 
-  showScore: true,
-  showProgressBar: true,
-  showQuestionNumber: true,
-
-  allowBackNavigation: true,
-
-  passingScore: 50,
-  timeLimitMinutes: null,
-
-  maxAttempts: 1,
-
-  requireAllQuestions: true,
-
-  instantFeedback: false,
-};
-
-export const DEFAULT_APPEARANCE: QuizAppearanceEditor = {
-  theme: ThemeMode.SYSTEM,
-
-  primaryColor: null,
-  secondaryColor: null,
-  accentColor: null,
-
-  backgroundColor: null,
-  textColor: null,
-
-  logoUrl: null,
-  coverUrl: null,
-
-  fontFamily: null,
-
-  borderRadius: 12,
-
-  customCss: null,
-};
-
-export const createQuestionSettings =
-  (): QuestionSettingsEditor => ({
-    randomizeOptions: false,
-    multipleAnswers: false,
-    caseSensitive: false,
-    allowPartialCredit: false,
-    minSelections: null,
-    maxSelections: null,
-    characterLimit: null,
-  });
-
-export const createOption =
-  (): QuestionOptionEditor => ({
-    id: nanoid(),
-    text: "",
-    explanation: null,
-    imageUrl: null,
-    color: null,
-    isCorrect: false,
-    points: 0,
-  });
-
-export const createBlank =
-  (): QuestionBlankEditor => ({
-    id: nanoid(),
-    answer: "",
-    alternativeAnswers: [],
-  });
-
-export const createMatch =
-  (): QuestionMatchEditor => ({
-    id: nanoid(),
-    leftText: "",
-    rightText: "",
-  });
-
-export const createLocation =
-  (): QuestionLocationEditor => ({
-    id: nanoid(),
-    label: null,
-    latitude: 0,
-    longitude: 0,
-    radiusMeters: 100,
-  });
-
-export const createFlashcard =
-  (): FlashcardEditor => ({
-    id: nanoid(),
-    front: "",
-    back: "",
-    imageUrl: null,
-  });
-
-export const createQuestion = (
-  type: QuestionType,
-): QuestionEditor => ({
-  id: nanoid(),
-
-  type,
-
-  title: "",
-  description: null,
-
-  explanation: null,
-  hint: null,
-
-  points: 1,
-
-  required: true,
-
-  imageUrl: null,
-  audioUrl: null,
-  videoUrl: null,
-
-  settings: createQuestionSettings(),
-
-  options: [],
-  blanks: [],
-  matches: [],
-  locations: [],
-  flashcards: [],
-});
-
-export const DEFAULT_QUIZ: QuizEditor = {
-  metadata: DEFAULT_METADATA,
-  settings: DEFAULT_SETTINGS,
-  appearance: DEFAULT_APPEARANCE,
+    appearance: {
+      theme: "SYSTEM",
+      primaryColor: "#6366F1",
+      backgroundColor: "#FFFFFF",
+      textColor: "#111827",
+      logo: undefined,
+      coverImage: undefined,
+      font: "Inter",
+      borderRadius: 12,
+      showProgressBar: true,
+      showQuestionNumber: true,
+    },
+  } satisfies Quiz,
 
   questions: {},
-  questionOrder: [],
-};
 
-export const DEFAULT_EDITOR: EditorState = {
+  questionOrder: [],
+});
+
+export const createDefaultEditor = (): EditorState => ({
   selectedQuestionId: null,
 
-  activePanel: "question",
+  activePanel: "questions",
 
   dirty: false,
 
@@ -172,4 +67,14 @@ export const DEFAULT_EDITOR: EditorState = {
   autosaveEnabled: true,
 
   lastSavedAt: null,
-};
+
+  saveError: null,
+});
+
+export const cloneQuiz = (quiz: QuizEditor): QuizEditor =>
+  produce(quiz, () => {});
+
+export const cloneQuestion = <T extends Question>(question: T): T =>
+  produce(question, () => {});
+
+export const createQuestionId = () => createId();

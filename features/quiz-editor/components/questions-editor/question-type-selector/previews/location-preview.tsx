@@ -3,7 +3,7 @@
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 
 export default function LocationPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "location");
+  const type = QUESTION_TYPES.find((t) => t.id === "LOCATION");
   if (!type) return null;
 
   const color = type.color;

@@ -26,7 +26,7 @@ function QuizTabs() {
           <Link
             key={item.route}
             href={item.route}
-            className={`rounded-full py-1 px-3 text-center transition-all max-sm:text-xs ${
+            className={`rounded-full py-1 px-3 text-center transition-al text-xs sm:text-sm ${
               isActive
                 ? "bg-background shadow-sm dark:text-background dark:bg-foreground"
                 : "text-muted-foreground hover:bg-background/50"

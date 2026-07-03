@@ -1,42 +1,43 @@
-// "use client";
+"use client";
 
-// import {
-//   HoverCard,
-//   HoverCardContent,
-//   HoverCardTrigger,
-// } from "@/components/ui/hover-card";
-// import { QuestionTypeUI } from "@/features/quiz-editor/types/question-types";
-// import QuestionTypeCard from "./question-type-card";
-// import PreviewRouter from "./preview-router";
-// import PreviewWrapper from "./preview-wrapper";
-// import { useState } from "react";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { useState } from "react";
+import PreviewWrapper from "./preview-wrapper";
+import QuestionTypeCard from "./question-type-card";
+import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
+import { PREVIEW_MAP } from "./preview-map";
 
-// export default function QuestionTypeHoverCard({
-//   type,
-// }: {
-//   type: QuestionTypeUI;
-// }) {
-//   const [open, setOpen] = useState(false);
-//   return (
-//     <HoverCard open={open} onOpenChange={setOpen}>
-//       <HoverCardTrigger asChild
-//        onMouseEnter={() => setOpen(true)}
-//     onMouseLeave={() => setOpen(false)}
-//     onFocus={(e) => e.preventDefault()}
-//       >
-//         <div>
-//           <QuestionTypeCard type={type} open={open} setOpen={setOpen} />
-//         </div>
-//       </HoverCardTrigger>
+export default function QuestionTypeHoverCard({
+  type,
+}: {
+  type: QuestionTypeUI;
+}) {
+     const Preview = PREVIEW_MAP[type.id]
+  
+  return (
+    <HoverCard openDelay={300}>
+      <HoverCardTrigger asChild
+       
+      >
+        <div>
+          <QuestionTypeCard type={type} />
+        </div>
+      </HoverCardTrigger>
 
-//       <HoverCardContent
-//         side="right"
-//         align="start"
-//         sideOffset={14}
-//         className="w-85 overflow-hidden rounded-2xl p-0"
-//       >
-//         <PreviewWrapper type={type} />
-//       </HoverCardContent>
-//     </HoverCard>
-//   );
-// }
+      <HoverCardContent
+        side="right"
+        align="start"
+        sideOffset={14}
+        className="w-64 overflow-hidden rounded-2xl"
+        
+      >
+
+       <Preview />
+      </HoverCardContent>
+    </HoverCard>
+  );
+}

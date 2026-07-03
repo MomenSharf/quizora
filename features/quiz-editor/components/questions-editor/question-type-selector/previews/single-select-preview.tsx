@@ -4,7 +4,7 @@ import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types"
 import { CheckCircle2, Circle } from "lucide-react";
 
 export default function SingleSelectPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "single_select");
+  const type = QUESTION_TYPES.find((t) => t.id === "SINGLE_SELECT");
   if (!type) return null;
 
   const color = type.color;

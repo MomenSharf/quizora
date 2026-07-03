@@ -1,25 +1,25 @@
 "use client";
 
-import { QuestionTypeUI } from "@/features/quiz-editor/types/question-types";
 import { Lightbulb } from "lucide-react";
 import { QuestionTypeIcon } from "./question-type-icon";
 import { PREVIEW_MAP } from "./preview-map";
+import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
 
 export default function PreviewWrapper({
   type,
 }: {
   type: QuestionTypeUI;
 }) {
-   const Component = PREVIEW_MAP[type.id];
+   const Preview = PREVIEW_MAP[type.id]
 
-  if (!Component) return null;
+  if (!Preview) return null;
 
-  return <Component />;
+
   return (
     <div className="overflow-hidden rounded-2xl bg-card">
       <div className="border-b p-3">
         <div className="flex items-center gap-3">
-          <QuestionTypeIcon icon={type.icon} color={type.color} className="size-10 rounded-md" iconClassName="size-5" />
+          <QuestionTypeIcon type={type.id} className="size-10 rounded-md" iconClassName="size-5" />
 
           <div>
             <h3 className="font-semibold">{type.label}</h3>
@@ -30,7 +30,7 @@ export default function PreviewWrapper({
       </div>
 
       <div className="space-y-3 p-3">
-          {PREVIEW_MAP[type.id]}
+          <Preview />
 
         <div className="rounded-xl border bg-muted/40 p-4">
           <div className="flex items-start gap-3">

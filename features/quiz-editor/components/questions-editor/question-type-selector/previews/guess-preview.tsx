@@ -4,7 +4,7 @@ import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types"
 import { Sparkles } from "lucide-react";
 
 export default function GuessPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "guess");
+  const type = QUESTION_TYPES.find((t) => t.id === "GUESS");
   if (!type) return null;
 
   const color = type.color;

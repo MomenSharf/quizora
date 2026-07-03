@@ -1,276 +1,181 @@
-import { QuestionType } from "@/lib/db/generated/prisma";
+import { produce } from "immer";
+import { createDefaultEditor, createDefaultQuiz, createQuestionId } from "./quiz-editor.defaults";
 import {
-  createQuestion,
-  DEFAULT_APPEARANCE,
-  DEFAULT_EDITOR,
-  DEFAULT_QUIZ,
-  DEFAULT_SETTINGS,
-} from "./quiz-editor.defaults";
-import type {
-  QuestionEditor,
-  QuizAppearanceEditor,
-  QuizEditor,
-  QuizMetadata,
-  QuizSettingsEditor,
-} from "./quiz-editor.types";
+  duplicateQuestion,
+  getQuestionIndex,
+  insertQuestion,
+  markDirty,
+  moveArrayItem,
+  removeQuestion,
+  removeQuestionFromOrder,
+} from "./quiz-editor.utils";
 
-interface Store {
-  quiz: QuizEditor;
-  editor: typeof DEFAULT_EDITOR;
-}
+import type {
+  QuizEditorActions,
+  QuizEditorStore
+} from "./quiz-editor.types";
 
 interface StoreApi {
   set: (
-    fn: (state: Store) => Partial<Store>,
+    fn: (state: QuizEditorStore) => void,
   ) => void;
 }
 
 export const createQuizEditorActions = ({
   set,
-}: StoreApi) => ({
-  loadQuiz(quiz: QuizEditor) {
-    set(() => ({
-      quiz,
-      editor: {
-        ...DEFAULT_EDITOR,
-      },
-    }));
+}: StoreApi): QuizEditorActions => ({
+  loadQuiz(quiz) {
+    set((state) => {
+      state.quiz = produce(quiz, () => {});
+      state.editor = createDefaultEditor();
+    });
   },
 
   reset() {
-    set(() => ({
-      quiz: structuredClone(DEFAULT_QUIZ),
-      editor: structuredClone(DEFAULT_EDITOR),
-    }));
-  },
-
-  updateMetadata(data: Partial<QuizMetadata>) {
-    set((state) => ({
-      quiz: {
-        ...state.quiz,
-        metadata: {
-          ...state.quiz.metadata,
-          ...data,
-        },
-      },
-      editor: {
-        ...state.editor,
-        dirty: true,
-      },
-    }));
-  },
-
-  updateSettings(data: Partial<QuizSettingsEditor>) {
-    set((state) => ({
-      quiz: {
-        ...state.quiz,
-        settings: {
-          ...state.quiz.settings,
-          ...data,
-        },
-      },
-      editor: {
-        ...state.editor,
-        dirty: true,
-      },
-    }));
-  },
-
-  updateAppearance(
-    data: Partial<QuizAppearanceEditor>,
-  ) {
-    set((state) => ({
-      quiz: {
-        ...state.quiz,
-        appearance: {
-          ...state.quiz.appearance,
-          ...data,
-        },
-      },
-      editor: {
-        ...state.editor,
-        dirty: true,
-      },
-    }));
-  },
-
-  addQuestion(type: QuestionType) {
     set((state) => {
-      const question = createQuestion(type);
-
-      return {
-        quiz: {
-          ...state.quiz,
-
-          questions: {
-            ...state.quiz.questions,
-            [question.id]: question,
-          },
-
-          questionOrder: [
-            ...state.quiz.questionOrder,
-            question.id,
-          ],
-        },
-
-        editor: {
-          ...state.editor,
-          selectedQuestionId: question.id,
-          dirty: true,
-        },
-      };
+      state.quiz = createDefaultQuiz();
+      state.editor = createDefaultEditor();
     });
   },
 
-  updateQuestion(
-    id: string,
-    data: Partial<QuestionEditor>,
-  ) {
-    set((state) => ({
-      quiz: {
-        ...state.quiz,
-
-        questions: {
-          ...state.quiz.questions,
-
-          [id]: {
-            ...state.quiz.questions[id],
-            ...data,
-          },
-        },
-      },
-
-      editor: {
-        ...state.editor,
-        dirty: true,
-      },
-    }));
-  },
-
-  deleteQuestion(id: string) {
+  updateInfo(updater) {
     set((state) => {
-      const questions = { ...state.quiz.questions };
+      updater(state.quiz.quiz.info);
 
-      delete questions[id];
-
-      return {
-        quiz: {
-          ...state.quiz,
-
-          questions,
-
-          questionOrder:
-            state.quiz.questionOrder.filter(
-              (questionId) => questionId !== id,
-            ),
-        },
-
-        editor: {
-          ...state.editor,
-          selectedQuestionId:
-            state.editor.selectedQuestionId === id
-              ? null
-              : state.editor.selectedQuestionId,
-          dirty: true,
-        },
-      };
+      markDirty(state);
     });
   },
 
-  duplicateQuestion(id: string) {
+  updateSettings(updater) {
     set((state) => {
-      const original = state.quiz.questions[id];
+      updater(state.quiz.quiz.settings);
 
-      if (!original) return {};
+      markDirty(state);
+    });
+  },
 
-      const duplicated = {
-        ...structuredClone(original),
-        id: crypto.randomUUID(),
-      };
+  updateAppearance(updater) {
+    set((state) => {
+      updater(state.quiz.quiz.appearance);
 
-      const index =
-        state.quiz.questionOrder.indexOf(id);
+      markDirty(state);
+    });
+  },
 
-      const order = [...state.quiz.questionOrder];
+  addQuestion(question) {
+    set((state) => {
+      state.quiz.questions[question.id] = question;
 
-      order.splice(index + 1, 0, duplicated.id);
+      state.quiz.questionOrder.push(question.id);
 
-      return {
-        quiz: {
-          ...state.quiz,
+      state.editor.selectedQuestionId = question.id;
 
-          questions: {
-            ...state.quiz.questions,
-            [duplicated.id]: duplicated,
-          },
+      markDirty(state);
+    });
+  },
 
-          questionOrder: order,
-        },
+  updateQuestion(id, updater) {
+    set((state) => {
+      const question = state.quiz.questions[id];
 
-        editor: {
-          ...state.editor,
-          selectedQuestionId: duplicated.id,
-          dirty: true,
-        },
-      };
+      if (!question) return;
+
+      updater(question);
+
+      markDirty(state);
+    });
+  },
+
+  deleteQuestion(id) {
+    set((state) => {
+      state.quiz.questions = removeQuestion(
+        state.quiz.questions,
+        id,
+      );
+
+      state.quiz.questionOrder =
+        removeQuestionFromOrder(
+          state.quiz.questionOrder,
+          id,
+        );
+
+      if (state.editor.selectedQuestionId === id) {
+        state.editor.selectedQuestionId = null;
+      }
+
+      markDirty(state);
+    });
+  },
+
+  duplicateQuestion(id) {
+    set((state) => {
+      const question = state.quiz.questions[id];
+
+      if (!question) return;
+
+      const duplicated = duplicateQuestion(
+        question,
+        createQuestionId(),
+      );
+
+      state.quiz.questions[duplicated.id] = duplicated;
+
+      const index = getQuestionIndex(
+        state.quiz.questionOrder,
+        id,
+      );
+
+      state.quiz.questionOrder = insertQuestion(
+        state.quiz.questionOrder,
+        duplicated.id,
+        index + 1,
+      );
+
+      state.editor.selectedQuestionId = duplicated.id;
+
+      markDirty(state);
     });
   },
 
   moveQuestion(from, to) {
     set((state) => {
-      const order = [...state.quiz.questionOrder];
+      state.quiz.questionOrder = moveArrayItem(
+        state.quiz.questionOrder,
+        from,
+        to,
+      );
 
-      const [item] = order.splice(from, 1);
-
-      order.splice(to, 0, item);
-
-      return {
-        quiz: {
-          ...state.quiz,
-          questionOrder: order,
-        },
-
-        editor: {
-          ...state.editor,
-          dirty: true,
-        },
-      };
+      markDirty(state);
     });
   },
 
-  selectQuestion(id: string | null) {
-    set((state) => ({
-      editor: {
-        ...state.editor,
-        selectedQuestionId: id,
-      },
-    }));
+  selectQuestion(id) {
+    set((state) => {
+      state.editor.selectedQuestionId = id;
+    });
   },
 
-  setDirty(dirty: boolean) {
-    set((state) => ({
-      editor: {
-        ...state.editor,
-        dirty,
-      },
-    }));
+  setDirty(value) {
+    set((state) => {
+      state.editor.dirty = value;
+    });
   },
 
-  setSaving(saving: boolean) {
-    set((state) => ({
-      editor: {
-        ...state.editor,
-        saving,
-      },
-    }));
+  setSaving(value) {
+    set((state) => {
+      state.editor.saving = value;
+    });
   },
 
-  setLastSavedAt(date: Date | null) {
-    set((state) => ({
-      editor: {
-        ...state.editor,
-        lastSavedAt: date,
-      },
-    }));
+  setLastSavedAt(date) {
+    set((state) => {
+      state.editor.lastSavedAt = date;
+    });
+  },
+
+  setSaveError(error) {
+    set((state) => {
+      state.editor.saveError = error;
+    });
   },
 });

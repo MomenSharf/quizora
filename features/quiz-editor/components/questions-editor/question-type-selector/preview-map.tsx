@@ -2,23 +2,23 @@
 
 import type { QuestionType } from "@/features/quiz-editor/validation/question/base";
 
-import SingleSelectPreview from "./previews/single-select-preview";
-import MultipleSelectPreview from "./previews/multiple-select-preview";
-import OrderingPreview from "./previews/ordering-preview";
-import MatchPreview from "./previews/match-preview";
-import TypeAnswerPreview from "./previews/text-answer-preview";
-import FillBlankPreview from "./previews/fill-blank-preview";
-import LocationPreview from "./previews/location-preview";
-import GuessPreview from "./previews/guess-preview";
-import RangePreview from "./previews/range-preview";
-import TapFindPreview from "./previews/tap-find-preview";
-import FlashcardPreview from "./previews/flashcard-preview";
+import {
+  MatchPreview,
+  MultipleSelectPreview,
+  OrderingPreview,
+  SingleSelectPreview,
+  TapFindPreview,
+  TypeAnswerPreview,
+  FillBlankPreview,
+  LocationPreview,
+  GuessPreview,
+  RangePreview,
+  TrueFalsePreview,
+  FlashcardPreview,
+  DropdownPreview,
+} from "./previews";
 
-export const createPreviewMap = <
-  T extends Record<string, React.FC>
->(map: T) => map;
-
-export const PREVIEW_MAP = createPreviewMap({
+export const PREVIEW_MAP: Record<QuestionType, React.ComponentType> = {
   SINGLE_SELECT: SingleSelectPreview,
   MULTIPLE_SELECT: MultipleSelectPreview,
   ORDERING: OrderingPreview,
@@ -30,4 +30,6 @@ export const PREVIEW_MAP = createPreviewMap({
   RANGE: RangePreview,
   TAP_FIND: TapFindPreview,
   FLASHCARDS: FlashcardPreview,
-});
+  TRUE_FALSE: TrueFalsePreview,
+  DROPDOWN: DropdownPreview,
+};

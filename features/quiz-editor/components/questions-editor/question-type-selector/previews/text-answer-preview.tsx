@@ -3,7 +3,7 @@
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 
 export default function TypeAnswerPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "text_answer");
+  const type = QUESTION_TYPES.find((t) => t.id === "TYPE_ANSWER");
   if (!type) return null;
 
   const color = type.color;

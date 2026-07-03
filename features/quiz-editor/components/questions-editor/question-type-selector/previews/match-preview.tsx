@@ -4,7 +4,7 @@ import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types"
 import { ArrowRight, GitCompareArrows } from "lucide-react";
 
 export default function MatchPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "match");
+  const type = QUESTION_TYPES.find((t) => t.id === "MATCH");
   if (!type) return null;
 
   const color = type.color;

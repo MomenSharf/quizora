@@ -62,6 +62,9 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --text-xxs: 0.625rem;
+  --text-xxs--line-height: 0.875rem;
 }
 
 :root {
@@ -166,4 +169,12 @@
 
 .tiptap a {
   @apply underline underline-offset-4 transition-colors hover:text-primary/80;
+}
+
+.text-xxs {
+  font-size: var(--text-xxs); /* 0.625rem = 10px */
+  line-height: var(
+    --tw-leading,
+    var(--text-xxs--line-height) /* 0.875rem = 14px */
+  );
 }

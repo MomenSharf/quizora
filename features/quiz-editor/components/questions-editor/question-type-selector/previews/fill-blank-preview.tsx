@@ -3,7 +3,7 @@
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 
 export default function FillBlankPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "fill_blank");
+  const type = QUESTION_TYPES.find((t) => t.id === "FILL_BLANK");
   if (!type) return null;
 
   const color = type.color;

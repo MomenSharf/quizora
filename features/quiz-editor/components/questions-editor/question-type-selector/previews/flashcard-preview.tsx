@@ -3,7 +3,7 @@
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 
 export default function FlashcardPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "flashcard");
+  const type = QUESTION_TYPES.find((t) => t.id === "FLASHCARDS");
   if (!type) return null;
 
   const color = type.color;

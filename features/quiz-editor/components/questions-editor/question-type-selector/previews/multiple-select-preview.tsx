@@ -4,7 +4,7 @@ import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types"
 import { Check } from "lucide-react";
 
 export default function MultipleSelectPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "multiple_select");
+  const type = QUESTION_TYPES.find((t) => t.id === "MULTIPLE_SELECT");
   if (!type) return null;
 
   const color = type.color;

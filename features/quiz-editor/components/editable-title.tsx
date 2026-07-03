@@ -20,7 +20,7 @@ export function EditableTitle({ title }: { title: string }) {
       <form >
         <DialogTrigger asChild>
           <div className="flex gap-1 items-center cursor-pointer group ">
-            <h1 className="md:text-lg font-semibold truncate max-w-28 md:max-w-50">{title}</h1>
+            <h1 className="text-sm sm:text-base md:text-lg font-semibold truncate max-w-28 md:max-w-50">{title}fdasfasf</h1>
             <IconPencilBolt
               size={16}
               className="text-muted-foreground group-hover:text-foreground"

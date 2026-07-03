@@ -3,7 +3,7 @@
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 
 export default function RangePreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "range");
+  const type = QUESTION_TYPES.find((t) => t.id === "RANGE");
   if (!type) return null;
 
   const color = type.color;

@@ -1,33 +1,29 @@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { QuestionTypeUI } from "@/features/quiz-editor/types/question-types";
 import { cn } from "@/lib/utils";
 import { IconHelp } from "@tabler/icons-react";
 import { ArrowRight } from "lucide-react";
 import PreviewWrapper from "./preview-wrapper";
 import { QuestionTypeIcon } from "./question-type-icon";
+import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
+import { useState } from "react";
 
 interface QuestionTypeCardProps {
   type: QuestionTypeUI;
   onSelect?: (typeId: string) => void;
-  
 }
 
-const QuestionTypeCard = ({
-  type,
-  onSelect,
- 
-}: QuestionTypeCardProps) => {
+const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
   return (
     <div
-    tabIndex={0}
-  role="button"
-  onKeyDown={(e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault()
-      // handleClick()
-    }
-  }}
+      tabIndex={0}
+      role="button"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          // handleClick()
+        }
+      }}
       onClick={() => onSelect?.(type.id)}
       className={cn(
         "group relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-3xl border bg-card p-3 text-left transition-all duration-300",
@@ -48,20 +44,25 @@ const QuestionTypeCard = ({
         )}
 
         <Dialog>
-          <DialogTrigger>
-            <IconHelp className="size-4 'hover:text-primary" />
-          </DialogTrigger>
+  <DialogTrigger asChild>
+    <button
+      type="button"
+      className="sm:hidden rounded-md p-1 hover:text-primary"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <IconHelp className="size-4" />
+    </button>
+  </DialogTrigger>
 
-          <DialogContent onClick={(e) => e.stopPropagation()}>
-            <PreviewWrapper type={type} />
-          </DialogContent>
-        </Dialog>
+  <DialogContent>
+    <PreviewWrapper type={type} />
+  </DialogContent>
+</Dialog>
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-1">
         <QuestionTypeIcon
-          icon={type.icon}
-          color={type.color}
+          type={type.id}
           className="max-sm:size-8 max-sm:rounded-md"
           iconClassName="size-6 max-sm:size-4"
         />

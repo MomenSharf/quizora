@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import QuestionTypeCard from "./question-type-card";
+import QuestionTypeHoverCard from "./question-type-hover-card";
 
 type Props = {
   onSelect?: (typeId: string) => void;
@@ -11,28 +11,26 @@ type Props = {
 export default function QuestionTypeSelector({ onSelect }: Props) {
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Choose a question type
-          </h1>
+     <div className="flex items-center justify-between gap-4">
+  <div className="space-y-1">
+    <h2 className="text-xl font-semibold tracking-tight">
+      Choose a question type
+    </h2>
+    <p className="text-sm text-muted-foreground">
+      Select how learners will answer your question.
+    </p>
+  </div>
 
-          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Pick the format that best fits your question. Each type provides a
-            different way for learners to interact and respond.
-          </p>
-        </div>
-
-        <Badge variant="outline" className="text-muted-foreground">
-          <span className="size-2 rounded-full bg-emerald-500" />
-          {QUESTION_TYPES.length} question types
-        </Badge>
-      </div>
+  <Badge variant="secondary" className="gap-2 rounded-full px-3 py-1">
+    <span className="size-2 rounded-full bg-emerald-500" />
+    {QUESTION_TYPES.length} Types
+  </Badge>
+</div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-stretch">
         {" "}
         {QUESTION_TYPES.map((type) => {
-          return <QuestionTypeCard key={type.id} type={type} />;
+          return <QuestionTypeHoverCard key={type.id} type={type}  />;
         })}
       </div>
     </div>

@@ -20,6 +20,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
+import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
 
 function Sortable({
   id,
@@ -53,12 +54,16 @@ function Sortable({
         ref={handleRef}
         tabIndex={0}
       >
-        <IconPick className="text-muted-foreground" />
+        <QuestionTypeIcon type={'SINGLE_SELECT'} className="size-8 rounded-md" iconClassName="size-5" />
 
         <p className="flex-1 text-start truncate">{question.prompt}</p>
         <div
           className={cn(buttonVariants({ variant: "ghost", size: "icon-sm" }))}
           tabIndex={0}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
         >
           <IconDots className="text-muted-foreground" />
         </div>
@@ -70,10 +75,10 @@ function Sortable({
 const QuestionNavigation = () => {
   const [questions, setQuestions] = useState([
     { id: 1, prompt: "Question 1", type: "multiple_choice" },
-    // { id: 2, prompt: "Question 2", type: "checkbox" },
-    // { id: 3, prompt: "Question 3", type: "short_text" },
-    // { id: 4, prompt: "Question 4", type: "long_text" },
-    // { id: 5, prompt: "Question 5", type: "true_false" },
+    { id: 2, prompt: "Question 2", type: "checkbox" },
+    { id: 3, prompt: "Question 3", type: "short_text" },
+    { id: 4, prompt: "Question 4", type: "long_text" },
+    { id: 5, prompt: "Question 5", type: "true_false" },
     // { id: 6, prompt: "Question 6", type: "rating" },
     // { id: 7, prompt: "Question 7", type: "multiple_choice" },
     // { id: 8, prompt: "Question 8", type: "checkbox" },
@@ -82,9 +87,10 @@ const QuestionNavigation = () => {
   ]);
 
   return (
-    <div className="hidden md:flex flex-col gap-2  w-full md:w-56  md:min-w-56 lg:w-72 lg:min-w-60 overflow-y-auto scrollbar-thin p-2 py-3 bg-sidebar border-b sm:border-r">
+    // <div className="hidden md:flex flex-col gap-2  w-full md:w-56  md:min-w-56 lg:w-72 lg:min-w-60 overflow-y-auto scrollbar-thin p-2 py-3 bg-background border-b sm:border-r">
+    <div className="hidden rounded-lg rounded-tl-xl md:flex flex-col gap-3  w-full md:w-56  md:min-w-56 lg:w-72 lg:min-w-60 overflow-y-auto scrollbar-thin p-3 bg-background border-b sm:border">
       <div className="flex justify-between items-center gap-1">
-        <h3 className="font-semibold text-muted-foreground text-sm">
+        <h3 className="font-semibold text-muted-foreground text-xs">
           QUESTIONS
         </h3>
         <Badge variant="outline">10</Badge>

@@ -1,21 +1,30 @@
+"use client";
+
 import { useTheme } from "next-themes";
+
+import { QUESTION_TYPES, QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
 import { cn } from "@/lib/utils";
-import type { LucideIcon } from "lucide-react";
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 type Props = {
-  icon: LucideIcon;
-  color: string;
+  type: QuestionTypeUI['id'];
   className?: string;
   iconClassName?: string;
 };
 
-export function QuestionTypeIcon({ icon: Icon, color, className, iconClassName }: Props) {
+export function QuestionTypeIcon({
+  type,
+  className,
+  iconClassName,
+}: Props) {
   const { resolvedTheme } = useTheme();
 
-  const bg =
-    resolvedTheme === "dark"
-      ? `${color}33`
-      : `${color}18`;
+  const questionType = QUESTION_TYPES.find((item) => item.id === type);
+
+  if (!questionType) return null;
+
+  const Icon = questionType.icon;
+  const color = questionType.color;
 
   return (
     <div
@@ -25,7 +34,7 @@ export function QuestionTypeIcon({ icon: Icon, color, className, iconClassName }
       )}
       style={{
         color,
-        backgroundColor: bg,
+        backgroundColor: resolvedTheme === "dark" ? `${color}33` : `${color}18`,
       }}
     >
       <Icon className={cn("size-4", iconClassName)} />
