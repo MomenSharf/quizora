@@ -1,29 +1,34 @@
+import type { Question } from "@/features/quiz-editor/validation/question";
+import type {
+  Quiz,
+  QuizAppearance,
+  QuizInfo,
+  QuizSettings,
+} from "@/features/quiz-editor/validation/quiz";
 import { QuizStatus } from "@/lib/db/generated/prisma/enums";
-import { Question } from "../validation/question";
-import { Quiz } from "../validation/quiz";
 
 export type EditorPanel =
-  | "cover"
-  | "questions"
+  | "question"
+  | "settings"
   | "appearance"
-  | "branching-logic"
-  | "results"
-  | "settings";
+  | "preview";
+
+export type SaveState =
+  | "idle"
+  | "saving"
+  | "saved"
+  | "error";
 
 export interface EditorState {
   selectedQuestionId: string | null;
 
   activePanel: EditorPanel;
 
-  dirty: boolean;
-
-  saving: boolean;
-
   autosaveEnabled: boolean;
 
-  lastSavedAt: Date | null;
+  saveState: SaveState;
 
-  saveError: string | null;
+  lastSavedAt: Date | null;
 }
 
 export interface QuizEditor {
@@ -35,47 +40,67 @@ export interface QuizEditor {
 
   version: number;
 
-  quiz: Quiz;
+  info: QuizInfo;
+
+  settings: QuizSettings;
+
+  appearance: QuizAppearance;
 
   questions: Record<string, Question>;
 
   questionOrder: string[];
 }
 
+export type QuizEditorForm = Omit<
+    QuizEditor,
+    | "id"
+    | "slug"
+    | "status"
+    | "version"
+    | "questionOrder"
+  >
+
 export interface QuizEditorActions {
   loadQuiz(quiz: QuizEditor): void;
 
   reset(): void;
 
-  updateInfo(updater: (draft: Quiz["info"]) => void): void;
-
-  updateSettings(updater: (draft: Quiz["settings"]) => void): void;
-
-  updateAppearance(updater: (draft: Quiz["appearance"]) => void): void;
-
-  addQuestion(question: Question): void;
-
-  updateQuestion(id: string, updater: (draft: Question) => void): void;
-
-  deleteQuestion(id: string): void;
-
-  duplicateQuestion(id: string): void;
-
-  moveQuestion(from: number, to: number): void;
-
-  selectQuestion(id: string | null): void;
-
-  setDirty(value: boolean): void;
-
-  setSaving(value: boolean): void;
+  setSaveState(state: SaveState): void;
 
   setLastSavedAt(date: Date | null): void;
 
-  setSaveError(error: string | null): void;
+  setAutosaveEnabled(enabled: boolean): void;
+
+  setActivePanel(panel: EditorPanel): void;
+
+  selectQuestion(id: string | null): void;
+
+  addQuestion(id: string): void;
+
+  deleteQuestion(id: string): void;
+
+  duplicateQuestion(
+    sourceId: string,
+    duplicatedId: string,
+  ): void;
+
+  moveQuestion(
+    from: number,
+    to: number,
+  ): void;
 }
 
-export interface QuizEditorStore extends QuizEditorActions {
+export interface QuizEditorStore
+  extends QuizEditorActions {
   quiz: QuizEditor;
 
   editor: EditorState;
 }
+
+export type QuizUpdater = (
+  draft: Quiz,
+) => void;
+
+export type QuestionUpdater = (
+  draft: Question,
+) => void;

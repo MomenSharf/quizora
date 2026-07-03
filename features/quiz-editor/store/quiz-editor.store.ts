@@ -16,7 +16,10 @@ export const useQuizEditorStore =
       editor: createDefaultEditor(),
 
       ...createQuizEditorActions({
-        set,
+        set: (recipe) => set(recipe),
       }),
     })),
   );
+
+export const quizEditorStore =
+  useQuizEditorStore;

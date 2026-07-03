@@ -1,29 +1,31 @@
-import { produce } from "immer";
 import { Question } from "../validation/question";
 
-export function moveArrayItem<T>(
-  array: T[],
+export function moveItem<T>(
+  items: T[],
   from: number,
   to: number,
-) {
-  if (from === to) return array;
+): T[] {
+  if (from === to) {
+    return items;
+  }
 
-  const items = [...array];
+  const next = [...items];
 
-  const [item] = items.splice(from, 1);
+  const [item] = next.splice(from, 1);
 
-  items.splice(to, 0, item);
+  next.splice(to, 0, item);
 
-  return items;
+  return next;
 }
 
 export function duplicateQuestion<T extends Question>(
   question: T,
   id: string,
 ): T {
-  return produce(question, (draft) => {
-    draft.id = id;
-  });
+  return {
+    ...structuredClone(question),
+    id,
+  };
 }
 
 export function removeQuestion(
@@ -40,7 +42,7 @@ export function removeQuestion(
 export function insertQuestion(
   order: string[],
   id: string,
-  index = order.length,
+  index: number,
 ) {
   const next = [...order];
 
@@ -56,22 +58,6 @@ export function removeQuestionFromOrder(
   return order.filter((questionId) => questionId !== id);
 }
 
-export function replaceQuestion(
-  questions: Record<string, Question>,
-  question: Question,
-) {
-  return {
-    ...questions,
-    [question.id]: question,
-  };
-}
-
-export function markDirty<T extends { editor: { dirty: boolean } }>(
-  state: T,
-) {
-  state.editor.dirty = true;
-}
-
 export function getQuestionIndex(
   order: string[],
   id: string,
@@ -79,11 +65,27 @@ export function getQuestionIndex(
   return order.indexOf(id);
 }
 
-export function getSelectedQuestion(
-  questions: Record<string, Question>,
-  id: string | null,
+export function getNextSelectedQuestionId(
+  order: string[],
+  deletedId: string,
 ) {
-  if (!id) return undefined;
+  const index = order.indexOf(deletedId);
 
-  return questions[id];
+  if (index === -1) {
+    return null;
+  }
+
+  const nextOrder = removeQuestionFromOrder(
+    order,
+    deletedId,
+  );
+
+  if (nextOrder.length === 0) {
+    return null;
+  }
+
+  return (
+    nextOrder[Math.min(index, nextOrder.length - 1)] ??
+    null
+  );
 }

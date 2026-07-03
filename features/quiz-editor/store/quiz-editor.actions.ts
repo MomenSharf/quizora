@@ -1,181 +1,151 @@
-import { produce } from "immer";
-import { createDefaultEditor, createDefaultQuiz, createQuestionId } from "./quiz-editor.defaults";
+import {
+  createDefaultEditor,
+  createDefaultQuiz,
+} from "./quiz-editor.defaults";
+
 import {
   duplicateQuestion,
   getQuestionIndex,
+  getNextSelectedQuestionId,
   insertQuestion,
-  markDirty,
-  moveArrayItem,
+  moveItem,
   removeQuestion,
   removeQuestionFromOrder,
 } from "./quiz-editor.utils";
 
 import type {
   QuizEditorActions,
-  QuizEditorStore
+  QuizEditorStore,
 } from "./quiz-editor.types";
 
-interface StoreApi {
+interface CreateActionsOptions {
   set: (
-    fn: (state: QuizEditorStore) => void,
+    recipe: (state: QuizEditorStore) => void,
   ) => void;
 }
 
-export const createQuizEditorActions = ({
+export function createQuizEditorActions({
   set,
-}: StoreApi): QuizEditorActions => ({
-  loadQuiz(quiz) {
-    set((state) => {
-      state.quiz = produce(quiz, () => {});
-      state.editor = createDefaultEditor();
-    });
-  },
+}: CreateActionsOptions): QuizEditorActions {
+  return {
+    loadQuiz(quiz) {
+      set((state) => {
+        state.quiz = structuredClone(quiz);
+        state.editor = createDefaultEditor();
+      });
+    },
 
-  reset() {
-    set((state) => {
-      state.quiz = createDefaultQuiz();
-      state.editor = createDefaultEditor();
-    });
-  },
+    reset() {
+      set((state) => {
+        state.quiz = createDefaultQuiz();
+        state.editor = createDefaultEditor();
+      });
+    },
 
-  updateInfo(updater) {
-    set((state) => {
-      updater(state.quiz.quiz.info);
+    setSaveState(saveState) {
+      set((state) => {
+        state.editor.saveState = saveState;
+      });
+    },
 
-      markDirty(state);
-    });
-  },
+    setLastSavedAt(lastSavedAt) {
+      set((state) => {
+        state.editor.lastSavedAt = lastSavedAt;
+      });
+    },
 
-  updateSettings(updater) {
-    set((state) => {
-      updater(state.quiz.quiz.settings);
+    setAutosaveEnabled(enabled) {
+      set((state) => {
+        state.editor.autosaveEnabled = enabled;
+      });
+    },
 
-      markDirty(state);
-    });
-  },
+    setActivePanel(panel) {
+      set((state) => {
+        state.editor.activePanel = panel;
+      });
+    },
 
-  updateAppearance(updater) {
-    set((state) => {
-      updater(state.quiz.quiz.appearance);
+    selectQuestion(id) {
+      set((state) => {
+        state.editor.selectedQuestionId = id;
+      });
+    },
 
-      markDirty(state);
-    });
-  },
+    addQuestion(id) {
+      set((state) => {
+        if (state.quiz.questionOrder.includes(id)) {
+          return;
+        }
 
-  addQuestion(question) {
-    set((state) => {
-      state.quiz.questions[question.id] = question;
+        state.quiz.questionOrder.push(id);
+        state.editor.selectedQuestionId = id;
+      });
+    },
 
-      state.quiz.questionOrder.push(question.id);
-
-      state.editor.selectedQuestionId = question.id;
-
-      markDirty(state);
-    });
-  },
-
-  updateQuestion(id, updater) {
-    set((state) => {
-      const question = state.quiz.questions[id];
-
-      if (!question) return;
-
-      updater(question);
-
-      markDirty(state);
-    });
-  },
-
-  deleteQuestion(id) {
-    set((state) => {
-      state.quiz.questions = removeQuestion(
-        state.quiz.questions,
-        id,
-      );
-
-      state.quiz.questionOrder =
-        removeQuestionFromOrder(
-          state.quiz.questionOrder,
+    deleteQuestion(id) {
+      set((state) => {
+        state.quiz.questions = removeQuestion(
+          state.quiz.questions,
           id,
         );
 
-      if (state.editor.selectedQuestionId === id) {
-        state.editor.selectedQuestionId = null;
-      }
+        state.quiz.questionOrder =
+          removeQuestionFromOrder(
+            state.quiz.questionOrder,
+            id,
+          );
 
-      markDirty(state);
-    });
-  },
+        if (state.editor.selectedQuestionId === id) {
+          state.editor.selectedQuestionId =
+            getNextSelectedQuestionId(
+              state.quiz.questionOrder,
+              id,
+            );
+        }
+      });
+    },
 
-  duplicateQuestion(id) {
-    set((state) => {
-      const question = state.quiz.questions[id];
+    duplicateQuestion(sourceId, duplicatedId) {
+      set((state) => {
+        const question =
+          state.quiz.questions[sourceId];
 
-      if (!question) return;
+        if (!question) {
+          return;
+        }
 
-      const duplicated = duplicateQuestion(
-        question,
-        createQuestionId(),
-      );
+        state.quiz.questions[duplicatedId] =
+          duplicateQuestion(
+            question,
+            duplicatedId,
+          );
 
-      state.quiz.questions[duplicated.id] = duplicated;
+        const index = getQuestionIndex(
+          state.quiz.questionOrder,
+          sourceId,
+        );
 
-      const index = getQuestionIndex(
-        state.quiz.questionOrder,
-        id,
-      );
+        state.quiz.questionOrder =
+          insertQuestion(
+            state.quiz.questionOrder,
+            duplicatedId,
+            index + 1,
+          );
 
-      state.quiz.questionOrder = insertQuestion(
-        state.quiz.questionOrder,
-        duplicated.id,
-        index + 1,
-      );
+        state.editor.selectedQuestionId =
+          duplicatedId;
+      });
+    },
 
-      state.editor.selectedQuestionId = duplicated.id;
-
-      markDirty(state);
-    });
-  },
-
-  moveQuestion(from, to) {
-    set((state) => {
-      state.quiz.questionOrder = moveArrayItem(
-        state.quiz.questionOrder,
-        from,
-        to,
-      );
-
-      markDirty(state);
-    });
-  },
-
-  selectQuestion(id) {
-    set((state) => {
-      state.editor.selectedQuestionId = id;
-    });
-  },
-
-  setDirty(value) {
-    set((state) => {
-      state.editor.dirty = value;
-    });
-  },
-
-  setSaving(value) {
-    set((state) => {
-      state.editor.saving = value;
-    });
-  },
-
-  setLastSavedAt(date) {
-    set((state) => {
-      state.editor.lastSavedAt = date;
-    });
-  },
-
-  setSaveError(error) {
-    set((state) => {
-      state.editor.saveError = error;
-    });
-  },
-});
+    moveQuestion(from, to) {
+      set((state) => {
+        state.quiz.questionOrder = moveItem(
+          state.quiz.questionOrder,
+          from,
+          to,
+        );
+      });
+    },
+  };
+}
