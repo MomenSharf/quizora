@@ -7,11 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconCheck, IconMail } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import { Controller, useForm } from "react-hook-form";
-import { Icons } from "../icons";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { Spinner } from "../ui/spinner";
+
 import { AuthMode } from "./auth-form-wrapper";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { Icons } from "@/components/icons";
 
 export function AuthForm({ authMode }: { authMode: AuthMode }) {
   const form = useForm<EmailSchema>({

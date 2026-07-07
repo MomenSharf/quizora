@@ -1,0 +1,42 @@
+import { createId } from "@paralleldrive/cuid2";
+
+import type { LocationQuestion } from "../../validation/question/location";
+import { createBaseQuestion } from "./create-default-question";
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
+
+export function createLocationQuestion(): LocationQuestion {
+  return {
+   ...createBaseQuestion(),
+
+    type: QuestionType.LOCATION,
+    data: {
+      answer: [
+        {
+          coordinate: {
+            lat: 0,
+            lng: 0,
+          },
+
+          radius: 100,
+        },
+      ],
+
+      initialCenter: {
+        lat: 0,
+        lng: 0,
+      },
+
+      initialZoom: 12,
+    },
+
+    settings: {
+      mapType: "ROADMAP",
+      allowZoom: true,
+      allowPan: true,
+      showMarker: true,
+      showRadius: false,
+      showCoordinates: false,
+      lockMapBounds: false,
+    },
+  };
+}

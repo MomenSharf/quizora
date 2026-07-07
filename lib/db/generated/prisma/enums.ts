@@ -28,9 +28,9 @@ export type Visibility = (typeof Visibility)[keyof typeof Visibility]
 
 
 export const ThemeMode = {
+  SYSTEM: 'SYSTEM',
   LIGHT: 'LIGHT',
-  DARK: 'DARK',
-  SYSTEM: 'SYSTEM'
+  DARK: 'DARK'
 } as const
 
 export type ThemeMode = (typeof ThemeMode)[keyof typeof ThemeMode]
@@ -49,15 +49,15 @@ export const QuestionType = {
   SINGLE_SELECT: 'SINGLE_SELECT',
   MULTIPLE_SELECT: 'MULTIPLE_SELECT',
   TRUE_FALSE: 'TRUE_FALSE',
-  FILL_BLANK: 'FILL_BLANK',
-  TYPE_ANSWER: 'TYPE_ANSWER',
-  MATCH: 'MATCH',
   ORDERING: 'ORDERING',
-  LOCATION: 'LOCATION',
-  FLASHCARD: 'FLASHCARD',
-  GUESS: 'GUESS',
+  MATCH: 'MATCH',
+  TYPE_ANSWER: 'TYPE_ANSWER',
+  FILL_BLANK: 'FILL_BLANK',
   RANGE: 'RANGE',
-  TAB_FIND: 'TAB_FIND'
+  LOCATION: 'LOCATION',
+  GUESS: 'GUESS',
+  FLASHCARDS: 'FLASHCARDS',
+  TAP_FIND: 'TAP_FIND'
 } as const
 
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]

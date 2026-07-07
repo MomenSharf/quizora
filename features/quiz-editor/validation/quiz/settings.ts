@@ -1,7 +1,13 @@
 import { z } from "zod";
 
 export const QuizSettingsSchema = z.object({
-  visibility: z.enum(["PRIVATE", "UNLISTED", "PUBLIC"]).default("PRIVATE"),
+  visibility: z
+    .enum([
+      "PRIVATE",
+      "UNLISTED",
+      "PUBLIC",
+    ])
+    .default("PRIVATE"),
 
   shuffleQuestions: z.boolean().default(false),
 

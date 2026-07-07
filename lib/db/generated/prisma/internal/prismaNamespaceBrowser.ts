@@ -132,16 +132,20 @@ export const QuizScalarFieldEnum = {
   slug: 'slug',
   title: 'title',
   description: 'description',
+  ownerId: 'ownerId',
   status: 'status',
   visibility: 'visibility',
   version: 'version',
-  ownerId: 'ownerId',
+  publishedVersion: 'publishedVersion',
   settings: 'settings',
   appearance: 'appearance',
   tags: 'tags',
+  questionCount: 'questionCount',
+  totalPoints: 'totalPoints',
+  publishedAt: 'publishedAt',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  publishedAt: 'publishedAt'
+  updatedAt: 'updatedAt'
 } as const
 
 export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof QuizScalarFieldEnum]
@@ -160,8 +164,10 @@ export const QuestionScalarFieldEnum = {
   imageUrl: 'imageUrl',
   tags: 'tags',
   difficulty: 'difficulty',
-  data: 'data',
-  settings: 'settings',
+  content: 'content',
+  config: 'config',
+  version: 'version',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -175,14 +181,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const JsonNullValueInput = {

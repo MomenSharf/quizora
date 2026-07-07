@@ -13,10 +13,7 @@ type SaveQuizInput = {
   values: Quiz;
 };
 
-export async function saveQuiz({
-  quizId,
-  values,
-}: SaveQuizInput) {
+export async function saveQuiz({ quizId, values }: SaveQuizInput) {
   const session = await auth();
 
   if (!session?.user) {

@@ -7,17 +7,9 @@ import type {
 } from "@/features/quiz-editor/validation/quiz";
 import { QuizStatus } from "@/lib/db/generated/prisma/enums";
 
-export type EditorPanel =
-  | "question"
-  | "settings"
-  | "appearance"
-  | "preview";
+export type EditorPanel = "question" | "settings" | "appearance" | "preview";
 
-export type SaveState =
-  | "idle"
-  | "saving"
-  | "saved"
-  | "error";
+export type SaveState = "idle" | "saving" | "saved" | "error";
 
 export interface EditorState {
   selectedQuestionId: string | null;
@@ -52,13 +44,9 @@ export interface QuizEditor {
 }
 
 export type QuizEditorForm = Omit<
-    QuizEditor,
-    | "id"
-    | "slug"
-    | "status"
-    | "version"
-    | "questionOrder"
-  >
+  QuizEditor,
+  "id" | "slug" | "status" | "version" | "questionOrder"
+>;
 
 export interface QuizEditorActions {
   loadQuiz(quiz: QuizEditor): void;
@@ -79,28 +67,17 @@ export interface QuizEditorActions {
 
   deleteQuestion(id: string): void;
 
-  duplicateQuestion(
-    sourceId: string,
-    duplicatedId: string,
-  ): void;
+  duplicateQuestion(sourceId: string, duplicatedId: string): void;
 
-  moveQuestion(
-    from: number,
-    to: number,
-  ): void;
+  moveQuestion(from: number, to: number): void;
 }
 
-export interface QuizEditorStore
-  extends QuizEditorActions {
+export interface QuizEditorStore extends QuizEditorActions {
   quiz: QuizEditor;
 
   editor: EditorState;
 }
 
-export type QuizUpdater = (
-  draft: Quiz,
-) => void;
+export type QuizUpdater = (draft: Quiz) => void;
 
-export type QuestionUpdater = (
-  draft: Question,
-) => void;
+export type QuestionUpdater = (draft: Question) => void;

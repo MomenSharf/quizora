@@ -1,9 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 
-import type {
-  EditorState,
-  QuizEditor,
-} from "./quiz-editor.types";
+import type { EditorState, QuizEditor } from "./quiz-editor.types";
 
 import type {
   QuizAppearance,

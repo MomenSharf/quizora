@@ -13,13 +13,9 @@ export function useSaveQuiz() {
 
   const [isPending, startTransition] = useTransition();
 
-  const setSaveState = useQuizEditorStore(
-    (state) => state.setSaveState,
-  );
+  const setSaveState = useQuizEditorStore((state) => state.setSaveState);
 
-  const setLastSavedAt = useQuizEditorStore(
-    (state) => state.setLastSavedAt,
-  );
+  const setLastSavedAt = useQuizEditorStore((state) => state.setLastSavedAt);
 
   const save = () =>
     new Promise<boolean>((resolve) => {

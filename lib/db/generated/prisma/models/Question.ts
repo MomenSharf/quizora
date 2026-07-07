@@ -29,11 +29,13 @@ export type AggregateQuestion = {
 export type QuestionAvgAggregateOutputType = {
   points: number | null
   order: number | null
+  version: number | null
 }
 
 export type QuestionSumAggregateOutputType = {
   points: number | null
   order: number | null
+  version: number | null
 }
 
 export type QuestionMinAggregateOutputType = {
@@ -48,6 +50,8 @@ export type QuestionMinAggregateOutputType = {
   order: number | null
   imageUrl: string | null
   difficulty: $Enums.Difficulty | null
+  version: number | null
+  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,6 +68,8 @@ export type QuestionMaxAggregateOutputType = {
   order: number | null
   imageUrl: string | null
   difficulty: $Enums.Difficulty | null
+  version: number | null
+  deletedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -81,8 +87,10 @@ export type QuestionCountAggregateOutputType = {
   imageUrl: number
   tags: number
   difficulty: number
-  data: number
-  settings: number
+  content: number
+  config: number
+  version: number
+  deletedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -92,11 +100,13 @@ export type QuestionCountAggregateOutputType = {
 export type QuestionAvgAggregateInputType = {
   points?: true
   order?: true
+  version?: true
 }
 
 export type QuestionSumAggregateInputType = {
   points?: true
   order?: true
+  version?: true
 }
 
 export type QuestionMinAggregateInputType = {
@@ -111,6 +121,8 @@ export type QuestionMinAggregateInputType = {
   order?: true
   imageUrl?: true
   difficulty?: true
+  version?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -127,6 +139,8 @@ export type QuestionMaxAggregateInputType = {
   order?: true
   imageUrl?: true
   difficulty?: true
+  version?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -144,8 +158,10 @@ export type QuestionCountAggregateInputType = {
   imageUrl?: true
   tags?: true
   difficulty?: true
-  data?: true
-  settings?: true
+  content?: true
+  config?: true
+  version?: true
+  deletedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -250,8 +266,10 @@ export type QuestionGroupByOutputType = {
   imageUrl: string | null
   tags: string[]
   difficulty: $Enums.Difficulty
-  data: runtime.JsonValue
-  settings: runtime.JsonValue | null
+  content: runtime.JsonValue
+  config: runtime.JsonValue
+  version: number
+  deletedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: QuestionCountAggregateOutputType | null
@@ -292,8 +310,10 @@ export type QuestionWhereInput = {
   imageUrl?: Prisma.StringNullableFilter<"Question"> | string | null
   tags?: Prisma.StringNullableListFilter<"Question">
   difficulty?: Prisma.EnumDifficultyFilter<"Question"> | $Enums.Difficulty
-  data?: Prisma.JsonFilter<"Question">
-  settings?: Prisma.JsonNullableFilter<"Question">
+  content?: Prisma.JsonFilter<"Question">
+  config?: Prisma.JsonFilter<"Question">
+  version?: Prisma.IntFilter<"Question"> | number
+  deletedAt?: Prisma.DateTimeNullableFilter<"Question"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   quiz?: Prisma.XOR<Prisma.QuizScalarRelationFilter, Prisma.QuizWhereInput>
@@ -312,8 +332,10 @@ export type QuestionOrderByWithRelationInput = {
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
-  data?: Prisma.SortOrder
-  settings?: Prisma.SortOrderInput | Prisma.SortOrder
+  content?: Prisma.SortOrder
+  config?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   quiz?: Prisma.QuizOrderByWithRelationInput
@@ -335,8 +357,10 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<{
   imageUrl?: Prisma.StringNullableFilter<"Question"> | string | null
   tags?: Prisma.StringNullableListFilter<"Question">
   difficulty?: Prisma.EnumDifficultyFilter<"Question"> | $Enums.Difficulty
-  data?: Prisma.JsonFilter<"Question">
-  settings?: Prisma.JsonNullableFilter<"Question">
+  content?: Prisma.JsonFilter<"Question">
+  config?: Prisma.JsonFilter<"Question">
+  version?: Prisma.IntFilter<"Question"> | number
+  deletedAt?: Prisma.DateTimeNullableFilter<"Question"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   quiz?: Prisma.XOR<Prisma.QuizScalarRelationFilter, Prisma.QuizWhereInput>
@@ -355,8 +379,10 @@ export type QuestionOrderByWithAggregationInput = {
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
-  data?: Prisma.SortOrder
-  settings?: Prisma.SortOrderInput | Prisma.SortOrder
+  content?: Prisma.SortOrder
+  config?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.QuestionCountOrderByAggregateInput
@@ -382,8 +408,10 @@ export type QuestionScalarWhereWithAggregatesInput = {
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
   tags?: Prisma.StringNullableListFilter<"Question">
   difficulty?: Prisma.EnumDifficultyWithAggregatesFilter<"Question"> | $Enums.Difficulty
-  data?: Prisma.JsonWithAggregatesFilter<"Question">
-  settings?: Prisma.JsonNullableWithAggregatesFilter<"Question">
+  content?: Prisma.JsonWithAggregatesFilter<"Question">
+  config?: Prisma.JsonWithAggregatesFilter<"Question">
+  version?: Prisma.IntWithAggregatesFilter<"Question"> | number
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Question"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Question"> | Date | string
 }
@@ -400,8 +428,10 @@ export type QuestionCreateInput = {
   imageUrl?: string | null
   tags?: Prisma.QuestionCreatetagsInput | string[]
   difficulty?: $Enums.Difficulty
-  data: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: number
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   quiz: Prisma.QuizCreateNestedOneWithoutQuestionsInput
@@ -420,8 +450,10 @@ export type QuestionUncheckedCreateInput = {
   imageUrl?: string | null
   tags?: Prisma.QuestionCreatetagsInput | string[]
   difficulty?: $Enums.Difficulty
-  data: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: number
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -438,8 +470,10 @@ export type QuestionUpdateInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.QuestionUpdatetagsInput | string[]
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quiz?: Prisma.QuizUpdateOneRequiredWithoutQuestionsNestedInput
@@ -458,8 +492,10 @@ export type QuestionUncheckedUpdateInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.QuestionUpdatetagsInput | string[]
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -477,8 +513,10 @@ export type QuestionCreateManyInput = {
   imageUrl?: string | null
   tags?: Prisma.QuestionCreatetagsInput | string[]
   difficulty?: $Enums.Difficulty
-  data: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: number
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -495,8 +533,10 @@ export type QuestionUpdateManyMutationInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.QuestionUpdatetagsInput | string[]
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -514,8 +554,10 @@ export type QuestionUncheckedUpdateManyInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.QuestionUpdatetagsInput | string[]
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -543,8 +585,10 @@ export type QuestionCountOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
-  data?: Prisma.SortOrder
-  settings?: Prisma.SortOrder
+  content?: Prisma.SortOrder
+  config?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -552,6 +596,7 @@ export type QuestionCountOrderByAggregateInput = {
 export type QuestionAvgOrderByAggregateInput = {
   points?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  version?: Prisma.SortOrder
 }
 
 export type QuestionMaxOrderByAggregateInput = {
@@ -566,6 +611,8 @@ export type QuestionMaxOrderByAggregateInput = {
   order?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -582,6 +629,8 @@ export type QuestionMinOrderByAggregateInput = {
   order?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  version?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -589,6 +638,7 @@ export type QuestionMinOrderByAggregateInput = {
 export type QuestionSumOrderByAggregateInput = {
   points?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  version?: Prisma.SortOrder
 }
 
 export type QuestionCreateNestedManyWithoutQuizInput = {
@@ -641,14 +691,6 @@ export type EnumQuestionTypeFieldUpdateOperationsInput = {
   set?: $Enums.QuestionType
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type QuestionUpdatetagsInput = {
   set?: string[]
   push?: string | string[]
@@ -670,8 +712,10 @@ export type QuestionCreateWithoutQuizInput = {
   imageUrl?: string | null
   tags?: Prisma.QuestionCreatetagsInput | string[]
   difficulty?: $Enums.Difficulty
-  data: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: number
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -688,8 +732,10 @@ export type QuestionUncheckedCreateWithoutQuizInput = {
   imageUrl?: string | null
   tags?: Prisma.QuestionCreatetagsInput | string[]
   difficulty?: $Enums.Difficulty
-  data: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: number
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -736,8 +782,10 @@ export type QuestionScalarWhereInput = {
   imageUrl?: Prisma.StringNullableFilter<"Question"> | string | null
   tags?: Prisma.StringNullableListFilter<"Question">
   difficulty?: Prisma.EnumDifficultyFilter<"Question"> | $Enums.Difficulty
-  data?: Prisma.JsonFilter<"Question">
-  settings?: Prisma.JsonNullableFilter<"Question">
+  content?: Prisma.JsonFilter<"Question">
+  config?: Prisma.JsonFilter<"Question">
+  version?: Prisma.IntFilter<"Question"> | number
+  deletedAt?: Prisma.DateTimeNullableFilter<"Question"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
 }
@@ -754,8 +802,10 @@ export type QuestionCreateManyQuizInput = {
   imageUrl?: string | null
   tags?: Prisma.QuestionCreatetagsInput | string[]
   difficulty?: $Enums.Difficulty
-  data: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: number
+  deletedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -772,8 +822,10 @@ export type QuestionUpdateWithoutQuizInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.QuestionUpdatetagsInput | string[]
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -790,8 +842,10 @@ export type QuestionUncheckedUpdateWithoutQuizInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.QuestionUpdatetagsInput | string[]
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -808,8 +862,10 @@ export type QuestionUncheckedUpdateManyWithoutQuizInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.QuestionUpdatetagsInput | string[]
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  data?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  config?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -829,8 +885,10 @@ export type QuestionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   imageUrl?: boolean
   tags?: boolean
   difficulty?: boolean
-  data?: boolean
-  settings?: boolean
+  content?: boolean
+  config?: boolean
+  version?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
@@ -849,8 +907,10 @@ export type QuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   imageUrl?: boolean
   tags?: boolean
   difficulty?: boolean
-  data?: boolean
-  settings?: boolean
+  content?: boolean
+  config?: boolean
+  version?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
@@ -869,8 +929,10 @@ export type QuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   imageUrl?: boolean
   tags?: boolean
   difficulty?: boolean
-  data?: boolean
-  settings?: boolean
+  content?: boolean
+  config?: boolean
+  version?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
@@ -889,13 +951,15 @@ export type QuestionSelectScalar = {
   imageUrl?: boolean
   tags?: boolean
   difficulty?: boolean
-  data?: boolean
-  settings?: boolean
+  content?: boolean
+  config?: boolean
+  version?: boolean
+  deletedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quizId" | "type" | "title" | "description" | "explanation" | "hint" | "points" | "order" | "imageUrl" | "tags" | "difficulty" | "data" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
+export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quizId" | "type" | "title" | "description" | "explanation" | "hint" | "points" | "order" | "imageUrl" | "tags" | "difficulty" | "content" | "config" | "version" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
 export type QuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
 }
@@ -924,8 +988,10 @@ export type $QuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     imageUrl: string | null
     tags: string[]
     difficulty: $Enums.Difficulty
-    data: runtime.JsonValue
-    settings: runtime.JsonValue | null
+    content: runtime.JsonValue
+    config: runtime.JsonValue
+    version: number
+    deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["question"]>
@@ -1364,8 +1430,10 @@ export interface QuestionFieldRefs {
   readonly imageUrl: Prisma.FieldRef<"Question", 'String'>
   readonly tags: Prisma.FieldRef<"Question", 'String[]'>
   readonly difficulty: Prisma.FieldRef<"Question", 'Difficulty'>
-  readonly data: Prisma.FieldRef<"Question", 'Json'>
-  readonly settings: Prisma.FieldRef<"Question", 'Json'>
+  readonly content: Prisma.FieldRef<"Question", 'Json'>
+  readonly config: Prisma.FieldRef<"Question", 'Json'>
+  readonly version: Prisma.FieldRef<"Question", 'Int'>
+  readonly deletedAt: Prisma.FieldRef<"Question", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Question", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Question", 'DateTime'>
 }

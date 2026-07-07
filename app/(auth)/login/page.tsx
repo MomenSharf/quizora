@@ -1,7 +1,5 @@
-import AuthFormWrapper from '@/components/auth/auth-form-wrapper'
+import AuthFormWrapper from "@/features/auth/components/auth-form-wrapper";
 
 export default function LoginPage() {
-  return (
-    <AuthFormWrapper authMode="login" />
-  )
+  return <AuthFormWrapper authMode="login" />;
 }

@@ -2,16 +2,13 @@
 
 import { notFound } from "next/navigation";
 
-
 import { QuizSchema, type Quiz } from "@/features/quiz-editor/validation/quiz";
 import type { Question } from "@/features/quiz-editor/validation/question";
 
 import type { QuizEditor } from "../store";
 import prisma from "@/lib/db/prisma";
 
-export async function loadQuiz(
-  quizId: string,
-): Promise<QuizEditor> {
+export async function loadQuiz(quizId: string): Promise<QuizEditor> {
   const quiz = await prisma.quiz.findUnique({
     where: {
       id: quizId,
@@ -76,18 +73,12 @@ export async function loadQuiz(
       language: "en",
     }),
 
-    settings: QuizSchema.shape.settings.parse(
-      quiz.settings ?? {},
-    ),
+    settings: QuizSchema.shape.settings.parse(quiz.settings ?? {}),
 
-    appearance: QuizSchema.shape.appearance.parse(
-      quiz.appearance ?? {},
-    ),
+    appearance: QuizSchema.shape.appearance.parse(quiz.appearance ?? {}),
 
     questions,
 
-    questionOrder: quiz.questions.map(
-      (question) => question.id,
-    ),
+    questionOrder: quiz.questions.map((question) => question.id),
   };
 }

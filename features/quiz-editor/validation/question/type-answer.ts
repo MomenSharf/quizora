@@ -45,8 +45,6 @@ export const TypeAnswerQuestionSchema = BaseQuestionSchema.extend({
   settings: TypeAnswerSettingsSchema,
 });
 
-export type AcceptedAnswer = z.infer<typeof AcceptedAnswerSchema>;
-
 export type TypeAnswerData = z.infer<typeof TypeAnswerDataSchema>;
 
 export type TypeAnswerSettings = z.infer<

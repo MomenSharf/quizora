@@ -6,10 +6,7 @@ import { useEffect } from "react";
 
 import { QuizSchema, type Quiz } from "@/features/quiz-editor/validation/quiz";
 
-import {
-  useQuizEditorStore,
-} from "../store";
-
+import { useQuizEditorStore } from "../store";
 import { useAutosave } from "./use-autosave";
 
 type Props = {
@@ -18,13 +15,8 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function QuizEditorProvider({
-  initialValues,
-  children,
-}: Props) {
-  const setSaveState = useQuizEditorStore(
-    (state) => state.setSaveState,
-  );
+export function QuizEditorProvider({ initialValues, children }: Props) {
+  const setSaveState = useQuizEditorStore((state) => state.setSaveState);
 
   const form = useForm<Quiz>({
     resolver: zodResolver(QuizSchema),
@@ -42,9 +34,5 @@ export function QuizEditorProvider({
 
   useAutosave(form);
 
-  return (
-    <FormProvider {...form}>
-      {children}
-    </FormProvider>
-  );
+  return <FormProvider {...form}>{children}</FormProvider>;
 }
