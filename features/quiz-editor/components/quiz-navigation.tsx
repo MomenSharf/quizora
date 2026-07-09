@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -5,58 +7,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import {
-  IconChartBar,
-  IconGitBranch,
-  IconHelpCircle,
-  IconPalette,
-  IconPhoto,
-  IconSettings,
-  IconBook2,
-  IconChecklist,
-  IconHierarchy2,
-  IconTrophy,
-  IconBrush,
-  IconAdjustments,
-} from "@tabler/icons-react";
 
-const items = [
-  {
-    title: "Cover",
-    url: "/cover",
-    icon: IconBook2,
-  },
-  {
-    title: "Questions",
-    url: "/questions",
-    icon: IconChecklist,
-  },
-  {
-    title: "Branching Logic",
-    url: "/branching-logic",
-    icon: IconHierarchy2,
-  },
-  {
-    title: "Results",
-    url: "/results",
-    icon: IconTrophy,
-  },
-  {
-    title: "Design",
-    url: "/design",
-    icon: IconBrush,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: IconAdjustments,
-  },
-];
+import { useNavigation } from "../store";
+import { EDITOR_PANELS } from "../constants/editor-panels";
+
+
 const QuizNavigation = () => {
+  const {activePanel} = useNavigation()
   return (
     <aside className="min-w-16.25 flex justify-center md:flex-col md:justify-start sm:items-center gap-2 p-2">
-      {items.map((item) => {
-        const isActive = item.title === "Cover";
+      {EDITOR_PANELS.map((item) => {
+        const isActive = item.value === activePanel;
         return (
           <Tooltip key={item.title}>
             <TooltipTrigger asChild>

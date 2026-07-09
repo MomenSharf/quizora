@@ -1,19 +1,16 @@
 // store/editor.types.ts
 
 export type EditorPanel =
+  | "cover"
   | "questions"
   | "design"
   | "settings"
+  | "results"
   | "logic"
   | "publish";
 
 export type SaveState =
-  | "idle"
-  | "pending"
-  | "saving"
-  | "saved"
-  | "error"
-  | "offline";
+  "idle" | "pending" | "saving" | "saved" | "error" | "offline";
 
 export interface NavigationState {
   activePanel: EditorPanel;
