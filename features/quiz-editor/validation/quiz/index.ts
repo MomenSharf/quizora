@@ -26,6 +26,7 @@ export const QuizEditorSchema = z.object({
 });
 
 export type QuizEditor = z.infer<typeof QuizEditorSchema>;
+export type QuizEditorInput = z.input<typeof QuizEditorSchema>;
 
 export * from "./appearance";
 export * from "./info";

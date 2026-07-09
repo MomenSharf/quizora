@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { config, z } from "zod";
 import {
   AcceptedAnswerSchema,
   BaseQuestionSchema,
@@ -59,9 +59,9 @@ export const FillBlankSettingsSchema = z.object({
 export const FillBlankQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("FILL_BLANK"),
 
-  data: FillBlankDataSchema,
+  content: FillBlankDataSchema,
 
-  settings: FillBlankSettingsSchema,
+  config: FillBlankSettingsSchema,
 });
 
 export type FillBlankBlock = z.infer<

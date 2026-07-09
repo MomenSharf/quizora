@@ -38,9 +38,9 @@ export const OrderingSettingsSchema = z.object({
 export const OrderingQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("ORDERING"),
 
-  data: OrderingDataSchema,
+  content: OrderingDataSchema,
 
-  settings: OrderingSettingsSchema,
+  config: OrderingSettingsSchema,
 });
 
 export type OrderingItem = z.infer<typeof OrderingItemSchema>;

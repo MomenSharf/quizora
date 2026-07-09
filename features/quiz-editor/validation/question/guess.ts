@@ -32,9 +32,9 @@ export const GuessSettingsSchema = z.object({
 export const GuessQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("GUESS"),
 
-  data: GuessDataSchema,
+  content: GuessDataSchema,
 
-  settings: GuessSettingsSchema,
+  config: GuessSettingsSchema,
 });
 
 export type GuessAsset = z.infer<typeof GuessAssetSchema>;

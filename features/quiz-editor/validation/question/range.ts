@@ -44,9 +44,9 @@ export const RangeSettingsSchema = z.object({
 export const RangeQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("RANGE"),
 
-  data: RangeDataSchema,
+  content: RangeDataSchema,
 
-  settings: RangeSettingsSchema,
+  config: RangeSettingsSchema,
 });
 
 export type RangeData = z.infer<typeof RangeDataSchema>;

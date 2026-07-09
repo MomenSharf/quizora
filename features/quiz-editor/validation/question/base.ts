@@ -1,19 +1,7 @@
+import { QuestionType as QuestionTypePrisma } from "@/lib/db/generated/prisma/enums";
 import { z } from "zod";
 
-export const QuestionTypeSchema = z.enum([
-  "SINGLE_SELECT",
-  "MULTIPLE_SELECT",
-  "TRUE_FALSE",
-  "ORDERING",
-  "MATCH",
-  "TYPE_ANSWER",
-  "FILL_BLANK",
-  "RANGE",
-  "LOCATION",
-  "GUESS",
-  "FLASHCARDS",
-  "TAP_FIND",
-]);
+export const QuestionTypeSchema = z.enum(QuestionTypePrisma);
 
 export const MediaSchema = z.object({
   image: z.url().optional(),

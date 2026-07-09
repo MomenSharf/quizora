@@ -71,16 +71,16 @@ export const QUESTION_TYPES = [
     isPopular: true,
   },
 
-  {
-    id: "DROPDOWN",
-    label: "Dropdown",
-    shortLabel: "Dropdown",
-    description: "Select the correct answer from a dropdown menu.",
-    bestFor: "Compact quizzes and sentence completion.",
-    icon: IconSelector,
-    color: "#0F766E",
-    backgroundColor: "#F0FDFA",
-  },
+  // {
+  //   id: "DROPDOWN",
+  //   label: "Dropdown",
+  //   shortLabel: "Dropdown",
+  //   description: "Select the correct answer from a dropdown menu.",
+  //   bestFor: "Compact quizzes and sentence completion.",
+  //   icon: IconSelector,
+  //   color: "#0F766E",
+  //   backgroundColor: "#F0FDFA",
+  // },
 
   {
     id: "TYPE_ANSWER",

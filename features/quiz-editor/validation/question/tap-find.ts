@@ -58,9 +58,9 @@ export const TapFindSettingsSchema = z.object({
 export const TapFindQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("TAP_FIND"),
 
-  data: TapFindDataSchema,
+  content: TapFindDataSchema,
 
-  settings: TapFindSettingsSchema,
+  config: TapFindSettingsSchema,
 });
 
 export type TapFindTarget = z.infer<typeof TapFindTargetSchema>;

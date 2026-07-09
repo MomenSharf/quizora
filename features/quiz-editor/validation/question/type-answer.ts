@@ -40,9 +40,9 @@ export const TypeAnswerSettingsSchema = z.object({
 export const TypeAnswerQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("TYPE_ANSWER"),
 
-  data: TypeAnswerDataSchema,
+  content: TypeAnswerDataSchema,
 
-  settings: TypeAnswerSettingsSchema,
+  config: TypeAnswerSettingsSchema,
 });
 
 export type TypeAnswerData = z.infer<typeof TypeAnswerDataSchema>;

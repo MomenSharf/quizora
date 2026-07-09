@@ -27,9 +27,9 @@ export const SingleSelectSettingsSchema = z.object({
 export const SingleSelectQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("SINGLE_SELECT"),
 
-  data: SingleSelectDataSchema,
+  content: SingleSelectDataSchema,
 
-  settings: SingleSelectSettingsSchema,
+  config: SingleSelectSettingsSchema,
 });
 
 

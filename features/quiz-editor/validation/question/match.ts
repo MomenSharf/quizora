@@ -36,9 +36,9 @@ export const MatchSettingsSchema = z.object({
 export const MatchQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("MATCH"),
 
-  data: MatchDataSchema,
+  content: MatchDataSchema,
 
-  settings: MatchSettingsSchema,
+  config: MatchSettingsSchema,
 });
 
 export type MatchPair = z.infer<typeof MatchPairSchema>;

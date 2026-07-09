@@ -59,9 +59,9 @@ export const FlashcardsSettingsSchema = z.object({
 export const FlashcardsQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("FLASHCARDS"),
 
-  data: FlashcardsDataSchema,
+  content: FlashcardsDataSchema,
 
-  settings: FlashcardsSettingsSchema,
+  config: FlashcardsSettingsSchema,
 });
 
 export type Flashcard = z.infer<typeof FlashcardSchema>;

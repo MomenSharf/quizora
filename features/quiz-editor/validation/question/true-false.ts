@@ -26,9 +26,9 @@ export const TrueFalseSettingsSchema = z.object({
 export const TrueFalseQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("TRUE_FALSE"),
 
-  data: TrueFalseDataSchema,
+  content: TrueFalseDataSchema,
 
-  settings: TrueFalseSettingsSchema,
+  config: TrueFalseSettingsSchema,
 });
 
 export type TrueFalseData = z.infer<typeof TrueFalseDataSchema>;

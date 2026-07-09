@@ -41,9 +41,9 @@ export const LocationSettingsSchema = z.object({
 export const LocationQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("LOCATION"),
 
-  data: LocationDataSchema,
+  content: LocationDataSchema,
 
-  settings: LocationSettingsSchema,
+  config: LocationSettingsSchema,
 });
 
 export type Coordinate = z.infer<typeof CoordinateSchema>;

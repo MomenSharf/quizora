@@ -57,7 +57,8 @@ export const QuestionType = {
   LOCATION: 'LOCATION',
   GUESS: 'GUESS',
   FLASHCARDS: 'FLASHCARDS',
-  TAP_FIND: 'TAP_FIND'
+  TAP_FIND: 'TAP_FIND',
+  DROPDOWN: 'DROPDOWN'
 } as const
 
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]

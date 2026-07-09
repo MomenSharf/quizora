@@ -29,9 +29,9 @@ export const DropdownSettingsSchema = z.object({
 export const DropdownQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("DROPDOWN"),
 
-  data: DropdownDataSchema,
+  content: DropdownDataSchema,
 
-  settings: DropdownSettingsSchema,
+  config: DropdownSettingsSchema,
 });
 
 export type DropdownData = z.infer<typeof DropdownDataSchema>;

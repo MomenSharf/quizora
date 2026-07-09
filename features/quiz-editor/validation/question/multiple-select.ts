@@ -45,9 +45,9 @@ export const MultipleSelectSettingsSchema = z.object({
 export const MultipleSelectQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("MULTIPLE_SELECT"),
 
-  data: MultipleSelectDataSchema,
+  content: MultipleSelectDataSchema,
 
-  settings: MultipleSelectSettingsSchema,
+  config: MultipleSelectSettingsSchema,
 });
 
 
