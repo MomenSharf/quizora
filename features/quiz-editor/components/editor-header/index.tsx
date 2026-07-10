@@ -1,12 +1,12 @@
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { IconChevronLeft, IconPlayerPlay } from "@tabler/icons-react";
-import QuizTabs from "./quiz-tabs";
-import { EditableTitle } from "./editable-title";
 import { Icons } from "@/components/icons";
+import { EditableTitle } from "./editable-title";
+import QuizTabs from "./quiz-tabs";
 import MobileHeaderSheet from "./quiz-mobile-header-sheet";
 
-export default function QuizHeader() {
+export default function EditorHeader() {
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between bg-background/80 px-4 backdrop-blur-xl">
       <div className="flex items-center gap-3">

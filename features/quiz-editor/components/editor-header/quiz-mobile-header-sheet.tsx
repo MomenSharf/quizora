@@ -8,30 +8,19 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import {
-  IconChevronRight,
-  IconMenu2,
-  IconRotate,
-} from "@tabler/icons-react";
+import { IconChevronRight, IconMenu2, IconRotate } from "@tabler/icons-react";
 import QuizTabs from "./quiz-tabs";
 
 export default function MobileHeaderSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-xl md:hidden"
-        >
+        <Button variant="ghost" size="icon" className="rounded-xl md:hidden">
           <IconMenu2 className="size-5" />
         </Button>
       </SheetTrigger>
 
-      <SheetContent
-        side="left"
-        className="flex w-[320px] flex-col p-0"
-      >
+      <SheetContent side="left" className="flex w-[320px] flex-col p-0">
         <SheetHeader className="border-b px-6 py-5">
           <div className="flex items-center justify-between">
             <div>
@@ -49,7 +38,7 @@ export default function MobileHeaderSheet() {
               Theme
             </p>
 
-           <ThemeToggle />
+            <ThemeToggle />
           </section>
           <section className="space-y-3">
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">

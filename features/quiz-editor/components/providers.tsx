@@ -1,12 +1,22 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import {
+  FormProvider,
+  useForm,
+  type UseFormReturn,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { useAutosaveHook } from "../hooks/use-autosave";
-import { useHistorySync } from "../hooks/use-history-synce";
+
+import {
+  QuizEditorSchema,
+  type QuizEditorInput,
+} from "../validation/quiz";
+
 import { useEditorActions } from "../store";
-import { type QuizEditorInput, QuizEditorSchema } from "../validation/quiz";
+
+import { useAutosaveHook } from "../hooks/use-autosave";
+import { useHistorySync } from "../hooks/use-history-sync";
 
 interface QuizEditorProviderProps {
   initialData: QuizEditorInput;
@@ -17,36 +27,50 @@ export function QuizEditorProvider({
   initialData,
   children,
 }: QuizEditorProviderProps) {
-  const { reset } = useEditorActions();
-
-  const methods = useForm<QuizEditorInput>({
-    resolver: zodResolver(QuizEditorSchema),
-    defaultValues: initialData,
-    mode: "onChange",
-  });
-
-  // useEffect(() => {
-  //   return () => {
-  //     reset();
-  //   };
-  // }, [reset]);
+  const methods = useQuizEditorForm(initialData);
 
   return (
     <FormProvider {...methods}>
-      <EditorSynchronizerChildrenWrapper>
-        {children}
-      </EditorSynchronizerChildrenWrapper>
+      <QuizEditorEffects />
+      {children}
     </FormProvider>
   );
 }
 
-function EditorSynchronizerChildrenWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  // useAutosaveHook();
-  // useHistorySync();
+function useQuizEditorForm(
+  initialData: QuizEditorInput,
+): UseFormReturn<QuizEditorInput> {
+  const methods = useForm<QuizEditorInput>({
+    resolver: zodResolver(QuizEditorSchema),
+    defaultValues: initialData,
+    mode: "onChange",
+    reValidateMode: "onChange",
+    shouldFocusError: false,
+  });
 
-  return <>{children}</>;
+  const previousId = useRef(initialData.id);
+
+  useEffect(() => {
+    if (previousId.current !== initialData.id) {
+      methods.reset(initialData);
+      previousId.current = initialData.id;
+    }
+  }, [initialData, methods]);
+
+  return methods;
+}
+
+function QuizEditorEffects() {
+  const { reset } = useEditorActions();
+
+  useAutosaveHook();
+  useHistorySync();
+
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, [reset]);
+
+  return null;
 }

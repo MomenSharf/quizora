@@ -4,11 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 import QuestionTypeHoverCard from "./question-type-hover-card";
 
-type Props = {
-  onSelect?: (typeId: string) => void;
-};
 
-export default function QuestionTypeSelector({ onSelect }: Props) {
+export default function QuestionTypeSelector({ questionId }: { questionId: string }) {
   return (
     <div className="space-y-8">
      <div className="flex items-center justify-between gap-4">

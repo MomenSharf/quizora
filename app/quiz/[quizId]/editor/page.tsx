@@ -1,7 +1,7 @@
-import React from 'react'
+import PageRouter from '@/features/quiz-editor/components/page-router'
 
 export default function page() {
   return (
-    <div>page</div>
+   <PageRouter />
   )
 }

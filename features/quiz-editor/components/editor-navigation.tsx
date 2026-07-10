@@ -8,12 +8,12 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-import { useNavigation } from "../store";
+import { useEditorStore, useNavigation } from "../store";
 import { EDITOR_PANELS } from "../constants/editor-panels";
 
 
-const QuizNavigation = () => {
-  const {activePanel} = useNavigation()
+const EditorNavigation = () => {
+  const {setActivePanel,navigation: { activePanel}} = useEditorStore()
   return (
     <aside className="min-w-16.25 flex justify-center md:flex-col md:justify-start sm:items-center gap-2 p-2">
       {EDITOR_PANELS.map((item) => {
@@ -32,6 +32,7 @@ const QuizNavigation = () => {
                   isActive &&
                     "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20 hover:bg-primary",
                 )}
+                onClick={() => setActivePanel(item.value)}
               >
                 <item.icon
                   className={cn(
@@ -53,4 +54,4 @@ const QuizNavigation = () => {
   );
 };
 
-export default QuizNavigation;
+export default EditorNavigation;

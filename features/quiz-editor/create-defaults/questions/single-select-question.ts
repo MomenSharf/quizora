@@ -12,7 +12,8 @@ export function createSingleSelectQuestion(): SingleSelectQuestion {
 ...createBaseQuestion(),
 
     type: QuestionType.SINGLE_SELECT,
-    data: {
+    title: "Question 1",
+    content: {
       options: [
         {
           id: option1,
@@ -31,7 +32,7 @@ export function createSingleSelectQuestion(): SingleSelectQuestion {
       correctOptionId: option1,
     },
 
-    settings: {
+    config: {
       randomizeOptions: false,
       layout: "VERTICAL",
       showOptionLetters: true,
