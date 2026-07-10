@@ -48,6 +48,7 @@ export type ToolbarGroup = {
   items: ToolbarItem[];
 };
 
+// TODO: add math formula editor
 export default function MenuBar({ editor }: { editor: Editor }) {
   const {
     ref,
@@ -217,8 +218,9 @@ export default function MenuBar({ editor }: { editor: Editor }) {
       ],
     },
   };
+
   return (
-    <div className="hidden group-focus-within:block absolute  left-0 z-10 w-fit max-w-full h-12 -top-14 border border-primary transition-all rounded-md">
+    <div className="absolute left-0 -top-14 z-10 h-12 w-fit max-w-full border border-primary rounded-md opacity-0 invisible pointer-events-none transition-all duration-200 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto">
       <div
         ref={ref}
         className={cn(
@@ -240,49 +242,60 @@ export default function MenuBar({ editor }: { editor: Editor }) {
         <AddLink editor={editor} />
         <HtmlEditorDialog editor={editor} />
       </div>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "h-full absolute left-0 top-0 z-10 bg-background cursor-pointer border-0 border-r-2  border-primary rounded-r-none",
-              overflow === "none" ? "hidden" : "flex",
-            )}
-            disabled={!canScrollLeft}
-            onClick={scrollPrevious}
-            style={{
-              display: overflow === "none" ? "none" : "flex",
-            }}
-          >
-            <IconChevronsLeft />
-          </Button>
-        </TooltipTrigger>
+    <Tooltip>
+  <TooltipTrigger asChild>
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-disabled={!canScrollLeft}
+      className={cn(
+        "h-full absolute left-0 top-0 z-10 bg-background border-0 border-r-2 border-primary rounded-r-none",
+        overflow === "none" ? "hidden" : "flex",
+        !canScrollLeft && "opacity-50 cursor-default"
+      )}
+      onMouseDown={(e) => e.preventDefault()}
+      onClick={() => {
+        if (!canScrollLeft) return;
+        scrollPrevious();
+      }}
+      style={{
+        display: overflow === "none" ? "none" : "flex",
+      }}
+    >
+      <IconChevronsLeft />
+    </Button>
+  </TooltipTrigger>
 
-        <TooltipContent>
-          <p>Sclll Left</p>
-        </TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "h-full absolute right-0 top-0 z-10 bg-background cursor-pointer border-0 border-l-2  border-primary rounded-l-none",
-              overflow === "none" ? "hidden" : "flex",
-            )}
-            disabled={!canScrollRight}
-            onClick={scrollNext}
-          >
-            <IconChevronsRight />
-          </Button>
-        </TooltipTrigger>
+  <TooltipContent>
+    <p>Scroll Left</p>
+  </TooltipContent>
+</Tooltip>
 
-        <TooltipContent>
-          <p>Scroll Right</p>
-        </TooltipContent>
-      </Tooltip>
+<Tooltip>
+  <TooltipTrigger asChild>
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-disabled={!canScrollRight}
+      className={cn(
+        "h-full absolute right-0 top-0 z-10 bg-background border-0 border-l-2 border-primary rounded-l-none",
+        overflow === "none" ? "hidden" : "flex",
+        !canScrollRight && "opacity-50 cursor-default"
+      )}
+      onMouseDown={(e) => e.preventDefault()}
+      onClick={() => {
+        if (!canScrollRight) return;
+        scrollNext();
+      }}
+    >
+      <IconChevronsRight />
+    </Button>
+  </TooltipTrigger>
+
+  <TooltipContent>
+    <p>Scroll Right</p>
+  </TooltipContent>
+</Tooltip>
     </div>
   );
 }

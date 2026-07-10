@@ -6,3 +6,4 @@
 # fix editor logo back button
 # fix editor header responsiveness
 # fix when user open the type info dialog, the haver card also open in TypleSelector
+

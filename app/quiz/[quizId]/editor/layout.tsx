@@ -6,15 +6,18 @@ import { createDefaultQuiz } from "@/features/quiz-editor/create-defaults/quiz/c
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <QuizEditorProvider initialData={createDefaultQuiz()}>
-      <div className="h-screen grid grid-rows-[65px_1fr] ">
-        <EditorHeader />
+      <div className="h-screen flex flex-col overflow-hidden">
+        <div className="flex flex-col md:grid md:grid-rows-[65px_1fr] flex-1 overflow-hidden">
+          <EditorHeader />
 
-        <main className="h-[100vh-65px] grid grid-rows-[auto_1fr] md:grid-cols-[auto_1fr] md:grid-rows-1 overflow-hidden ">
-          <EditorNavigation />
-          <div className="flex flex-1 min-w-0 bg-muted/30 dark:bg-muted/20 border-t sm:border rounded-t-lg md:rounded-tl-xl md:rounded-tr-none overflow-x-hidden">
-            {children}
+          <div className="flex flex-col md:grid md:grid-cols-[auto_1fr] overflow-hidden flex-1">
+            <EditorNavigation />
+
+            <div className="flex min-w-0 flex-1 bg-muted/30 dark:bg-muted/20 border-t sm:border rounded-t-lg md:rounded-tl-xl md:rounded-tr-none overflow-hidden">
+              {children}
+            </div>
           </div>
-        </main>
+        </div>
       </div>
     </QuizEditorProvider>
   );

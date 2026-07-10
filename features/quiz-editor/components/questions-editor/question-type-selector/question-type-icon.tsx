@@ -4,7 +4,6 @@ import { useTheme } from "next-themes";
 
 import { QUESTION_TYPES, QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
 import { cn } from "@/lib/utils";
-import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 type Props = {
   type: QuestionTypeUI['id'];
@@ -28,14 +27,14 @@ export function QuestionTypeIcon({
 
   return (
     <div
-      className={cn(
-        "flex size-12 items-center justify-center rounded-2xl transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110",
-        className
-      )}
-      style={{
-        color,
-        backgroundColor: resolvedTheme === "dark" ? `${color}33` : `${color}18`,
-      }}
+       className={cn(
+    "flex size-12 items-center justify-center rounded-2xl transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110",
+    className
+  )}
+  style={{
+    color,
+    backgroundColor: `color-mix(in srgb, ${color} 14%, transparent)`,
+  }}
     >
       <Icon className={cn("size-4", iconClassName)} />
     </div>

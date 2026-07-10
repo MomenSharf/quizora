@@ -1,6 +1,7 @@
 import {
   IconArrowsExchange,
   IconArrowsLeftRight,
+  IconBinary,
   IconCards,
   IconChecks,
   IconCircleCheck,
@@ -9,8 +10,10 @@ import {
   IconListNumbers,
   IconMap,
   IconPencil,
+  IconRosetteDiscountCheckFilled,
   IconTargetArrow,
   IconTextPlus,
+  IconToggleLeft,
   TablerIcon
 } from "@tabler/icons-react";
 
@@ -61,7 +64,7 @@ export const QUESTION_TYPES = [
     shortLabel: "T/F",
     description: "Choose whether a statement is true or false.",
     bestFor: "Fast assessments, revision, and fact checking.",
-    icon: IconCircleCheckFilled ,
+    icon: IconBinary ,
     color: "#22C55E",
     backgroundColor: "#F0FDF4",
     isPopular: true,

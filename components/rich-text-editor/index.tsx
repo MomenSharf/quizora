@@ -1,29 +1,36 @@
 "use client";
 
 import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import TextAlign from "@tiptap/extension-text-align";
+import { TextStyleKit } from "@tiptap/extension-text-style";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
+
 import MenuBar from "./menu-bar";
-import { TextStyleKit } from "@tiptap/extension-text-style";
-import Link from "@tiptap/extension-link";
 
 interface RichTextEditorProps {
   content: string;
   onChange: (content: string) => void;
   placeholder?: string;
+
+  label?: string;
+  description?: string;
+  isOptional?: boolean;
 }
 
 export default function RichTextEditor({
   content,
   onChange,
   placeholder = "Start typing...",
+  label,
+  description,
+  isOptional = false,
 }: RichTextEditorProps) {
-  
   const editor = useEditor({
     immediatelyRender: false,
     shouldRerenderOnTransaction: true,
@@ -65,7 +72,6 @@ export default function RichTextEditor({
         autolink: true,
         linkOnPaste: true,
         defaultProtocol: "https",
-        
       }),
     ],
 
@@ -96,7 +102,7 @@ export default function RichTextEditor({
   if (!editor) return null;
 
   return (
-    <div className="space-y-1 relative group">
+    <div className="relative group space-y-1">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>

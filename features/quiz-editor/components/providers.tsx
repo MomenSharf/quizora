@@ -2,14 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef } from "react";
-import { FormProvider, useForm, type UseFormReturn } from "react-hook-form";
+import { FormProvider, useForm, useFormContext, useWatch, type UseFormReturn } from "react-hook-form";
 
 import { QuizEditorSchema, type QuizEditor } from "../validation/quiz";
 
-import { useEditorActions } from "../store";
+import { useEditorActions, useSelectedQuestionId } from "../store";
 
 import { useAutosaveHook } from "../hooks/use-autosave";
 import { useHistorySync } from "../hooks/use-history-sync";
+import { useSelectedQuestion } from "../hooks/use-selected-question";
 
 interface QuizEditorProviderProps {
   initialData: QuizEditor;
@@ -41,6 +42,8 @@ function useQuizEditorForm(initialData: QuizEditor): UseFormReturn<QuizEditor> {
 
   const previousId = useRef(initialData.id);
 
+  
+
   useEffect(() => {
     if (previousId.current !== initialData.id) {
       methods.reset(initialData);
@@ -52,10 +55,23 @@ function useQuizEditorForm(initialData: QuizEditor): UseFormReturn<QuizEditor> {
 }
 
 function QuizEditorEffects() {
-  const { reset } = useEditorActions();
+  const { control } = useFormContext<QuizEditor>();
 
-  useAutosaveHook();
-  useHistorySync();
+  const questions = useWatch({
+    control,
+    name: "questions",
+  });
+  const { reset, selectQuestion } = useEditorActions();
+  const { hasSelection} = useSelectedQuestion();
+
+  useEffect(() => {
+    if (!hasSelection) {
+      selectQuestion(questions[0].id);
+    }
+  }, [questions, hasSelection]);
+
+  // useAutosaveHook();
+  // useHistorySync();
 
   useEffect(() => {
     return () => {

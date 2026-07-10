@@ -1,5 +1,7 @@
+import RichTextEditor from "@/components/rich-text-editor";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { useWatch } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
+import QuestionField from "../question-field";
 
 interface Props {
   questionId: string;
@@ -17,5 +19,28 @@ export function SingleSelectForm({ questionId }: Props) {
 
   if (!question) return null;
 
-  return <div>{question.title}</div>;
+  return (
+    <div className="mt-10">
+      {question.title}
+      <Controller
+        control={control}
+        name="info.title"
+        render={({ field }) => (
+          <QuestionField
+            label="Description"
+            description="Provide additional details for this question."
+            isOptional
+          >
+            <RichTextEditor
+              label="Description"
+              description="Provide additional details for this question."
+              isOptional
+              content={field.value ?? ""}
+              onChange={field.onChange}
+            />
+          </QuestionField>
+        )}
+      />
+    </div>
+  );
 }
