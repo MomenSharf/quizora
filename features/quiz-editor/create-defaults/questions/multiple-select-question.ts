@@ -12,7 +12,10 @@ export function createMultipleSelectQuestion(): MultipleSelectQuestion {
    ...createBaseQuestion(),
 
     type: QuestionType.MULTIPLE_SELECT,
-    data: {
+
+    title: "Multiple Select",
+
+    content: {
       options: [
         {
           id: option1,
@@ -31,7 +34,7 @@ export function createMultipleSelectQuestion(): MultipleSelectQuestion {
       correctOptionIds: [option1],
     },
 
-    settings: {
+    config: {
       randomizeOptions: false,
       layout: "VERTICAL",
       showOptionLetters: true,

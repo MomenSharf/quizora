@@ -15,7 +15,7 @@ export const MultipleSelectDataSchema = z.object({
 });
 
 export const MultipleSelectSettingsSchema = z.object({
-  randomizeOptions: z.boolean().default(false),
+  randomizeOptions: z.boolean(),
 
   layout: z
     .enum([
@@ -23,23 +23,20 @@ export const MultipleSelectSettingsSchema = z.object({
       "HORIZONTAL",
       "GRID",
     ])
-    .default("VERTICAL"),
-
-  showOptionLetters: z.boolean().default(true),
+,
+  showOptionLetters: z.boolean(),
 
   minSelections: z
     .number()
     .int()
     .min(0)
-    .default(0),
-
+,
   maxSelections: z
     .number()
     .int()
     .min(1)
-    .default(0),
-
-  allowPartialCredit: z.boolean().default(true),
+,
+  allowPartialCredit: z.boolean(),
 });
 
 export const MultipleSelectQuestionSchema = BaseQuestionSchema.extend({

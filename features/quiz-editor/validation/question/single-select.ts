@@ -13,15 +13,15 @@ export const SingleSelectDataSchema = z.object({
 });
 
 export const SingleSelectSettingsSchema = z.object({
-  randomizeOptions: z.boolean().default(false),
+  randomizeOptions: z.boolean(),
 
   layout: z.enum([
     "VERTICAL",
     "HORIZONTAL",
     "GRID",
-  ]).default("VERTICAL"),
+  ]),
 
-  showOptionLetters: z.boolean().default(true),
+  showOptionLetters: z.boolean(),
 });
 
 export const SingleSelectQuestionSchema = BaseQuestionSchema.extend({

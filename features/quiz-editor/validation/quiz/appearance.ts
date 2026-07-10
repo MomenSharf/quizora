@@ -1,47 +1,25 @@
 import { z } from "zod";
 
 export const QuizAppearanceSchema = z.object({
-  theme: z
-    .enum([
-      "SYSTEM",
-      "LIGHT",
-      "DARK",
-    ])
-    .default("SYSTEM"),
+  theme: z.enum(["SYSTEM", "LIGHT", "DARK"]),
 
-  primaryColor: z
-    .string()
-    .default("#6366F1"),
+  primaryColor: z.string(),
 
-  backgroundColor: z
-    .string()
-    .default("#FFFFFF"),
+  backgroundColor: z.string(),
 
-  textColor: z
-    .string()
-    .default("#111827"),
+  textColor: z.string(),
 
   logo: z.url().optional(),
 
   coverImage: z.url().optional(),
 
-  font: z
-    .string()
-    .default("Inter"),
+  font: z.string(),
 
-  borderRadius: z
-    .number()
-    .min(0)
-    .max(32)
-    .default(12),
+  borderRadius: z.number().min(0).max(32),
 
-  showProgressBar: z
-    .boolean()
-    .default(true),
+  showProgressBar: z.boolean(),
 
-  showQuestionNumber: z
-    .boolean()
-    .default(true),
+  showQuestionNumber: z.boolean(),
 });
 
 export type QuizAppearance = z.infer<typeof QuizAppearanceSchema>;

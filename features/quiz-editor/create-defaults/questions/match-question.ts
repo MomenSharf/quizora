@@ -10,7 +10,9 @@ export function createMatchQuestion(): MatchQuestion {
 
     type: QuestionType.MATCH,
 
-    data: {
+    title: "Match It",
+
+    content: {
       pairs: [
         {
           id: createId(),
@@ -37,7 +39,7 @@ export function createMatchQuestion(): MatchQuestion {
       ],
     },
 
-    settings: {
+    config: {
       randomizeLeft: false,
       randomizeRight: true,
       layout: "LINES",

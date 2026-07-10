@@ -2,8 +2,8 @@
 
 import { useFormContext } from "react-hook-form";
 
-import type { QuizEditorInput } from "../validation/quiz";
+import type { QuizEditor } from "../validation/quiz";
 
 export function useQuizForm() {
-  return useFormContext<QuizEditorInput>();
+  return useFormContext<QuizEditor>();
 }

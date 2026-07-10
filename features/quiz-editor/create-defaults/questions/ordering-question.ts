@@ -9,7 +9,10 @@ export function createOrderingQuestion(): OrderingQuestion {
 ...createBaseQuestion(),
 
     type: QuestionType.ORDERING,
-    data: {
+
+    title: "Order It",
+
+    content: {
       items: [
         {
           id: createId(),
@@ -24,7 +27,7 @@ export function createOrderingQuestion(): OrderingQuestion {
       ],
     },
 
-    settings: {
+    config: {
       randomizeItems: true,
       layout: "VERTICAL",
       showNumbers: true,

@@ -9,7 +9,10 @@ export function createGuessQuestion(): GuessQuestion {
     ...createBaseQuestion(),
 
     type: QuestionType.GUESS,
-    data: {
+
+    title: "Guess It",
+
+    content: {
       asset: {
         type: "IMAGE",
         url: undefined,
@@ -23,7 +26,7 @@ export function createGuessQuestion(): GuessQuestion {
       ],
     },
 
-    settings: {
+    config: {
       caseSensitive: false,
       trimWhitespace: true,
       ignoreExtraSpaces: true,

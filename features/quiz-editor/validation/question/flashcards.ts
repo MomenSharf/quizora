@@ -5,55 +5,36 @@ export const FlashcardSchema = z.object({
   id: z.string().cuid(),
 
   front: z.object({
-    title: z.string().trim().max(200).default(""),
-    content: z.string().trim().default(""),
+    title: z.string().trim().max(200),
+    content: z.string().trim(),
     image: z.url().optional(),
   }),
 
   back: z.object({
-    title: z.string().trim().max(200).default(""),
-    content: z.string().trim().default(""),
+    title: z.string().trim().max(200),
+    content: z.string().trim(),
     image: z.url().optional(),
   }),
 });
 
 export const FlashcardsDataSchema = z.object({
-  cards: z
-    .array(FlashcardSchema)
-    .min(1)
-    .max(500),
+  cards: z.array(FlashcardSchema).min(1).max(500),
 });
 
 export const FlashcardsSettingsSchema = z.object({
-  shuffleCards: z.boolean().default(false),
+  shuffleCards: z.boolean(),
 
-  flipDirection: z
-    .enum([
-      "HORIZONTAL",
-      "VERTICAL",
-    ])
-    .default("HORIZONTAL"),
+  flipDirection: z.enum(["HORIZONTAL", "VERTICAL"]),
+  startSide: z.enum(["FRONT", "BACK"]),
+  allowFlip: z.boolean(),
 
-  startSide: z
-    .enum([
-      "FRONT",
-      "BACK",
-    ])
-    .default("FRONT"),
+  loopCards: z.boolean(),
 
-  allowFlip: z.boolean().default(true),
+  showProgress: z.boolean(),
 
-  loopCards: z.boolean().default(false),
+  autoFlip: z.boolean(),
 
-  showProgress: z.boolean().default(true),
-
-  autoFlip: z.boolean().default(false),
-
-  autoFlipDelay: z
-    .number()
-    .int()
-    .min(0)
-    .default(3000),
+  autoFlipDelay: z.number().int().min(0),
 });
 
 export const FlashcardsQuestionSchema = BaseQuestionSchema.extend({
@@ -66,14 +47,8 @@ export const FlashcardsQuestionSchema = BaseQuestionSchema.extend({
 
 export type Flashcard = z.infer<typeof FlashcardSchema>;
 
-export type FlashcardsData = z.infer<
-  typeof FlashcardsDataSchema
->;
+export type FlashcardsData = z.infer<typeof FlashcardsDataSchema>;
 
-export type FlashcardsSettings = z.infer<
-  typeof FlashcardsSettingsSchema
->;
+export type FlashcardsSettings = z.infer<typeof FlashcardsSettingsSchema>;
 
-export type FlashcardsQuestion = z.infer<
-  typeof FlashcardsQuestionSchema
->;
+export type FlashcardsQuestion = z.infer<typeof FlashcardsQuestionSchema>;

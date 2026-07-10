@@ -9,7 +9,10 @@ export function createLocationQuestion(): LocationQuestion {
    ...createBaseQuestion(),
 
     type: QuestionType.LOCATION,
-    data: {
+
+    title: "Location",
+
+    content: {
       answer: [
         {
           coordinate: {
@@ -29,7 +32,7 @@ export function createLocationQuestion(): LocationQuestion {
       initialZoom: 12,
     },
 
-    settings: {
+    config: {
       mapType: "ROADMAP",
       allowZoom: true,
       allowPan: true,

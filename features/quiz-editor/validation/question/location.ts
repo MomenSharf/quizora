@@ -10,32 +10,31 @@ export const CoordinateSchema = z.object({
 export const LocationAnswerSchema = z.object({
   coordinate: CoordinateSchema,
 
-  radius: z.number().positive().default(100),
+  radius: z.number().positive(),
 });
 
 export const LocationDataSchema = z.object({
   answer: z.array(LocationAnswerSchema).min(1),
   initialCenter: CoordinateSchema.optional(),
 
-  initialZoom: z.number().int().min(1).max(22).default(12),
+  initialZoom: z.number().int().min(1).max(22),
 });
 
 export const LocationSettingsSchema = z.object({
   mapType: z
     .enum(["ROADMAP", "SATELLITE", "HYBRID", "TERRAIN"])
-    .default("ROADMAP"),
+,
+  allowZoom: z.boolean(),
 
-  allowZoom: z.boolean().default(true),
+  allowPan: z.boolean(),
 
-  allowPan: z.boolean().default(true),
+  showMarker: z.boolean(),
 
-  showMarker: z.boolean().default(true),
+  showRadius: z.boolean(),
 
-  showRadius: z.boolean().default(false),
+  showCoordinates: z.boolean(),
 
-  showCoordinates: z.boolean().default(false),
-
-  lockMapBounds: z.boolean().default(false),
+  lockMapBounds: z.boolean(),
 });
 
 export const LocationQuestionSchema = BaseQuestionSchema.extend({

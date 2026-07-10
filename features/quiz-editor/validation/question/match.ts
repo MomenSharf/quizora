@@ -16,9 +16,9 @@ export const MatchDataSchema = z.object({
 });
 
 export const MatchSettingsSchema = z.object({
-  randomizeLeft: z.boolean().default(false),
+  randomizeLeft: z.boolean(),
 
-  randomizeRight: z.boolean().default(true),
+  randomizeRight: z.boolean(),
 
   layout: z
     .enum([
@@ -26,11 +26,10 @@ export const MatchSettingsSchema = z.object({
       "DROPDOWN",
       "DRAG_DROP",
     ])
-    .default("LINES"),
+,
+  showImages: z.boolean(),
 
-  showImages: z.boolean().default(true),
-
-  allowRetry: z.boolean().default(true),
+  allowRetry: z.boolean(),
 });
 
 export const MatchQuestionSchema = BaseQuestionSchema.extend({

@@ -1,17 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import {
-  FormProvider,
-  useForm,
-  type UseFormReturn,
-} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useRef } from "react";
+import { FormProvider, useForm, type UseFormReturn } from "react-hook-form";
 
-import {
-  QuizEditorSchema,
-  type QuizEditorInput,
-} from "../validation/quiz";
+import { QuizEditorSchema, type QuizEditor } from "../validation/quiz";
 
 import { useEditorActions } from "../store";
 
@@ -19,7 +12,7 @@ import { useAutosaveHook } from "../hooks/use-autosave";
 import { useHistorySync } from "../hooks/use-history-sync";
 
 interface QuizEditorProviderProps {
-  initialData: QuizEditorInput;
+  initialData: QuizEditor;
   children: React.ReactNode;
 }
 
@@ -37,10 +30,8 @@ export function QuizEditorProvider({
   );
 }
 
-function useQuizEditorForm(
-  initialData: QuizEditorInput,
-): UseFormReturn<QuizEditorInput> {
-  const methods = useForm<QuizEditorInput>({
+function useQuizEditorForm(initialData: QuizEditor): UseFormReturn<QuizEditor> {
+  const methods = useForm<QuizEditor>({
     resolver: zodResolver(QuizEditorSchema),
     defaultValues: initialData,
     mode: "onChange",

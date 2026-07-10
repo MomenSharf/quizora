@@ -7,7 +7,10 @@ export function createRangeQuestion(): RangeQuestion {
 ...createBaseQuestion(),
 
     type: QuestionType.RANGE,
-    data: {
+
+    title: "Range",
+
+    content: {
       min: 0,
 
       max: 100,
@@ -22,7 +25,7 @@ export function createRangeQuestion(): RangeQuestion {
       unit: "",
     },
 
-    settings: {
+    config: {
       showTicks: true,
       showLabels: true,
       showCurrentValue: true,

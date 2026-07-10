@@ -9,7 +9,10 @@ export function createTapFindQuestion(): TapFindQuestion {
 ...createBaseQuestion(),
 
     type: QuestionType.TAP_FIND,
-    data: {
+
+    title: "tap & find",
+
+    content: {
       image: "",
 
       targets: [
@@ -34,7 +37,7 @@ export function createTapFindQuestion(): TapFindQuestion {
       ],
     },
 
-    settings: {
+    config: {
       showHints: false,
       showTargetOutline: false,
       allowMultipleClicks: false,

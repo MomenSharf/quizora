@@ -21,18 +21,17 @@ export const OrderingDataSchema = z.object({
 });
 
 export const OrderingSettingsSchema = z.object({
-  randomizeItems: z.boolean().default(true),
+  randomizeItems: z.boolean(),
 
   layout: z
     .enum([
       "VERTICAL",
       "HORIZONTAL",
     ])
-    .default("VERTICAL"),
+,
+  showNumbers: z.boolean(),
 
-  showNumbers: z.boolean().default(true),
-
-  allowRetry: z.boolean().default(true),
+  allowRetry: z.boolean(),
 });
 
 export const OrderingQuestionSchema = BaseQuestionSchema.extend({

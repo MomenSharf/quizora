@@ -8,17 +8,17 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { IconDots, IconPlus } from "@tabler/icons-react";
 import { useRef, useState } from "react";
-import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
-import { useQuizForm } from "../../hooks/use-quiz-form";
 import { useWatch } from "react-hook-form";
-import { QuizEditorInput } from "../../validation/quiz";
+import { useQuizForm } from "../../hooks/use-quiz-form";
+import { QuizEditor } from "../../validation/quiz";
+import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
 
 function Sortable({
   index,
   question,
 }: {
   index: number;
-  question: NonNullable<QuizEditorInput["questions"]>[number];
+  question: QuizEditor["questions"][number];
 }) {
   const [element, setElement] = useState<Element | null>(null);
   const handleRef = useRef<HTMLButtonElement | null>(null);
@@ -49,7 +49,7 @@ function Sortable({
         tabIndex={0}
       >
         <QuestionTypeIcon
-          type={"SINGLE_SELECT"}
+          type={question.type}
           className="size-8 rounded-md"
           iconClassName="size-5"
         />

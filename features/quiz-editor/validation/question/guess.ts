@@ -2,7 +2,7 @@ import { z } from "zod";
 import { AcceptedAnswerSchema, BaseQuestionSchema } from "./base";
 
 export const GuessAssetSchema = z.object({
-  type: z.enum(["IMAGE", "VIDEO", "AUDIO"]).default("IMAGE"),
+  type: z.enum(["IMAGE", "VIDEO", "AUDIO"]),
 
   url: z.url().optional(),
 });
@@ -14,19 +14,19 @@ export const GuessDataSchema = z.object({
 });
 
 export const GuessSettingsSchema = z.object({
-  caseSensitive: z.boolean().default(false),
+  caseSensitive: z.boolean(),
 
-  trimWhitespace: z.boolean().default(true),
+  trimWhitespace: z.boolean(),
 
-  ignoreExtraSpaces: z.boolean().default(true),
+  ignoreExtraSpaces: z.boolean(),
 
-  revealAnswerAfterSubmit: z.boolean().default(true),
+  revealAnswerAfterSubmit: z.boolean(),
 
-  maxAttempts: z.number().int().min(0).default(0),
+  maxAttempts: z.number().int().min(0),
 
-  showHint: z.boolean().default(true),
+  showHint: z.boolean(),
 
-  zoomable: z.boolean().default(true),
+  zoomable: z.boolean(),
 });
 
 export const GuessQuestionSchema = BaseQuestionSchema.extend({

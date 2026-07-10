@@ -7,38 +7,37 @@ export const RangeDataSchema = z
 
     max: z.number(),
 
-    step: z.number().positive().default(1),
+    step: z.number().positive(),
     answer: z.object({
-        min: z.number(),
+      min: z.number(),
 
-        max: z.number(),
+      max: z.number(),
     }),
 
-    unit: z.string().trim().max(30).default(""),
+    unit: z.string().trim().max(30),
   })
   .refine(
     (data) =>
       data.min < data.max &&
       data.answer.min < data.answer.max &&
       data.answer.min <= data.answer.max &&
-      data.answer.min >= data.min &&
-    {
-      message: "Invalid range values",
-    },
+      data.answer.min >= data.min && {
+        message: "Invalid range values",
+      },
   );
 
 export const RangeSettingsSchema = z.object({
-  showTicks: z.boolean().default(true),
+  showTicks: z.boolean(),
 
-  showLabels: z.boolean().default(true),
+  showLabels: z.boolean(),
 
-  showCurrentValue: z.boolean().default(true),
+  showCurrentValue: z.boolean(),
 
-  showMinMaxLabels: z.boolean().default(true),
+  showMinMaxLabels: z.boolean(),
 
-  orientation: z.enum(["HORIZONTAL", "VERTICAL"]).default("HORIZONTAL"),
+  orientation: z.enum(["HORIZONTAL", "VERTICAL"]),
 
-  snapToStep: z.boolean().default(true),
+  snapToStep: z.boolean(),
 });
 
 export const RangeQuestionSchema = BaseQuestionSchema.extend({

@@ -24,27 +24,23 @@ export const BaseQuestionSchema = z.object({
     .string()
     .trim()
     .max(2000)
-    .default(""),
-
+,
   explanation: z
     .string()
     .trim()
     .max(5000)
-    .default(""),
-
+,
   hint: z
     .string()
     .trim()
     .max(1000)
-    .default(""),
-
-  required: z.boolean().default(true),
+,
+  required: z.boolean(),
 
   points: z
     .number()
     .min(0)
-    .default(1),
-
+,
   imageUrl: z.url().optional(),
 
   tags: z
@@ -52,13 +48,12 @@ export const BaseQuestionSchema = z.object({
       z.string().trim().min(1).max(30)
     )
     .max(20)
-    .default([]),
+   ,
 
   difficulty: z
     .enum(["EASY", "MEDIUM", "HARD"])
-    .default("MEDIUM"),
-
-  media: MediaSchema.default({}),
+,
+  media: MediaSchema,
 });
 
 export const OptionSchema = z.object({
@@ -76,7 +71,7 @@ export const OptionSchema = z.object({
     .string()
     .trim()
     .max(1000)
-    .default(""),
+    ,
 });
 
 export const ContentSchema = z.object({

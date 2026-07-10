@@ -8,8 +8,7 @@ export const TapFindTargetSchema = z.object({
     .string()
     .trim()
     .max(200)
-    .default(""),
-
+,
   shape: z.enum([
     "CIRCLE",
     "RECT",
@@ -37,22 +36,21 @@ export const TapFindDataSchema = z.object({
 });
 
 export const TapFindSettingsSchema = z.object({
-  showHints: z.boolean().default(false),
+  showHints: z.boolean(),
 
-  showTargetOutline: z.boolean().default(false),
+  showTargetOutline: z.boolean(),
 
-  allowMultipleClicks: z.boolean().default(false),
+  allowMultipleClicks: z.boolean(),
 
   tolerance: z
     .number()
     .int()
     .min(0)
     .max(50)
-    .default(5),
+,
+  zoomable: z.boolean(),
 
-  zoomable: z.boolean().default(true),
-
-  revealTargetsAfterSubmit: z.boolean().default(true),
+  revealTargetsAfterSubmit: z.boolean(),
 });
 
 export const TapFindQuestionSchema = BaseQuestionSchema.extend({

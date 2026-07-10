@@ -9,10 +9,11 @@ export function createFillBlankQuestion(): FillBlankQuestion {
 
   return {
     ...createBaseQuestion(),
+    title: "Fill in the Blank",
 
     type: QuestionType.FILL_BLANK,
 
-    data: {
+    content: {
       blocks: [
         {
           id: createId(),
@@ -42,7 +43,7 @@ export function createFillBlankQuestion(): FillBlankQuestion {
       ],
     },
 
-    settings: {
+    config: {
       caseSensitive: false,
       trimWhitespace: true,
       ignoreExtraSpaces: true,

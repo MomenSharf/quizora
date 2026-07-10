@@ -7,11 +7,14 @@ export function createTrueFalseQuestion(): TrueFalseQuestion {
 ...createBaseQuestion(),
 
     type: QuestionType.TRUE_FALSE,
-    data: {
+
+    title: "True / False",
+
+    content: {
       correctAnswer: true,
     },
 
-    settings: {
+    config: {
       trueLabel: "True",
       falseLabel: "False",
       randomizeOrder: false,

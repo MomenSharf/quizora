@@ -13,28 +13,26 @@ export const TypeAnswerDataSchema = z.object({
     .string()
     .trim()
     .max(100)
-    .default("Type your answer..."),
 });
 
 export const TypeAnswerSettingsSchema = z.object({
-  caseSensitive: z.boolean().default(false),
+  caseSensitive: z.boolean(),
 
-  trimWhitespace: z.boolean().default(true),
+  trimWhitespace: z.boolean(),
 
-  ignoreExtraSpaces: z.boolean().default(true),
+  ignoreExtraSpaces: z.boolean(),
 
-  acceptRegex: z.boolean().default(false),
+  acceptRegex: z.boolean(),
 
   maxLength: z
     .number()
     .int()
     .min(1)
-    .max(10000)
-    .default(255),
+ ,
 
-  multiline: z.boolean().default(false),
+  multiline: z.boolean(),
 
-  autoComplete: z.boolean().default(true),
+  autoComplete: z.boolean(),
 });
 
 export const TypeAnswerQuestionSchema = BaseQuestionSchema.extend({

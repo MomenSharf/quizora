@@ -1,47 +1,29 @@
 import { z } from "zod";
 
 export const QuizSettingsSchema = z.object({
-  visibility: z
-    .enum([
-      "PRIVATE",
-      "UNLISTED",
-      "PUBLIC",
-    ])
-    .default("PRIVATE"),
+  visibility: z.enum(["PRIVATE", "UNLISTED", "PUBLIC"]),
 
-  shuffleQuestions: z.boolean().default(false),
+  shuffleQuestions: z.boolean(),
 
-  shuffleOptions: z.boolean().default(false),
+  shuffleOptions: z.boolean(),
 
-  showCorrectAnswers: z.boolean().default(true),
+  showCorrectAnswers: z.boolean(),
 
-  showScore: z.boolean().default(true),
+  showScore: z.boolean(),
 
-  showExplanations: z.boolean().default(true),
+  showExplanations: z.boolean(),
 
-  allowRetry: z.boolean().default(true),
+  allowRetry: z.boolean(),
 
-  saveProgress: z.boolean().default(true),
+  saveProgress: z.boolean(),
 
-  requireAllQuestions: z.boolean().default(false),
+  requireAllQuestions: z.boolean(),
 
-  passingScore: z
-    .number()
-    .min(0)
-    .max(100)
-    .default(60),
+  passingScore: z.number().min(0).max(100),
 
-  attempts: z
-    .number()
-    .int()
-    .min(0)
-    .default(0),
+  attempts: z.number().int().min(0),
 
-  timeLimit: z
-    .number()
-    .int()
-    .min(0)
-    .default(0),
+  timeLimit: z.number().int().min(0),
 });
 
 export type QuizSettings = z.infer<typeof QuizSettingsSchema>;

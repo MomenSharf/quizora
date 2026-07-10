@@ -11,16 +11,14 @@ export const TrueFalseSettingsSchema = z.object({
     .trim()
     .min(1)
     .max(50)
-    .default("True"),
-
+,
   falseLabel: z
     .string()
     .trim()
     .min(1)
     .max(50)
-    .default("False"),
-
-  randomizeOrder: z.boolean().default(false),
+,
+  randomizeOrder: z.boolean(),
 });
 
 export const TrueFalseQuestionSchema = BaseQuestionSchema.extend({

@@ -1,4 +1,4 @@
-import { config, z } from "zod";
+import { z } from "zod";
 import {
   AcceptedAnswerSchema,
   BaseQuestionSchema,
@@ -8,7 +8,7 @@ export const FillBlankBlockSchema = z.discriminatedUnion("type", [
   z.object({
     id: z.string().cuid(),
     type: z.literal("TEXT"),
-    text: z.string().default(""),
+    text: z.string(),
   }),
 
   z.object({
@@ -30,7 +30,6 @@ export const BlankSchema = z.object({
     .string()
     .trim()
     .max(100)
-    .default("Type here"),
 });
 
 export const FillBlankDataSchema = z.object({
@@ -45,15 +44,15 @@ export const FillBlankDataSchema = z.object({
 });
 
 export const FillBlankSettingsSchema = z.object({
-  caseSensitive: z.boolean().default(false),
+  caseSensitive: z.boolean(),
 
-  trimWhitespace: z.boolean().default(true),
+  trimWhitespace: z.boolean(),
 
-  ignoreExtraSpaces: z.boolean().default(true),
+  ignoreExtraSpaces: z.boolean(),
 
-  allowAnyOrder: z.boolean().default(false),
+  allowAnyOrder: z.boolean(),
 
-  autoResizeInputs: z.boolean().default(true),
+  autoResizeInputs: z.boolean(),
 });
 
 export const FillBlankQuestionSchema = BaseQuestionSchema.extend({

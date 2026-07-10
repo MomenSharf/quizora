@@ -1,25 +1,21 @@
 import {
   IconArrowsExchange,
   IconArrowsLeftRight,
-  IconBinary,
   IconCards,
   IconChecks,
   IconCircleCheck,
   IconCircleCheckFilled,
   IconHandClick,
-  IconListDetails,
   IconListNumbers,
   IconMap,
   IconPencil,
-  IconScale,
-  IconSelector,
   IconTargetArrow,
   IconTextPlus,
   TablerIcon
 } from "@tabler/icons-react";
 
-import { QuestionType } from "../validation/question/base";
 import { LucideIcon } from "lucide-react";
+import { QuestionType } from "../validation/question/base";
 
 export type QuestionTypeUI = {
   id: QuestionType;

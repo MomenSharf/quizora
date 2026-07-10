@@ -12,7 +12,9 @@ export function createSingleSelectQuestion(): SingleSelectQuestion {
 ...createBaseQuestion(),
 
     type: QuestionType.SINGLE_SELECT,
-    title: "Question 1",
+
+    title: "Single Select",
+
     content: {
       options: [
         {

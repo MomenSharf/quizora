@@ -14,7 +14,7 @@ export const QuizEditorSchema = z.object({
 
   status: z.enum(QuizStatus),
 
-  version: z.number().int().default(1),
+  version: z.number().int(),
 
   info: QuizInfoSchema,
 
@@ -22,7 +22,7 @@ export const QuizEditorSchema = z.object({
 
   appearance: QuizAppearanceSchema,
 
-  questions: z.array(QuestionSchema).default([]),
+  questions: z.array(QuestionSchema),
 });
 
 export type QuizEditor = z.infer<typeof QuizEditorSchema>;

@@ -15,15 +15,15 @@ export const DropdownSettingsSchema = z.object({
     .string()
     .trim()
     .max(100)
-    .default("Select an option"),
+,
 
-  randomizeOptions: z.boolean().default(false),
+  randomizeOptions: z.boolean(),
 
-  searchable: z.boolean().default(false),
+  searchable: z.boolean(),
 
-  clearable: z.boolean().default(false),
+  clearable: z.boolean(),
 
-  showOptionLetters: z.boolean().default(false),
+  showOptionLetters: z.boolean(),
 });
 
 export const DropdownQuestionSchema = BaseQuestionSchema.extend({

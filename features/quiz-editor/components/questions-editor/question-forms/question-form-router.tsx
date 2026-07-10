@@ -6,6 +6,7 @@ import { useWatch } from "react-hook-form";
 import QuestionTypeSelector from "../question-type-selector";
 import { SingleSelectForm } from "./forms/single-select-form";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
+import { useSelectedQuestion } from "@/features/quiz-editor/hooks/use-selected-question";
 
 
 
@@ -28,23 +29,12 @@ const FORM_MAP: Partial<Record<QuestionType, React.FC<Props>>> = {
   // LOCATION: LocationForm,
 };
 
-  const { control } = useQuizForm();
-
-  const questions = useWatch({
-    control,
-    name: "questions",
-  });
-
-  const questionIndex = useMemo(
-    () => questions?.findIndex((q) => q.id === questionId) ?? -1,
-    [questions, questionId],
-  );
-
+const {questionIndex, question} = useSelectedQuestion()
   if (questionIndex === -1) {
     return null;
   }
 
-  const type = questions?.[questionIndex]?.type;
+  const type = question?.type
 
   if (!type) {
     return (

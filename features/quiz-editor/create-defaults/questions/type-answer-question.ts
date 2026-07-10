@@ -10,7 +10,9 @@ export function createTypeAnswerQuestion(): TypeAnswerQuestion {
 
     type: QuestionType.TYPE_ANSWER,
 
-    data: {
+    title: 'type answer',
+
+    content: {
       answers: [
         {
           id: createId(),
@@ -21,7 +23,7 @@ export function createTypeAnswerQuestion(): TypeAnswerQuestion {
       placeholder: "Type your answer...",
     },
 
-    settings: {
+    config: {
       caseSensitive: false,
       trimWhitespace: true,
       ignoreExtraSpaces: true,

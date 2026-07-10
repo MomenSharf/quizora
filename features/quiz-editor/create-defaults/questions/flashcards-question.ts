@@ -7,10 +7,13 @@ import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 export function createFlashcardsQuestion(): FlashcardsQuestion {
   return {
-   ...createBaseQuestion(),
+    ...createBaseQuestion(),
 
     type: QuestionType.FLASHCARDS,
-    data: {
+
+    title: "Flashcards",
+    
+    content: {
       cards: [
         {
           id: createId(),
@@ -30,7 +33,7 @@ export function createFlashcardsQuestion(): FlashcardsQuestion {
       ],
     },
 
-    settings: {
+    config: {
       shuffleCards: false,
       flipDirection: "HORIZONTAL",
       startSide: "FRONT",
