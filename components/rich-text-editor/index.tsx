@@ -10,26 +10,25 @@ import { TextStyleKit } from "@tiptap/extension-text-style";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
+import { FontSize } from "@tiptap/extension-text-style";
 
 import MenuBar from "./menu-bar";
+import { cn } from "@/lib/utils";
 
 interface RichTextEditorProps {
   content: string;
   onChange: (content: string) => void;
   placeholder?: string;
-
-  label?: string;
-  description?: string;
-  isOptional?: boolean;
+  className?: string;
+  fontSize?: string;
 }
 
 export default function RichTextEditor({
   content,
   onChange,
   placeholder = "Start typing...",
-  label,
-  description,
-  isOptional = false,
+  className,
+  fontSize = "16px",
 }: RichTextEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
@@ -67,20 +66,24 @@ export default function RichTextEditor({
 
       TextStyleKit,
 
-      Link.configure({
-        openOnClick: false,
-        autolink: true,
-        linkOnPaste: true,
-        defaultProtocol: "https",
-      }),
+      // Link.configure({
+      //   openOnClick: false,
+      //   autolink: true,
+      //   linkOnPaste: true,
+      //   defaultProtocol: "https",
+      // }),
     ],
 
     content,
 
     editorProps: {
       attributes: {
-        class:
-          "min-h-[140px] rounded-md border bg-background px-4 py-3 focus:outline-none prose dark:prose-invert max-w-none",
+        class: cn(
+          "w-full min-w-0 rounded-md border border-input bg-transparent px-2.5 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+          className,
+        ),
+            style: `font-size: ${fontSize};`,
+
       },
     },
 
@@ -103,7 +106,8 @@ export default function RichTextEditor({
 
   return (
     <div className="relative group space-y-1">
-      <MenuBar editor={editor} />
+      <MenuBar editor={editor}   defaultFontSize={fontSize}
+ />
       <EditorContent editor={editor} />
     </div>
   );

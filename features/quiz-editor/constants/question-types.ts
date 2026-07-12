@@ -11,10 +11,11 @@ import {
   IconMap,
   IconPencil,
   IconRosetteDiscountCheckFilled,
+  IconSelector,
   IconTargetArrow,
   IconTextPlus,
   IconToggleLeft,
-  TablerIcon
+  TablerIcon,
 } from "@tabler/icons-react";
 
 import { LucideIcon } from "lucide-react";
@@ -51,7 +52,8 @@ export const QUESTION_TYPES = [
     label: "Multiple Select",
     shortLabel: "Multiple",
     description: "Choose multiple correct answers.",
-    bestFor: "Testing deeper understanding where more than one answer is correct.",
+    bestFor:
+      "Testing deeper understanding where more than one answer is correct.",
     icon: IconChecks,
     color: "#8B5CF6",
     backgroundColor: "#F5F3FF",
@@ -64,22 +66,22 @@ export const QUESTION_TYPES = [
     shortLabel: "T/F",
     description: "Choose whether a statement is true or false.",
     bestFor: "Fast assessments, revision, and fact checking.",
-    icon: IconBinary ,
+    icon: IconBinary,
     color: "#22C55E",
     backgroundColor: "#F0FDF4",
     isPopular: true,
   },
 
-  // {
-  //   id: "DROPDOWN",
-  //   label: "Dropdown",
-  //   shortLabel: "Dropdown",
-  //   description: "Select the correct answer from a dropdown menu.",
-  //   bestFor: "Compact quizzes and sentence completion.",
-  //   icon: IconSelector,
-  //   color: "#0F766E",
-  //   backgroundColor: "#F0FDFA",
-  // },
+  {
+    id: "DROPDOWN",
+    label: "Dropdown",
+    shortLabel: "Dropdown",
+    description: "Select the correct answer from a dropdown menu.",
+    bestFor: "Compact quizzes and sentence completion.",
+    icon: IconSelector,
+    color: "#0F766E",
+    backgroundColor: "#F0FDFA",
+  },
 
   {
     id: "TYPE_ANSWER",
@@ -98,7 +100,8 @@ export const QUESTION_TYPES = [
     label: "Fill in the Blank",
     shortLabel: "Blank",
     description: "Complete the missing words.",
-    bestFor: "Testing vocabulary, grammar, or missing key concepts in a sentence.",
+    bestFor:
+      "Testing vocabulary, grammar, or missing key concepts in a sentence.",
     icon: IconTextPlus,
     color: "#14B8A6",
     backgroundColor: "#F0FDFA",
@@ -121,7 +124,8 @@ export const QUESTION_TYPES = [
     label: "Match It",
     shortLabel: "Match",
     description: "Connect matching pairs together.",
-    bestFor: "Associations like terms, definitions, categories, and translations.",
+    bestFor:
+      "Associations like terms, definitions, categories, and translations.",
     icon: IconArrowsExchange,
     color: "#06B6D4",
     backgroundColor: "#ECFEFF",
@@ -184,3 +188,19 @@ export const QUESTION_TYPES = [
     isNew: true,
   },
 ] satisfies readonly QuestionTypeUI[];
+
+export const QUESTION_TYPE_LABELS = {
+  SINGLE_SELECT: "Single Select",
+  MULTIPLE_SELECT: "Multiple Select",
+  TRUE_FALSE: "True / False",
+  ORDERING: "Ordering",
+  MATCH: "Match",
+  TYPE_ANSWER: "Type Answer",
+  FILL_BLANK: "Fill Blank",
+  RANGE: "Range",
+  LOCATION: "Location",
+  GUESS: "Guess",
+  FLASHCARDS: "Flashcards",
+  TAP_FIND: "Tap & Find",
+  DROPDOWN: "Dropdown",
+} as const;

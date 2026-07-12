@@ -35,15 +35,17 @@ const FONT_SIZES = [
 
 export default function FontSizeDialog({
   editor,
+  defaultFontSize,
 }: {
   editor: Editor;
+  defaultFontSize?: string;
 }) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("16px");
+  const [value, setValue] = useState(defaultFontSize || "16px");
 
   useEffect(() => {
     const update = () => {
-      setValue(editor.getAttributes("textStyle").fontSize || "16px");
+      setValue(editor.getAttributes("textStyle").fontSize || defaultFontSize || "16px");
     };
 
     update();

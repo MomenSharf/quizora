@@ -28,7 +28,7 @@ export function QuestionTypeIcon({
   return (
     <div
        className={cn(
-    "flex size-12 items-center justify-center rounded-2xl transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110",
+    "flex size-10 items-center justify-center rounded-xl transition-all duration-300 group-hover:-rotate-6 group-hover:scale-110",
     className
   )}
   style={{
@@ -36,7 +36,7 @@ export function QuestionTypeIcon({
     backgroundColor: `color-mix(in srgb, ${color} 14%, transparent)`,
   }}
     >
-      <Icon className={cn("size-4", iconClassName)} />
+      <Icon className={cn("size-6", iconClassName)} />
     </div>
   );
 }

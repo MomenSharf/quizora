@@ -46,10 +46,11 @@ export type ToolbarGroup = {
   label: string;
   collapsible: boolean;
   items: ToolbarItem[];
+  defaultFontSize?: string;
 };
 
 // TODO: add math formula editor
-export default function MenuBar({ editor }: { editor: Editor }) {
+export default function MenuBar({ editor , defaultFontSize }: { editor: Editor, defaultFontSize?: string }) {
   const {
     ref,
     canScrollLeft,
@@ -225,10 +226,10 @@ export default function MenuBar({ editor }: { editor: Editor }) {
         ref={ref}
         className={cn(
           "w-full h-full flex items-center justify-start gap-1 bg-background rounded-md p-1 px-12 overflow-y-auto scrollbar-none",
-          overflow === "none" && "px-1" ,
+          overflow === "none" && "px-1",
         )}
       >
-        <FontSizeSelect editor={editor} />
+        <FontSizeSelect editor={editor} defaultFontSize={defaultFontSize} />
         <TextColorPicker editor={editor} />
 
         <Separator orientation="vertical" className="ml-1" />
@@ -242,60 +243,60 @@ export default function MenuBar({ editor }: { editor: Editor }) {
         <AddLink editor={editor} />
         <HtmlEditorDialog editor={editor} />
       </div>
-    <Tooltip>
-  <TooltipTrigger asChild>
-    <Button
-      variant="ghost"
-      size="icon"
-      aria-disabled={!canScrollLeft}
-      className={cn(
-        "h-full absolute left-0 top-0 z-10 bg-background border-0 border-r-2 border-primary rounded-r-none",
-        overflow === "none" ? "hidden" : "flex",
-        !canScrollLeft && "opacity-50 cursor-default"
-      )}
-      onMouseDown={(e) => e.preventDefault()}
-      onClick={() => {
-        if (!canScrollLeft) return;
-        scrollPrevious();
-      }}
-      style={{
-        display: overflow === "none" ? "none" : "flex",
-      }}
-    >
-      <IconChevronsLeft />
-    </Button>
-  </TooltipTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-disabled={!canScrollLeft}
+            className={cn(
+              "h-full absolute left-0 top-0 z-10 bg-background border-0 border-r-2 border-primary rounded-r-none",
+              overflow === "none" ? "hidden" : "flex",
+              !canScrollLeft && "opacity-50 cursor-default",
+            )}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              if (!canScrollLeft) return;
+              scrollPrevious();
+            }}
+            style={{
+              display: overflow === "none" ? "none" : "flex",
+            }}
+          >
+            <IconChevronsLeft />
+          </Button>
+        </TooltipTrigger>
 
-  <TooltipContent>
-    <p>Scroll Left</p>
-  </TooltipContent>
-</Tooltip>
+        <TooltipContent>
+          <p>Scroll Left</p>
+        </TooltipContent>
+      </Tooltip>
 
-<Tooltip>
-  <TooltipTrigger asChild>
-    <Button
-      variant="ghost"
-      size="icon"
-      aria-disabled={!canScrollRight}
-      className={cn(
-        "h-full absolute right-0 top-0 z-10 bg-background border-0 border-l-2 border-primary rounded-l-none",
-        overflow === "none" ? "hidden" : "flex",
-        !canScrollRight && "opacity-50 cursor-default"
-      )}
-      onMouseDown={(e) => e.preventDefault()}
-      onClick={() => {
-        if (!canScrollRight) return;
-        scrollNext();
-      }}
-    >
-      <IconChevronsRight />
-    </Button>
-  </TooltipTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-disabled={!canScrollRight}
+            className={cn(
+              "h-full absolute right-0 top-0 z-10 bg-background border-0 border-l-2 border-primary rounded-l-none",
+              overflow === "none" ? "hidden" : "flex",
+              !canScrollRight && "opacity-50 cursor-default",
+            )}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              if (!canScrollRight) return;
+              scrollNext();
+            }}
+          >
+            <IconChevronsRight />
+          </Button>
+        </TooltipTrigger>
 
-  <TooltipContent>
-    <p>Scroll Right</p>
-  </TooltipContent>
-</Tooltip>
+        <TooltipContent>
+          <p>Scroll Right</p>
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }
