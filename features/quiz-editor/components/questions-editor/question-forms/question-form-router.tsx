@@ -1,12 +1,9 @@
 "use client";
 
-import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { useMemo } from "react";
-import { useWatch } from "react-hook-form";
+import { useSelectedQuestion } from "@/features/quiz-editor/hooks/use-selected-question";
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import QuestionTypeSelector from "../question-type-selector";
 import { SingleSelectForm } from "./forms/single-select-form";
-import { QuestionType } from "@/lib/db/generated/prisma/enums";
-import { useSelectedQuestion } from "@/features/quiz-editor/hooks/use-selected-question";
 
 interface Props {
   questionId: string;

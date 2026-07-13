@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { move } from "@dnd-kit/helpers";
-import { DragDropProvider, PointerSensor } from "@dnd-kit/react";
+import { DragDropProvider } from "@dnd-kit/react";
 //  This is correct
 // import { DndContext, useSensor, useSensors, PointerSensor } from '@dnd-kit/core';
 import { useSortable } from "@dnd-kit/react/sortable";
@@ -12,9 +12,9 @@ import { IconDots, IconGripVertical, IconPlus } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
 import { useQuizForm } from "../../hooks/use-quiz-form";
+import { useEditorStore } from "../../store";
 import { QuizEditor } from "../../validation/quiz";
 import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
-import { useEditorStore } from "../../store";
 
 function Sortable({
   index,

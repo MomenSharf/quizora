@@ -78,7 +78,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { open, isMobile } = useSidebar();
+  const { open } = useSidebar();
   return (
     <Sidebar collapsible="icon" className="bg-white dark:bg-sidebar" {...props}>
       <SidebarHeader className="relative">

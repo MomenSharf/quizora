@@ -1,0 +1,133 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, Settings2 } from "lucide-react";
+import { ReactNode, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+interface SectionCardProps {
+  title: ReactNode;
+  children: ReactNode;
+
+  actions?: ReactNode;
+  settings?: ReactNode;
+
+  defaultOpen?: boolean;
+  collapsible?: boolean;
+
+  className?: string;
+  contentClassName?: string;
+}
+
+export function SectionCard({
+  title,
+  children,
+  actions,
+  settings,
+
+  defaultOpen = true,
+  collapsible = true,
+
+  className,
+  contentClassName,
+}: SectionCardProps) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  const toggle = () => {
+    if (collapsible) {
+      setOpen((prev) => !prev);
+    }
+  };
+
+  return (
+    <section
+      className={cn(
+        "overflow-hidden rounded-xl border bg-card shadow-sm transition-shadow hover:shadow-md",
+        className
+      )}
+    >
+      <header
+        className={cn(
+          "flex items-center justify-between gap-4 px-5 py-4 transition-colors",
+          collapsible && "cursor-pointer hover:bg-muted/40"
+        )}
+        onClick={toggle}
+      >
+        <div className="min-w-0 flex-1">{title}</div>
+
+        <div
+          className="flex items-center gap-1"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {actions}
+
+          {settings ?? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8 rounded-lg"
+            >
+              <Settings2 className="size-4" />
+            </Button>
+          )}
+
+          {collapsible && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8 rounded-lg"
+              onClick={toggle}
+            >
+              <motion.div
+                animate={{ rotate: open ? 180 : 0 }}
+                transition={{
+                  duration: 0.2,
+                  ease: "easeInOut",
+                }}
+              >
+                <ChevronDown className="size-4" />
+              </motion.div>
+            </Button>
+          )}
+        </div>
+      </header>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{
+              height: {
+                duration: 0.25,
+                ease: "easeInOut",
+              },
+              opacity: {
+                duration: 0.15,
+              },
+            }}
+            className="overflow-hidden"
+          >
+            <div className="border-t" />
+
+            <motion.div
+              initial={{ y: -8 }}
+              animate={{ y: 0 }}
+              exit={{ y: -8 }}
+              transition={{
+                duration: 0.2,
+                ease: "easeOut",
+              }}
+              className={cn("p-5", contentClassName)}
+            >
+              {children}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}

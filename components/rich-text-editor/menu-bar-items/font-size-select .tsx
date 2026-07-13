@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { Editor } from "@tiptap/react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -57,7 +57,7 @@ export default function FontSizeDialog({
       editor.off("selectionUpdate", update);
       editor.off("transaction", update);
     };
-  }, [editor]);
+  }, [defaultFontSize, editor]);
 
   const apply = () => {
     const size = value.trim();

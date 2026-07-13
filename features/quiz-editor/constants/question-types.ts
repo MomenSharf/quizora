@@ -5,17 +5,14 @@ import {
   IconCards,
   IconChecks,
   IconCircleCheck,
-  IconCircleCheckFilled,
   IconHandClick,
   IconListNumbers,
   IconMap,
   IconPencil,
-  IconRosetteDiscountCheckFilled,
   IconSelector,
   IconTargetArrow,
   IconTextPlus,
-  IconToggleLeft,
-  TablerIcon,
+  TablerIcon
 } from "@tabler/icons-react";
 
 import { LucideIcon } from "lucide-react";

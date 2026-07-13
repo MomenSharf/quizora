@@ -1,8 +1,7 @@
-import { createId } from "@paralleldrive/cuid2";
 
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import type { LocationQuestion } from "../../validation/question/location";
 import { createBaseQuestion } from "./create-default-question";
-import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 export function createLocationQuestion(): LocationQuestion {
   return {

@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-import { useEditorStore, useNavigation } from "../store";
-import { EDITOR_PANELS } from "../constants/editor-panels";
-import MobileHeaderSheet from "./editor-header/quiz-mobile-header-sheet";
 import { IconPlayerPlay } from "@tabler/icons-react";
+import { EDITOR_PANELS } from "../constants/editor-panels";
+import { useEditorStore } from "../store";
+import MobileHeaderSheet from "./editor-header/quiz-mobile-header-sheet";
 
 const EditorNavigation = () => {
   const {

@@ -6,10 +6,8 @@ import { FormProvider, useForm, useFormContext, useWatch, type UseFormReturn } f
 
 import { QuizEditorSchema, type QuizEditor } from "../validation/quiz";
 
-import { useEditorActions, useSelectedQuestionId } from "../store";
+import { useEditorActions } from "../store";
 
-import { useAutosaveHook } from "../hooks/use-autosave";
-import { useHistorySync } from "../hooks/use-history-sync";
 import { useSelectedQuestion } from "../hooks/use-selected-question";
 
 interface QuizEditorProviderProps {
@@ -68,6 +66,7 @@ function QuizEditorEffects() {
     if (!hasSelection) {
       selectQuestion(questions[0].id);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions, hasSelection]);
 
   // useAutosaveHook();

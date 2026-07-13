@@ -1,12 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
 import { cn } from "@/lib/utils";
 import { IconHelp } from "@tabler/icons-react";
 import { ArrowRight } from "lucide-react";
 import PreviewWrapper from "./preview-wrapper";
 import { QuestionTypeIcon } from "./question-type-icon";
-import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
-import { useState } from "react";
 
 interface QuestionTypeCardProps {
   type: QuestionTypeUI;

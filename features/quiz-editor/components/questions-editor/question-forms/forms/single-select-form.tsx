@@ -1,3 +1,6 @@
+import { Badge } from "@/components/ui/badge";
+import QuestionSectionTypeTitle from "../question-section-type-title";
+import { SectionCard } from "../section-card";
 import QuestionSection from "../question-section";
 
 interface Props {
@@ -5,11 +8,11 @@ interface Props {
 }
 
 export function SingleSelectForm({ questionId }: Props) {
- 
-
   return (
-    <div className="">
-     <QuestionSection questionId={questionId} />
-    </div>
+    <SectionCard
+      title={<QuestionSectionTypeTitle type="SINGLE_SELECT" />}
+    >
+      <QuestionSection questionId={questionId} />
+    </SectionCard>
   );
 }

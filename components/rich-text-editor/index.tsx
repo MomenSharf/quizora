@@ -1,7 +1,6 @@
 "use client";
 
 import Highlight from "@tiptap/extension-highlight";
-import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
@@ -10,10 +9,9 @@ import { TextStyleKit } from "@tiptap/extension-text-style";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
-import { FontSize } from "@tiptap/extension-text-style";
 
-import MenuBar from "./menu-bar";
 import { cn } from "@/lib/utils";
+import MenuBar from "./menu-bar";
 
 interface RichTextEditorProps {
   content: string;
@@ -66,12 +64,6 @@ export default function RichTextEditor({
 
       TextStyleKit,
 
-      // Link.configure({
-      //   openOnClick: false,
-      //   autolink: true,
-      //   linkOnPaste: true,
-      //   defaultProtocol: "https",
-      // }),
     ],
 
     content,

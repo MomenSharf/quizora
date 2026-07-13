@@ -4,15 +4,15 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { EmailSchema, emailSchema } from "@/lib/validation/auth.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconCheck, IconMail } from "@tabler/icons-react";
+import { IconMail } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import { Controller, useForm } from "react-hook-form";
 
-import { AuthMode } from "./auth-form-wrapper";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Spinner } from "@/components/ui/spinner";
+import { AuthMode } from "./auth-form-wrapper";
 
 export function AuthForm({ authMode }: { authMode: AuthMode }) {
   const form = useForm<EmailSchema>({

@@ -1,7 +1,6 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
   IconBell,
-  IconMoonStars,
   IconSearch
 } from "@tabler/icons-react";
 import { Button } from "../ui/button";
