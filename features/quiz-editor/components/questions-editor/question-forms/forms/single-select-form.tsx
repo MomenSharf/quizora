@@ -1,18 +1,28 @@
-import { Badge } from "@/components/ui/badge";
-import QuestionSectionTypeTitle from "../question-section-type-title";
-import { SectionCard } from "../section-card";
 import QuestionSection from "../question-section";
+import QuestionSectionTitle from "../section-title";
+import { SectionCard } from "../section-card";
+import { AnswerOptions } from "../answer-options";
+import { QuestionFormProps } from "../question-form-router";
 
-interface Props {
-  questionId: string;
-}
 
-export function SingleSelectForm({ questionId }: Props) {
+
+export function SingleSelectForm({ question, questionIndex }: QuestionFormProps) {
   return (
-    <SectionCard
-      title={<QuestionSectionTypeTitle type="SINGLE_SELECT" />}
-    >
-      <QuestionSection questionId={questionId} />
-    </SectionCard>
+    <div className="space-y-5">
+      <SectionCard
+        title={
+          <QuestionSectionTitle type="SINGLE_SELECT" title="Single Select" />
+        }
+      >
+        <QuestionSection question={question} questionIndex={questionIndex} />
+      </SectionCard>
+      <SectionCard
+        title={
+          <QuestionSectionTitle type="SINGLE_SELECT" title="Answer Content" />
+        }
+      >
+     <AnswerOptions questionIndex={questionIndex} />
+      </SectionCard>
+    </div>
   );
 }

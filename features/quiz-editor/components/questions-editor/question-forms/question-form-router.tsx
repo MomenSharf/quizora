@@ -4,13 +4,17 @@ import { useSelectedQuestion } from "@/features/quiz-editor/hooks/use-selected-q
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import QuestionTypeSelector from "../question-type-selector";
 import { SingleSelectForm } from "./forms/single-select-form";
+import { Question } from "@/features/quiz-editor/validation/question";
 
-interface Props {
-  questionId: string;
+
+
+export interface QuestionFormProps {
+  question: Question;
+  questionIndex: number;
 }
 
-export function QuestionFormRouter({ questionId }: Props) {
-  const FORM_MAP: Partial<Record<QuestionType, React.FC<Props>>> = {
+export function QuestionFormRouter() {
+  const FORM_MAP: Partial<Record<QuestionType, React.FC<QuestionFormProps>>> = {
     SINGLE_SELECT: SingleSelectForm,
     // MULTIPLE_SELECT: MultipleSelectForm,
     // TRUE_FALSE: TrueFalseForm,
@@ -23,28 +27,25 @@ export function QuestionFormRouter({ questionId }: Props) {
     // LOCATION: LocationForm,
   };
 
-  const { questionIndex, question } = useSelectedQuestion();
-  if (questionIndex === -1) {
+  const {question, questionIndex} = useSelectedQuestion();
+
+  if (questionIndex === -1 || !question ) {
     return null;
   }
 
   const type = question?.type;
 
-  if (!type) {
-    return <QuestionTypeSelector questionId={questionId} />;
-  }
-
   const Form = FORM_MAP[type];
 
   if (!Form) {
-    return <QuestionTypeSelector questionId={questionId} />;
+    return <QuestionTypeSelector questionId={question.id} />;
   }
 
   return (
     <div
       className="mx-auto w-full max-w-3xl"
     >
-      <Form questionId={questionId} />
+      <Form question={question} questionIndex={questionIndex}/>
     </div>
   );
 }

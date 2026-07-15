@@ -1,14 +1,15 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import { Providers } from "./provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
-const font = Outfit({
-  variable: "--font-outfit",
+
+const font = Plus_Jakarta_Sans({
+  variable: "--font-manrope",
   subsets: ["latin"],
 });
 

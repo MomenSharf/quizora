@@ -6,7 +6,7 @@ import { createBaseQuestion } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 export function createOrderingQuestion(): OrderingQuestion {
   return {
-...createBaseQuestion(),
+    ...createBaseQuestion(),
 
     type: QuestionType.ORDERING,
 
@@ -18,11 +18,13 @@ export function createOrderingQuestion(): OrderingQuestion {
           id: createId(),
           text: "",
           image: undefined,
+          explanation: "",
         },
         {
           id: createId(),
           text: "",
           image: undefined,
+          explanation: "",
         },
       ],
     },

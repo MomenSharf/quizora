@@ -1,24 +1,16 @@
 import RichTextEditor from "@/components/rich-text-editor";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { Controller, useWatch } from "react-hook-form";
-import QuestionEditorField from "./question-editor-field";
-import QuestionSectionHeader from "./question-section-type-title";
+import SectionField from "./section-field";
+import { QuestionFormProps } from "./question-form-router";
 
-const QuestionSection = ({ questionId }: { questionId: string }) => {
+const QuestionSection = ({ question, questionIndex }: QuestionFormProps) => {
   const { control } = useQuizForm();
-
-  const questions = useWatch({
-    control,
-    name: "questions",
-  });
-
-  const question = questions?.find((q) => q.id === questionId);
-  const questionIndex = questions?.findIndex((q) => q.id === questionId);
 
   if (!question) return null;
   return (
     <div className="space-y-3">
-      <QuestionEditorField
+      <SectionField
         label="Title"
         description="Provide a title for this question."
         required
@@ -35,8 +27,8 @@ const QuestionSection = ({ questionId }: { questionId: string }) => {
             />
           )}
         />
-      </QuestionEditorField>
-      <QuestionEditorField
+      </SectionField>
+      <SectionField
         label="Description"
         description="Provide a description for this question."
         optional
@@ -51,8 +43,8 @@ const QuestionSection = ({ questionId }: { questionId: string }) => {
             />
           )}
         />
-      </QuestionEditorField>
-      <QuestionEditorField
+      </SectionField>
+      <SectionField
         label="Hint"
         description="Provide a hint for this question."
         optional
@@ -67,7 +59,7 @@ const QuestionSection = ({ questionId }: { questionId: string }) => {
             />
           )}
         />
-      </QuestionEditorField>
+      </SectionField>
     </div>
   );
 };

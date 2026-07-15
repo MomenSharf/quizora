@@ -18,7 +18,7 @@ interface QuestionEditorFieldProps extends React.HTMLAttributes<HTMLDivElement> 
   action?: React.ReactNode;
 }
 
-export default function QuestionEditorField({
+const SectionField = ({
   label,
   description,
   children,
@@ -27,7 +27,7 @@ export default function QuestionEditorField({
   optional,
   action,
   ...props
-}: QuestionEditorFieldProps) {
+}: QuestionEditorFieldProps) => {
   return (
     <div className={cn("flex flex-col gap-2 w-full", className)} {...props}>
       <div className="flex items-center justify-between gap-4 min-h-7">
@@ -70,3 +70,6 @@ export default function QuestionEditorField({
     </div>
   );
 }
+
+
+export default SectionField;

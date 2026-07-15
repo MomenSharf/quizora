@@ -22,8 +22,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
+import NavCreateNew from "./nav-create-new";
 import { NavMain } from "./nav-main";
-import { NavProjects } from "./nav-projects";
 import { SidebarLogo } from "./sidebar-logo";
 
 // This is sample data.
@@ -99,7 +99,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="px-2">
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavCreateNew />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
