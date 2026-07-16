@@ -10,14 +10,15 @@ import { cn } from "@/lib/utils";
 
 import { IconPlayerPlay } from "@tabler/icons-react";
 import { EDITOR_PANELS } from "../constants/editor-panels";
-import { useEditorStore } from "../store";
+import {
+  useActivePanel,
+  useEditorActions
+} from "../store";
 import MobileHeaderSheet from "./editor-header/quiz-mobile-header-sheet";
 
 const EditorNavigation = () => {
-  const {
-    setActivePanel,
-    navigation: { activePanel },
-  } = useEditorStore();
+  const activePanel = useActivePanel();
+  const {setActivePanel} = useEditorActions();
   return (
     <aside className="flex justify-between px-2 md:p-0 md:py-2">
       <div className="min-h-16.25 min-w-16.25 flex justify-center items-center md:flex-col md:justify-start  gap-2">

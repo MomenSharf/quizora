@@ -1,4 +1,3 @@
-import * as React from "react";
 import { IconHelpCircle } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,8 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-interface QuestionEditorFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SectionFieldProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   label: React.ReactNode;
   description?: React.ReactNode;
   children: React.ReactNode;
@@ -27,18 +27,21 @@ const SectionField = ({
   optional,
   action,
   ...props
-}: QuestionEditorFieldProps) => {
+}: SectionFieldProps) => {
   return (
-    <div className={cn("flex flex-col gap-2 w-full", className)} {...props}>
-      <div className="flex items-center justify-between gap-4 min-h-7">
-        <div className="flex items-center gap-2 min-w-0">
-          <label className="text-sm font-medium leading-none tracking-tight text-foreground select-none">
+    <div
+      className={cn("flex w-full flex-col gap-2", className)}
+      {...props}
+    >
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex min-w-0 items-center gap-2">
+          <label className="truncate text-sm font-medium text-foreground">
             {label}
           </label>
 
           {optional && !required && (
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60 select-none">
-              • Optional
+            <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Optional
             </span>
           )}
 
@@ -46,30 +49,33 @@ const SectionField = ({
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
                 <Button
-                  size="icon"
-                  variant="ghost"
                   type="button"
-                  className="size-5 ml-auto rounded-md text-muted-foreground/60 hover:bg-muted hover:text-foreground transition-colors duration-150"
+                  variant="ghost"
+                  size="icon"
+                  className="size-5 shrink-0 rounded-md p-0 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   <IconHelpCircle className="size-3.5" />
                   <span className="sr-only">Field description</span>
                 </Button>
               </TooltipTrigger>
 
-              <TooltipContent side="top">{description}</TooltipContent>
+              <TooltipContent side="top" className="max-w-xs">
+                {description}
+              </TooltipContent>
             </Tooltip>
           )}
         </div>
 
         {action && (
-          <div className="flex items-center gap-1.5 shrink-0">{action}</div>
+          <div className="flex shrink-0 items-center gap-2">
+            {action}
+          </div>
         )}
       </div>
 
-      <div className="relative w-full">{children}</div>
+      {children}
     </div>
   );
-}
-
+};
 
 export default SectionField;

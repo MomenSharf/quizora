@@ -38,6 +38,10 @@ function mapQuestion(question: PrismaQuiz["questions"][number]) {
     explanation: question.explanation ?? "",
     hint: question.hint ?? "",
 
+    tags: question.tags ?? [],
+
+    difficulty: question.difficulty ?? 'MEDIUM',
+
     required: true,
 
     points: question.points,

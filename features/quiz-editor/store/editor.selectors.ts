@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useShallow } from "zustand/react/shallow";
 
@@ -13,23 +13,22 @@ export const useEditor = () =>
     })),
   );
 
-export const useNavigation = () =>
-  useEditorStore((state) => state.navigation);
+export const useNavigation = () => useEditorStore((state) => state.navigation);
 
-export const useAutosave = () =>
-  useEditorStore((state) => state.autosave);
+export const useAutosave = () => useEditorStore((state) => state.autosave);
 
-export const useHistory = () =>
-  useEditorStore((state) => state.history);
+export const useHistory = () => useEditorStore((state) => state.history);
 
 export const useSelectedQuestionId = () =>
   useEditorStore((state) => state.navigation.selectedQuestionId);
 
+export const useIsTypeSelectorOpen = () =>
+  useEditorStore((state) => state.navigation.isTypeSelectorOpen);
+
 export const useActivePanel = () =>
   useEditorStore((state) => state.navigation.activePanel);
 
-export const useDirty = () =>
-  useEditorStore((state) => state.autosave.dirty);
+export const useDirty = () => useEditorStore((state) => state.autosave.dirty);
 
 export const useAutosaveEnabled = () =>
   useEditorStore((state) => state.autosave.enabled);
@@ -56,6 +55,7 @@ export const useEditorActions = () =>
   useEditorStore(
     useShallow((state) => ({
       selectQuestion: state.selectQuestion,
+      setTypeSelectorOpen: state.setTypeSelectorOpen,
       setActivePanel: state.setActivePanel,
       setDirty: state.setDirty,
       setAutosaveEnabled: state.setAutosaveEnabled,

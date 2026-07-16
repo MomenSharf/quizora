@@ -5,7 +5,7 @@ import { saveQuiz } from "../actions/save-quiz";
 import { useAutosaveEnabled, useEditorActions } from "../store";
 import { useQuizForm } from "./use-quiz-form";
 
-export function useAutosaveHook(debounceMs: number = 1500) {
+export function useAutosaveHook(debounceMs: number = 3000) {
   const {
     watch,
     getValues,
@@ -20,7 +20,7 @@ export function useAutosaveHook(debounceMs: number = 1500) {
   useEffect(() => {
     if (!isAutosaveEnabled) return;
 
-    const subscription = watch((value, { name, type }) => {
+    const subscription = watch(() => {
       if (!isDirty) return;
 
       setDirty(true);
@@ -51,12 +51,9 @@ export function useAutosaveHook(debounceMs: number = 1500) {
 
           setSaveState("error");
           setSaveError(message);
-          // toast.error(message);
+        
 
-          // Show a toast if you're using Sonner
-
-          // Or store it in your Zustand store if you have an error state
-          // setSaveError(message);
+          ;
         }
       }, debounceMs);
     });

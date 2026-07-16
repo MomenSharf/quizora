@@ -6,9 +6,12 @@ import { ReactNode, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { QuestionTypeIcon } from "../question-type-selector/question-type-icon";
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 interface SectionCardProps {
-  title: ReactNode;
+  type: QuestionType;
+  title: string;
   children: ReactNode;
 
   actions?: ReactNode;
@@ -22,6 +25,7 @@ interface SectionCardProps {
 }
 
 export function SectionCard({
+  type,
   title,
   children,
   actions,
@@ -45,16 +49,21 @@ export function SectionCard({
     <section
       className={cn(
         "overflow-hidden rounded-xl border bg-card shadow-sm transition-shadow hover:shadow-md",
-        className
+        className,
       )}
     >
-      <header
+      <div
         className={cn(
           "flex items-center justify-between gap-4 px-5 py-4 transition-colors",
-          collapsible && "cursor-pointer hover:bg-muted/40"
+          collapsible && "hover:bg-muted/40",
         )}
       >
-        <div className="min-w-0 flex-1">{title}</div>
+        <div className="min-w-0 flex-1">
+          <div className="flex gap-2 items-center">
+            <QuestionTypeIcon type={type} />
+            <h3 className="font-medium">{title}</h3>
+          </div>
+        </div>
 
         <div
           className="flex items-center gap-1"
@@ -63,11 +72,7 @@ export function SectionCard({
           {actions}
 
           {settings ?? (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-8 rounded-lg"
-            >
+            <Button variant="ghost" size="icon" className="size-8 rounded-lg">
               <Settings2 className="size-4" />
             </Button>
           )}
@@ -76,7 +81,10 @@ export function SectionCard({
             <Button
               variant="ghost"
               size="icon"
-              className="size-8 rounded-lg"
+              className={cn(
+                "size-8 rounded-lg",
+                collapsible && "cursor-pointer",
+              )}
               onClick={toggle}
             >
               <motion.div
@@ -91,7 +99,7 @@ export function SectionCard({
             </Button>
           )}
         </div>
-      </header>
+      </div>
 
       <AnimatePresence initial={false}>
         {open && (

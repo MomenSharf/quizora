@@ -2,13 +2,20 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef } from "react";
-import { FormProvider, useForm, useFormContext, useWatch, type UseFormReturn } from "react-hook-form";
+import {
+  FormProvider,
+  useForm,
+  useFormContext,
+  useWatch,
+  type UseFormReturn,
+} from "react-hook-form";
 
 import { QuizEditorSchema, type QuizEditor } from "../validation/quiz";
 
 import { useEditorActions } from "../store";
 
 import { useSelectedQuestion } from "../hooks/use-selected-question";
+import { useAutosaveHook } from "../hooks/use-autosave";
 
 interface QuizEditorProviderProps {
   initialData: QuizEditor;
@@ -40,8 +47,6 @@ function useQuizEditorForm(initialData: QuizEditor): UseFormReturn<QuizEditor> {
 
   const previousId = useRef(initialData.id);
 
-  
-
   useEffect(() => {
     if (previousId.current !== initialData.id) {
       methods.reset(initialData);
@@ -53,23 +58,9 @@ function useQuizEditorForm(initialData: QuizEditor): UseFormReturn<QuizEditor> {
 }
 
 function QuizEditorEffects() {
-  const { control } = useFormContext<QuizEditor>();
+  const { reset } = useEditorActions();
 
-  const questions = useWatch({
-    control,
-    name: "questions",
-  });
-  const { reset, selectQuestion } = useEditorActions();
-  const { hasSelection} = useSelectedQuestion();
-
-  useEffect(() => {
-    if (!hasSelection) {
-      selectQuestion(questions[0].id);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questions, hasSelection]);
-
-  // useAutosaveHook();
+  useAutosaveHook();
   // useHistorySync();
 
   useEffect(() => {

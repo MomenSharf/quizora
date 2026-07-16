@@ -1,15 +1,25 @@
 "use client";
-import { useSelectedQuestion } from "../../hooks/use-selected-question";
-import { useSelectedQuestionId } from "../../store";
+import { useEffect, useRef } from "react";
 import { QuestionFormRouter } from "./question-forms/question-form-router";
+import { useIsTypeSelectorOpen, useSelectedQuestionId } from "../../store";
 
 const QuestionContent = () => {
-  const {question, questionIndex} = useSelectedQuestion();
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  const selectedQuestionId = useSelectedQuestionId();
+  const isTypeSelectorOpen = useIsTypeSelectorOpen();
 
-
+  useEffect(() => {
+    containerRef.current?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [selectedQuestionId, isTypeSelectorOpen]);
   return (
-    <div className="scrollbar-thin flex flex-col h-full overflow-y-auto">
+    <div
+      ref={containerRef}
+      className="scrollbar-thin flex flex-col h-full overflow-y-auto"
+    >
       <div className="flex flex-col gap-2 p-2">
         <QuestionFormRouter />
       </div>

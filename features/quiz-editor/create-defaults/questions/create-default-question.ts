@@ -1,5 +1,5 @@
 import { createId } from "@paralleldrive/cuid2";
-import { QuestionType } from "../../validation/question/base";
+import { Option, QuestionType } from "../../validation/question/base";
 import { Question } from "../../validation/question";
 import { createSingleSelectQuestion } from "./single-select-question";
 import { createMultipleSelectQuestion } from "./multiple-select-question";
@@ -13,8 +13,6 @@ import { createRangeQuestion } from "./range-question";
 import { createLocationQuestion } from "./location-question";
 import { createGuessQuestion } from "./guess-question";
 import { createTapFindQuestion } from "./tap-find-question";
-
-
 
 export function createQuestion(type: QuestionType): Question {
   switch (type) {
@@ -53,14 +51,23 @@ export function createQuestion(type: QuestionType): Question {
 
     case "TAP_FIND":
       return createTapFindQuestion();
-    
-      // TODO: Add dropdown question
-      // case "DROPDOWN":
-      //   return createDropdownQuestion();
+
+    // TODO: Add dropdown question
+    // case "DROPDOWN":
+    //   return createDropdownQuestion();
 
     default:
       return createSingleSelectQuestion();
   }
+}
+
+export function createDefaultOption(text: string): Option {
+  return {
+    id: createId(),
+    text,
+    image: undefined,
+    explanation: "",
+  };
 }
 
 export function createBaseQuestion() {
@@ -81,9 +88,9 @@ export function createBaseQuestion() {
 
     imageUrl: undefined,
 
-    tags: [],
-
     difficulty: "MEDIUM" as const,
+
+    tags: ["general"],
 
     media: {},
   };

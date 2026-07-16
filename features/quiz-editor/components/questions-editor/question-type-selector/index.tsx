@@ -5,7 +5,7 @@ import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types"
 import QuestionTypeHoverCard from "./question-type-hover-card";
 
 
-export default function QuestionTypeSelector({ questionId }: { questionId: string }) {
+export default function QuestionTypeSelector() {
   return (
     <div className="space-y-8">
      <div className="flex items-center justify-between gap-4">

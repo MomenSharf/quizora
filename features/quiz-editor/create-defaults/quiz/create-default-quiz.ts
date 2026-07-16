@@ -16,7 +16,7 @@ export function createDefaultQuiz() : QuizEditor {
       title: "Untitled Quiz",
       description: "",
       thumbnail: undefined,
-      tags: [],
+      tags: ['general'],
       language: "en",
       category: undefined,
     },

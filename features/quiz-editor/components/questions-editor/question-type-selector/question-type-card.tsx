@@ -6,13 +6,25 @@ import { IconHelp } from "@tabler/icons-react";
 import { ArrowRight } from "lucide-react";
 import PreviewWrapper from "./preview-wrapper";
 import { QuestionTypeIcon } from "./question-type-icon";
+import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
+import { useFieldArray } from "react-hook-form";
+import { useEditorActions } from "@/features/quiz-editor/store";
 
-interface QuestionTypeCardProps {
-  type: QuestionTypeUI;
-  onSelect?: (typeId: string) => void;
-}
+const QuestionTypeCard = ({ type }: { type: QuestionTypeUI }) => {
+  const { control } = useQuizForm();
 
-const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
+  const { selectQuestion } = useEditorActions();
+
+  const { append } = useFieldArray({
+    control,
+    name: `questions`,
+  });
+
+  const addQuestion = () => {
+    append(type.defaultQuestionData);
+    selectQuestion(type.defaultQuestionData.id);
+  };
+
   return (
     <div
       tabIndex={0}
@@ -20,10 +32,10 @@ const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          // handleClick()
+          addQuestion();
         }
       }}
-      onClick={() => onSelect?.(type.id)}
+      onClick={addQuestion}
       className={cn(
         "group relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-3xl border bg-card p-3 text-left transition-all duration-300",
         "hover:-translate-y-1 hover:scale-[1.015]",
@@ -43,20 +55,20 @@ const QuestionTypeCard = ({ type, onSelect }: QuestionTypeCardProps) => {
         )}
 
         <Dialog>
-  <DialogTrigger asChild>
-    <button
-      type="button"
-      className="sm:hidden rounded-md p-1 hover:text-primary"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <IconHelp className="size-4" />
-    </button>
-  </DialogTrigger>
+          <DialogTrigger asChild>
+            <button
+              type="button"
+              className="sm:hidden rounded-md p-1 hover:text-primary"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <IconHelp className="size-4" />
+            </button>
+          </DialogTrigger>
 
-  <DialogContent>
-    <PreviewWrapper type={type} />
-  </DialogContent>
-</Dialog>
+          <DialogContent>
+            <PreviewWrapper type={type} />
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-1">

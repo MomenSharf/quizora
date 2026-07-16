@@ -3,7 +3,7 @@ import { BaseQuestionSchema, OptionSchema } from "./base";
 
 
 export const OrderingDataSchema = z.object({
-  items: z
+  options: z
     .array(OptionSchema)
     .min(2)
     .max(50),

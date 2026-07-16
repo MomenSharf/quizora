@@ -15,9 +15,11 @@ export async function createNewQuiz(quiz: QuizEditor) {
     throw AppErrors.unauthorized("You must be logged in to create a quiz");
   }
 
+  const data = serializeNewQuiz(quiz, session.user.id);
+  
   try {
     const createdQuiz = await prisma.quiz.create({
-      data: serializeNewQuiz(quiz, session.user.id),
+      data,
       select: {
         id: true,
       },

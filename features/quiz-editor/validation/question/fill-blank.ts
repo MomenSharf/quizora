@@ -11,7 +11,7 @@ export const FillBlankBlockSchema = z.discriminatedUnion("type", [
   z.object({
     id: z.string(),
     type: z.literal("BLANK"),
-    blankid: z.string(),
+    blankId: z.string(),
   }),
 ]);
 

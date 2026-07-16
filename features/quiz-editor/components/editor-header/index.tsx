@@ -5,6 +5,7 @@ import { Icons } from "@/components/icons";
 import { EditableTitle } from "./editable-title";
 import QuizTabs from "./quiz-tabs";
 import MobileHeaderSheet from "./quiz-mobile-header-sheet";
+import { SaveStatus } from "./save-status";
 
 export default function EditorHeader() {
   return (
@@ -26,12 +27,7 @@ export default function EditorHeader() {
         <div className="min-w-0">
           <EditableTitle title="Quiz Title" />
 
-          <div className="mt-0.5 flex items-center gap-2">
-            <div className="size-1.5 rounded-full bg-emerald-500" />
-            <span className="text-xxs text-muted-foreground">
-              All changes saved
-            </span>
-          </div>
+          <SaveStatus />
         </div>
       </div>
 

@@ -16,16 +16,28 @@ import { cn } from "@/lib/utils";
 import { DragDropProvider } from "@dnd-kit/react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { useController, useFieldArray, useWatch } from "react-hook-form";
+import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
+import {
+  IconCheckbox,
+  IconCheckFilled,
+  IconCircle,
+  IconCircleCheckFilled,
+  IconSquare,
+  IconSquareCheckFilled,
+} from "@tabler/icons-react";
 
 function SortableAnswerOption({
   fieldId,
   index,
   autoResize,
+  type,
   textareaRef,
   questionIndex,
 }: {
   fieldId: string;
   index: number;
+  type: QuestionType;
   autoResize: (textarea: HTMLTextAreaElement) => void;
   textareaRef: (el: HTMLTextAreaElement | null) => void;
   questionIndex: number;
@@ -40,9 +52,14 @@ function SortableAnswerOption({
     name: `questions.${questionIndex}.content.options.${index}.text`,
   });
 
-  const correctOptionId = useWatch({
+  const singleCorrect = useWatch({
     control,
     name: `questions.${questionIndex}.content.correctOptionId`,
+  });
+
+  const multipleCorrect = useWatch({
+    control,
+    name: `questions.${questionIndex}.content.correctOptionIds`,
   });
 
   const { isDragging } = useSortable({
@@ -52,8 +69,36 @@ function SortableAnswerOption({
     handle: handleRef,
   });
 
-  const IsCorrect = correctOptionId === fieldId;
+  const isCorrect =
+    type === QuestionType.SINGLE_SELECT
+      ? singleCorrect === fieldId
+      : type === QuestionType.MULTIPLE_SELECT
+        ? multipleCorrect.includes(fieldId)
+        : false;
 
+  const toggleCorrect = () => {
+    if (type === QuestionType.SINGLE_SELECT) {
+      setValue(
+        `questions.${questionIndex}.content.correctOptionId`,
+        isCorrect ? "" : fieldId,
+        {
+          shouldDirty: true,
+        },
+      );
+
+      return;
+    }
+
+    if (type === QuestionType.MULTIPLE_SELECT) {
+      const next = isCorrect
+        ? multipleCorrect.filter((id) => id !== fieldId)
+        : [...multipleCorrect, fieldId];
+
+      setValue(`questions.${questionIndex}.content.correctOptionIds`, next, {
+        shouldDirty: true,
+      });
+    }
+  };
   return (
     <div
       ref={setElement}
@@ -76,26 +121,30 @@ function SortableAnswerOption({
       <div className="mt-1 flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold">
         {index + 1}
       </div>
-
-      <Button
-        size="icon"
-        variant={IsCorrect ? "default" : "outline"}
-        className="mt-1 size-9 shrink-0 rounded-full"
-        onClick={() => {
-          setValue(
-            `questions.${questionIndex}.content.correctOptionId`,
-            IsCorrect ? "" : fieldId,
-            {
-              shouldDirty: true,
-              shouldTouch: true,
-              shouldValidate: true,
-            },
-          );
-        }}
-      >
-        <Check className="size-4" />
-      </Button>
-
+      {type !== QuestionType.ORDERING && (
+        <button
+          type="button"
+          onClick={toggleCorrect}
+          className={cn(
+            "flex size-8 shrink-0 items-center justify-center rounded-md border transition-all duration-200 mt-1",
+            isCorrect
+              ? "border-primary bg-primary/10 text-primary shadow-sm"
+              : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-accent",
+          )}
+        >
+          {type === QuestionType.MULTIPLE_SELECT ? (
+            isCorrect ? (
+              <IconSquareCheckFilled className="size-5" />
+            ) : (
+              <IconSquare className="size-5" />
+            )
+          ) : isCorrect ? (
+            <IconCircleCheckFilled className="size-5" />
+          ) : (
+            <IconCircle className="size-5" />
+          )}
+        </button>
+      )}
       <button className="mt-1 flex size-14 shrink-0 items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted">
         <ImagePlus className="size-5 text-muted-foreground" />
       </button>
@@ -128,12 +177,15 @@ function SortableAnswerOption({
   );
 }
 
-interface Props {
-  questionIndex: number;
-}
-
-export function AnswerOptions({ questionIndex }: Props) {
+export function AnswerOptions({ questionIndex }: { questionIndex: number }) {
   const { control } = useQuizForm();
+
+  const question = useWatch({
+    control,
+    name: `questions.${questionIndex}`,
+  });
+
+  const type = question.type;
 
   const { fields, append, move } = useFieldArray({
     control,
@@ -168,6 +220,7 @@ export function AnswerOptions({ questionIndex }: Props) {
               key={field.id}
               fieldId={field.id}
               index={index}
+              type={type}
               autoResize={autoResize}
               textareaRef={(el) => {
                 textareas.current[index] = el;
@@ -182,7 +235,7 @@ export function AnswerOptions({ questionIndex }: Props) {
         variant="outline"
         className="h-12 w-full border-dashed text-muted-foreground hover:text-foreground"
         onClick={() => {
-          append(createSingleSelectQuestion().content.options[0]);
+          append(createDefaultOption(`Option ${fields.length + 1}`));
         }}
       >
         <Plus className="mr-2 size-4" />

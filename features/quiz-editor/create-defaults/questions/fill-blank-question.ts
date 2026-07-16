@@ -23,7 +23,7 @@ export function createFillBlankQuestion(): FillBlankQuestion {
         {
           id: createId(),
           type: "BLANK",
-          blankId,
+          blankId: blankId,
         },
       ],
 

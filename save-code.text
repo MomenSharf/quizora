@@ -1,104 +1,64 @@
 "use client";
 
-import Highlight from "@tiptap/extension-highlight";
-import Placeholder from "@tiptap/extension-placeholder";
-import Subscript from "@tiptap/extension-subscript";
-import Superscript from "@tiptap/extension-superscript";
-import TextAlign from "@tiptap/extension-text-align";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { useEffect } from "react";
-import MenuBar from "./menu-bar";
-import { TextStyleKit } from "@tiptap/extension-text-style";
-import Link from "@tiptap/extension-link";
+import {
+  IconAlertCircle,
+  IconCloudOff,
+  IconLoader2,
+  IconCircleCheckFilled,
+  IconPointFilled,
+} from "@tabler/icons-react";
 
-interface RichTextEditorProps {
-  content: string;
-  onChange: (content: string) => void;
-  placeholder?: string;
-}
+import { cn } from "@/lib/utils";
+import { useSaveStatus } from "../../hooks/use-save-status";
 
-export default function RichTextEditor({
-  content,
-  onChange,
-  placeholder = "Start typing...",
-}: RichTextEditorProps) {
-  
-  const editor = useEditor({
-    immediatelyRender: false,
-    shouldRerenderOnTransaction: true,
-
-    extensions: [
-      StarterKit.configure({
-        bulletList: {
-          HTMLAttributes: {
-            class: "list-disc ml-6",
-          },
-        },
-        orderedList: {
-          HTMLAttributes: {
-            class: "list-decimal ml-6",
-          },
-        },
-        heading: {
-          levels: [1, 2, 3, 4],
-        },
-      }),
-
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-
-      Highlight,
-
-      Placeholder.configure({
-        placeholder,
-      }),
-
-      Superscript,
-      Subscript,
-
-      TextStyleKit,
-
-      Link.configure({
-        openOnClick: false,
-        autolink: true,
-        linkOnPaste: true,
-        defaultProtocol: "https",
-        
-      }),
-    ],
-
-    content,
-
-    editorProps: {
-      attributes: {
-        class:
-          "min-h-[140px] rounded-md border bg-background px-4 py-3 focus:outline-none prose dark:prose-invert max-w-none",
-      },
-    },
-
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
-    },
-  });
-
-  useEffect(() => {
-    if (!editor) return;
-
-    if (editor.getHTML() !== content) {
-      editor.commands.setContent(content, {
-        emitUpdate: false,
-      });
-    }
-  }, [content, editor]);
-
-  if (!editor) return null;
+export function SaveStatus() {
+  const {
+    label,
+    isSaving,
+    isSaved,
+    isError,
+    isDisabled,
+    dirty,
+  } = useSaveStatus();
 
   return (
-    <div className="space-y-1 relative group">
-      <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
+    <div
+      className={cn(
+        "inline-flex h-8 items-center gap-2 rounded-full border px-3 text-xs font-medium transition-all",
+        isSaved &&
+          "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-400",
+        isSaving &&
+          "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900 dark:bg-blue-950/30 dark:text-blue-400",
+        dirty &&
+          !isSaving &&
+          "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-400",
+        isError &&
+          "border-destructive/20 bg-destructive/10 text-destructive",
+        isDisabled &&
+          "border-border bg-muted text-muted-foreground",
+      )}
+    >
+      {isSaving && (
+        <IconLoader2 className="size-4 animate-spin" />
+      )}
+
+      {isSaved && (
+        <IconCircleCheckFilled className="size-4" />
+      )}
+
+      {dirty && !isSaving && (
+        <IconPointFilled className="size-4 animate-pulse" />
+      )}
+
+      {isError && (
+        <IconAlertCircle className="size-4" />
+      )}
+
+      {isDisabled && (
+        <IconCloudOff className="size-4" />
+      )}
+
+      <span>{label}</span>
     </div>
   );
 }

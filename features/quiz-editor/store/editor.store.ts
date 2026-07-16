@@ -16,6 +16,16 @@ export const useEditorStore = create<EditorStore>()((set) => ({
       navigation: {
         ...state.navigation,
         selectedQuestionId,
+        isTypeSelectorOpen: false,
+      },
+    })),
+
+  setTypeSelectorOpen: (open) =>
+    set((state) => ({
+      navigation: {
+        ...state.navigation,
+        isTypeSelectorOpen: open,
+        selectedQuestionId: null ,
       },
     })),
 

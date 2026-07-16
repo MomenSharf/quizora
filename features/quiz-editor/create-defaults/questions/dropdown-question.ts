@@ -1,0 +1,32 @@
+
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
+import { DropdownQuestion } from "../../validation/question/dropdown";
+import { createBaseQuestion, createDefaultOption } from "./create-default-question";
+
+
+export function createDropdownQuestion(): DropdownQuestion {
+  const option1 = createDefaultOption("Option 1");
+  const option2 = createDefaultOption("Option 2");
+
+  return {
+    ...createBaseQuestion(),
+
+    type: QuestionType.DROPDOWN,
+
+    title: "Dropdown",
+
+    content: {
+      options: [option1, option2],
+      correctOptionId: option1.id,
+    },
+
+    config: {
+      randomizeOptions: false,
+      searchable: true,
+      clearable: true,  
+      placeholder: "Select an option",
+      showOptionLetters: true,
+
+    },
+  };
+}
