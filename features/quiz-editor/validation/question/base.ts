@@ -10,7 +10,7 @@ export const MediaSchema = z.object({
 });
 
 export const BaseQuestionSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string(),
 
   type: QuestionTypeSchema,
 
@@ -57,7 +57,7 @@ export const BaseQuestionSchema = z.object({
 });
 
 export const OptionSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string(),
 
   text: z
     .string()
@@ -85,7 +85,7 @@ export const ContentSchema = z.object({
 });
 
 export const AcceptedAnswerSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string(),
 
   value: z
     .string()

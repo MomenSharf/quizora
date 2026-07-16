@@ -98,7 +98,6 @@ const QuestionSelector = () => {
 
   const handleClick = (questionId: string) => {
     selectQuestion(questionId);
-    console.log(questionId);
   };
 
   return (

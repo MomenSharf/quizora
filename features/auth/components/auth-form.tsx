@@ -22,14 +22,13 @@ export function AuthForm({ authMode }: { authMode: AuthMode }) {
     },
     mode: "onChange",
   });
-
+// Todo: Add toast notifications
   async function onSubmit(data: EmailSchema) {
     try {
       await signIn("resend", {
         callbackUrl: "/",
         email: data.email,
       });
-      console.log("fds");
     } catch (error) {
       console.log(error);
     }

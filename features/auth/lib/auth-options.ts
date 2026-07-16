@@ -5,6 +5,7 @@ import Resend from "next-auth/providers/resend";
 import { sendVerificationRequest } from "./authSendRequest";
 import prisma from "@/lib/db/prisma";
 
+// TODO: even if the user is logged before the resend provider force the user to verify the email
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
 
@@ -16,6 +17,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   pages: {
     signIn: "/login",
+    // todo: Make Check Email page
+    // verifyRequest: "/check-email",
   },
 
   providers: [
@@ -28,7 +31,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       apiKey: process.env.AUTH_RESEND_KEY,
       from: process.env.EMAIL_FROM,
       async sendVerificationRequest({ identifier, url, provider }) {
-        await sendVerificationRequest({ identifier, url, provider : {from: provider.from} });
+        await sendVerificationRequest({
+          identifier,
+          url,
+          provider: { from: provider.from },
+        });
       },
     }),
   ],

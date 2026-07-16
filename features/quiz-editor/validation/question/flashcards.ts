@@ -2,7 +2,7 @@ import { z } from "zod";
 import { BaseQuestionSchema } from "./base";
 
 export const FlashcardSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string(),
 
   front: z.object({
     title: z.string().trim().max(200),

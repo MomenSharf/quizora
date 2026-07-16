@@ -8,7 +8,7 @@ import { QuestionSchema } from "../question";
 import { QuizStatus } from "@/lib/db/generated/prisma/enums";
 
 export const QuizEditorSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string(),
 
   slug: z.string().trim().optional(),
 

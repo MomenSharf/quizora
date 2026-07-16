@@ -20,5 +20,9 @@ export async function getQuiz(id: string) {
     throw AppErrors.notFound("Quiz not found");
   }
 
+  console.log("mapQuiz");
+  console.log(quiz);
+  
+
   return mapQuiz(quiz);
 }

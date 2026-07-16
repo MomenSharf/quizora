@@ -157,8 +157,6 @@ export function AnswerOptions({ questionIndex }: Props) {
           const sourceIndex = fields.findIndex((f) => f.id === sourceId);
           const targetIndex = fields.findIndex((f) => f.id === targetId);
 
-          console.log(sourceId, targetId); // firt
-
           if (sourceIndex !== -1 && targetIndex !== -1) {
             move(sourceIndex, targetIndex);
           }

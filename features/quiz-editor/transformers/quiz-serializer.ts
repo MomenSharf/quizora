@@ -40,9 +40,9 @@ function serializeQuestion(
 
     imageUrl: question.imageUrl,
 
-    tags: question.tags,
+    tags: question.tags ?? [],
 
-    difficulty: question.difficulty,
+    difficulty: question.difficulty ?? 'MEDIUM',
 
     content: question.content,
 
@@ -50,7 +50,47 @@ function serializeQuestion(
   };
 }
 
-export function serializeQuiz(
+export function serializeNewQuiz(
+  quiz: QuizEditor,
+  ownerId: string,
+): Prisma.QuizCreateInput {
+ 
+  
+  const questionCount = quiz.questions.length;
+
+  const totalPoints = quiz.questions.reduce(
+    (sum, question) => sum + question.points,
+    0,
+  );
+
+  return {
+    id: quiz.id,
+
+    owner: {
+      connect: {
+        id: ownerId,
+      },
+    },
+
+    title: quiz.info.title,
+    description: quiz.info.description,
+    slug: quiz.slug,
+    status: quiz.status,
+    version: quiz.version,
+    visibility: quiz.settings.visibility,
+    tags: quiz.info.tags,
+    appearance: serializeAppearance(quiz.appearance),
+    settings: serializeSettings(quiz),
+    questionCount,
+    totalPoints,
+
+    questions: {
+      create: quiz.questions.map(serializeQuestion),
+    },
+  };
+}
+
+export function serializeUpdateQuiz(
   quiz: QuizEditor,
 ): Prisma.QuizUpdateInput {
   const questionCount = quiz.questions.length;

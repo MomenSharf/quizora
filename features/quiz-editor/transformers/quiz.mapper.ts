@@ -45,17 +45,14 @@ function mapQuestion(question: PrismaQuiz["questions"][number]) {
     media: {
       image: question.imageUrl ?? undefined,
     },
-    
 
     content: question.content,
 
-    config: question.config ,
+    config: question.config,
   });
 }
 
-export function mapQuiz(
-  quiz: PrismaQuiz,
-): QuizEditor {
+export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
   return QuizEditorSchema.parse({
     id: quiz.id,
 
@@ -71,21 +68,16 @@ export function mapQuiz(
 
       thumbnail: undefined,
 
-      tags: quiz.tags,
-
+      tags: quiz.tags ,
+      
       language: "en",
 
       category: undefined,
     },
 
-    appearance: mapAppearance(
-      quiz.appearance,
-    ),
+    appearance: mapAppearance(quiz.appearance),
 
-    settings: mapSettings(
-      quiz.settings,
-      quiz.visibility,
-    ),
+    settings: mapSettings(quiz.settings, quiz.visibility),
 
     questions: [...quiz.questions]
       .sort((a, b) => a.order - b.order)

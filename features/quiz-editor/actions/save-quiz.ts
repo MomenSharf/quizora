@@ -6,7 +6,7 @@ import {
   type QuizEditor,
 } from "@/features/quiz-editor/validation/quiz";
 import prisma from "@/lib/db/prisma";
-import { serializeQuiz } from "../transformers/quiz-serializer";
+import { serializeUpdateQuiz } from "../transformers/quiz-serializer";
 
 export async function saveQuiz(input: QuizEditor) {
   const parsed = QuizEditorSchema.safeParse(input);
@@ -37,7 +37,7 @@ export async function saveQuiz(input: QuizEditor) {
       where: {
         id: quiz.id,
       },
-      data: serializeQuiz(quiz),
+      data: serializeUpdateQuiz(quiz),
     });
 
     return {

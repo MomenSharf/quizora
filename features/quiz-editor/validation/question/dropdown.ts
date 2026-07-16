@@ -7,7 +7,7 @@ export const DropdownDataSchema = z.object({
     .min(2)
     .max(100),
 
-  correctOptionId: z.string().cuid(),
+  correctOptionId: z.string(),
 });
 
 export const DropdownSettingsSchema = z.object({

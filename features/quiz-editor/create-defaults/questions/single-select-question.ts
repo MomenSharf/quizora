@@ -19,19 +19,19 @@ export function createSingleSelectQuestion(): SingleSelectQuestion {
       options: [
         {
           id: option1,
-          text: "",
+          text: "option 1",
           image: undefined,
           explanation: "",
         },
         {
           id: option2,
-          text: "",
+          text: "option 2",
           image: undefined,
           explanation: "",
         },
       ],
 
-      correctOptionId: option1,
+      correctOptionid: option1
     },
 
     config: {
