@@ -1,5 +1,6 @@
 import type { QuizEditor } from "@/features/quiz-editor/validation/quiz";
 import { Prisma } from "@/lib/db/generated/prisma/client";
+import { EditorState } from "../store";
 
 function serializeAppearance(
   appearance: QuizEditor["appearance"],
@@ -7,9 +8,7 @@ function serializeAppearance(
   return appearance satisfies Prisma.InputJsonValue;
 }
 
-function serializeSettings(
-  quiz: QuizEditor,
-): Prisma.InputJsonValue {
+function serializeSettings(quiz: QuizEditor): Prisma.InputJsonValue {
   return {
     ...quiz.settings,
     language: quiz.info.language,
@@ -42,7 +41,7 @@ function serializeQuestion(
 
     tags: question.tags ?? [],
 
-    difficulty: question.difficulty ?? 'MEDIUM',
+    difficulty: question.difficulty ?? "MEDIUM",
 
     content: question.content,
 
@@ -50,12 +49,15 @@ function serializeQuestion(
   };
 }
 
-export function serializeNewQuiz(
-  quiz: QuizEditor,
-  ownerId: string,
-): Prisma.QuizCreateInput {
- 
-  
+export function serializeNewQuiz({
+  quiz,
+  editorState,
+  ownerId,
+}: {
+  quiz: QuizEditor;
+  editorState: EditorState;
+  ownerId: string;
+}): Prisma.QuizCreateInput {
   const questionCount = quiz.questions.length;
 
   const totalPoints = quiz.questions.reduce(
@@ -81,6 +83,7 @@ export function serializeNewQuiz(
     tags: quiz.info.tags,
     appearance: serializeAppearance(quiz.appearance),
     settings: serializeSettings(quiz),
+    editorState: JSON.stringify(editorState),
     questionCount,
     totalPoints,
 
@@ -92,6 +95,7 @@ export function serializeNewQuiz(
 
 export function serializeUpdateQuiz(
   quiz: QuizEditor,
+  editorState: EditorState,
 ): Prisma.QuizUpdateInput {
   const questionCount = quiz.questions.length;
 
@@ -117,13 +121,11 @@ export function serializeUpdateQuiz(
 
     tags: quiz.info.tags,
 
-    appearance: serializeAppearance(
-      quiz.appearance,
-    ),
+    appearance: serializeAppearance(quiz.appearance),
 
-    settings: serializeSettings(
-      quiz,
-    ),
+    settings: serializeSettings(quiz),
+
+    editorState: JSON.stringify(editorState),
 
     questionCount,
 
@@ -132,9 +134,7 @@ export function serializeUpdateQuiz(
     questions: {
       deleteMany: {},
 
-      create: quiz.questions.map(
-        serializeQuestion,
-      ),
+      create: quiz.questions.map(serializeQuestion),
     },
   };
 }

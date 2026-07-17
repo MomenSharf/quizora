@@ -11,6 +11,12 @@ import {
 export const useEditorStore = create<EditorStore>()((set) => ({
   ...defaultEditorState,
 
+  setState: (state) =>
+    set((prev) => ({
+      ...prev,
+      ...state,
+    })),
+
   selectQuestion: (selectedQuestionId) =>
     set((state) => ({
       navigation: {

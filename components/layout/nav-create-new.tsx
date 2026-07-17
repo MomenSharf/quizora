@@ -1,12 +1,8 @@
 "use client";
 
-import {
-  IconLoader2,
-  IconPlus,
-} from "@tabler/icons-react";
+import { IconLoader2, IconPlus } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useTransition } from "react";
-
 
 import { createNewQuiz } from "@/features/quiz-editor/actions/create-new-quiz";
 import { createDefaultQuiz } from "@/features/quiz-editor/create-defaults/quiz/create-default-quiz";
@@ -26,21 +22,17 @@ export default function NavCreateNew() {
 
   const handleCreate = () => {
     startTransition(async () => {
-     try {
-  const result = await createNewQuiz(
-    createDefaultQuiz(),
-  );
+      try {
+        const result = await createNewQuiz();
 
-  toast.success("Quiz created successfully.");
+        toast.success("Quiz created successfully.");
 
-  router.push(`/quiz/${result.quizId}/editor`);
-} catch (error) {
-  toast.error(
-    error instanceof Error
-      ? error.message
-      : "Failed to create quiz.",
-  );
-}
+        router.push(`/quiz/${result.quizId}/editor`);
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : "Failed to create quiz.",
+        );
+      }
     });
   };
 
@@ -89,10 +81,7 @@ export default function NavCreateNew() {
                     className="animate-spin"
                   />
                 ) : (
-                  <IconPlus
-                    size={20}
-                    stroke={2.5}
-                  />
+                  <IconPlus size={20} stroke={2.5} />
                 )}
               </motion.div>
 

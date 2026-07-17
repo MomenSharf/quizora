@@ -1,23 +1,25 @@
 "use client";
 
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import {
-  IconTrophy
-} from "@tabler/icons-react";
-import { Button } from "../ui/button";
+import { Logo } from "../logo";
+import { cn } from "@/lib/utils";
 
 export function SidebarLogo() {
-  const { open } = useSidebar();
+  const { open, isMobile } = useSidebar();
+
+  const collapsed = !isMobile && !open;
 
   return (
-    <div className="flex w-full items-center gap-2 py-2">
-      <Button size="icon">
-        <IconTrophy className="size-5" stroke={2} />
-      </Button>
+    <div className="flex w-full items-center py-2">
+      <Logo
+        iconOnly={collapsed}
+        className="flex-1 gap-2"
+        containerClassName={cn(collapsed && "size-8")}
+        iconClassName={cn(collapsed && "size-4")}
+        textClassName="text-base font-semibold"
+      />
 
-      {open && <span className="truncate text-lg">QUIZORA</span>}
-
-      {open && <SidebarTrigger className="ml-auto cursor-pointer" />}
+      {!isMobile && open && <SidebarTrigger className="ml-auto" />}
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { saveQuiz } from "../actions/save-quiz";
-import { useAutosaveEnabled, useEditorActions } from "../store";
+import { defaultEditorState, useAutosaveEnabled, useEditorActions, useEditorStore } from "../store";
 import { useQuizForm } from "./use-quiz-form";
 
 export function useAutosaveHook(debounceMs: number = 3000) {
@@ -11,8 +11,15 @@ export function useAutosaveHook(debounceMs: number = 3000) {
     getValues,
     formState: { isDirty },
   } = useQuizForm();
-  const { setSaveState, setLastSavedAt, setLastAttemptAt, setDirty , setSaveError} =
-    useEditorActions();
+
+  
+  const {
+    setSaveState,
+    setLastSavedAt,
+    setLastAttemptAt,
+    setDirty,
+    setSaveError,
+  } = useEditorActions();
   const isAutosaveEnabled = useAutosaveEnabled();
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -32,13 +39,14 @@ export function useAutosaveHook(debounceMs: number = 3000) {
 
       timeoutRef.current = setTimeout(async () => {
         const payload = getValues();
+          const editorState = useEditorStore.getState();
         const now = new Date();
 
         setSaveState("saving");
         setLastAttemptAt(now);
 
         try {
-          await saveQuiz(payload);
+          await saveQuiz(payload, editorState);
 
           setSaveState("saved");
           setLastSavedAt(new Date());
@@ -51,9 +59,6 @@ export function useAutosaveHook(debounceMs: number = 3000) {
 
           setSaveState("error");
           setSaveError(message);
-        
-
-          ;
         }
       }, debounceMs);
     });
@@ -64,5 +69,16 @@ export function useAutosaveHook(debounceMs: number = 3000) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [watch, getValues, isDirty, isAutosaveEnabled, debounceMs, setSaveState, setLastSavedAt, setLastAttemptAt, setDirty, setSaveError]);
+  }, [
+    watch,
+    getValues,
+    isDirty,
+    isAutosaveEnabled,
+    debounceMs,
+    setSaveState,
+    setLastSavedAt,
+    setLastAttemptAt,
+    setDirty,
+    setSaveError,
+  ]);
 }

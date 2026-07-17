@@ -76,15 +76,21 @@ const data = {
     },
   ],
 };
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { open } = useSidebar();
+  const { open, isMobile } = useSidebar();
+
+  const collapsed = !isMobile && !open;
+
   return (
     <Sidebar collapsible="icon" className="bg-white dark:bg-sidebar" {...props}>
       <SidebarHeader className="relative">
-        <SidebarLogo />
+        <div className="flex items-center justify-between">
+          <SidebarLogo />
+          {isMobile && <SidebarTrigger className="ml-auto" />}
+        </div>
+
         <AnimatePresence>
-          {!open && (
+          {collapsed && (
             <motion.div
               initial={{ opacity: 0, x: 12 }}
               animate={{ opacity: 1, x: 0 }}
@@ -95,15 +101,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </motion.div>
           )}
         </AnimatePresence>
+
         <Separator className="space-y-2" />
       </SidebarHeader>
+
       <SidebarContent className="px-2">
         <NavMain items={data.navMain} />
         <NavCreateNew />
       </SidebarContent>
+
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
+
       <SidebarRail />
     </Sidebar>
   );

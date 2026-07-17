@@ -7,11 +7,14 @@ import {
 } from "@/features/quiz-editor/validation/quiz";
 import prisma from "@/lib/db/prisma";
 import { serializeUpdateQuiz } from "../transformers/quiz-serializer";
+import { EditorState } from "../store";
 
-export async function saveQuiz(input: QuizEditor) {
+export async function saveQuiz(input: QuizEditor, editorState: EditorState) {
   const parsed = QuizEditorSchema.safeParse(input);
 
   if (!parsed.success) {
+    console.error("#################### Invalid quiz data ####################"); 
+    console.error(" parsed.error.flatten()", parsed.error.flatten(), input);
     throw AppErrors.validation("Invalid quiz data", {
       issues: parsed.error.flatten(),
     });
@@ -37,7 +40,7 @@ export async function saveQuiz(input: QuizEditor) {
       where: {
         id: quiz.id,
       },
-      data: serializeUpdateQuiz(quiz),
+      data: serializeUpdateQuiz(quiz, editorState),
     });
 
     return {

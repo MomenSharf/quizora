@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Session } from "next-auth";
 
-// TODO: alot of data missing
 export function UserButton({ user }: {
   user: Session["user"] | null | undefined;
 }) {

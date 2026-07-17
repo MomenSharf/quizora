@@ -19,10 +19,10 @@ export default  async function Layout({
 }: LayoutProps) {
   const { quizId } = await params;
 
-  const quiz = await getQuiz(quizId);
+  const {quiz, editorState} = await getQuiz(quizId);
 
   return (
-    <QuizEditorProvider initialData={quiz}>
+    <QuizEditorProvider initialData={quiz} initialState={editorState}>
       <div className="flex h-screen flex-col overflow-hidden">
         <div className="flex flex-1 flex-col overflow-hidden md:grid md:grid-rows-[65px_1fr]">
           <EditorHeader />

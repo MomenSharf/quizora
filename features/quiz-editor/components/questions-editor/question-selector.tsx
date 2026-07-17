@@ -145,7 +145,6 @@ const QuestionSelector = () => {
       </div>
       <Button
         onClick={() => {
-          console.log("clicked");
           setTypeSelectorOpen(true);
         }}
         size="lg"

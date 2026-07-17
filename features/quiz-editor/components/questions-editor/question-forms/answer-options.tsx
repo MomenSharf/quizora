@@ -1,31 +1,22 @@
 "use client";
 
-import {
-  Check,
-  GripVertical,
-  ImagePlus,
-  MoreHorizontal,
-  Plus,
-} from "lucide-react";
+import { GripVertical, ImagePlus, MoreHorizontal, Plus } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { createSingleSelectQuestion } from "@/features/quiz-editor/create-defaults/questions/single-select-question";
+import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { cn } from "@/lib/utils";
 import { DragDropProvider } from "@dnd-kit/react";
 import { useSortable } from "@dnd-kit/react/sortable";
-import { useController, useFieldArray, useWatch } from "react-hook-form";
-import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
-import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import {
-  IconCheckbox,
-  IconCheckFilled,
   IconCircle,
   IconCircleCheckFilled,
   IconSquare,
   IconSquareCheckFilled,
 } from "@tabler/icons-react";
+import { useController, useFieldArray, useWatch } from "react-hook-form";
 
 function SortableAnswerOption({
   fieldId,
@@ -61,6 +52,8 @@ function SortableAnswerOption({
     control,
     name: `questions.${questionIndex}.content.correctOptionIds`,
   });
+
+  console.log(singleCorrect, multipleCorrect); // always undefined intially
 
   const { isDragging } = useSortable({
     id: fieldId,
@@ -103,76 +96,87 @@ function SortableAnswerOption({
     <div
       ref={setElement}
       className={cn(
-        "group flex items-start gap-3 rounded-xl border bg-card p-3 transition-all hover:border-primary/30 hover:shadow-sm focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
+        "group rounded-xl border bg-card p-3 transition-all",
+        "hover:border-primary/30 hover:shadow-sm",
+        "focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
         isDragging && "z-50 scale-[1.02] shadow-xl ring-2 ring-primary",
       )}
     >
-      <button
-        ref={handleRef}
-        className="mt-2 cursor-grab rounded-md p-1 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
-        <GripVertical className="size-5" />
-      </button>
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
+        <div className="flex items-center gap-2 lg:gap-3 max-lg:w-full">
+          <button
+            ref={handleRef}
+            className="cursor-grab rounded-md p-1 text-muted-foreground active:cursor-grabbing lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+            <GripVertical className="size-5" />
+          </button>
 
-      <div className="mt-1 flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold">
-        {index + 1}
-      </div>
-      {type !== QuestionType.ORDERING && (
-        <button
-          type="button"
-          onClick={toggleCorrect}
-          className={cn(
-            "flex size-8 shrink-0 items-center justify-center rounded-md border transition-all duration-200 mt-1",
-            isCorrect
-              ? "border-primary bg-primary/10 text-primary shadow-sm"
-              : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-accent",
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold">
+            {index + 1}
+          </div>
+
+          {type !== QuestionType.ORDERING && (
+            <button
+              type="button"
+              onClick={toggleCorrect}
+              className="flex size-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-all hover:bg-accent hover:text-primary active:scale-95"
+            >
+              {type === QuestionType.MULTIPLE_SELECT ? (
+                isCorrect ? (
+                  <IconSquareCheckFilled className="size-6 text-primary" />
+                ) : (
+                  <IconSquare className="size-6" />
+                )
+              ) : isCorrect ? (
+                <IconCircleCheckFilled className="size-6 text-primary" />
+              ) : (
+                <IconCircle className="size-6" />
+              )}
+            </button>
           )}
+
+          <button className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted lg:size-14">
+            <ImagePlus className="size-5 text-muted-foreground" />
+          </button>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
+          >
+            <MoreHorizontal className="size-5" />
+          </Button>
+        </div>
+
+        <div className="w-full rounded-lg border p-2">
+          <textarea
+            {...textField}
+            ref={(el) => {
+              textField.ref(el);
+              textareaRef(el);
+
+              if (el) {
+                requestAnimationFrame(() => autoResize(el));
+              }
+            }}
+            onInput={(e) => autoResize(e.currentTarget)}
+            rows={1}
+            placeholder={`Answer ${index + 1}`}
+            className="min-h-11 w-full resize-none overflow-hidden bg-transparent text-sm leading-6 outline-none placeholder:text-muted-foreground md:text-base"
+          />
+        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="max-lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
         >
-          {type === QuestionType.MULTIPLE_SELECT ? (
-            isCorrect ? (
-              <IconSquareCheckFilled className="size-5" />
-            ) : (
-              <IconSquare className="size-5" />
-            )
-          ) : isCorrect ? (
-            <IconCircleCheckFilled className="size-5" />
-          ) : (
-            <IconCircle className="size-5" />
-          )}
-        </button>
-      )}
-      <button className="mt-1 flex size-14 shrink-0 items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted">
-        <ImagePlus className="size-5 text-muted-foreground" />
-      </button>
-
-      <div className="p-1 border rounded-md w-full">
-        <textarea
-          {...textField}
-          ref={(el) => {
-            textField.ref(el);
-            textareaRef(el);
-
-            if (el) {
-              requestAnimationFrame(() => autoResize(el));
-            }
-          }}
-          onInput={(e) => autoResize(e.currentTarget)}
-          rows={1}
-          placeholder={`Answer ${index + 1}`}
-          className="w-full min-h-11 resize-y overflow-y-auto bg-transparent rounded-md text-sm leading-6 outline-none placeholder:text-muted-foreground"
-        />
+          <MoreHorizontal className="size-5" />
+        </Button>
       </div>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="mt-1 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
-      >
-        <MoreHorizontal className="size-5" />
-      </Button>
     </div>
   );
 }

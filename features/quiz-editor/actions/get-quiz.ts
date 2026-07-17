@@ -1,12 +1,11 @@
-// features/quiz-editor/actions/get-quiz.ts
 "use server";
 
 import prisma from "@/lib/db/prisma";
 import { AppErrors } from "@/lib/errors/app-errors";
-import { mapQuiz } from "../transformers/quiz.mapper";
+import { mapEditorState, mapQuiz } from "../transformers/quiz.mapper";
 
 export async function getQuiz(id: string) {
-  const quiz = await prisma.quiz.findUnique({
+  const record = await prisma.quiz.findUnique({
     where: {
       id,
     },
@@ -16,10 +15,12 @@ export async function getQuiz(id: string) {
   });
   
 
-  if (!quiz) {
+  if (!record) {
     throw AppErrors.notFound("Quiz not found");
   }
   
+  const quiz = mapQuiz(record);
+  const editorState = mapEditorState(record.editorState);
 
-  return mapQuiz(quiz);
+  return {quiz, editorState};
 }

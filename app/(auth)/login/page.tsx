@@ -1,5 +1,12 @@
-import AuthFormWrapper from "@/features/auth/components/auth-form-wrapper";
+import { LoginForm } from "@/features/auth/components/login-form";
+import { auth } from "@/features/auth/lib/auth-options";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
-  return <AuthFormWrapper authMode="login" />;
+export default async function LoginPage() {
+  const session = await auth();
+
+  if (session) {
+    return redirect("/");
+  }
+  return <LoginForm />;
 }

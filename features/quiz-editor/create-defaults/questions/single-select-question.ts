@@ -1,8 +1,7 @@
-import { createId } from "@paralleldrive/cuid2";
 
-import { createBaseQuestion, createDefaultOption } from "./create-default-question";
-import { SingleSelectQuestion } from "../../validation/question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
+import { SingleSelectQuestion } from "../../validation/question";
+import { createBaseQuestion, createDefaultOption } from "./create-default-question";
 
 
 export function createSingleSelectQuestion(): SingleSelectQuestion {

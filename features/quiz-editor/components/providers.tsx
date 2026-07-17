@@ -2,31 +2,32 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef } from "react";
-import {
-  FormProvider,
-  useForm,
-  useFormContext,
-  useWatch,
-  type UseFormReturn,
-} from "react-hook-form";
+import { FormProvider, useForm, type UseFormReturn } from "react-hook-form";
 
 import { QuizEditorSchema, type QuizEditor } from "../validation/quiz";
 
-import { useEditorActions } from "../store";
+import { EditorState, useEditorActions } from "../store";
 
-import { useSelectedQuestion } from "../hooks/use-selected-question";
 import { useAutosaveHook } from "../hooks/use-autosave";
 
 interface QuizEditorProviderProps {
   initialData: QuizEditor;
+  initialState: EditorState;
   children: React.ReactNode;
 }
 
 export function QuizEditorProvider({
   initialData,
+  initialState,
   children,
 }: QuizEditorProviderProps) {
   const methods = useQuizEditorForm(initialData);
+
+  const { setState } = useEditorActions();
+
+  useEffect(() => {
+    setState(initialState);
+  }, [initialState, setState]);
 
   return (
     <FormProvider {...methods}>

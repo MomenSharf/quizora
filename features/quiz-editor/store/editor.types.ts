@@ -51,6 +51,8 @@ export interface EditorState {
 }
 
 export interface EditorActions {
+  setState(state: Partial<EditorState>): void;
+  
   selectQuestion(questionId: string | null): void;
 
   setTypeSelectorOpen: (open: boolean) => void;

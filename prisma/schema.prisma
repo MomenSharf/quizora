@@ -11,6 +11,7 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String    @unique
+  password      String
   emailVerified DateTime?
   image         String?
 
@@ -56,41 +57,56 @@ model Session {
 }
 
 model VerificationToken {
+  id         String                @id @default(cuid())
   identifier String
   token      String
-  expires    DateTime
+  type       VerificationTokenType
 
-  @@id([identifier, token])
+  expires DateTime
+
+  attempts    Int @default(0)
+  maxAttempts Int @default(5)
+
+  createdAt DateTime @default(now())
+
+  @@index([identifier])
+}
+
+enum VerificationTokenType {
+  PASSWORD_RESET
+  EMAIL_VERIFICATION
 }
 
 model Quiz {
-  id          String  @id @default(cuid())
-  slug        String? @unique
+  id   String  @id @default(cuid())
+  slug String? @unique
 
   title       String
   description String? @db.Text
 
-  thumbnail   String?
+  thumbnail String?
 
-  language    String @default("en")
-  category    String?
+  language String  @default("en")
+  category String?
 
   ownerId String
-  owner   User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
   status     QuizStatus @default(DRAFT)
   visibility Visibility @default(PRIVATE)
 
-  version          Int @default(1)
+  version          Int  @default(1)
   publishedVersion Int?
 
   settings   Json
   appearance Json
 
-  tags String[] 
+  editorState Json
+
+  tags String[]
 
   questionCount Int   @default(0)
-  totalPoints  Float @default(0)
+  totalPoints   Float @default(0)
 
   questions Question[]
 
@@ -105,11 +121,12 @@ model Quiz {
   @@index([visibility])
   @@index([updatedAt])
 }
+
 model Question {
   id String @id @default(cuid())
 
   quizId String
-  quiz   Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
   type QuestionType
 
@@ -125,7 +142,7 @@ model Question {
 
   imageUrl String?
 
-  tags String[]  @default(["general"])
+  tags String[] @default(["general"])
 
   difficulty Difficulty @default(MEDIUM)
 

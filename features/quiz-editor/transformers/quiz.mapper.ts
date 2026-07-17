@@ -6,6 +6,7 @@ import {
 } from "@/features/quiz-editor/validation/quiz";
 import { QuestionSchema } from "@/features/quiz-editor/validation/question";
 import { Prisma } from "@/lib/db/generated/prisma/client";
+import { defaultEditorState, EditorState } from "../store";
 
 type PrismaQuiz = Prisma.QuizGetPayload<{
   include: {
@@ -87,4 +88,43 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
       .sort((a, b) => a.order - b.order)
       .map(mapQuestion),
   });
+}
+
+// fix this
+export function mapEditorState(state: Prisma.JsonValue): EditorState {
+  if (
+    !state ||
+    typeof state !== "object" ||
+    Array.isArray(state)
+  ) {
+    return defaultEditorState;
+  }
+
+  const editorState = state as Partial<EditorState>;
+
+  return {
+    navigation: {
+      activePanel:
+        editorState.navigation?.activePanel ?? "questions",
+      selectedQuestionId:
+        editorState.navigation?.selectedQuestionId ?? null,
+      isTypeSelectorOpen:
+        editorState.navigation?.isTypeSelectorOpen ?? false,
+    },
+    autosave: {
+      enabled:
+        editorState.autosave?.enabled ?? true,
+      dirty: false,
+      state: "idle",
+      error: null,
+      lastSavedAt: null,
+      lastAttemptAt: null,
+    },
+    history: {
+      canUndo: false,
+      canRedo: false,
+      index: 0,
+      size: 0,
+    },
+  };
 }

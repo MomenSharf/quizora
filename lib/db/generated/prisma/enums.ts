@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const VerificationTokenType = {
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION'
+} as const
+
+export type VerificationTokenType = (typeof VerificationTokenType)[keyof typeof VerificationTokenType]
+
+
 export const QuizStatus = {
   DRAFT: 'DRAFT',
   PUBLISHED: 'PUBLISHED',

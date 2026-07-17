@@ -54,6 +54,7 @@ export const useCanRedo = () =>
 export const useEditorActions = () =>
   useEditorStore(
     useShallow((state) => ({
+      setState: state.setState,
       selectQuestion: state.selectQuestion,
       setTypeSelectorOpen: state.setTypeSelectorOpen,
       setActivePanel: state.setActivePanel,

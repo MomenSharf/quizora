@@ -35,7 +35,7 @@ export default function RootLayout({
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col overflow-hidden">
+      <body className="min-h-full flex flex-col">
         <main>
           <Providers>{children}</Providers>
         </main>

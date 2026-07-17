@@ -10,7 +10,7 @@ export const MultipleSelectDataSchema = z.object({
     .max(20),
 
   correctOptionIds: z
-    .array(z.string().cuid())
+    .array(z.string())
     .min(1),
 });
 

@@ -2,21 +2,30 @@
 
 import { revalidatePath } from "next/cache";
 
-import type { QuizEditor } from "@/features/quiz-editor/validation/quiz";
 import { auth } from "@/features/auth/lib/auth-options";
-import { AppErrors } from "@/lib/errors/app-errors";
-import { serializeNewQuiz } from "../transformers/quiz-serializer";
 import prisma from "@/lib/db/prisma";
+import { AppErrors } from "@/lib/errors/app-errors";
+import { createDefaultQuiz } from "../create-defaults/quiz/create-default-quiz";
+import { defaultEditorState } from "../store";
+import { serializeNewQuiz } from "../transformers/quiz-serializer";
 
-export async function createNewQuiz(quiz: QuizEditor) {
+export async function createNewQuiz() {
   const session = await auth();
 
   if (!session?.user?.id) {
     throw AppErrors.unauthorized("You must be logged in to create a quiz");
   }
 
-  const data = serializeNewQuiz(quiz, session.user.id);
-  
+  const quiz = {
+    ...createDefaultQuiz(),
+  };
+
+  const data = serializeNewQuiz({
+    quiz,
+    editorState: defaultEditorState,
+    ownerId: session.user.id,
+  });
+
   try {
     const createdQuiz = await prisma.quiz.create({
       data,

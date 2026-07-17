@@ -1,37 +1,26 @@
-import { createId } from "@paralleldrive/cuid2";
 
-import type { MultipleSelectQuestion } from "../../validation/question/multiple-select";
-import { createBaseQuestion } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
+import type { MultipleSelectQuestion } from "../../validation/question/multiple-select";
+import {
+  createBaseQuestion,
+  createDefaultOption,
+} from "./create-default-question";
 
 export function createMultipleSelectQuestion(): MultipleSelectQuestion {
-  const option1 = createId();
-  const option2 = createId();
+  const option1 = createDefaultOption("Option 1");
+  const option2 = createDefaultOption("Option 2");
 
   return {
-   ...createBaseQuestion(),
+    ...createBaseQuestion(),
 
     type: QuestionType.MULTIPLE_SELECT,
 
     title: "Multiple Select",
 
     content: {
-      options: [
-        {
-          id: option1,
-          text: "",
-          image: undefined,
-          explanation: "",
-        },
-        {
-          id: option2,
-          text: "",
-          image: undefined,
-          explanation: "",
-        },
-      ],
+      options: [option1, option2],
 
-      correctOptionIds: [option1],
+      correctOptionIds: [option1.id],
     },
 
     config: {

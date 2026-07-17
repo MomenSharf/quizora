@@ -896,6 +896,7 @@ export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  password: 'password',
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
@@ -936,9 +937,14 @@ export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeo
 
 
 export const VerificationTokenScalarFieldEnum = {
+  id: 'id',
   identifier: 'identifier',
   token: 'token',
-  expires: 'expires'
+  type: 'type',
+  expires: 'expires',
+  attempts: 'attempts',
+  maxAttempts: 'maxAttempts',
+  createdAt: 'createdAt'
 } as const
 
 export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
@@ -959,6 +965,7 @@ export const QuizScalarFieldEnum = {
   publishedVersion: 'publishedVersion',
   settings: 'settings',
   appearance: 'appearance',
+  editorState: 'editorState',
   tags: 'tags',
   questionCount: 'questionCount',
   totalPoints: 'totalPoints',
@@ -1080,6 +1087,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'VerificationTokenType'
+ */
+export type EnumVerificationTokenTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationTokenType'>
+    
+
+
+/**
+ * Reference to a field of type 'VerificationTokenType[]'
+ */
+export type ListEnumVerificationTokenTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationTokenType[]'>
     
 
 
