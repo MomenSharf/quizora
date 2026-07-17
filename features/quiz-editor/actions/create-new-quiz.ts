@@ -16,13 +16,20 @@ export async function createNewQuiz() {
     throw AppErrors.unauthorized("You must be logged in to create a quiz");
   }
 
-  const quiz = {
-    ...createDefaultQuiz(),
-  };
+  const quiz = createDefaultQuiz();
+
+  const editorState = {
+  ...defaultEditorState,
+  navigation: {
+    ...defaultEditorState.navigation,
+    selectedQuestionId: quiz.questions[0]?.id ?? null,
+  },
+};
+
 
   const data = serializeNewQuiz({
     quiz,
-    editorState: defaultEditorState,
+    editorState: editorState,
     ownerId: session.user.id,
   });
 

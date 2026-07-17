@@ -26,6 +26,7 @@ export function QuizEditorProvider({
   const { setState } = useEditorActions();
 
   useEffect(() => {
+    console.log("initialState", initialState);
     setState(initialState);
   }, [initialState, setState]);
 

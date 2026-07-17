@@ -18,6 +18,7 @@ export async function getQuiz(id: string) {
   if (!record) {
     throw AppErrors.notFound("Quiz not found");
   }
+
   
   const quiz = mapQuiz(record);
   const editorState = mapEditorState(record.editorState);

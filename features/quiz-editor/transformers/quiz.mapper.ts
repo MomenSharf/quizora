@@ -92,15 +92,10 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
 
 // fix this
 export function mapEditorState(state: Prisma.JsonValue): EditorState {
-  if (
-    !state ||
-    typeof state !== "object" ||
-    Array.isArray(state)
-  ) {
-    return defaultEditorState;
-  }
-
-  const editorState = state as Partial<EditorState>;
+  const editorState: Partial<EditorState> =
+    typeof state === "string"
+      ? JSON.parse(state)
+      : (state as Partial<EditorState>);
 
   return {
     navigation: {

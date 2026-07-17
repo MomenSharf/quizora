@@ -53,7 +53,6 @@ function SortableAnswerOption({
     name: `questions.${questionIndex}.content.correctOptionIds`,
   });
 
-  console.log(singleCorrect, multipleCorrect); // always undefined intially
 
   const { isDragging } = useSortable({
     id: fieldId,

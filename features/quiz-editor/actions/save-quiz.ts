@@ -36,12 +36,14 @@ export async function saveQuiz(input: QuizEditor, editorState: EditorState) {
   }
 
   try {
-    await prisma.quiz.update({
+    const updatedQuiz = await prisma.quiz.update({
       where: {
         id: quiz.id,
       },
       data: serializeUpdateQuiz(quiz, editorState),
     });
+
+    console.log("updatedQuiz", updatedQuiz.editorState);
 
     return {
       success: true,
