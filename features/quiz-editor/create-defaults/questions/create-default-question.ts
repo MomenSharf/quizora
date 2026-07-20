@@ -13,8 +13,9 @@ import { createRangeQuestion } from "./range-question";
 import { createLocationQuestion } from "./location-question";
 import { createGuessQuestion } from "./guess-question";
 import { createTapFindQuestion } from "./tap-find-question";
+import { createDropdownQuestion } from "./dropdown-question";
 
-export function createQuestion(type: QuestionType): Question {
+export function createDefaultQuestion(type: QuestionType): Question {
   switch (type) {
     case "SINGLE_SELECT":
       return createSingleSelectQuestion();
@@ -52,9 +53,8 @@ export function createQuestion(type: QuestionType): Question {
     case "TAP_FIND":
       return createTapFindQuestion();
 
-    // TODO: Add dropdown question
-    // case "DROPDOWN":
-    //   return createDropdownQuestion();
+    case "DROPDOWN":
+      return createDropdownQuestion();
 
     default:
       return createSingleSelectQuestion();

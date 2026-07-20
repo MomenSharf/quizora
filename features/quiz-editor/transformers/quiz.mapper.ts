@@ -28,6 +28,36 @@ function mapSettings(
   };
 }
 
+export function mapEditorState(state: Prisma.JsonValue): EditorState {
+  const editorState = state as Partial<EditorState>;
+
+  return {
+    navigation: {
+      activePanel: editorState.navigation?.activePanel ?? "questions",
+      selectedQuestionId: editorState.navigation?.selectedQuestionId ?? null,
+      isTypeSelectorOpen: editorState.navigation?.isTypeSelectorOpen ?? false,
+    },
+    autosave: {
+      enabled: editorState.autosave?.enabled ?? true,
+      dirty: editorState.autosave?.dirty ?? false,
+      state: editorState.autosave?.state ?? "idle",
+      error: editorState.autosave?.error ?? null,
+      lastSavedAt: editorState.autosave?.lastSavedAt
+        ? new Date(editorState.autosave.lastSavedAt)
+        : null,
+      lastAttemptAt: editorState.autosave?.lastAttemptAt
+        ? new Date(editorState.autosave.lastAttemptAt)
+        : null,
+    },
+    history: {
+      canUndo: editorState.history?.canUndo ?? false,
+      canRedo: editorState.history?.canRedo ?? false,
+      index: editorState.history?.index ?? 0,
+      size: editorState.history?.size ?? 0,
+    },
+  };
+}
+
 function mapQuestion(question: PrismaQuiz["questions"][number]) {
   return QuestionSchema.parse({
     id: question.id,
@@ -41,7 +71,7 @@ function mapQuestion(question: PrismaQuiz["questions"][number]) {
 
     tags: question.tags ?? [],
 
-    difficulty: question.difficulty ?? 'MEDIUM',
+    difficulty: question.difficulty ?? "MEDIUM",
 
     required: true,
 
@@ -73,8 +103,8 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
 
       thumbnail: undefined,
 
-      tags: quiz.tags ,
-      
+      tags: quiz.tags,
+
       language: "en",
 
       category: undefined,
@@ -88,38 +118,4 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
       .sort((a, b) => a.order - b.order)
       .map(mapQuestion),
   });
-}
-
-// fix this
-export function mapEditorState(state: Prisma.JsonValue): EditorState {
-  const editorState: Partial<EditorState> =
-    typeof state === "string"
-      ? JSON.parse(state)
-      : (state as Partial<EditorState>);
-
-  return {
-    navigation: {
-      activePanel:
-        editorState.navigation?.activePanel ?? "questions",
-      selectedQuestionId:
-        editorState.navigation?.selectedQuestionId ?? null,
-      isTypeSelectorOpen:
-        editorState.navigation?.isTypeSelectorOpen ?? false,
-    },
-    autosave: {
-      enabled:
-        editorState.autosave?.enabled ?? true,
-      dirty: false,
-      state: "idle",
-      error: null,
-      lastSavedAt: null,
-      lastAttemptAt: null,
-    },
-    history: {
-      canUndo: false,
-      canRedo: false,
-      index: 0,
-      size: 0,
-    },
-  };
 }

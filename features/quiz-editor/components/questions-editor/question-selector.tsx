@@ -16,6 +16,7 @@ import {
 } from "../../store";
 import { QuizEditor } from "../../validation/quiz";
 import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
+import { QuestionActionsDropdown } from "./question-actions-dropdown";
 
 function Sortable({
   index,
@@ -43,21 +44,26 @@ function Sortable({
       className="w-full"
       data-shadow={isDragging || undefined}
     >
-      <Button
-        variant="ghost"
-        className={cn(
-          "w-full h-12 px-1.5 cursor-pointer transition-all duration-150",
-          {
-            "scale-[1.02] shadow-2xl ring-2 ring-primary opacity-90 z-50":
-              isDragging,
-            "border-primary/40 bg-primary/10 text-primary hover:border-primary/40 hover:bg-primary/10 hover:text-primary active:border-primary/40 active:bg-primary/10 active:text-primary":
-              isSelected,
-          },
-        )}
-        size="lg"
-        tabIndex={0}
-        onClick={handleClick}
-      >
+   <div
+  role="button"
+  tabIndex={0}
+  onClick={handleClick}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleClick();
+    }
+  }}
+  className={cn(buttonVariants({ variant: "ghost"}),
+    "flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
+    {
+      "scale-[1.02] opacity-90 shadow-2xl ring-2 ring-primary z-50":
+        isDragging,
+      "border border-primary/40 bg-primary/10 text-primary hover:border-primary/40 hover:bg-primary/10 hover:text-primary":
+        isSelected,
+    },
+  )}
+>
         <div
           ref={handleRef}
           className={cn(buttonVariants({ variant: "ghost", size: "icon-xs" }))}
@@ -77,17 +83,8 @@ function Sortable({
         <p className="flex-1 truncate text-start">
           {question.title.replace(/<[^>]*>/g, "")}
         </p>
-        <div
-          className={cn(buttonVariants({ variant: "ghost", size: "icon-xs" }))}
-          tabIndex={0}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <IconDots className="text-muted-foreground" />
-        </div>
-      </Button>
+       <QuestionActionsDropdown question={question} />
+      </div>
     </li>
   );
 }
@@ -145,6 +142,7 @@ const QuestionSelector = () => {
       </div>
       <Button
         onClick={() => {
+          selectQuestion(null);
           setTypeSelectorOpen(true);
         }}
         size="lg"

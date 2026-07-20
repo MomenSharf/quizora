@@ -16,6 +16,31 @@ function serializeSettings(quiz: QuizEditor): Prisma.InputJsonValue {
   } satisfies Prisma.InputJsonValue;
 }
 
+function serializeEditorState(
+  editorState: EditorState,
+): Prisma.InputJsonValue {
+  return {
+    navigation: {
+      activePanel: editorState.navigation.activePanel as string,
+      selectedQuestionId: editorState.navigation.selectedQuestionId,
+      isTypeSelectorOpen: editorState.navigation.isTypeSelectorOpen,
+    },
+    autosave: {
+      enabled: editorState.autosave.enabled,
+      dirty: editorState.autosave.dirty,
+      state: editorState.autosave.state as string,
+      error: editorState.autosave.error,
+      lastSavedAt: editorState.autosave.lastSavedAt?.toISOString() ?? null,
+      lastAttemptAt: editorState.autosave.lastAttemptAt?.toISOString() ?? null,
+    },
+    history: {
+      canUndo: editorState.history.canUndo,
+      canRedo: editorState.history.canRedo,
+      index: editorState.history.index,
+      size: editorState.history.size,
+    },
+  };
+}
 function serializeQuestion(
   question: QuizEditor["questions"][number],
   order: number,
@@ -83,7 +108,7 @@ export function serializeNewQuiz({
     tags: quiz.info.tags,
     appearance: serializeAppearance(quiz.appearance),
     settings: serializeSettings(quiz),
-    editorState: JSON.stringify(editorState),
+    editorState: serializeEditorState(editorState),
     questionCount,
     totalPoints,
 
@@ -125,7 +150,7 @@ export function serializeUpdateQuiz(
 
     settings: serializeSettings(quiz),
 
-    editorState: JSON.stringify(editorState),
+    editorState: serializeEditorState(editorState),
 
     questionCount,
 

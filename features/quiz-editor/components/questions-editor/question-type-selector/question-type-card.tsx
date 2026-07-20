@@ -9,6 +9,7 @@ import { QuestionTypeIcon } from "./question-type-icon";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { useFieldArray } from "react-hook-form";
 import { useEditorActions } from "@/features/quiz-editor/store";
+import { createDefaultQuestion } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 
 const QuestionTypeCard = ({ type }: { type: QuestionTypeUI }) => {
   const { control } = useQuizForm();
@@ -21,8 +22,9 @@ const QuestionTypeCard = ({ type }: { type: QuestionTypeUI }) => {
   });
 
   const addQuestion = () => {
-    append(type.defaultQuestionData);
-    selectQuestion(type.defaultQuestionData.id);
+    const newQuestion = createDefaultQuestion(type.id);
+    append(newQuestion)
+    selectQuestion(newQuestion.id);
   };
 
   return (

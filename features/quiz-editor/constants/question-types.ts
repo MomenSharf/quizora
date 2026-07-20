@@ -44,7 +44,6 @@ export type QuestionTypeUI = {
   isPopular?: boolean;
   isNew?: boolean;
   badge?: string;
-  defaultQuestionData: Question;
 };
 export const QUESTION_TYPES = [
   {
@@ -57,7 +56,6 @@ export const QUESTION_TYPES = [
     color: "#3B82F6",
     backgroundColor: "#EFF6FF",
     isPopular: true,
-    defaultQuestionData: createSingleSelectQuestion()
   },
 
   {
@@ -71,7 +69,6 @@ export const QUESTION_TYPES = [
     color: "#8B5CF6",
     backgroundColor: "#F5F3FF",
     isPopular: true,
-    defaultQuestionData: createMultipleSelectQuestion()
   },
 
   {
@@ -84,7 +81,6 @@ export const QUESTION_TYPES = [
     color: "#22C55E",
     backgroundColor: "#F0FDF4",
     isPopular: true,
-    defaultQuestionData: createTrueFalseQuestion()
   },
 
   {
@@ -96,7 +92,6 @@ export const QUESTION_TYPES = [
     icon: IconSelector,
     color: "#0F766E",
     backgroundColor: "#F0FDFA",
-    defaultQuestionData: createDropdownQuestion()
   }
   ,
 
@@ -110,7 +105,6 @@ export const QUESTION_TYPES = [
     color: "#10B981",
     backgroundColor: "#ECFDF5",
     isPopular: true,
-    defaultQuestionData: createTypeAnswerQuestion()
   },
 
   {
@@ -124,7 +118,6 @@ export const QUESTION_TYPES = [
     color: "#14B8A6",
     backgroundColor: "#F0FDFA",
     isPopular: true,
-    defaultQuestionData: createFillBlankQuestion()
   },
 
   {
@@ -136,7 +129,6 @@ export const QUESTION_TYPES = [
     icon: IconListNumbers,
     color: "#F59E0B",
     backgroundColor: "#FFFBEB",
-    defaultQuestionData: createOrderingQuestion()
   },
 
   {
@@ -149,7 +141,6 @@ export const QUESTION_TYPES = [
     icon: IconArrowsExchange,
     color: "#06B6D4",
     backgroundColor: "#ECFEFF",
-    defaultQuestionData: createMatchQuestion()
   },
 
   {
@@ -161,7 +152,6 @@ export const QUESTION_TYPES = [
     icon: IconCards,
     color: "#EC4899",
     backgroundColor: "#FDF2F8",
-    defaultQuestionData: createFlashcardsQuestion()
   },
 
   {
@@ -173,7 +163,6 @@ export const QUESTION_TYPES = [
     icon: IconArrowsLeftRight,
     color: "#F97316",
     backgroundColor: "#FFF7ED",
-    defaultQuestionData: createRangeQuestion()
   },
 
   {
@@ -186,7 +175,6 @@ export const QUESTION_TYPES = [
     color: "#EF4444",
     backgroundColor: "#FEF2F2",
     badge: "Map",
-    defaultQuestionData: createLocationQuestion() 
   },
 
   {
@@ -198,7 +186,6 @@ export const QUESTION_TYPES = [
     icon: IconTargetArrow,
     color: "#6366F1",
     backgroundColor: "#EEF2FF",
-    defaultQuestionData: createGuessQuestion()
   },
 
   {
@@ -211,7 +198,6 @@ export const QUESTION_TYPES = [
     color: "#0EA5E9",
     backgroundColor: "#F0F9FF",
     isNew: true,
-    defaultQuestionData: createTapFindQuestion()
   },
 ] satisfies readonly QuestionTypeUI[];
 

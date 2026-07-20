@@ -19,14 +19,14 @@ import {
 import { useController, useFieldArray, useWatch } from "react-hook-form";
 
 function SortableAnswerOption({
-  fieldId,
+  optionId,
   index,
   autoResize,
   type,
   textareaRef,
   questionIndex,
 }: {
-  fieldId: string;
+  optionId: string;
   index: number;
   type: QuestionType;
   autoResize: (textarea: HTMLTextAreaElement) => void;
@@ -53,9 +53,8 @@ function SortableAnswerOption({
     name: `questions.${questionIndex}.content.correctOptionIds`,
   });
 
-
   const { isDragging } = useSortable({
-    id: fieldId,
+    id: optionId,
     index,
     element,
     handle: handleRef,
@@ -63,16 +62,16 @@ function SortableAnswerOption({
 
   const isCorrect =
     type === QuestionType.SINGLE_SELECT
-      ? singleCorrect === fieldId
+      ? singleCorrect === optionId
       : type === QuestionType.MULTIPLE_SELECT
-        ? multipleCorrect.includes(fieldId)
+        ? multipleCorrect.includes(optionId)
         : false;
 
   const toggleCorrect = () => {
     if (type === QuestionType.SINGLE_SELECT) {
       setValue(
         `questions.${questionIndex}.content.correctOptionId`,
-        isCorrect ? "" : fieldId,
+        isCorrect ? "" : optionId,
         {
           shouldDirty: true,
         },
@@ -83,14 +82,15 @@ function SortableAnswerOption({
 
     if (type === QuestionType.MULTIPLE_SELECT) {
       const next = isCorrect
-        ? multipleCorrect.filter((id) => id !== fieldId)
-        : [...multipleCorrect, fieldId];
+        ? multipleCorrect.filter((id) => id !== optionId)
+        : [...multipleCorrect, optionId];
 
       setValue(`questions.${questionIndex}.content.correctOptionIds`, next, {
         shouldDirty: true,
       });
     }
   };
+
   return (
     <div
       ref={setElement}
@@ -168,6 +168,7 @@ function SortableAnswerOption({
             className="min-h-11 w-full resize-none overflow-hidden bg-transparent text-sm leading-6 outline-none placeholder:text-muted-foreground md:text-base"
           />
         </div>
+
         <Button
           variant="ghost"
           size="icon"
@@ -180,7 +181,11 @@ function SortableAnswerOption({
   );
 }
 
-export function AnswerOptions({ questionIndex }: { questionIndex: number }) {
+export function AnswerOptions({
+  questionIndex,
+}: {
+  questionIndex: number;
+}) {
   const { control } = useQuizForm();
 
   const question = useWatch({
@@ -193,6 +198,7 @@ export function AnswerOptions({ questionIndex }: { questionIndex: number }) {
   const { fields, append, move } = useFieldArray({
     control,
     name: `questions.${questionIndex}.content.options`,
+    keyName: "fieldKey",
   });
 
   const textareas = useRef<(HTMLTextAreaElement | null)[]>([]);
@@ -207,8 +213,10 @@ export function AnswerOptions({ questionIndex }: { questionIndex: number }) {
       <DragDropProvider
         onDragEnd={(event) => {
           if (event.canceled) return;
+
           const sourceId = event.operation.source?.id;
           const targetId = event.operation.target?.id;
+
           const sourceIndex = fields.findIndex((f) => f.id === sourceId);
           const targetIndex = fields.findIndex((f) => f.id === targetId);
 
@@ -220,8 +228,8 @@ export function AnswerOptions({ questionIndex }: { questionIndex: number }) {
         <div className="space-y-3">
           {fields.map((field, index) => (
             <SortableAnswerOption
-              key={field.id}
-              fieldId={field.id}
+              key={field.fieldKey}
+              optionId={field.id}
               index={index}
               type={type}
               autoResize={autoResize}
