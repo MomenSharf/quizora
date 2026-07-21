@@ -1,9 +1,9 @@
 "use client";
 
-import { Lightbulb } from "lucide-react";
-import { QuestionTypeIcon } from "./question-type-icon";
-import { PREVIEW_MAP } from "./preview-map";
 import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
+import { IconBulb } from "@tabler/icons-react";
+import { PREVIEW_MAP } from "./preview-map";
+import { QuestionTypeIcon } from "./question-type-icon";
 
 export default function PreviewWrapper({
   type,
@@ -34,7 +34,7 @@ export default function PreviewWrapper({
 
         <div className="rounded-xl border bg-muted/40 p-4">
           <div className="flex items-start gap-3">
-            <Lightbulb className="mt-0.5 size-4 shrink-0 text-amber-500" />
+            <IconBulb className="mt-0.5 size-4 shrink-0 text-amber-500" />
 
             <div>
               <p className="text-sm font-medium">Best for</p>

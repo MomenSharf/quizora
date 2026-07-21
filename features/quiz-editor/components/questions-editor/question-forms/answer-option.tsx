@@ -1,30 +1,34 @@
 "use client";
 
-import { GripVertical, ImagePlus, MoreHorizontal, Plus } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { cn } from "@/lib/utils";
-import { DragDropProvider } from "@dnd-kit/react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import {
   IconCircle,
   IconCircleCheckFilled,
+  IconDots,
+  IconGripVertical,
+  IconPhotoPlus,
   IconSquare,
   IconSquareCheckFilled,
 } from "@tabler/icons-react";
-import { useController, useFieldArray, useWatch } from "react-hook-form";
+import { useController, useWatch } from "react-hook-form";
 
-function SortableAnswerOption({
+export default function AnswerOption({
   optionId,
   index,
   autoResize,
   type,
   textareaRef,
   questionIndex,
+  moveUp,
+  moveDown,
+  canMoveUp,
+  canMoveDown,
 }: {
   optionId: string;
   index: number;
@@ -32,6 +36,10 @@ function SortableAnswerOption({
   autoResize: (textarea: HTMLTextAreaElement) => void;
   textareaRef: (el: HTMLTextAreaElement | null) => void;
   questionIndex: number;
+  moveUp: () => void;
+  moveDown: () => void;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
 }) {
   const [element, setElement] = useState<Element | null>(null);
   const handleRef = useRef<HTMLButtonElement | null>(null);
@@ -111,7 +119,7 @@ function SortableAnswerOption({
               e.stopPropagation();
             }}
           >
-            <GripVertical className="size-5" />
+            <IconGripVertical  className="size-5" />
           </button>
 
           <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold">
@@ -139,7 +147,7 @@ function SortableAnswerOption({
           )}
 
           <button className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted lg:size-14">
-            <ImagePlus className="size-5 text-muted-foreground" />
+            <IconPhotoPlus  className="size-5 text-muted-foreground" />
           </button>
 
           <Button
@@ -147,7 +155,7 @@ function SortableAnswerOption({
             size="icon"
             className="lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
           >
-            <MoreHorizontal className="size-5" />
+            <IconDots className="size-5" />
           </Button>
         </div>
 
@@ -165,7 +173,7 @@ function SortableAnswerOption({
             onInput={(e) => autoResize(e.currentTarget)}
             rows={1}
             placeholder={`Answer ${index + 1}`}
-            className="min-h-11 w-full resize-none overflow-hidden bg-transparent text-sm leading-6 outline-none placeholder:text-muted-foreground md:text-base"
+            className="h-11 min-h-11 w-full overflow-y-auto scrollbar-thin bg-transparent text-sm leading-6 outline-none placeholder:text-muted-foreground"
           />
         </div>
 
@@ -174,84 +182,9 @@ function SortableAnswerOption({
           size="icon"
           className="max-lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
         >
-          <MoreHorizontal className="size-5" />
+          <IconDots className="size-5" />
         </Button>
       </div>
-    </div>
-  );
-}
-
-export function AnswerOptions({
-  questionIndex,
-}: {
-  questionIndex: number;
-}) {
-  const { control } = useQuizForm();
-
-  const question = useWatch({
-    control,
-    name: `questions.${questionIndex}`,
-  });
-
-  const type = question.type;
-
-  const { fields, append, move } = useFieldArray({
-    control,
-    name: `questions.${questionIndex}.content.options`,
-    keyName: "fieldKey",
-  });
-
-  const textareas = useRef<(HTMLTextAreaElement | null)[]>([]);
-
-  const autoResize = (textarea: HTMLTextAreaElement) => {
-    textarea.style.height = "0px";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
-
-  return (
-    <div className="space-y-3 p-4">
-      <DragDropProvider
-        onDragEnd={(event) => {
-          if (event.canceled) return;
-
-          const sourceId = event.operation.source?.id;
-          const targetId = event.operation.target?.id;
-
-          const sourceIndex = fields.findIndex((f) => f.id === sourceId);
-          const targetIndex = fields.findIndex((f) => f.id === targetId);
-
-          if (sourceIndex !== -1 && targetIndex !== -1) {
-            move(sourceIndex, targetIndex);
-          }
-        }}
-      >
-        <div className="space-y-3">
-          {fields.map((field, index) => (
-            <SortableAnswerOption
-              key={field.fieldKey}
-              optionId={field.id}
-              index={index}
-              type={type}
-              autoResize={autoResize}
-              textareaRef={(el) => {
-                textareas.current[index] = el;
-              }}
-              questionIndex={questionIndex}
-            />
-          ))}
-        </div>
-      </DragDropProvider>
-
-      <Button
-        variant="outline"
-        className="h-12 w-full border-dashed text-muted-foreground hover:text-foreground"
-        onClick={() => {
-          append(createDefaultOption(`Option ${fields.length + 1}`));
-        }}
-      >
-        <Plus className="mr-2 size-4" />
-        Add another option
-      </Button>
     </div>
   );
 }

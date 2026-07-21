@@ -1,7 +1,7 @@
 "use client";
 
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import { ChevronDown } from "lucide-react";
+import { IconChevronDown } from "@tabler/icons-react";
 
 export default function DropdownPreview() {
   const type = QUESTION_TYPES.find((t) => t.id === "DROPDOWN");
@@ -24,7 +24,7 @@ export default function DropdownPreview() {
       >
         <span className="text-sm font-medium">Paris</span>
 
-        <ChevronDown
+        <IconChevronDown
           className="size-4 transition-transform"
           style={{ color }}
         />

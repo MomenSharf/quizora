@@ -1,6 +1,5 @@
 import { IconHelpCircle } from "@tabler/icons-react";
 
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -18,64 +17,52 @@ interface SectionFieldProps
   action?: React.ReactNode;
 }
 
-const SectionField = ({
+export default function SectionField({
   label,
   description,
   children,
   className,
-  required,
   optional,
   action,
   ...props
-}: SectionFieldProps) => {
+}: SectionFieldProps) {
   return (
     <div
-      className={cn("flex w-full flex-col gap-2", className)}
+      className={cn("space-y-2", className)}
       {...props}
     >
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex min-w-0 items-center gap-2">
-          <label className="truncate text-sm font-medium text-foreground">
-            {label}
-          </label>
+      <div className="flex flex-wrap items-center gap-2">
+        <label className="text-sm font-medium">
+          {label}
+        </label>
 
-          {optional && !required && (
-            <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Optional
-            </span>
-          )}
-
-          {description && (
-            <Tooltip delayDuration={200}>
-              <TooltipTrigger asChild>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="size-5 shrink-0 rounded-md p-0 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                >
-                  <IconHelpCircle className="size-3.5" />
-                  <span className="sr-only">Field description</span>
-                </Button>
-              </TooltipTrigger>
-
-              <TooltipContent side="top" className="max-w-xs">
-                {description}
-              </TooltipContent>
-            </Tooltip>
-          )}
-        </div>
-
-        {action && (
-          <div className="flex shrink-0 items-center gap-2">
-            {action}
-          </div>
+        {optional && (
+          <span className="text-xs text-muted-foreground">
+            Optional
+          </span>
         )}
+
+        {description && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                className="inline-flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
+              >
+                <IconHelpCircle className="size-4" />
+              </button>
+            </TooltipTrigger>
+
+            <TooltipContent>
+              {description}
+            </TooltipContent>
+          </Tooltip>
+        )}
+
+        {action && <div className="ml-auto">{action}</div>}
       </div>
 
       {children}
     </div>
   );
-};
-
-export default SectionField;
+}

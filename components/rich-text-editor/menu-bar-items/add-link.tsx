@@ -1,8 +1,7 @@
 "use client";
 
+import { IconLink, IconTrash } from "@tabler/icons-react";
 import type { Editor } from "@tiptap/react";
-import { IconLink } from "@tabler/icons-react";
-import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -104,7 +103,7 @@ export function AddLink({ editor }: AddLinkProps) {
             onClick={handleRemove}
             disabled={!isActive}
           >
-            <Trash2 className="mr-2 size-4" />
+            <IconTrash className="mr-2 size-4" />
             Remove
           </Button>
 

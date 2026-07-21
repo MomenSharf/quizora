@@ -5,15 +5,14 @@ import { createBaseQuestion, createDefaultOption } from "./create-default-questi
 
 
 export function createDropdownQuestion(): DropdownQuestion {
-  const option1 = createDefaultOption("Option 1");
-  const option2 = createDefaultOption("Option 2");
+  const option1 = createDefaultOption("");
+  const option2 = createDefaultOption("");
 
   return {
     ...createBaseQuestion(),
 
     type: QuestionType.DROPDOWN,
 
-    title: "Dropdown",
 
     content: {
       options: [option1, option2],

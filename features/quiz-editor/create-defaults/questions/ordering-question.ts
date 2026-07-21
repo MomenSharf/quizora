@@ -6,14 +6,13 @@ import {
 } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 export function createOrderingQuestion(): OrderingQuestion {
-  const option1 = createDefaultOption("Option 1");
-  const option2 = createDefaultOption("Option 2");
+  const option1 = createDefaultOption("");
+  const option2 = createDefaultOption("");
   return {
     ...createBaseQuestion(),
 
     type: QuestionType.ORDERING,
 
-    title: "Order It",
 
     content: {
       options: [option1, option2],

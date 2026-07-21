@@ -171,6 +171,13 @@
   @apply underline underline-offset-4 transition-colors hover:text-primary/80;
 }
 
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
 
 .text-xxs {
   font-size: var(--text-xxs); /* 0.625rem = 10px */

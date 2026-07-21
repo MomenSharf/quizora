@@ -9,19 +9,10 @@ import prisma from "@/lib/db/prisma";
 import { serializeUpdateQuiz } from "../transformers/quiz-serializer";
 import { EditorState } from "../store";
 
-export async function saveQuiz(input: QuizEditor, editorState: EditorState) {
-  const parsed = QuizEditorSchema.safeParse(input);
-
-  if (!parsed.success) {
-    console.error("#################### Invalid quiz data ####################"); 
-    console.error(" parsed.error.flatten()", parsed.error.flatten(), input);
-    throw AppErrors.validation("Invalid quiz data", {
-      issues: parsed.error.flatten(),
-    });
-  }
-
-  const quiz = parsed.data;
-
+export async function saveQuiz(
+  quiz: QuizEditor,
+  editorState: EditorState,
+) {
   const exists = await prisma.quiz.findUnique({
     where: {
       id: quiz.id,
@@ -36,14 +27,12 @@ export async function saveQuiz(input: QuizEditor, editorState: EditorState) {
   }
 
   try {
-    const updatedQuiz = await prisma.quiz.update({
+    await prisma.quiz.update({
       where: {
         id: quiz.id,
       },
       data: serializeUpdateQuiz(quiz, editorState),
     });
-
-    console.log("updatedQuiz", updatedQuiz.editorState);
 
     return {
       success: true,

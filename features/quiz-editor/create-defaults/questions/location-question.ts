@@ -9,8 +9,6 @@ export function createLocationQuestion(): LocationQuestion {
 
     type: QuestionType.LOCATION,
 
-    title: "Location",
-
     content: {
       answer: [
         {

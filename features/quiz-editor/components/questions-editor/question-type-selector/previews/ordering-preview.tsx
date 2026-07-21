@@ -1,7 +1,7 @@
 "use client";
 
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import { GripVertical } from "lucide-react";
+import { IconGripVertical } from "@tabler/icons-react";
 
 export default function OrderingPreview() {
   const type = QUESTION_TYPES.find((t) => t.id === "ORDERING");
@@ -35,13 +35,13 @@ export default function OrderingPreview() {
 
             <span className="flex-1 text-sm">{item}</span>
 
-            <GripVertical className="size-4 text-muted-foreground" />
+            <IconGripVertical className="size-4 text-muted-foreground" />
           </div>
         ))}
       </div>
 
       <div className="flex items-center justify-center gap-2 rounded-lg border border-dashed py-2 text-xs text-muted-foreground">
-        <GripVertical className="size-3" />
+        <IconGripVertical className="size-3" />
         Drag to reorder
       </div>
     </div>

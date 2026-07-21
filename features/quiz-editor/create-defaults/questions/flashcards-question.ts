@@ -11,7 +11,6 @@ export function createFlashcardsQuestion(): FlashcardsQuestion {
 
     type: QuestionType.FLASHCARDS,
 
-    title: "Flashcards",
     
     content: {
       cards: [

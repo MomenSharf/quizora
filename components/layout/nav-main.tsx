@@ -7,8 +7,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { TablerIcon } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
+import { TablerIcon } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 
 export function NavMain({

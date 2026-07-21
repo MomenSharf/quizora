@@ -1,13 +1,14 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Settings2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { QuestionTypeIcon } from "../question-type-selector/question-type-icon";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
+import { cn } from "@/lib/utils";
+import { IconAdjustmentsHorizontal, IconChevronDown } from "@tabler/icons-react";
+import { QuestionTypeIcon } from "../question-type-selector/question-type-icon";
+import { Settings2 } from "lucide-react";
 
 interface SectionCardProps {
   type: QuestionType;
@@ -73,7 +74,7 @@ export function SectionCard({
 
           {settings ?? (
             <Button variant="ghost" size="icon" className="size-8 rounded-lg">
-              <Settings2 className="size-4" />
+              <Settings2   className="size-4" />
             </Button>
           )}
 
@@ -94,7 +95,7 @@ export function SectionCard({
                   ease: "easeInOut",
                 }}
               >
-                <ChevronDown className="size-4" />
+                <IconChevronDown className="size-4" />
               </motion.div>
             </Button>
           )}

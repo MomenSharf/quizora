@@ -1,7 +1,7 @@
 "use client";
 
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import { ArrowRight, GitCompareArrows } from "lucide-react";
+import { IconArrowRight, IconGitCompare } from "@tabler/icons-react";
 
 export default function MatchPreview() {
   const type = QUESTION_TYPES.find((t) => t.id === "MATCH");
@@ -28,7 +28,7 @@ export default function MatchPreview() {
               {left}
             </div>
 
-            <ArrowRight className="size-4 shrink-0" style={{ color }} />
+            <IconArrowRight className="size-4 shrink-0" style={{ color }} />
 
             <div
               className="flex-1 rounded-xl border px-3 py-2 text-sm"
@@ -44,7 +44,7 @@ export default function MatchPreview() {
       </div>
 
       <div className="flex items-center justify-center gap-2 rounded-lg border border-dashed py-2 text-xs text-muted-foreground">
-        <GitCompareArrows className="size-3" />
+        <IconGitCompare className="size-3" />
         Match each pair
       </div>
     </div>

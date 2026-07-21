@@ -1,7 +1,7 @@
 "use client";
 
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { IconCircleCheck, IconXboxX } from "@tabler/icons-react";
 
 export default function TrueFalsePreview() {
   const type = QUESTION_TYPES.find((t) => t.id === "TRUE_FALSE");
@@ -23,12 +23,12 @@ export default function TrueFalsePreview() {
             backgroundColor: `${color}1A`,
           }}
         >
-          <CheckCircle2 className="size-4" style={{ color }} />
+          <IconCircleCheck className="size-4" style={{ color }} />
           <span className="text-sm font-medium">True</span>
         </div>
 
         <div className="flex items-center gap-3 rounded-xl border bg-background px-3 py-2">
-          <XCircle className="size-4 text-muted-foreground" />
+          <IconXboxX  className="size-4 text-muted-foreground" />
           <span className="text-sm">False</span>
         </div>
       </div>

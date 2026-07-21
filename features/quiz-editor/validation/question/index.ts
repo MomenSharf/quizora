@@ -48,4 +48,5 @@ export * from "./range";
 export * from "./single-select";
 export * from "./tap-find";
 export * from "./true-false";
+export * from "./dropdown";
 export * from "./type-answer";

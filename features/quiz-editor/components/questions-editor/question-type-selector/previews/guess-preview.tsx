@@ -1,7 +1,7 @@
 "use client";
 
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import { Sparkles } from "lucide-react";
+import { IconSparkles } from "@tabler/icons-react";
 
 export default function GuessPreview() {
   const type = QUESTION_TYPES.find((t) => t.id === "GUESS");
@@ -21,7 +21,7 @@ export default function GuessPreview() {
             className="flex items-center gap-2"
             style={{ color }}
           >
-            <Sparkles className="size-4" />
+            <IconSparkles className="size-4" />
             <span className="text-xs font-medium uppercase tracking-wide">
               Clue #1
             </span>

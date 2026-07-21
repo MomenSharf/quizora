@@ -1,7 +1,7 @@
 "use client";
 
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import { Check } from "lucide-react";
+import { IconCheck } from "@tabler/icons-react";
 
 export default function MultipleSelectPreview() {
   const type = QUESTION_TYPES.find((t) => t.id === "MULTIPLE_SELECT");
@@ -34,7 +34,7 @@ export default function MultipleSelectPreview() {
             className="flex size-4 items-center justify-center rounded border"
             style={checkboxStyle}
           >
-            <Check className="size-3 text-white" />
+            <IconCheck className="size-3 text-white" />
           </div>
 
           <span className="text-sm font-medium">JavaScript</span>
@@ -48,7 +48,7 @@ export default function MultipleSelectPreview() {
             className="flex size-4 items-center justify-center rounded border"
             style={checkboxStyle}
           >
-            <Check className="size-3 text-white" />
+            <IconCheck className="size-3 text-white" />
           </div>
 
           <span className="text-sm font-medium">Python</span>

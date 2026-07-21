@@ -35,7 +35,6 @@ export const BaseQuestionSchema = z.object({
     .trim()
     .max(1000)
 ,
-  required: z.boolean(),
 
   points: z
     .number()

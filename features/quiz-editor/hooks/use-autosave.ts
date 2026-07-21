@@ -2,7 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import { saveQuiz } from "../actions/save-quiz";
-import { defaultEditorState, useAutosaveEnabled, useEditorActions, useEditorStore } from "../store";
+import {
+  defaultEditorState,
+  useAutosaveEnabled,
+  useEditorActions,
+  useEditorStore,
+} from "../store";
 import { useQuizForm } from "./use-quiz-form";
 
 export function useAutosaveHook(debounceMs: number = 3000) {
@@ -12,7 +17,6 @@ export function useAutosaveHook(debounceMs: number = 3000) {
     formState: { isDirty },
   } = useQuizForm();
 
-  
   const {
     setSaveState,
     setLastSavedAt,
@@ -39,7 +43,7 @@ export function useAutosaveHook(debounceMs: number = 3000) {
 
       timeoutRef.current = setTimeout(async () => {
         const payload = getValues();
-          const editorState = useEditorStore.getState();
+        const editorState = useEditorStore.getState();
         const now = new Date();
 
         setSaveState("saving");

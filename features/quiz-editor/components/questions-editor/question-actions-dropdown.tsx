@@ -1,14 +1,5 @@
 "use client";
 
-import {
-  ArrowDownToLine,
-  ArrowUpToLine,
-  Copy,
-  MoreHorizontal,
-  RotateCcw,
-  Target,
-  Trash2,
-} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -20,36 +11,39 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { createId } from "@paralleldrive/cuid2";
-import { useFieldArray } from "react-hook-form";
+import { IconArrowBarToDown, IconArrowBarToUp, IconCopy, IconDots, IconFocus, IconRotateClockwise, IconTrash } from "@tabler/icons-react";
+import { useWatch } from "react-hook-form";
 import { createDefaultQuestion } from "../../create-defaults/questions/create-default-question";
 import { useQuizForm } from "../../hooks/use-quiz-form";
+import { useSelectedQuestion } from "../../hooks/use-selected-question";
 import { useEditorActions } from "../../store";
 import { Question } from "../../validation/question";
 
-interface QuestionActionsDropdownProps {
-  onSelect?: () => void;
-  onDuplicate?: () => void;
-  onMoveToTop?: () => void;
-  onMoveToBottom?: () => void;
-  onReset?: () => void;
-  onDelete?: () => void;
-}
+export function QuestionActionsDropdown({
+  question,
+  moveUp,
+  moveDown,
+  canMoveUp,
+  canMoveDown,
+}: {
+  question: Question;
+  moveUp: () => void;
+  moveDown: () => void;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
+}) {
+  const { question: selectedQuestion } = useSelectedQuestion();
 
-export function QuestionActionsDropdown({ question }: { question: Question }) {
   const { selectQuestion } = useEditorActions();
 
-  const { control , setValue } = useQuizForm();
+  const { control, setValue } = useQuizForm();
 
-  const { append, fields, remove } = useFieldArray({
+  const questions = useWatch({
     control,
-    name: `questions`,
+    name: "questions",
   });
 
-  const questionIndex = fields.findIndex((q) => q.id === question.id);
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-  console.log(fields);
-  console.log(question.id); // this is different from questionIndex
-  console.log(questionIndex); // this is the same as question.id
+  const questionIndex = questions.findIndex((q) => q.id === question.id);
 
   const onSelect = () => {
     selectQuestion(question.id);
@@ -57,26 +51,46 @@ export function QuestionActionsDropdown({ question }: { question: Question }) {
 
   const onDuplicate = () => {
     const newQuestion = structuredClone(question);
+
     newQuestion.id = createId();
     newQuestion.title = `${question.title} (Copy)`;
-    append(newQuestion);
+
+    setValue("questions", [...questions, newQuestion]);
 
     setTimeout(() => {
       selectQuestion(newQuestion.id);
-    }, 100);
+    }, 50);
   };
 
   const onReset = () => {
-   setValue(`questions.${questionIndex}`, createDefaultQuestion(question.type));
+    if (questionIndex === -1) return;
+
+    const nextQuestions = [...questions];
+
+    nextQuestions[questionIndex] = {
+      ...createDefaultQuestion(question.type),
+      id: question.id,
+    };
+
+    setValue("questions", nextQuestions);
   };
+
   const onDelete = () => {
-    remove(questionIndex);
+    if (questionIndex === -1) return;
 
-    const nextQuestion = fields[questionIndex + 1] ?? fields[questionIndex - 1];
+    const nextQuestions = questions.filter((q) => q.id !== question.id);
 
-    selectQuestion(nextQuestion?.id ?? null);
+    setValue("questions", nextQuestions);
+
+    const nextSelected =
+      nextQuestions[questionIndex] ?? nextQuestions[questionIndex - 1];
+
+    setTimeout(() => {
+      if (question.id === selectedQuestion?.id) {
+        selectQuestion(nextSelected?.id ?? null);
+      }
+    }, 50);
   };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -85,7 +99,7 @@ export function QuestionActionsDropdown({ question }: { question: Question }) {
           variant="ghost"
           className="rounded-lg text-muted-foreground hover:text-foreground"
         >
-          <MoreHorizontal className="size-5" />
+          <IconDots className="size-5" />
         </Button>
       </DropdownMenuTrigger>
 
@@ -94,7 +108,7 @@ export function QuestionActionsDropdown({ question }: { question: Question }) {
           onClick={onSelect}
           className="cursor-pointer rounded-md"
         >
-          <Target className="mr-2 size-4" />
+          <IconFocus  className="mr-2 size-4" />
           Select
         </DropdownMenuItem>
 
@@ -102,25 +116,27 @@ export function QuestionActionsDropdown({ question }: { question: Question }) {
           onClick={onDuplicate}
           className="cursor-pointer rounded-md"
         >
-          <Copy className="mr-2 size-4" />
+          <IconCopy className="mr-2 size-4" />
           Duplicate
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          // onClick={onMoveToTop}
+          onClick={moveUp}
           className="cursor-pointer rounded-md"
+          disabled={!canMoveUp}
         >
-          <ArrowUpToLine className="mr-2 size-4" />
+          <IconArrowBarToUp  className="mr-2 size-4" />
           Move to top
         </DropdownMenuItem>
 
         <DropdownMenuItem
-          // onClick={onMoveToBottom}
+          onClick={moveDown}
           className="cursor-pointer rounded-md"
+          disabled={!canMoveDown}
         >
-          <ArrowDownToLine className="mr-2 size-4" />
+          <IconArrowBarToDown className="mr-2 size-4" />
           Move to bottom
         </DropdownMenuItem>
 
@@ -130,7 +146,7 @@ export function QuestionActionsDropdown({ question }: { question: Question }) {
           onClick={onReset}
           className="cursor-pointer rounded-md"
         >
-          <RotateCcw className="mr-2 size-4" />
+          <IconRotateClockwise className="mr-2 size-4" />
           Reset question
         </DropdownMenuItem>
 
@@ -138,9 +154,9 @@ export function QuestionActionsDropdown({ question }: { question: Question }) {
 
         <DropdownMenuItem
           onClick={onDelete}
-          className="cursor-pointer rounded-md text-destructive focus:text-destructive"
+          className="cursor-pointer rounded-md text-destructive focus:text-primary-foreground focus:bg-destructive group:"
         >
-          <Trash2 className="mr-2 size-4" />
+          <IconTrash className="mr-2 size-4 group-focus:text-destructive" />
           Delete question
         </DropdownMenuItem>
       </DropdownMenuContent>

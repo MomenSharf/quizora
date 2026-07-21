@@ -10,8 +10,6 @@ export function createMatchQuestion(): MatchQuestion {
 
     type: QuestionType.MATCH,
 
-    title: "Match It",
-
     content: {
       pairs: [
         {

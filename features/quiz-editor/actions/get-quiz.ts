@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/db/prisma";
 import { AppErrors } from "@/lib/errors/app-errors";
-import { mapEditorState, mapQuiz } from "../transformers/quiz.mapper";
+import { mapEditorState, mapQuiz } from "../transformers/quiz-mapper";
 
 export async function getQuiz(id: string) {
   const record = await prisma.quiz.findUnique({

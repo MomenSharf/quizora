@@ -10,8 +10,6 @@ export function createTapFindQuestion(): TapFindQuestion {
 
     type: QuestionType.TAP_FIND,
 
-    title: "tap & find",
-
     content: {
       image: "",
 

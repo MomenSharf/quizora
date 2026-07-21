@@ -10,8 +10,6 @@ export function createGuessQuestion(): GuessQuestion {
 
     type: QuestionType.GUESS,
 
-    title: "Guess It",
-
     content: {
       asset: {
         type: "IMAGE",

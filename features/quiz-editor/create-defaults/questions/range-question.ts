@@ -8,8 +8,6 @@ export function createRangeQuestion(): RangeQuestion {
 
     type: QuestionType.RANGE,
 
-    title: "Range",
-
     content: {
       min: 0,
 

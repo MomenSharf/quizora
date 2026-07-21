@@ -17,20 +17,6 @@ import {
 
 import { LucideIcon } from "lucide-react";
 import { QuestionType } from "../validation/question/base";
-import { createSingleSelectQuestion } from "../create-defaults/questions/single-select-question";
-import { Question } from "../validation/question";
-import { createMultipleSelectQuestion } from "../create-defaults/questions/multiple-select-question";
-import { createTrueFalseQuestion } from "../create-defaults/questions/true-false-question";
-import { createTypeAnswerQuestion } from "../create-defaults/questions/type-answer-question";
-import { createFillBlankQuestion } from "../create-defaults/questions/fill-blank-question";
-import { createOrderingQuestion } from "../create-defaults/questions/ordering-question";
-import { createMatchQuestion } from "../create-defaults/questions/match-question";
-import { createFlashcardsQuestion } from "../create-defaults/questions/flashcards-question";
-import { createLocationQuestion } from "../create-defaults/questions/location-question";
-import { createGuessQuestion } from "../create-defaults/questions/guess-question";
-import { createTapFindQuestion } from "../create-defaults/questions/tap-find-question";
-import { createRangeQuestion } from "../create-defaults/questions/range-question";
-import { createDropdownQuestion } from "../create-defaults/questions/dropdown-question";
 
 export type QuestionTypeUI = {
   id: QuestionType;

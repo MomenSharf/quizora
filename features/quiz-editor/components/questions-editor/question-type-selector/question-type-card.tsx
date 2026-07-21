@@ -1,15 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
+import { createDefaultQuestion } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
+import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
+import { useEditorActions } from "@/features/quiz-editor/store";
 import { cn } from "@/lib/utils";
-import { IconHelp } from "@tabler/icons-react";
-import { ArrowRight } from "lucide-react";
+import { IconArrowRight, IconHelp } from "@tabler/icons-react";
+import { useFieldArray } from "react-hook-form";
 import PreviewWrapper from "./preview-wrapper";
 import { QuestionTypeIcon } from "./question-type-icon";
-import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { useFieldArray } from "react-hook-form";
-import { useEditorActions } from "@/features/quiz-editor/store";
-import { createDefaultQuestion } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 
 const QuestionTypeCard = ({ type }: { type: QuestionTypeUI }) => {
   const { control } = useQuizForm();
@@ -95,7 +94,7 @@ const QuestionTypeCard = ({ type }: { type: QuestionTypeUI }) => {
             Create
           </span>
 
-          <ArrowRight className="size-4 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-primary group-hover:opacity-100" />
+          <IconArrowRight className="size-4 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-primary group-hover:opacity-100" />
         </div>
       </div>
 

@@ -10,8 +10,6 @@ export function createTypeAnswerQuestion(): TypeAnswerQuestion {
 
     type: QuestionType.TYPE_ANSWER,
 
-    title: 'type answer',
-
     content: {
       answers: [
         {

@@ -1,19 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import type { Editor as TiptapEditor } from "@tiptap/react";
-import CodeMirror from "@uiw/react-codemirror";
+import { autocompletion } from "@codemirror/autocomplete";
 import { html } from "@codemirror/lang-html";
 import { oneDark } from "@codemirror/theme-one-dark";
-import { autocompletion } from "@codemirror/autocomplete";
-import prettier from "prettier/standalone";
+import type { Editor as TiptapEditor } from "@tiptap/react";
+import CodeMirror from "@uiw/react-codemirror";
 import htmlParser from "prettier/plugins/html";
-import {
-  Code2,
-  Copy,
-  RotateCcw,
-  Wand2,
-} from "lucide-react";
+import prettier from "prettier/standalone";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { IconCode, IconCopy, IconRotateClockwise, IconWand } from "@tabler/icons-react";
 
 interface HtmlEditorDialogProps {
   editor: TiptapEditor;
@@ -70,7 +65,7 @@ export function HtmlEditorDialog({
     >
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
-          <Code2 className="mr-2 h-4 w-4" />
+          <IconCode className="mr-2 h-4 w-4" />
           HTML
         </Button>
       </DialogTrigger>
@@ -88,7 +83,7 @@ export function HtmlEditorDialog({
             variant="secondary"
             onClick={format}
           >
-            <Wand2 className="mr-2 h-4 w-4" />
+            <IconWand className="mr-2 h-4 w-4" />
             Format
           </Button>
 
@@ -97,7 +92,7 @@ export function HtmlEditorDialog({
             variant="secondary"
             onClick={copy}
           >
-            <Copy className="mr-2 h-4 w-4" />
+            <IconCopy className="mr-2 h-4 w-4" />
             Copy
           </Button>
 
@@ -106,7 +101,7 @@ export function HtmlEditorDialog({
             variant="secondary"
             onClick={reset}
           >
-            <RotateCcw className="mr-2 h-4 w-4" />
+            <IconRotateClockwise className="mr-2 h-4 w-4" />
             Reset
           </Button>
 

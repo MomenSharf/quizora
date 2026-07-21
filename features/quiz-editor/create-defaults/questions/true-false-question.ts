@@ -8,8 +8,6 @@ export function createTrueFalseQuestion(): TrueFalseQuestion {
 
     type: QuestionType.TRUE_FALSE,
 
-    title: "True / False",
-
     content: {
       correctAnswer: true,
     },

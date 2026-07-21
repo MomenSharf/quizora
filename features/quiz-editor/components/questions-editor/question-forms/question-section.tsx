@@ -24,6 +24,7 @@ const QuestionSection = ({ question, questionIndex }: QuestionFormProps) => {
               onChange={field.onChange}
               className="text-2xl font-semibold"
               fontSize="24px"
+              placeholder="Start typing..."
             />
           )}
         />
@@ -40,6 +41,7 @@ const QuestionSection = ({ question, questionIndex }: QuestionFormProps) => {
             <RichTextEditor
               content={field.value ?? ""}
               onChange={field.onChange}
+              placeholder="Start typing..."
             />
           )}
         />
@@ -56,6 +58,7 @@ const QuestionSection = ({ question, questionIndex }: QuestionFormProps) => {
             <RichTextEditor
               content={field.value ?? ""}
               onChange={field.onChange}
+              placeholder="Start typing..."
             />
           )}
         />

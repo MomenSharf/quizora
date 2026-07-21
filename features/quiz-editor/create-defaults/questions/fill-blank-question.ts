@@ -9,7 +9,6 @@ export function createFillBlankQuestion(): FillBlankQuestion {
 
   return {
     ...createBaseQuestion(),
-    title: "Fill in the Blank",
 
     type: QuestionType.FILL_BLANK,
 

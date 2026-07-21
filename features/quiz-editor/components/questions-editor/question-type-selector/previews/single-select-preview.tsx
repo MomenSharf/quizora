@@ -1,7 +1,7 @@
 "use client";
 
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
-import { CheckCircle2, Circle } from "lucide-react";
+import { IconCircle, IconCircleCheck } from "@tabler/icons-react";
 
 export default function SingleSelectPreview() {
   const type = QUESTION_TYPES.find((t) => t.id === "SINGLE_SELECT");
@@ -17,7 +17,7 @@ export default function SingleSelectPreview() {
 
       <div className="space-y-2">
         <div className="flex items-center gap-3 rounded-xl border bg-background px-3 py-2">
-          <Circle className="size-4 text-muted-foreground" />
+          <IconCircle className="size-4 text-muted-foreground" />
           <span className="text-sm">London</span>
         </div>
 
@@ -28,17 +28,17 @@ export default function SingleSelectPreview() {
             backgroundColor: `${color}1A`,
           }}
         >
-          <CheckCircle2 className="size-4" style={{ color }} />
+          <IconCircleCheck className="size-4" style={{ color }} />
           <span className="text-sm font-medium">Paris</span>
         </div>
 
         <div className="flex items-center gap-3 rounded-xl border bg-background px-3 py-2">
-          <Circle className="size-4 text-muted-foreground" />
+          <IconCircle className="size-4 text-muted-foreground" />
           <span className="text-sm">Rome</span>
         </div>
 
         <div className="flex items-center gap-3 rounded-xl border bg-background px-3 py-2">
-          <Circle className="size-4 text-muted-foreground" />
+          <IconCircle className="size-4 text-muted-foreground" />
           <span className="text-sm">Madrid</span>
         </div>
       </div>

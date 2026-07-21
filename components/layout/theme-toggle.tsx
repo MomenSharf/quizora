@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun } from "lucide-react";
-import { useSyncExternalStore, useState } from "react";
+import { IconMoon, IconSun } from "@tabler/icons-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState, useSyncExternalStore } from "react";
 import { Button } from "../ui/button";
 
 const emptySubscribe = () => () => {};
@@ -56,7 +56,7 @@ export function ThemeToggle() {
             exit={{ rotate: 90, scale: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <Moon className="size-4" />
+            <IconMoon className="size-4" />
           </motion.div>
         ) : (
           <motion.div
@@ -66,7 +66,7 @@ export function ThemeToggle() {
             exit={{ rotate: -90, scale: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <Sun className="size-4" />
+            <IconSun className="size-4" />
           </motion.div>
         )}
       </AnimatePresence>
