@@ -2,6 +2,12 @@ import { z } from "zod";
 import { BaseQuestionSchema, OptionSchema } from "./base";
 
 export const DropdownDataSchema = z.object({
+    label: z
+    .string()
+    .trim()
+    .min(1, "Label is required")
+    .max(100, "Label is too long"),
+
   options: z
     .array(OptionSchema)
     .min(2)

@@ -30,7 +30,7 @@ export default  async function Layout({
           <div className="flex flex-1 flex-col overflow-hidden md:grid md:grid-cols-[auto_1fr]">
             <EditorNavigation />
 
-            <div className="min-w-0 flex-1 overflow-hidden rounded-t-lg border bg-muted/30 dark:bg-muted/20 sm:rounded-t-xl md:rounded-tr-none md:rounded-tl-xl">
+            <div className="min-w-0 flex-1 overflow-y-auto md:overflow-hidden scrollbar-thin rounded-t-lg border bg-muted/30 dark:bg-muted/20 sm:rounded-t-xl md:rounded-tr-none md:rounded-tl-xl">
               {children}
             </div>
           </div>

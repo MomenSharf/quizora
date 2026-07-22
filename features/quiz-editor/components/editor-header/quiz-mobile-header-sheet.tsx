@@ -15,7 +15,7 @@ export default function MobileHeaderSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-xl md:hidden">
+        <Button variant="ghost" size="icon" className="rounded-xl">
           <IconMenu2 className="size-5" />
         </Button>
       </SheetTrigger>

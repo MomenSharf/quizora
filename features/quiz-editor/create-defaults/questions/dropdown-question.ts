@@ -15,6 +15,7 @@ export function createDropdownQuestion(): DropdownQuestion {
 
 
     content: {
+      label: "Dropdown",
       options: [option1, option2],
       correctOptionId: option1.id,
     },

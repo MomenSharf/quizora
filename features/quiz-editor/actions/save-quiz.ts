@@ -1,13 +1,12 @@
 "use server";
 
-import { AppErrors } from "@/lib/errors/app-errors";
 import {
-  QuizEditorSchema,
-  type QuizEditor,
+  type QuizEditor
 } from "@/features/quiz-editor/validation/quiz";
 import prisma from "@/lib/db/prisma";
-import { serializeUpdateQuiz } from "../transformers/quiz-serializer";
+import { AppErrors } from "@/lib/errors/app-errors";
 import { EditorState } from "../store";
+import { serializeUpdateQuiz } from "../transformers/quiz-serializer";
 
 export async function saveQuiz(
   quiz: QuizEditor,

@@ -1,11 +1,12 @@
+import { Icons } from "@/components/icons";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { IconChevronLeft, IconPlayerPlay } from "@tabler/icons-react";
-import { Icons } from "@/components/icons";
 import { EditableTitle } from "./editable-title";
-import QuizTabs from "./quiz-tabs";
 import MobileHeaderSheet from "./quiz-mobile-header-sheet";
+import QuizTabs from "./quiz-tabs";
 import { SaveStatus } from "./save-status";
+import SaveStatusMobile from "./save-status-mobile";
 
 export default function EditorHeader() {
   return (
@@ -36,22 +37,11 @@ export default function EditorHeader() {
       </div>
 
       <div className="flex items-center gap-2">
-        {/* Mobile Menu */}
-        <MobileHeaderSheet />
+        <ThemeToggle />
 
-        {/* Desktop actions */}
-        <div className="hidden items-center gap-2 md:flex">
-          <ThemeToggle />
-
-          <Button className="rounded-xl px-5">
-            <IconPlayerPlay className="size-4" />
-            Preview
-          </Button>
-        </div>
-
-        {/* Mobile Preview */}
-        <Button variant="outline" size="icon" className="rounded-xl md:hidden">
+        <Button className="rounded-xl px-5">
           <IconPlayerPlay className="size-4" />
+          Preview
         </Button>
       </div>
     </header>

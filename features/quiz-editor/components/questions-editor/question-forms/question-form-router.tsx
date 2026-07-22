@@ -8,6 +8,9 @@ import { Question } from "@/features/quiz-editor/validation/question";
 import { MultipleSelectForm } from "./forms/multiple-select-form";
 import { OrdeingrForm } from "./forms/ordering-form";
 import { useIsTypeSelectorOpen } from "@/features/quiz-editor/store";
+import { TrueFalseForm } from "./forms/true-false-form";
+import { DropdownForm } from "./forms/dropdown-form";
+import { TypeAnswerForm } from "./forms/type-answer-form";
 
 export interface QuestionFormProps {
   question: Question;
@@ -18,11 +21,12 @@ export function QuestionFormRouter() {
   const FORM_MAP: Partial<Record<QuestionType, React.FC<QuestionFormProps>>> = {
     SINGLE_SELECT: SingleSelectForm,
     MULTIPLE_SELECT: MultipleSelectForm,
-    // TRUE_FALSE: TrueFalseForm,
-    // FILL_BLANK: FillBlankForm,
+    TRUE_FALSE: TrueFalseForm,
+    DROPDOWN: DropdownForm,
     ORDERING: OrdeingrForm,
+    TYPE_ANSWER: TypeAnswerForm,
+    // FILL_BLANK: FillBlankForm,
     // MATCH: MatchForm,
-    // DROPDOWN: DropdownForm,
     // GUESS: GuessForm,
     // PINPOINT: PinpointForm,
     // LOCATION: LocationForm,

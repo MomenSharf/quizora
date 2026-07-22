@@ -117,7 +117,6 @@ export function SectionCard({
                 duration: 0.15,
               },
             }}
-            className="overflow-hidden"
           >
             <div className="border-t" />
 

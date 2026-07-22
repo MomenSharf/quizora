@@ -17,6 +17,7 @@ import {
   IconSquareCheckFilled,
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
+import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 
 export default function AnswerOption({
   optionId,
@@ -69,14 +70,21 @@ export default function AnswerOption({
   });
 
   const isCorrect =
-    type === QuestionType.SINGLE_SELECT
+    type === QuestionType.SINGLE_SELECT || type === QuestionType.DROPDOWN
       ? singleCorrect === optionId
       : type === QuestionType.MULTIPLE_SELECT
         ? multipleCorrect.includes(optionId)
         : false;
 
+  const placeholder =
+    type === QuestionType.ORDERING
+      ? `Item ${index + 1}`
+      : type === QuestionType.DROPDOWN
+        ? `Option ${index + 1}`
+        : `Answer ${index + 1}`;
+
   const toggleCorrect = () => {
-    if (type === QuestionType.SINGLE_SELECT) {
+    if (type === QuestionType.SINGLE_SELECT || type === QuestionType.DROPDOWN) {
       setValue(
         `questions.${questionIndex}.content.correctOptionId`,
         isCorrect ? "" : optionId,
@@ -99,14 +107,24 @@ export default function AnswerOption({
     }
   };
 
+  const questionType = QUESTION_TYPES.find((item) => item.id === type);
+
+  const color = questionType?.color;
+
   return (
     <div
       ref={setElement}
+      style={
+        {
+          "--question-color": color,
+        } as React.CSSProperties
+      }
       className={cn(
         "group rounded-xl border bg-card p-3 transition-all",
-        "hover:border-primary/30 hover:shadow-sm",
-        "focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
-        isDragging && "z-50 scale-[1.02] shadow-xl ring-2 ring-primary",
+        "hover:border-(--question-color) hover:shadow-sm",
+        "focus-within:border-(--question-color) focus-within:ring-2 focus-within:ring-(--question-color)/20",
+        isDragging &&
+          "z-50 scale-[1.02] shadow-xl ring-2 ring-(--question-color)",
       )}
     >
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
@@ -119,10 +137,17 @@ export default function AnswerOption({
               e.stopPropagation();
             }}
           >
-            <IconGripVertical  className="size-5" />
+            <IconGripVertical className="size-5" />
           </button>
 
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold">
+          <div
+            className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold"
+            style={{
+              borderColor: `${color}40`,
+              backgroundColor: `${color}18`,
+              color,
+            }}
+          >
             {index + 1}
           </div>
 
@@ -134,20 +159,26 @@ export default function AnswerOption({
             >
               {type === QuestionType.MULTIPLE_SELECT ? (
                 isCorrect ? (
-                  <IconSquareCheckFilled className="size-6 text-primary" />
+                  <IconSquareCheckFilled className="size-6" style={{ color }} />
                 ) : (
-                  <IconSquare className="size-6" />
+                  <IconSquare
+                    className="size-6"
+                    style={{ color: `${color}80` }}
+                  />
                 )
               ) : isCorrect ? (
-                <IconCircleCheckFilled className="size-6 text-primary" />
+                <IconCircleCheckFilled className="size-6" style={{ color }} />
               ) : (
-                <IconCircle className="size-6" />
+                <IconCircle
+                  className="size-6"
+                  style={{ color: `${color}80` }}
+                />
               )}
             </button>
           )}
 
           <button className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted lg:size-14">
-            <IconPhotoPlus  className="size-5 text-muted-foreground" />
+            <IconPhotoPlus className="size-5 text-muted-foreground" />
           </button>
 
           <Button
@@ -172,7 +203,7 @@ export default function AnswerOption({
             }}
             onInput={(e) => autoResize(e.currentTarget)}
             rows={1}
-            placeholder={`Answer ${index + 1}`}
+            placeholder={placeholder}
             className="h-11 min-h-11 w-full overflow-y-auto scrollbar-thin bg-transparent text-sm leading-6 outline-none placeholder:text-muted-foreground"
           />
         </div>

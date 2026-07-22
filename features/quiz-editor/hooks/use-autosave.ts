@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { saveQuiz } from "../actions/save-quiz";
 import {
-  defaultEditorState,
+  EditorStore,
   useAutosaveEnabled,
   useEditorActions,
   useEditorStore,
@@ -45,12 +45,21 @@ export function useAutosaveHook(debounceMs: number = 3000) {
         const payload = getValues();
         const editorState = useEditorStore.getState();
         const now = new Date();
+        const stateToSave: EditorStore = {
+          ...editorState,
+          autosave: {
+            ...editorState.autosave,
+            state: "idle",
+            dirty: false,
+            error: null,
+          },
+        };
 
         setSaveState("saving");
         setLastAttemptAt(now);
 
         try {
-          await saveQuiz(payload, editorState);
+          await saveQuiz(payload, stateToSave);
 
           setSaveState("saved");
           setLastSavedAt(new Date());

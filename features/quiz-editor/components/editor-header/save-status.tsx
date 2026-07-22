@@ -9,8 +9,16 @@ import {
 } from "@/components/ui/tooltip";
 
 export function SaveStatus() {
-  const { label, isSaving, isSaved, isError, isDisabled, dirty, error } =
-    useSaveStatus();
+  const {
+    label,
+    isIdle,
+    isSaving,
+    isSaved,
+    isError,
+    isDisabled,
+    dirty,
+    error,
+  } = useSaveStatus();
 
   const tooltip = isSaving
     ? "Your changes are being saved automatically."
@@ -19,32 +27,34 @@ export function SaveStatus() {
       : dirty
         ? "You have unsaved changes."
         : isError
-        ? error || "Failed to save your changes."
-          : "Autosave is disabled.";
+          ? error || "Failed to save your changes."
+          : isIdle
+            ? "No changes to save."
+            : "Autosave is disabled.";
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="mt-0.5 flex h-5 cursor-default items-center gap-2">
+        <div className="flex h-5 cursor-default items-center gap-1 md:gap-2">
           <div
             className={cn(
-              "size-2 rounded-full transition-colors",
+              "size-1.5 rounded-full transition-colors md:size-2",
+              isIdle && "bg-muted-foreground/50",
               isSaved && "bg-emerald-500",
               isSaving && "animate-pulse bg-blue-500",
               dirty && !isSaving && "bg-amber-500",
               isError && "bg-destructive",
-              isDisabled && "bg-muted-foreground/40"
+              isDisabled && "bg-muted-foreground/30"
             )}
           />
 
           <span
             className={cn(
-              "text-[11px] font-medium transition-colors",
+              "hidden text-[11px] font-medium transition-colors md:inline",
+              isIdle && "text-muted-foreground",
               isSaved && "text-muted-foreground",
               isSaving && "text-blue-600 dark:text-blue-400",
-              dirty &&
-                !isSaving &&
-                "text-amber-600 dark:text-amber-400",
+              dirty && !isSaving && "text-amber-600 dark:text-amber-400",
               isError && "text-destructive",
               isDisabled && "text-muted-foreground"
             )}
