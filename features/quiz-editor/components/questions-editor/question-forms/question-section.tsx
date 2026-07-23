@@ -1,15 +1,16 @@
 import RichTextEditor from "@/components/rich-text-editor";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { Controller, useWatch } from "react-hook-form";
-import SectionField from "./section-field";
+import { Controller } from "react-hook-form";
+import { ImageUploadPlaceholder } from "../../image-upload/image-upload-placeholder";
 import { QuestionFormProps } from "./question-form-router";
+import SectionField from "./section-field";
 
-const QuestionSection = ({ question, questionIndex }: QuestionFormProps) => {
+const QuestionSection = ({  questionIndex }: QuestionFormProps) => {
   const { control } = useQuizForm();
 
-  if (!question) return null;
   return (
     <div className="space-y-3">
+      {/* <ImageUploadPlaceholder onClick={() => {}} /> */}
       <SectionField
         label="Title"
         description="Provide a title for this question."

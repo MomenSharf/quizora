@@ -5,19 +5,18 @@ import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 
 export function MultipleSelectForm({
-  question,
   questionIndex,
 }: QuestionFormProps) {
   return (
     <div className="space-y-5">
       <SectionCard type="MULTIPLE_SELECT" title="Multiple Select">
-        <QuestionSection question={question} questionIndex={questionIndex} />
+        <QuestionSection  questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard type="MULTIPLE_SELECT" title="Answer Content">
         <AnswerOptionsGroup questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard type="SINGLE_SELECT" title="Explanation">
-        <ExplanationSection question={question} questionIndex={questionIndex} />
+        <ExplanationSection  questionIndex={questionIndex} />
       </SectionCard>
     </div>
   );

@@ -133,7 +133,7 @@ style={
 
 // TODO: Add question selector to mobile view
 const QuestionSelector = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const { control, setValue } = useQuizForm();
 
@@ -161,7 +161,7 @@ const QuestionSelector = () => {
   };
 
   return (
-    <div className="flex flex-col w-full md:w-72 md:min-w-72 md:max-w-72 xl:w-80 xl:min-w-80 xl:max-w-80 rounded-lg rounded-tl-xl bg-background border-b sm:border">
+    <div className="flex-1 flex flex-col w-full md:w-72 md:min-w-72 md:max-w-72 xl:w-80 xl:min-w-80 xl:max-w-80 rounded-lg rounded-tl-xl bg-background border-b sm:border">
       <div
         className="flex items-center gap-1 p-3 max-md:hover:bg-muted/40 max-md:cursor-pointer md:pointer-events-none"
         onClick={() => setOpen((prev) => !prev)}
@@ -205,6 +205,7 @@ const QuestionSelector = () => {
                 duration: 0.15,
               },
             }}
+            className="flex-1"
           >
             <motion.div
               initial={{ y: -8 }}
@@ -214,9 +215,9 @@ const QuestionSelector = () => {
                 duration: 0.2,
                 ease: "easeOut",
               }}
-              className="space-y-3 p-3 pt-0"
+              className="h-full p-3 pt-0 flex flex-col"
             >
-              <div className="flex-1 overflow-y-auto scrollbar-thin py-1">
+              <div className="flex-1 foverflow-y-auto scrollbar-thin py-1">
                 <DragDropProvider
                   onDragEnd={(event) => {
                     if (!questions || event.canceled) return;

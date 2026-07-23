@@ -9,7 +9,7 @@ import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 
-export function TrueFalseForm({ question, questionIndex }: QuestionFormProps) {
+export function TrueFalseForm({  questionIndex }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
 
   const correctAnswer = useWatch({
@@ -37,7 +37,7 @@ export function TrueFalseForm({ question, questionIndex }: QuestionFormProps) {
   return (
     <div className="space-y-5">
       <SectionCard type="TRUE_FALSE" title="Question">
-        <QuestionSection question={question} questionIndex={questionIndex} />
+        <QuestionSection  questionIndex={questionIndex} />
       </SectionCard>
 
       <SectionCard type="TRUE_FALSE" title="Correct Answer">
@@ -124,7 +124,7 @@ export function TrueFalseForm({ question, questionIndex }: QuestionFormProps) {
       </SectionCard>
 
       <SectionCard type="TRUE_FALSE" title="Explanation">
-        <ExplanationSection question={question} questionIndex={questionIndex} />
+        <ExplanationSection  questionIndex={questionIndex} />
       </SectionCard>
     </div>
   );

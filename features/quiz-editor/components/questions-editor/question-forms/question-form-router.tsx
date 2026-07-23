@@ -14,7 +14,6 @@ import { TypeAnswerForm } from "./forms/type-answer-form";
 import { FillinTheBlankForm } from "./forms/fill-in-the-blank-form";
 
 export interface QuestionFormProps {
-  question: Question;
   questionIndex: number;
 }
 
@@ -54,7 +53,7 @@ export function QuestionFormRouter() {
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <Form question={question} questionIndex={questionIndex} />
+      <Form  questionIndex={questionIndex} />
     </div>
   );
 }

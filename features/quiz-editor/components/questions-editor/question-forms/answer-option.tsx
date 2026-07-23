@@ -129,7 +129,7 @@ export default function AnswerOption({
           "z-50 scale-[1.02] shadow-xl ring-2 ring-(--question-color)",
       )}
     >
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
+      <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
         <div className="flex items-center gap-2 lg:gap-3 max-lg:w-full">
           <button
             ref={handleRef}

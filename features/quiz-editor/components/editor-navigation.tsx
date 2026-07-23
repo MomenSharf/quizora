@@ -18,11 +18,12 @@ const EditorNavigation = () => {
   const activePanel = useActivePanel();
   const { setActivePanel } = useEditorActions();
   return (
-    <aside className="flex items-center p-2">
+    <aside className="flex items-center md:items-start p-2">
       <div className="flex items-center md:hidden">
         <MobileHeaderSheet />
       </div>
-      <div className="flex mr-auto justify-center items-center md:flex-col md:justify-start  gap-2">
+      {/* <div className="flex mr-auto justify-center items-center md:flex-col md:justify-start  gap-2"> */}
+      <div className="flex max-md:mr-auto md:flex-col md:justify-start gap-1 sm:gap-2">
         {EDITOR_PANELS.map((item) => {
           const isActive = item.value === activePanel;
           return (

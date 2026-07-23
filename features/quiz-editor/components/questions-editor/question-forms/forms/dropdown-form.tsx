@@ -8,12 +8,12 @@ import SectionField from "../section-field";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import RichTextEditor from "@/components/rich-text-editor";
 
-export function DropdownForm({ question, questionIndex }: QuestionFormProps) {
+export function DropdownForm({  questionIndex }: QuestionFormProps) {
   const { control } = useQuizForm();
   return (
     <div className="space-y-5">
       <SectionCard type="DROPDOWN" title="Dropdown">
-        <QuestionSection question={question} questionIndex={questionIndex} />
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard type="DROPDOWN" title="Answer Options">
         <div className="space-y-5">
@@ -41,7 +41,7 @@ export function DropdownForm({ question, questionIndex }: QuestionFormProps) {
         </div>
       </SectionCard>
       <SectionCard type="DROPDOWN" title="Explanation">
-        <ExplanationSection question={question} questionIndex={questionIndex} />
+        <ExplanationSection  questionIndex={questionIndex} />
       </SectionCard>
     </div>
   );
