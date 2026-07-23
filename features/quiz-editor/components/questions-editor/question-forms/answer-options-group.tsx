@@ -11,12 +11,15 @@ import { useWatch } from "react-hook-form";
 import { move } from "@dnd-kit/helpers";
 import AnswerOption from "./answer-option";
 import { IconPlus } from "@tabler/icons-react";
+import { scrollElement } from "@/lib/utils/dom";
 
 export function AnswerOptionsGroup({
   questionIndex,
 }: {
   questionIndex: number;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const { control, setValue } = useQuizForm();
 
   const question = useWatch({
@@ -51,8 +54,9 @@ export function AnswerOptionsGroup({
     textarea.style.height = `${Math.max(textarea.scrollHeight, 44)}px`;
   };
 
+  
   return (
-    <div className="space-y-3 p-4">
+    <div className="space-y-3" ref={containerRef}>
       <DragDropProvider
         onDragEnd={(event) => {
           if (!options || event.canceled) return;

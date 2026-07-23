@@ -11,6 +11,7 @@ import { useIsTypeSelectorOpen } from "@/features/quiz-editor/store";
 import { TrueFalseForm } from "./forms/true-false-form";
 import { DropdownForm } from "./forms/dropdown-form";
 import { TypeAnswerForm } from "./forms/type-answer-form";
+import { FillinTheBlankForm } from "./forms/fill-in-the-blank-form";
 
 export interface QuestionFormProps {
   question: Question;
@@ -25,7 +26,7 @@ export function QuestionFormRouter() {
     DROPDOWN: DropdownForm,
     ORDERING: OrdeingrForm,
     TYPE_ANSWER: TypeAnswerForm,
-    // FILL_BLANK: FillBlankForm,
+    FILL_BLANK: FillinTheBlankForm,
     // MATCH: MatchForm,
     // GUESS: GuessForm,
     // PINPOINT: PinpointForm,

@@ -73,25 +73,27 @@ function Sortable({
             handleClick();
           }
         }}
-        className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
-          {
-            "scale-[1.02] opacity-90 shadow-2xl ring-2 ring-primary z-50":
-              isDragging,
-            "shadow-sm":
-              isSelected,
-          },
-        )}
-        style={
-          isSelected
-            ? {
-                borderColor: `${color}66`,
-                backgroundColor: `${color}14`,
-                color,
-              }
-            : undefined
-        }
+      className={cn(
+  buttonVariants({ variant: "ghost" }),
+  "flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
+  {
+    "z-50 scale-[1.02] opacity-90 shadow-2xl ring-2": isDragging,
+    "shadow-sm": isSelected,
+  },
+)}
+style={
+  {
+    ...(isSelected && {
+      borderColor: `${color}66`,
+      backgroundColor: `${color}14`,
+      color,
+    }),
+    ...(isDragging && {
+      borderColor: color,
+      "--tw-ring-color": `${color}88`,
+    }),
+  } as React.CSSProperties
+}
       >
         <div
           ref={handleRef}
@@ -100,6 +102,9 @@ function Sortable({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
+          }}
+          style={{
+            touchAction: 'none'
           }}
         >
           <IconGripVertical className="text-muted-foreground" />
@@ -211,7 +216,7 @@ const QuestionSelector = () => {
               }}
               className="space-y-3 p-3 pt-0"
             >
-              <div className="flex-1 overflow-y-auto scrollbar-thin pr-1">
+              <div className="flex-1 overflow-y-auto scrollbar-thin py-1">
                 <DragDropProvider
                   onDragEnd={(event) => {
                     if (!questions || event.canceled) return;
@@ -253,10 +258,17 @@ const QuestionSelector = () => {
                   setTypeSelectorOpen(true);
                 }}
                 size="lg"
-                className="w-full shrink-0 gap-2 rounded-xl px-5 font-medium shadow-sm transition-all hover:shadow-md active:scale-[0.98]"
+                className="group relative w-full overflow-hidden cursor-pointer rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 px-5 py-6 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98]"
               >
-                <IconPlus className="size-4" />
-                <span>Add Question</span>
+                <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+
+                <div className="relative flex items-center justify-center gap-3">
+                  <div className="flex size-8 items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover:rotate-90">
+                    <IconPlus className="size-4" />
+                  </div>
+
+                  <span>Add Question</span>
+                </div>
               </Button>
             </motion.div>
           </motion.div>

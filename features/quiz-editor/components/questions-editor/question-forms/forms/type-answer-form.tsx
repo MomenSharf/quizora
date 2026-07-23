@@ -66,7 +66,7 @@ export function TypeAnswerForm({ question, questionIndex }: QuestionFormProps) {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="opacity-0 transition-opacity group-hover:opacity-100 hover:bg-destructive/10 hover:text-destructive"
+                  className="hover:bg-destructive/10 hover:text-destructive"
                   disabled={expectedAnswers.length === 1}
                   onClick={() => {
                     const nweExpectedAnswers = expectedAnswers.filter(

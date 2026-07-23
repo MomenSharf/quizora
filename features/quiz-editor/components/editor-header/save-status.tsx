@@ -50,7 +50,7 @@ export function SaveStatus() {
 
           <span
             className={cn(
-              "hidden text-[11px] font-medium transition-colors md:inline",
+              "text-[11px] font-medium transition-colors md:inline",
               isIdle && "text-muted-foreground",
               isSaved && "text-muted-foreground",
               isSaving && "text-blue-600 dark:text-blue-400",

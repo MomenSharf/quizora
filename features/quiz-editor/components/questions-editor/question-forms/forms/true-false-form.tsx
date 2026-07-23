@@ -23,14 +23,14 @@ export function TrueFalseForm({ question, questionIndex }: QuestionFormProps) {
       label: "True",
       value: true,
       color: "#22C55E",
-      description: "This statement is correct.",
+      description: "True statement.",
     },
     {
       id: "false",
       label: "False",
       value: false,
       color: "#EF4444",
-      description: "This statement is incorrect.",
+      description: "False statement.",
     },
   ];
 
@@ -59,7 +59,7 @@ export function TrueFalseForm({ question, questionIndex }: QuestionFormProps) {
                   )
                 }
                 className={cn(
-                  "group relative h-auto aspect-video flex-col items-center justify-center gap-3 rounded-xl border-2 transition-all duration-300",
+                  "group relative h-auto aspect-video p-2 flex-col items-center justify-center gap-3 rounded-xl border-2 transition-all duration-300",
                   "hover:-translate-y-1 hover:shadow-lg",
                   active && "ring-2 ring-primary ring-offset-2",
                 )}
@@ -93,7 +93,7 @@ export function TrueFalseForm({ question, questionIndex }: QuestionFormProps) {
 
                   <div
                     className="
-                    relative flex size-14 items-center justify-center rounded-full
+                    relative flex size-12 md:size-14 items-center justify-center rounded-full
                     text-xl font-bold
                     transition-all duration-300 ease-out
                     group-hover:-translate-y-1

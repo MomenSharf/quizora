@@ -10,19 +10,19 @@ import { cn } from "@/lib/utils";
 
 import { IconPlayerPlay } from "@tabler/icons-react";
 import { EDITOR_PANELS } from "../constants/editor-panels";
-import {
-  useActivePanel,
-  useEditorActions
-} from "../store";
+import { useActivePanel, useEditorActions } from "../store";
 import MobileHeaderSheet from "./editor-header/quiz-mobile-header-sheet";
 import { SaveStatus } from "./editor-header/save-status";
 
 const EditorNavigation = () => {
   const activePanel = useActivePanel();
-  const {setActivePanel} = useEditorActions();
+  const { setActivePanel } = useEditorActions();
   return (
-    <aside className="flex justify-between p-2">
-      <div className=" flex justify-center items-center md:flex-col md:justify-start  gap-2">
+    <aside className="flex items-center p-2">
+      <div className="flex items-center md:hidden">
+        <MobileHeaderSheet />
+      </div>
+      <div className="flex mr-auto justify-center items-center md:flex-col md:justify-start  gap-2">
         {EDITOR_PANELS.map((item) => {
           const isActive = item.value === activePanel;
           return (
@@ -58,11 +58,14 @@ const EditorNavigation = () => {
           );
         })}
       </div>
-      <div className="flex items-center md:hidden">
-        <SaveStatus/>
-        <MobileHeaderSheet />
+      <div className="flex items-center gap-2 md:hidden">
+        <SaveStatus />
 
-        <Button variant="outline" size="icon" className="rounded-xl hidden min-[450px]:flex">
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-xl hidden min-[450px]:flex"
+        >
           <IconPlayerPlay className="size-4" />
         </Button>
       </div>

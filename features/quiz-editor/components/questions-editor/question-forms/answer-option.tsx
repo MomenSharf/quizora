@@ -18,6 +18,7 @@ import {
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
 import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import { AnswerOptionActionsDropdown } from "./answer-option-actions-dropdown";
 
 export default function AnswerOption({
   optionId,
@@ -117,10 +118,11 @@ export default function AnswerOption({
       style={
         {
           "--question-color": color,
+          touchAction: "none",
         } as React.CSSProperties
       }
       className={cn(
-        "group rounded-xl border bg-card p-3 transition-all",
+        "touch-none group rounded-xl border bg-card p-3 transition-all",
         "hover:border-(--question-color) hover:shadow-sm",
         "focus-within:border-(--question-color) focus-within:ring-2 focus-within:ring-(--question-color)/20",
         isDragging &&
@@ -181,13 +183,16 @@ export default function AnswerOption({
             <IconPhotoPlus className="size-5 text-muted-foreground" />
           </button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
-          >
-            <IconDots className="size-5" />
-          </Button>
+          <div className="lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100">
+            <AnswerOptionActionsDropdown
+              questionIndex={questionIndex}
+              optionId={optionId}
+              canMoveDown={canMoveDown}
+              canMoveUp={canMoveUp}
+              moveDown={moveDown}
+              moveUp={moveUp}
+            />
+          </div>
         </div>
 
         <div className="w-full rounded-lg border p-2">
@@ -208,13 +213,16 @@ export default function AnswerOption({
           />
         </div>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="max-lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
-        >
-          <IconDots className="size-5" />
-        </Button>
+        <div className="max-lg:hidden  ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100">
+          <AnswerOptionActionsDropdown
+            questionIndex={questionIndex}
+            optionId={optionId}
+            canMoveDown={canMoveDown}
+            canMoveUp={canMoveUp}
+            moveDown={moveDown}
+            moveUp={moveUp}
+          />
+        </div>
       </div>
     </div>
   );

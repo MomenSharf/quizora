@@ -194,7 +194,7 @@ export const QUESTION_TYPE_LABELS = {
   ORDERING: "Ordering",
   MATCH: "Match",
   TYPE_ANSWER: "Type Answer",
-  FILL_BLANK: "Fill Blank",
+  FILL_BLANK: "Fill in the Blank",
   RANGE: "Range",
   LOCATION: "Location",
   GUESS: "Guess",

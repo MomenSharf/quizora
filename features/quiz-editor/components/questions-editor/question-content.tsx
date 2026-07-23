@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { QuestionFormRouter } from "./question-forms/question-form-router";
 import { useIsTypeSelectorOpen, useSelectedQuestionId } from "../../store";
+import { scrollElement } from "@/lib/utils/dom";
 
 const QuestionContent = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -10,10 +11,7 @@ const QuestionContent = () => {
   const isTypeSelectorOpen = useIsTypeSelectorOpen();
 
   useEffect(() => {
-    containerRef.current?.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    scrollElement(containerRef.current, "top");
   }, [selectedQuestionId, isTypeSelectorOpen]);
   return (
     <div
@@ -22,7 +20,6 @@ const QuestionContent = () => {
     >
       <div className="flex flex-col gap-2 p-2">
         <QuestionFormRouter />
-       
       </div>
     </div>
   );

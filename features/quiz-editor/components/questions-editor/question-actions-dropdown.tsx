@@ -1,6 +1,5 @@
 "use client";
 
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +10,15 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { createId } from "@paralleldrive/cuid2";
-import { IconArrowBarToDown, IconArrowBarToUp, IconCopy, IconDots, IconFocus, IconRotateClockwise, IconTrash } from "@tabler/icons-react";
+import {
+  IconArrowBarToDown,
+  IconArrowBarToUp,
+  IconCopy,
+  IconDots,
+  IconFocus,
+  IconRotateClockwise,
+  IconTrash,
+} from "@tabler/icons-react";
 import { useWatch } from "react-hook-form";
 import { createDefaultQuestion } from "../../create-defaults/questions/create-default-question";
 import { useQuizForm } from "../../hooks/use-quiz-form";
@@ -108,7 +115,7 @@ export function QuestionActionsDropdown({
           onClick={onSelect}
           className="cursor-pointer rounded-md"
         >
-          <IconFocus  className="mr-2 size-4" />
+          <IconFocus className="mr-2 size-4" />
           Select
         </DropdownMenuItem>
 
@@ -127,7 +134,7 @@ export function QuestionActionsDropdown({
           className="cursor-pointer rounded-md"
           disabled={!canMoveUp}
         >
-          <IconArrowBarToUp  className="mr-2 size-4" />
+          <IconArrowBarToUp className="mr-2 size-4" />
           Move to top
         </DropdownMenuItem>
 
@@ -154,9 +161,9 @@ export function QuestionActionsDropdown({
 
         <DropdownMenuItem
           onClick={onDelete}
-          className="cursor-pointer rounded-md text-destructive focus:text-primary-foreground focus:bg-destructive group:"
+          className="cursor-pointer rounded-md text-destructive focus:bg-destructive/10 focus:text-destructive"
         >
-          <IconTrash className="mr-2 size-4 group-focus:text-destructive" />
+          <IconTrash className="mr-2 size-4 text-destructive" />
           Delete question
         </DropdownMenuItem>
       </DropdownMenuContent>
