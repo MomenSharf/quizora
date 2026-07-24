@@ -1,8 +1,7 @@
 "use client";
 
-import { useTheme } from "next-themes";
 
-import { QUESTION_TYPES, QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS, QUESTION_TYPE_ICONS, QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -16,14 +15,10 @@ export function QuestionTypeIcon({
   className,
   iconClassName,
 }: Props) {
-  const { resolvedTheme } = useTheme();
 
-  const questionType = QUESTION_TYPES.find((item) => item.id === type);
+  const color = QUESTION_TYPE_COLORS[type];
+  const Icon = QUESTION_TYPE_ICONS[type];
 
-  if (!questionType) return null;
-
-  const Icon = questionType.icon;
-  const color = questionType.color;
 
   return (
     <div

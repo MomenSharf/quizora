@@ -109,7 +109,7 @@ export default function TextColorDialog({ editor }: Props) {
         <TooltipTrigger asChild>
           <div>
             <DialogTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="dark:bg-muted">
                 <IconTextColor style={{ color: currentColor }} />
               </Button>
             </DialogTrigger>

@@ -1,12 +1,10 @@
 "use client";
 
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export default function RangePreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "RANGE");
-  if (!type) return null;
-
-  const color = type.color;
+    const color = QUESTION_TYPE_COLORS['RANGE'];
+  
 
   const min = 0;
   const max = 100;

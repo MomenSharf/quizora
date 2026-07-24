@@ -26,7 +26,7 @@ export const BlankSchema = z.object({
 export const FillBlankDataSchema = z.object({
   blocks: z.array(FillBlankBlockSchema).min(1),
 
-  blanks: z.array(BlankSchema).min(1).max(50),
+  blanks: z.array(BlankSchema).max(50),
 });
 
 export const FillBlankSettingsSchema = z.object({

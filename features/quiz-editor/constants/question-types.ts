@@ -187,18 +187,28 @@ export const QUESTION_TYPES = [
   },
 ] satisfies readonly QuestionTypeUI[];
 
-export const QUESTION_TYPE_LABELS = {
-  SINGLE_SELECT: "Single Select",
-  MULTIPLE_SELECT: "Multiple Select",
-  TRUE_FALSE: "True / False",
-  ORDERING: "Ordering",
-  MATCH: "Match",
-  TYPE_ANSWER: "Type Answer",
-  FILL_BLANK: "Fill in the Blank",
-  RANGE: "Range",
-  LOCATION: "Location",
-  GUESS: "Guess",
-  FLASHCARDS: "Flashcards",
-  TAP_FIND: "Tap & Find",
-  DROPDOWN: "Dropdown",
-} as const;
+/* ---------- Lookups ---------- */
+
+export const QUESTION_TYPE_MAP = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type]),
+) as Record<QuestionType, QuestionTypeUI>;
+
+export const QUESTION_TYPE_LABELS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.label]),
+) as Record<QuestionType, string>;
+
+export const QUESTION_TYPE_SHORT_LABELS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.shortLabel]),
+) as Record<QuestionType, string>;
+
+export const QUESTION_TYPE_ICONS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.icon]),
+) as Record<QuestionType, QuestionTypeUI["icon"]>;
+
+export const QUESTION_TYPE_COLORS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.color]),
+) as Record<QuestionType, string>;
+
+export const QUESTION_TYPE_BACKGROUND_COLORS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.backgroundColor]),
+) as Record<QuestionType, string>;

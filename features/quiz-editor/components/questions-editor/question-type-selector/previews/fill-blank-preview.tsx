@@ -1,12 +1,9 @@
 "use client";
 
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export default function FillBlankPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "FILL_BLANK");
-  if (!type) return null;
-
-  const color = type.color;
+  const color = QUESTION_TYPE_COLORS['FILL_BLANK'];
 
   return (
     <div className="space-y-4">

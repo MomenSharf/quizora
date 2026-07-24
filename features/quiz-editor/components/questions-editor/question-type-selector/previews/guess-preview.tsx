@@ -1,13 +1,11 @@
 "use client";
 
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 import { IconSparkles } from "@tabler/icons-react";
 
 export default function GuessPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "GUESS");
-  if (!type) return null;
-
-  const color = type.color;
+    const color = QUESTION_TYPE_COLORS['GUESS'];
+  
 
   return (
     <div className="space-y-4">

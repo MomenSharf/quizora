@@ -6,84 +6,67 @@ import { SectionCard } from "../section-card";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import {
   FillBlankBlock,
+  FillBlankData,
   FillBlankQuestion,
 } from "@/features/quiz-editor/validation/question";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import RichTextEditor from "@/components/rich-text-editor";
+import { Button } from "@/components/ui/button";
+import { parseFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-parser";
+import { serializeFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-serializer";
 
 export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
-  const [activeBlockId, setActiveBlockId] = useState<string | null>(null);
-
   const { control, setValue } = useQuizForm();
 
-  const Bolcks = useWatch({
+  const content = useWatch({
     control,
-    name: `questions.${questionIndex}.content.blocks`,
-  });
+    name: `questions.${questionIndex}.content`,
+  }) as FillBlankData;
 
-  const content: FillBlankQuestion["content"] = {
-    blocks: [
-      {
-        id: "1",
-        type: "TEXT",
-        text: "React was created by ",
-      },
-      {
-        id: "2",
-        type: "BLANK",
-        blankId: "blank1",
-      },
-      {
-        id: "3",
-        type: "TEXT",
-        text: " in ",
-      },
-      {
-        id: "4",
-        type: "BLANK",
-        blankId: "blank2",
-      },
-      {
-        id: "5",
-        type: "TEXT",
-        text: ".",
-      },
-    ],
-
-    blanks: [
-      {
-        id: "blank1",
-        placeholder: "Creator",
-        answers: [{ id: "1", value: "Jordan Walke" }],
-      },
-      {
-        id: "blank2",
-        placeholder: "Year",
-        answers: [{ id: "2", value: "2011" }],
-      },
-    ],
-  };
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const editorContent = useMemo(() => serializeFillInTheBlank(content), []);
+  
   return (
     <div className="space-y-5">
-      {/* <SectionCard type="FILL_BLANK" title="Fill in the Blank">
+      <SectionCard type="FILL_BLANK" title="Fill in the Blank">
         <QuestionSection questionIndex={questionIndex} />
-      </SectionCard> */}
+      </SectionCard>
       <SectionCard type="FILL_BLANK" title="Blanks">
-        <div className="flex items-center justify-center min-h-60">
-          <div className="flex">
-            {content.blocks.map((block, index) => {
-              if (block.type === "TEXT") {
-                return (
-                  <Block
-                    key={block.id}
-                    block={block}
-                    activeBlockId={activeBlockId}
-                    setActiveBlockId={setActiveBlockId}
-                  />
-                );
-              }
-              return null;
-            })}
+        <div className="group rounded-xl border bg-card transition-all duration-200 hover:border-primary/20 focus-within:border-primary/40 focus-within:shadow-sm">
+          <div className="p-4">
+            <RichTextEditor
+              content={editorContent}
+              placeholder="Type your sentence and insert blanks..."
+              allowInsertBlank
+              className="
+                        min-h-60
+                        rounded-lg
+                        border-0
+                        bg-transparent
+                        px-5
+                        py-4
+                        shadow-none
+
+                        focus-visible:border-transparent
+                        focus-visible:ring-0
+
+                        [&_.ProseMirror]:min-h-52
+                        [&_.ProseMirror]:outline-none
+                        [&_.ProseMirror]:text-[15px]
+                        [&_.ProseMirror]:leading-7
+                        [&_.ProseMirror]:tracking-normal
+                        [&_.ProseMirror]:text-foreground
+
+                        [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-muted-foreground/70
+                      "
+              onJsonChange={(json) => {
+                const data = parseFillInTheBlank(json);
+
+                setValue(`questions.${questionIndex}.content`, data, {
+                  shouldDirty: true,
+                });
+              }}
+            />
           </div>
         </div>
       </SectionCard>
@@ -91,37 +74,5 @@ export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
     </div>
-  );
-}
-
-function Block({
-  block,
-  activeBlockId,
-  setActiveBlockId,
-}: {
-  block: Extract<FillBlankBlock, { type: "TEXT" }>;
-  activeBlockId: string | null;
-  setActiveBlockId: (id: string | null) => void;
-}) {
-  if (block.id === activeBlockId) {
-    return (
-      <input
-        type="text"
-        value={block.text}
-        onChange={(e) => console.log(e.target.value)}
-        className="min-w-0"
-        autoFocus
-      />
-    );
-  }
-  return (
-    <span
-      onClick={() => {
-        if (activeBlockId === block.id) return;
-        setActiveBlockId(block.id);
-      }}
-    >
-      {block.text}
-    </span>
   );
 }

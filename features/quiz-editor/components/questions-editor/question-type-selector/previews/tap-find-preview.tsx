@@ -1,12 +1,10 @@
 "use client";
 
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export default function TapFindPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "TAP_FIND");
-  if (!type) return null;
-
-  const color = type.color;
+   const color = QUESTION_TYPE_COLORS['FILL_BLANK'];
+ 
 
   const hotspots = [
     { x: "30%", y: "40%", active: false },

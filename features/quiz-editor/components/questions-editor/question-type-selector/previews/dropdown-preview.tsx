@@ -1,13 +1,10 @@
 "use client";
 
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 import { IconChevronDown } from "@tabler/icons-react";
 
 export default function DropdownPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "DROPDOWN");
-  if (!type) return null;
-
-  const color = type.color;
+  const color = QUESTION_TYPE_COLORS['DROPDOWN'];
 
   return (
     <div className="space-y-4">

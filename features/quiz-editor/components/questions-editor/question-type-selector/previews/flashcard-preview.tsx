@@ -1,12 +1,10 @@
 "use client";
 
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export default function FlashcardPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "FLASHCARDS");
-  if (!type) return null;
-
-  const color = type.color;
+    const color = QUESTION_TYPE_COLORS['FLASHCARDS'];
+  
 
   return (
     <div className="space-y-4">

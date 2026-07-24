@@ -1,12 +1,10 @@
 "use client";
 
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export default function LocationPreview() {
-  const type = QUESTION_TYPES.find((t) => t.id === "LOCATION");
-  if (!type) return null;
+  const color = QUESTION_TYPE_COLORS['LOCATION'];
 
-  const color = type.color;
 
   return (
     <div className="space-y-4">

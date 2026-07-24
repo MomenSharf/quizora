@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { cn } from "@/lib/utils";
@@ -10,14 +10,12 @@ import { useSortable } from "@dnd-kit/react/sortable";
 import {
   IconCircle,
   IconCircleCheckFilled,
-  IconDots,
   IconGripVertical,
   IconPhotoPlus,
   IconSquare,
-  IconSquareCheckFilled,
+  IconSquareCheckFilled
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
-import { QUESTION_TYPES } from "@/features/quiz-editor/constants/question-types";
 import { AnswerOptionActionsDropdown } from "./answer-option-actions-dropdown";
 
 export default function AnswerOption({
@@ -108,9 +106,7 @@ export default function AnswerOption({
     }
   };
 
-  const questionType = QUESTION_TYPES.find((item) => item.id === type);
-
-  const color = questionType?.color;
+   const color = QUESTION_TYPE_COLORS[type];
 
   return (
     <div

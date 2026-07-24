@@ -33,6 +33,8 @@ import ToolbarGroup from "./toolbar-gruop";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useSlider } from "@/hooks/use-slider";
 import { HtmlEditorDialog } from "./menu-bar-items/html-editor";
+import { createId } from "@paralleldrive/cuid2";
+import { InsertBlank } from "./menu-bar-items/insert-blank";
 
 export type ToolbarItem = {
   key: string;
@@ -50,7 +52,17 @@ export type ToolbarGroup = {
 };
 
 // TODO: add math formula editor
-export default function MenuBar({ editor , defaultFontSize }: { editor: Editor, defaultFontSize?: string }) {
+export default function MenuBar({
+  editor,
+  defaultFontSize,
+  className,
+  allowInsertBlank = false,
+}: {
+  editor: Editor;
+  defaultFontSize?: string;
+  className?: string;
+  allowInsertBlank?: boolean;
+}) {
   const {
     ref,
     canScrollLeft,
@@ -221,7 +233,12 @@ export default function MenuBar({ editor , defaultFontSize }: { editor: Editor, 
   };
 
   return (
-    <div className="absolute left-0 -top-14 z-10 h-12 w-fit max-w-full border border-primary rounded-md opacity-0 invisible pointer-events-none transition-all duration-200 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto">
+    <div
+      className={cn(
+        "absolute left-0 -top-14 z-10 h-12 w-full  border border-primary rounded-md opacity-0 invisible pointer-events-none transition-all duration-200 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto",
+        className,
+      )}
+    >
       <div
         ref={ref}
         className={cn(
@@ -229,7 +246,10 @@ export default function MenuBar({ editor , defaultFontSize }: { editor: Editor, 
           overflow === "none" && "px-1",
         )}
       >
+        {allowInsertBlank && <InsertBlank editor={editor} />}
+
         <FontSizeSelect editor={editor} defaultFontSize={defaultFontSize} />
+
         <TextColorPicker editor={editor} />
 
         <Separator orientation="vertical" className="ml-1" />

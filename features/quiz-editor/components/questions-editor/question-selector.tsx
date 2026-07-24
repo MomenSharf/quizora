@@ -8,23 +8,21 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import {
   IconChevronDown,
-  IconDots,
   IconGripVertical,
-  IconPlus,
+  IconPlus
 } from "@tabler/icons-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
+import {
+  QUESTION_TYPE_COLORS,
+  QUESTION_TYPE_LABELS
+} from "../../constants/question-types";
 import { useQuizForm } from "../../hooks/use-quiz-form";
 import { useEditorActions, useSelectedQuestionId } from "../../store";
-import { QuizEditor } from "../../validation/quiz";
-import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
-import { QuestionActionsDropdown } from "./question-actions-dropdown";
-import {
-  QUESTION_TYPE_LABELS,
-  QUESTION_TYPES,
-} from "../../constants/question-types";
 import { Question } from "../../validation/question";
-import { AnimatePresence, motion } from "framer-motion";
+import { QuestionActionsDropdown } from "./question-actions-dropdown";
+import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
 
 function Sortable({
   index,
@@ -54,9 +52,7 @@ function Sortable({
     handle: handleRef,
   });
 
-  const questionType = QUESTION_TYPES.find((item) => item.id === question.type);
-
-  const color = questionType?.color;
+   const color = QUESTION_TYPE_COLORS[question.type];
   return (
     <li
       ref={setElement}
