@@ -25,6 +25,9 @@ export const useSelectedQuestionId = () =>
 export const useIsTypeSelectorOpen = () =>
   useEditorStore((state) => state.navigation.isTypeSelectorOpen);
 
+export const useIsQuestionSelectorOpen = () =>
+  useEditorStore((state) => state.navigation.isQuestionSelectorOpen);
+
 export const useActivePanel = () =>
   useEditorStore((state) => state.navigation.activePanel);
 
@@ -57,6 +60,7 @@ export const useEditorActions = () =>
       setState: state.setState,
       selectQuestion: state.selectQuestion,
       setTypeSelectorOpen: state.setTypeSelectorOpen,
+      setQuestionSelectorOpen: state.setQuestionSelectorOpen,
       setActivePanel: state.setActivePanel,
       setDirty: state.setDirty,
       setAutosaveEnabled: state.setAutosaveEnabled,

@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { QUESTION_TYPES, QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
+import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
 import { createDefaultQuestion } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { useEditorActions } from "@/features/quiz-editor/store";
@@ -13,8 +13,8 @@ import { QuestionTypeIcon } from "./question-type-icon";
 const QuestionTypeCard = ({ type }: { type: QuestionTypeUI }) => {
   const { control } = useQuizForm();
 
-  const { selectQuestion } = useEditorActions();
-
+    const { selectQuestion, setQuestionSelectorOpen } = useEditorActions();
+  
   const { append } = useFieldArray({
     control,
     name: `questions`,
@@ -24,6 +24,7 @@ const QuestionTypeCard = ({ type }: { type: QuestionTypeUI }) => {
     const newQuestion = createDefaultQuestion(type.id);
     append(newQuestion)
     selectQuestion(newQuestion.id);
+    setQuestionSelectorOpen(false);
   };
   
 const color = type.color;

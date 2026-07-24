@@ -50,7 +50,7 @@ export function SaveStatus() {
 
           <span
             className={cn(
-              "text-[11px] font-medium transition-colors md:inline truncate",
+              "text-[8px] min-[500px]:text-[11px] max-[500px]:w-15  font-medium transition-colors md:inline truncate w-fit",
               isIdle && "text-muted-foreground",
               isSaved && "text-muted-foreground",
               isSaving && "text-blue-600 dark:text-blue-400",
@@ -59,7 +59,8 @@ export function SaveStatus() {
               isDisabled && "text-muted-foreground"
             )}
           >
-            {label}
+            {/* {label}  */}
+            unsaved changes
           </span>
         </div>
       </TooltipTrigger>

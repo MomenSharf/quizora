@@ -16,7 +16,7 @@ import {
   IconSquareCheckFilled,
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
-import { ActionsDropdown } from "./actions-dropdown";
+import { ActionsDropdown } from "../actions-dropdown";
 import { Option } from "@/features/quiz-editor/validation/question";
 import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 
@@ -115,8 +115,6 @@ export default function AnswerOption({
     }
   };
 
-  
-
   const onDelete = () => {
     if (questionIndex === -1 || !option) return;
 
@@ -128,18 +126,18 @@ export default function AnswerOption({
   };
 
   const onDuplicate = () => {
-  if (questionIndex === -1 || !option) return;
+    if (questionIndex === -1 || !option) return;
 
-  const optionIndex = options.findIndex((o) => o.id === option.id);
-  if (optionIndex === -1) return;
+    const optionIndex = options.findIndex((o) => o.id === option.id);
+    if (optionIndex === -1) return;
 
-  const nextOptions = [...options];
-  nextOptions.splice(optionIndex + 1, 0, createDefaultOption(option.text));
+    const nextOptions = [...options];
+    nextOptions.splice(optionIndex + 1, 0, createDefaultOption(option.text));
 
-  setValue(`questions.${questionIndex}.content.options`, nextOptions, {
-    shouldDirty: true,
-  });
-};
+    setValue(`questions.${questionIndex}.content.options`, nextOptions, {
+      shouldDirty: true,
+    });
+  };
 
   const color = QUESTION_TYPE_COLORS[type];
 

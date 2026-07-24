@@ -16,6 +16,7 @@ export interface NavigationState {
   activePanel: EditorPanel;
   selectedQuestionId: string | null;
   isTypeSelectorOpen: boolean;
+  isQuestionSelectorOpen: boolean;
 }
 
 export interface AutosaveState {
@@ -57,6 +58,8 @@ export interface EditorActions {
 
   setTypeSelectorOpen: (open: boolean) => void;
 
+  setQuestionSelectorOpen: (open: boolean) => void;
+
   setActivePanel(panel: EditorPanel): void;
 
   setDirty(value: boolean): void;
@@ -83,6 +86,7 @@ export const defaultEditorState: EditorState = {
     activePanel: "questions",
     selectedQuestionId: null,
     isTypeSelectorOpen: false,
+    isQuestionSelectorOpen: false,
   },
 
   autosave: {

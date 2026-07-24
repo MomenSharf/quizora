@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { move } from "@dnd-kit/helpers";
 import { DragDropProvider } from "@dnd-kit/react";
 import { useSortable } from "@dnd-kit/react/sortable";
+import { createId } from "@paralleldrive/cuid2";
 import {
   IconChevronDown,
   IconGripVertical,
@@ -18,10 +19,12 @@ import {
   QUESTION_TYPE_COLORS,
   QUESTION_TYPE_LABELS,
 } from "../../constants/question-types";
+import { createDefaultQuestion } from "../../create-defaults/questions/create-default-question";
 import { useQuizForm } from "../../hooks/use-quiz-form";
-import { useEditorActions, useSelectedQuestionId } from "../../store";
+import { useSelectedQuestion } from "../../hooks/use-selected-question";
+import { useEditorActions, useIsQuestionSelectorOpen, useSelectedQuestionId } from "../../store";
 import { Question } from "../../validation/question";
-import { QuestionActionsDropdown } from "./question-actions-dropdown";
+import { ActionsDropdown } from "./actions-dropdown";
 import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
 
 function Sortable({
@@ -44,6 +47,7 @@ function Sortable({
   canMoveDown: boolean;
 }) {
   const [element, setElement] = useState<Element | null>(null);
+
   const handleRef = useRef<HTMLDivElement | null>(null);
   const { isDragging } = useSortable({
     id: question.id,
@@ -51,6 +55,66 @@ function Sortable({
     element,
     handle: handleRef,
   });
+
+  const { control, setValue } = useQuizForm();
+
+  const { selectQuestion } = useEditorActions();
+
+  const questions = useWatch({
+    control,
+    name: "questions",
+  });
+
+  const { question: selectedQuestion } = useSelectedQuestion();
+
+  const questionIndex = questions.findIndex((q) => q.id === question.id);
+
+  const onSelect = () => {
+    selectQuestion(question.id);
+  };
+
+  const onDuplicate = () => {
+    const newQuestion = structuredClone(question);
+
+    newQuestion.id = createId();
+    newQuestion.title = `${question.title} (Copy)`;
+
+    setValue("questions", [...questions, newQuestion]);
+
+    setTimeout(() => {
+      selectQuestion(newQuestion.id);
+    }, 50);
+  };
+
+  const onReset = () => {
+    if (questionIndex === -1) return;
+
+    const nextQuestions = [...questions];
+
+    nextQuestions[questionIndex] = {
+      ...createDefaultQuestion(question.type),
+      id: question.id,
+    };
+
+    setValue("questions", nextQuestions);
+  };
+
+  const onDelete = () => {
+    if (questionIndex === -1) return;
+
+    const nextQuestions = questions.filter((q) => q.id !== question.id);
+
+    setValue("questions", nextQuestions);
+
+    const nextSelected =
+      nextQuestions[questionIndex] ?? nextQuestions[questionIndex - 1];
+
+    setTimeout(() => {
+      if (question.id === selectedQuestion?.id) {
+        selectQuestion(nextSelected?.id ?? null);
+      }
+    }, 50);
+  };
 
   const color = QUESTION_TYPE_COLORS[question.type];
 
@@ -116,12 +180,17 @@ function Sortable({
             ? question.title.replace(/<[^>]*>/g, "").trim()
             : QUESTION_TYPE_LABELS[question.type]}{" "}
         </p>
-        <QuestionActionsDropdown
-          question={question}
-          moveUp={moveUp}
-          moveDown={moveDown}
-          canMoveUp={canMoveUp}
+        
+        <ActionsDropdown
+          onDuplicate={onDuplicate}
+          onDelete={onDelete}
+          canDelete={questions.length > 1}
+          onReset={onReset}
+          onSelect={onSelect}
           canMoveDown={canMoveDown}
+          canMoveUp={canMoveUp}
+          moveDown={moveDown}
+          moveUp={moveUp}
         />
       </div>
     </li>
@@ -129,12 +198,13 @@ function Sortable({
 }
 
 const QuestionSelector = () => {
-  const [open, setOpen] = useState(false);
 
   const { control, setValue } = useQuizForm();
 
   const selectedQuestionId = useSelectedQuestionId();
-  const { selectQuestion, setTypeSelectorOpen } = useEditorActions();
+  const isQuestionSelectorOpen = useIsQuestionSelectorOpen();
+  const { selectQuestion, setTypeSelectorOpen, setQuestionSelectorOpen } = useEditorActions();
+
 
   const questions = useWatch({
     control,
@@ -160,7 +230,7 @@ const QuestionSelector = () => {
     <div className="flex-1 flex flex-col w-full md:w-72 md:min-w-72 md:max-w-72 xl:w-80 xl:min-w-80 xl:max-w-80 rounded-lg rounded-tl-xl bg-background border-b sm:border">
       <div
         className="flex items-center gap-1 p-3 max-md:hover:bg-muted/40 max-md:cursor-pointer md:pointer-events-none"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => setQuestionSelectorOpen(!isQuestionSelectorOpen)}
       >
         <h3 className="font-semibold text-muted-foreground text-xs mr-auto">
           QUESTIONS
@@ -172,11 +242,11 @@ const QuestionSelector = () => {
           className="size-8 rounded-lg max-md:cursor-pointer md:hidden"
           onClick={(e) => {
             e.stopPropagation();
-            setOpen((prev) => !prev);
+           setQuestionSelectorOpen(!isQuestionSelectorOpen)
           }}
         >
           <motion.div
-            animate={{ rotate: open ? 180 : 0 }}
+            animate={{ rotate: isQuestionSelectorOpen ? 180 : 0 }}
             transition={{
               duration: 0.2,
               ease: "easeInOut",
@@ -201,7 +271,7 @@ const QuestionSelector = () => {
         }}
         className={cn(
           "flex-1 overflow-hidden md:block",
-          open ? "block" : "hidden md:block",
+          isQuestionSelectorOpen ? "block" : "hidden md:block",
         )}
       >
         <motion.div
@@ -240,7 +310,7 @@ const QuestionSelector = () => {
                       question={question}
                       handleClick={() => {
                         selectQuestion(question.id);
-                        setTimeout(() => setOpen(false), 150);
+                        setTimeout(() => setQuestionSelectorOpen(!isQuestionSelectorOpen), 150);
                       }}
                       isSelected={isSelected}
                       moveUp={() => moveQuestion(index, index - 1)}

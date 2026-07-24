@@ -35,6 +35,14 @@ export const useEditorStore = create<EditorStore>()((set) => ({
       },
     })),
 
+  setQuestionSelectorOpen: (open) =>
+    set((state) => ({
+      navigation: {
+        ...state.navigation,
+        isQuestionSelectorOpen: open,
+      },
+    })),
+
   setActivePanel: (activePanel: EditorPanel) =>
     set((state) => ({
       navigation: {

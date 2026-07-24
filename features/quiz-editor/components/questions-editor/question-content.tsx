@@ -18,7 +18,7 @@ const QuestionContent = () => {
       ref={containerRef}
       className="scrollbar-thin flex flex-col h-full overflow-y-auto"
     >
-      <div className="flex flex-col gap-2 px-2">
+      <div className="flex flex-col gap-2 px-2 max-md:pt-2">
         <QuestionFormRouter />
       </div>
     </div>

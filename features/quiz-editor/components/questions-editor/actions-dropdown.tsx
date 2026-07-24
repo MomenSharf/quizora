@@ -9,28 +9,35 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
-import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import {
   IconArrowBarToDown,
   IconArrowBarToUp,
+  IconCheck,
+  IconCheckbox,
   IconCopy,
   IconDots,
-  IconTrash,
+  IconRotateClockwise,
+  IconTrash
 } from "@tabler/icons-react";
-import { useWatch } from "react-hook-form";
 
 export function ActionsDropdown({
+  trigger,
   onDuplicate,
   onDelete,
   canDelete,
+  onSelect,
+  onReset,
   moveUp,
   moveDown,
   canMoveUp,
   canMoveDown,
 }: {
+  trigger?: React.ReactNode;
   onDuplicate?: () => void;
   onDelete?: () => void;
   canDelete?: boolean;
+  onSelect?: () => void;
+  onReset?: () => void;
   moveUp: () => void;
   moveDown: () => void;
   canMoveUp: boolean;
@@ -39,29 +46,39 @@ export function ActionsDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
-        >
-          <IconDots className="size-5" />
-        </Button>
+        {trigger ?? (
+          <Button
+            size="icon-sm"
+            variant="ghost"
+            className="rounded-lg text-muted-foreground hover:text-foreground"
+          >
+            <IconDots className="size-5" />
+          </Button>
+        )}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-56 rounded-xl p-2">
-        {onDuplicate && (
-          <>
-            <DropdownMenuItem
-              onClick={onDuplicate}
-              className="cursor-pointer rounded-md"
-            >
-              <IconCopy className="mr-2 size-4" />
-              Duplicate
-            </DropdownMenuItem>
-
-            <DropdownMenuSeparator />
-          </>
+        {onSelect && (
+          <DropdownMenuItem
+            onClick={onSelect}
+            className="cursor-pointer rounded-md"
+          >
+            <IconCheckbox className="mr-2 size-4" />
+            Select
+          </DropdownMenuItem>
         )}
+
+        {onDuplicate && (
+          <DropdownMenuItem
+            onClick={onDuplicate}
+            className="cursor-pointer rounded-md"
+          >
+            <IconCopy className="mr-2 size-4" />
+            Duplicate
+          </DropdownMenuItem>
+        )}
+
+        {(onSelect || onDuplicate) && <DropdownMenuSeparator />}
 
         <DropdownMenuItem
           onClick={moveUp}
@@ -83,6 +100,19 @@ export function ActionsDropdown({
 
         <DropdownMenuSeparator />
 
+        {onReset && (
+          <>
+            <DropdownMenuItem
+              onClick={onReset}
+              className="cursor-pointer rounded-md"
+            >
+              <IconRotateClockwise className="mr-2 size-4" />
+              Reset
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
+
         {onDelete && (
           <DropdownMenuItem
             onClick={onDelete}
@@ -90,7 +120,7 @@ export function ActionsDropdown({
             disabled={!canDelete}
           >
             <IconTrash className="mr-2 size-4 text-destructive" />
-            Delete option
+            Delete question
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
