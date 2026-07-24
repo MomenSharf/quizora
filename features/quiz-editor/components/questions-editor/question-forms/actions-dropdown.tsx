@@ -19,45 +19,23 @@ import {
 } from "@tabler/icons-react";
 import { useWatch } from "react-hook-form";
 
-export function AnswerOptionActionsDropdown({
-  questionIndex,
-  optionId,
+export function ActionsDropdown({
+  onCopy,
+  onDelete,
+  canDelete,
   moveUp,
   moveDown,
   canMoveUp,
   canMoveDown,
 }: {
-  questionIndex: number;
-  optionId: string;
+  onCopy?: () => void;
+  onDelete?: () => void;
+  canDelete?: boolean;
   moveUp: () => void;
   moveDown: () => void;
   canMoveUp: boolean;
   canMoveDown: boolean;
 }) {
-  const { control, setValue } = useQuizForm();
-
-  const options = useWatch({
-    control,
-    name: `questions.${questionIndex}.content.options`,
-  });
-
-  const option = options.find((o) => o.id === optionId);
-
-  const onCopy = async () => {
-    if (!option) return;
-
-    await navigator.clipboard.writeText(option.text);
-  };
-
-  const onDelete = () => {
-    if (questionIndex === -1 || !option) return;
-
-    const nextOptions = options.filter((o) => o.id !== option.id);
-
-    setValue(`questions.${questionIndex}.content.options`, nextOptions, {
-      shouldDirty: true,
-    });
-  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -71,15 +49,19 @@ export function AnswerOptionActionsDropdown({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-56 rounded-xl p-2">
-        <DropdownMenuItem
-          onClick={onCopy}
-          className="cursor-pointer rounded-md"
-        >
-          <IconCopy className="mr-2 size-4" />
-          Copy
-        </DropdownMenuItem>
+        {onCopy && (
+          <>
+            <DropdownMenuItem
+              onClick={onCopy}
+              className="cursor-pointer rounded-md"
+            >
+              <IconCopy className="mr-2 size-4" />
+              Copy
+            </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
+            <DropdownMenuSeparator />
+          </>
+        )}
 
         <DropdownMenuItem
           onClick={moveUp}
@@ -101,13 +83,16 @@ export function AnswerOptionActionsDropdown({
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem
-          onClick={onDelete}
-          className="cursor-pointer rounded-md text-destructive focus:bg-destructive/10 focus:text-destructive"
-        >
-          <IconTrash className="mr-2 size-4 text-destructive" />
-          Delete option
-        </DropdownMenuItem>
+        {onDelete && (
+          <DropdownMenuItem
+            onClick={onDelete}
+            className="cursor-pointer rounded-md text-destructive focus:bg-destructive/10 focus:text-destructive"
+            disabled={!canDelete}
+          >
+            <IconTrash className="mr-2 size-4 text-destructive" />
+            Delete option
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

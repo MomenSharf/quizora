@@ -8,7 +8,7 @@ export function OrdeingrForm({  questionIndex }: QuestionFormProps) {
   return (
     <div className="space-y-5">
       <SectionCard type="ORDERING" title="Ordering">
-        <QuestionSection  questionIndex={questionIndex} />
+        <QuestionSection  questionIndex={questionIndex} type="ORDERING" />
       </SectionCard>
       <SectionCard type="ORDERING" title="Answer Content">
         <AnswerOptionsGroup questionIndex={questionIndex} />

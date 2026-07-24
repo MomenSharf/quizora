@@ -1,53 +1,89 @@
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { IconPhotoPlus, IconUpload } from "@tabler/icons-react";
+import { QUESTION_TYPE_COLORS } from "../../constants/question-types";
 
 type ImageUploadPlaceholderProps = {
+  questionIndex?: number;
+  type: QuestionType;
   onClick?: () => void;
   disabled?: boolean;
 };
 
 export function ImageUploadPlaceholder({
+  type,
   onClick,
   disabled,
 }: ImageUploadPlaceholderProps) {
+  const color = QUESTION_TYPE_COLORS[type];
+
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className="group relative flex min-h-80 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-border bg-linear-to-br from-background via-background to-muted/30 p-8 text-center transition-all duration-200 hover:border-primary/50 hover:bg-primary/5 disabled:pointer-events-none disabled:opacity-50"
+      style={
+        {
+          "--accent": color,
+        } as React.CSSProperties
+      }
+      className="group relative flex min-h-52 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-dashed border-border bg-background px-6 py-8 text-center transition-all duration-200 hover:-translate-y-0.5 hover:border-(--accent)/40 hover:shadow-lg disabled:pointer-events-none disabled:opacity-50"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_70%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div
+        className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            `radial-gradient(circle at top, ${color}18 0%, transparent 70%)`,
+        }}
+      />
 
-      <div className="relative flex size-20 items-center justify-center rounded-2xl border bg-background shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:border-primary/30">
-        <IconPhotoPlus className="size-10 text-primary" />
+      <div
+        className="relative flex size-14 items-center justify-center rounded-xl border transition-all duration-200 group-hover:scale-105"
+        style={{
+          backgroundColor: `${color}10`,
+          borderColor: `${color}25`,
+          color,
+        }}
+      >
+        <IconPhotoPlus className="size-7 transition-transform duration-200 group-hover:scale-110" />
       </div>
 
-      <div className="relative mt-6 space-y-2">
-        <h3 className="text-lg font-semibold tracking-tight">
-          Upload Cover Image
-        </h3>
+      <div className="relative mt-4 space-y-1">
+        <h3 className="text-sm font-semibold">Upload image</h3>
 
-        <p className="max-w-sm text-sm text-muted-foreground">
-          Drag & drop an image here or click to browse your files.
+        <p className="text-xs text-muted-foreground">
+          Drag & drop or click to browse
         </p>
       </div>
 
-      <div className="relative mt-6 inline-flex items-center gap-2 rounded-xl border bg-background px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 group-hover:border-primary/40 group-hover:shadow">
-        <IconUpload className="size-4 text-primary" />
+      <div
+        className="relative mt-5 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-all duration-200"
+        style={{
+          backgroundColor: `${color}10`,
+          color,
+        }}
+      >
+        <IconUpload className="size-3.5" />
         Choose Image
       </div>
 
-      <div className="relative mt-6 flex flex-wrap items-center justify-center gap-2">
-        {["PNG", "JPG", "WEBP", "GIF"].map((type) => (
-          <span
-            key={type}
-            className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground"
-          >
-            {type}
-          </span>
-        ))}
+      <div className="relative mt-4 flex items-center gap-2 text-[11px]">
+        <span className="rounded-full bg-muted px-2 py-1 text-muted-foreground">
+          PNG
+        </span>
+        <span className="rounded-full bg-muted px-2 py-1 text-muted-foreground">
+          JPG
+        </span>
+        <span className="rounded-full bg-muted px-2 py-1 text-muted-foreground">
+          WEBP
+        </span>
 
-        <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+        <span
+          className="rounded-full px-2 py-1 font-medium"
+          style={{
+            backgroundColor: `${color}12`,
+            color,
+          }}
+        >
           Max 5 MB
         </span>
       </div>

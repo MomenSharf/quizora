@@ -13,13 +13,15 @@ import {
   IconGripVertical,
   IconPhotoPlus,
   IconSquare,
-  IconSquareCheckFilled
+  IconSquareCheckFilled,
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
-import { AnswerOptionActionsDropdown } from "./answer-option-actions-dropdown";
+import { ActionsDropdown } from "./actions-dropdown";
+import { Option } from "@/features/quiz-editor/validation/question";
 
 export default function AnswerOption({
   optionId,
+  options,
   index,
   autoResize,
   type,
@@ -31,6 +33,7 @@ export default function AnswerOption({
   canMoveDown,
 }: {
   optionId: string;
+  options: Option[];
   index: number;
   type: QuestionType;
   autoResize: (textarea: HTMLTextAreaElement) => void;
@@ -49,6 +52,11 @@ export default function AnswerOption({
   const { field: textField } = useController({
     control,
     name: `questions.${questionIndex}.content.options.${index}.text`,
+  });
+
+  const option = useWatch({
+    control,
+    name: `questions.${questionIndex}.content.options.${index}`,
   });
 
   const singleCorrect = useWatch({
@@ -106,7 +114,23 @@ export default function AnswerOption({
     }
   };
 
-   const color = QUESTION_TYPE_COLORS[type];
+  const onCopy = async () => {
+    if (!option) return;
+
+    await navigator.clipboard.writeText(option.text);
+  };
+
+  const onDelete = () => {
+    if (questionIndex === -1 || !option) return;
+
+    const nextOptions = options.filter((o) => o.id !== option.id);
+
+    setValue(`questions.${questionIndex}.content.options`, nextOptions, {
+      shouldDirty: true,
+    });
+  };
+
+  const color = QUESTION_TYPE_COLORS[type];
 
   return (
     <div
@@ -180,9 +204,10 @@ export default function AnswerOption({
           </button>
 
           <div className="lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100">
-            <AnswerOptionActionsDropdown
-              questionIndex={questionIndex}
-              optionId={optionId}
+            <ActionsDropdown
+              onCopy={onCopy}
+              onDelete={onDelete}
+              canDelete={options.length > 1}
               canMoveDown={canMoveDown}
               canMoveUp={canMoveUp}
               moveDown={moveDown}
@@ -210,9 +235,10 @@ export default function AnswerOption({
         </div>
 
         <div className="max-lg:hidden  ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100">
-          <AnswerOptionActionsDropdown
-            questionIndex={questionIndex}
-            optionId={optionId}
+          <ActionsDropdown
+            onCopy={onCopy}
+            onDelete={onDelete}
+            canDelete={options.length > 1}
             canMoveDown={canMoveDown}
             canMoveUp={canMoveUp}
             moveDown={moveDown}

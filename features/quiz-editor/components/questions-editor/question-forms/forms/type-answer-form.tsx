@@ -99,7 +99,7 @@ function AnswerInput({
   );
 }
 
-export function TypeAnswerForm({  questionIndex }: QuestionFormProps) {
+export function TypeAnswerForm({ questionIndex }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
 
   const expectedAnswers = useWatch({
@@ -114,12 +114,12 @@ export function TypeAnswerForm({  questionIndex }: QuestionFormProps) {
     textarea.style.height = `${Math.max(textarea.scrollHeight, 44)}px`;
   };
 
-   const color = QUESTION_TYPE_COLORS['TYPE_ANSWER'];
+  const color = QUESTION_TYPE_COLORS["TYPE_ANSWER"];
 
   return (
     <div className="space-y-5">
       <SectionCard type="TYPE_ANSWER" title="Type Answer">
-        <QuestionSection  questionIndex={questionIndex} />
+        <QuestionSection questionIndex={questionIndex} type="TYPE_ANSWER" />
       </SectionCard>
 
       <SectionCard type="TYPE_ANSWER" title="Answer Content">
@@ -157,7 +157,7 @@ export function TypeAnswerForm({  questionIndex }: QuestionFormProps) {
         </div>
       </SectionCard>
       <SectionCard type="TYPE_ANSWER" title="Explanation">
-        <ExplanationSection  questionIndex={questionIndex} />
+        <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
     </div>
   );

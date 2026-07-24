@@ -4,13 +4,14 @@ import { Controller } from "react-hook-form";
 import { ImageUploadPlaceholder } from "../../image-upload/image-upload-placeholder";
 import { QuestionFormProps } from "./question-form-router";
 import SectionField from "./section-field";
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
-const QuestionSection = ({  questionIndex }: QuestionFormProps) => {
+const QuestionSection = ({  questionIndex, type }: QuestionFormProps & {type: QuestionType}) => {
   const { control } = useQuizForm();
 
   return (
     <div className="space-y-3">
-      {/* <ImageUploadPlaceholder onClick={() => {}} /> */}
+      <ImageUploadPlaceholder onClick={() => {}}  questionIndex={questionIndex} type={type} />
       <SectionField
         label="Title"
         description="Provide a title for this question."

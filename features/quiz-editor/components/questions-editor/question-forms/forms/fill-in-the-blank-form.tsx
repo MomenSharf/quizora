@@ -26,7 +26,7 @@ export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
   return (
     <div className="space-y-5">
       <SectionCard type="FILL_BLANK" title="Fill in the Blank">
-        <QuestionSection questionIndex={questionIndex} />
+        <QuestionSection questionIndex={questionIndex} type="FILL_BLANK" />
       </SectionCard>
       <SectionCard type="FILL_BLANK" title="Blanks">
         <div className="group rounded-xl border bg-card transition-all duration-200 hover:border-primary/20 focus-within:border-primary/40 focus-within:shadow-sm">

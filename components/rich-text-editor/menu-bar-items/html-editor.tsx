@@ -19,27 +19,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { IconCode, IconCopy, IconRotateClockwise, IconWand } from "@tabler/icons-react";
+import {
+  IconCode,
+  IconCopy,
+  IconRotateClockwise,
+  IconWand,
+} from "@tabler/icons-react";
 
 interface HtmlEditorDialogProps {
   editor: TiptapEditor;
 }
 
-export function HtmlEditorDialog({
-  editor,
-}: HtmlEditorDialogProps) {
+export function HtmlEditorDialog({ editor }: HtmlEditorDialogProps) {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function format() {
+  async function formatHtml(html: string) {
     try {
-      const formatted = await prettier.format(value, {
+      return await prettier.format(html, {
         parser: "html",
         plugins: [htmlParser],
       });
+    } catch {
+      return html;
+    }
+  }
 
-      setValue(formatted);
-    } catch {}
+  async function format() {
+    setValue(await formatHtml(value));
   }
 
   function apply() {
@@ -56,11 +63,11 @@ export function HtmlEditorDialog({
 
   return (
     <Dialog
-      onOpenChange={(open) => {
-        if (open) {
-          setLoading(true);
-          setValue(editor.getHTML());
-        }
+      onOpenChange={async (open) => {
+        if (!open) return;
+
+        setLoading(true);
+        setValue(await formatHtml(editor.getHTML()));
       }}
     >
       <DialogTrigger asChild>
@@ -70,37 +77,23 @@ export function HtmlEditorDialog({
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="flex h-[90vh] w-[95vw] max-w-5xl flex-col overflow-hidden p-0">
-        <DialogHeader className="border-b px-4 py-3">
-          <DialogTitle>
-            Edit HTML
-          </DialogTitle>
+      <DialogContent className="flex h-[90vh] w-[95vw] max-w-5xl flex-col overflow-hidden p-0 gap-0" showCloseButton={false}>
+        <DialogHeader className="px-4 py-5">
+          <DialogTitle>Edit HTML</DialogTitle>
         </DialogHeader>
 
         <div className="flex items-center gap-2 border-b bg-muted/50 p-2">
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={format}
-          >
+          <Button size="sm" variant="secondary" onClick={format}>
             <IconWand className="mr-2 h-4 w-4" />
             Format
           </Button>
 
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={copy}
-          >
+          <Button size="sm" variant="secondary" onClick={copy}>
             <IconCopy className="mr-2 h-4 w-4" />
             Copy
           </Button>
 
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={reset}
-          >
+          <Button size="sm" variant="secondary" onClick={reset}>
             <IconRotateClockwise className="mr-2 h-4 w-4" />
             Reset
           </Button>
@@ -121,10 +114,7 @@ export function HtmlEditorDialog({
             value={value}
             height="100%"
             theme={oneDark}
-            extensions={[
-              html(),
-              autocompletion(),
-            ]}
+            extensions={[html(), autocompletion()]}
             onChange={setValue}
             onCreateEditor={() => setLoading(false)}
             basicSetup={{
@@ -141,15 +131,11 @@ export function HtmlEditorDialog({
 
         <DialogFooter className="border-t px-4 py-3">
           <DialogClose asChild>
-            <Button variant="outline">
-              Cancel
-            </Button>
+            <Button variant="outline">Cancel</Button>
           </DialogClose>
 
           <DialogClose asChild>
-            <Button onClick={apply}>
-              Apply Changes
-            </Button>
+            <Button onClick={apply}>Apply Changes</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

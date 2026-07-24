@@ -63,11 +63,13 @@ const EditorNavigation = () => {
         <SaveStatus />
 
         <Button
-          variant="outline"
           size="icon"
-          className="rounded-xl hidden min-[450px]:flex"
+          className="size-8 min-[400px]:size-10 group relative overflow-hidden cursor-pointer rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98]"
         >
-          <IconPlayerPlay className="size-4" />
+          <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+          <div className="relative flex items-center justify-center gap-3">
+            <IconPlayerPlay className="size-4 min-[400px]:size-5 transition-transform duration-200 group-hover:rotate-120" />
+          </div>
         </Button>
       </div>
     </aside>

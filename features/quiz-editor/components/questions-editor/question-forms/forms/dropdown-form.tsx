@@ -13,7 +13,7 @@ export function DropdownForm({  questionIndex }: QuestionFormProps) {
   return (
     <div className="space-y-5">
       <SectionCard type="DROPDOWN" title="Dropdown">
-        <QuestionSection questionIndex={questionIndex} />
+        <QuestionSection questionIndex={questionIndex} type="DROPDOWN" />
       </SectionCard>
       <SectionCard type="DROPDOWN" title="Answer Options">
         <div className="space-y-5">

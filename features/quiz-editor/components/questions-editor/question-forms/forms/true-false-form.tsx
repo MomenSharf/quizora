@@ -37,7 +37,7 @@ export function TrueFalseForm({  questionIndex }: QuestionFormProps) {
   return (
     <div className="space-y-5">
       <SectionCard type="TRUE_FALSE" title="Question">
-        <QuestionSection  questionIndex={questionIndex} />
+        <QuestionSection  questionIndex={questionIndex} type="TRUE_FALSE" />
       </SectionCard>
 
       <SectionCard type="TRUE_FALSE" title="Correct Answer">

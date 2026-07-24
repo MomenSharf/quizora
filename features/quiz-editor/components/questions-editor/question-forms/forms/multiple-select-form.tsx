@@ -10,7 +10,7 @@ export function MultipleSelectForm({
   return (
     <div className="space-y-5">
       <SectionCard type="MULTIPLE_SELECT" title="Multiple Select">
-        <QuestionSection  questionIndex={questionIndex} />
+        <QuestionSection  questionIndex={questionIndex} type="MULTIPLE_SELECT" />
       </SectionCard>
       <SectionCard type="MULTIPLE_SELECT" title="Answer Content">
         <AnswerOptionsGroup questionIndex={questionIndex} />

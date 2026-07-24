@@ -3,10 +3,8 @@ import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { IconChevronLeft, IconPlayerPlay } from "@tabler/icons-react";
 import { EditableTitle } from "./editable-title";
-import MobileHeaderSheet from "./quiz-mobile-header-sheet";
 import QuizTabs from "./quiz-tabs";
 import { SaveStatus } from "./save-status";
-import SaveStatusMobile from "./save-status-mobile";
 
 export default function EditorHeader() {
   return (
@@ -38,10 +36,16 @@ export default function EditorHeader() {
 
       <div className="flex items-center gap-2">
         <ThemeToggle />
+        <Button className="group relative overflow-hidden cursor-pointer rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 px-4 py-5 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98]">
+          <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
 
-        <Button className="rounded-xl px-5">
-          <IconPlayerPlay className="size-4" />
-          Preview
+          <div className="relative flex items-center justify-center gap-3">
+            <div className="flex size-6 items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover:rotate-120">
+              <IconPlayerPlay className="size-4" />
+            </div>
+
+            <span>Preview</span>
+          </div>
         </Button>
       </div>
     </header>

@@ -10,7 +10,7 @@ export function SingleSelectForm({
   return (
     <div className="space-y-5">
       <SectionCard type="SINGLE_SELECT" title="Single Select">
-        <QuestionSection  questionIndex={questionIndex} />
+        <QuestionSection  questionIndex={questionIndex} type="SINGLE_SELECT" />
       </SectionCard>
       <SectionCard type="SINGLE_SELECT" title="Answer Content">
         <AnswerOptionsGroup questionIndex={questionIndex} />

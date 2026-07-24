@@ -78,6 +78,7 @@ export function AnswerOptionsGroup({
               <AnswerOption
                 key={option.id}
                 optionId={option.id}
+                options={options}
                 index={index}
                 type={question.type}
                 questionIndex={questionIndex}
