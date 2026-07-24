@@ -1,64 +1,97 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { saveQuiz } from "../actions/save-quiz";
 import {
-  IconAlertCircle,
-  IconCloudOff,
-  IconLoader2,
-  IconCircleCheckFilled,
-  IconPointFilled,
-} from "@tabler/icons-react";
+  EditorStore,
+  useAutosaveEnabled,
+  useEditorActions,
+  useEditorStore,
+} from "../store";
+import { useQuizForm } from "./use-quiz-form";
 
-import { cn } from "@/lib/utils";
-import { useSaveStatus } from "../../hooks/use-save-status";
-
-export function SaveStatus() {
+export function useAutosaveHook(debounceMs: number = 3000) {
   const {
-    label,
-    isSaving,
-    isSaved,
-    isError,
-    isDisabled,
-    dirty,
-  } = useSaveStatus();
+    watch,
+    getValues,
+    formState: { isDirty },
+  } = useQuizForm();
 
-  return (
-    <div
-      className={cn(
-        "inline-flex h-8 items-center gap-2 rounded-full border px-3 text-xs font-medium transition-all",
-        isSaved &&
-          "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-400",
-        isSaving &&
-          "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900 dark:bg-blue-950/30 dark:text-blue-400",
-        dirty &&
-          !isSaving &&
-          "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-400",
-        isError &&
-          "border-destructive/20 bg-destructive/10 text-destructive",
-        isDisabled &&
-          "border-border bg-muted text-muted-foreground",
-      )}
-    >
-      {isSaving && (
-        <IconLoader2 className="size-4 animate-spin" />
-      )}
+  const {
+    setSaveState,
+    setLastSavedAt,
+    setLastAttemptAt,
+    setDirty,
+    setSaveError,
+  } = useEditorActions();
+  const isAutosaveEnabled = useAutosaveEnabled();
 
-      {isSaved && (
-        <IconCircleCheckFilled className="size-4" />
-      )}
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-      {dirty && !isSaving && (
-        <IconPointFilled className="size-4 animate-pulse" />
-      )}
+  useEffect(() => {
+    if (!isAutosaveEnabled) return;
 
-      {isError && (
-        <IconAlertCircle className="size-4" />
-      )}
+    const subscription = watch(() => {
+      if (!isDirty) return;
 
-      {isDisabled && (
-        <IconCloudOff className="size-4" />
-      )}
+      setDirty(true);
+      setSaveState("pending");
 
-      <span>{label}</span>
-    </div>
-  );
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(async () => {
+        const payload = getValues();
+        const editorState = useEditorStore.getState();
+        const now = new Date();
+        const stateToSave: EditorStore = {
+          ...editorState,
+          autosave: {
+            ...editorState.autosave,
+            state: "idle",
+            dirty: false,
+            error: null,
+          },
+        };
+
+        setSaveState("saving");
+        setLastAttemptAt(now);
+
+        try {
+          await saveQuiz(payload, stateToSave);
+
+          setSaveState("saved");
+          setLastSavedAt(new Date());
+          setDirty(false);
+        } catch (error) {
+          console.error("Autosave Engine Failure:", error);
+
+          const message =
+            error instanceof Error ? error.message : "Failed to save quiz.";
+
+          setSaveState("error");
+          setSaveError(message);
+        }
+      }, debounceMs);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [
+    watch,
+    getValues,
+    isDirty,
+    isAutosaveEnabled,
+    debounceMs,
+    setSaveState,
+    setLastSavedAt,
+    setLastAttemptAt,
+    setDirty,
+    setSaveError,
+  ]);
 }

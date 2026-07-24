@@ -9,14 +9,14 @@ import { useSortable } from "@dnd-kit/react/sortable";
 import {
   IconChevronDown,
   IconGripVertical,
-  IconPlus
+  IconPlus,
 } from "@tabler/icons-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
 import {
   QUESTION_TYPE_COLORS,
-  QUESTION_TYPE_LABELS
+  QUESTION_TYPE_LABELS,
 } from "../../constants/question-types";
 import { useQuizForm } from "../../hooks/use-quiz-form";
 import { useEditorActions, useSelectedQuestionId } from "../../store";
@@ -52,7 +52,8 @@ function Sortable({
     handle: handleRef,
   });
 
-   const color = QUESTION_TYPE_COLORS[question.type];
+  const color = QUESTION_TYPE_COLORS[question.type];
+
   return (
     <li
       ref={setElement}
@@ -69,27 +70,27 @@ function Sortable({
             handleClick();
           }
         }}
-      className={cn(
-  buttonVariants({ variant: "ghost" }),
-  "flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
-  {
-    "z-50 scale-[1.02] opacity-90 shadow-2xl ring-2": isDragging,
-    "shadow-sm": isSelected,
-  },
-)}
-style={
-  {
-    ...(isSelected && {
-      borderColor: `${color}66`,
-      backgroundColor: `${color}14`,
-      color,
-    }),
-    ...(isDragging && {
-      borderColor: color,
-      "--tw-ring-color": `${color}88`,
-    }),
-  } as React.CSSProperties
-}
+        className={cn(
+          buttonVariants({ variant: "ghost" }),
+          "flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
+          {
+            "z-50 scale-[1.02] opacity-90 shadow-2xl ring-2": isDragging,
+            "shadow-sm": isSelected,
+          },
+        )}
+        style={
+          {
+            ...(isSelected && {
+              borderColor: `${color}66`,
+              backgroundColor: `${color}14`,
+              color,
+            }),
+            ...(isDragging && {
+              borderColor: color,
+              "--tw-ring-color": `${color}88`,
+            }),
+          } as React.CSSProperties
+        }
       >
         <div
           ref={handleRef}
@@ -100,7 +101,7 @@ style={
             e.stopPropagation();
           }}
           style={{
-            touchAction: 'none'
+            touchAction: "none",
           }}
         >
           <IconGripVertical className="text-muted-foreground" />
@@ -127,7 +128,6 @@ style={
   );
 }
 
-// TODO: Add question selector to mobile view
 const QuestionSelector = () => {
   const [open, setOpen] = useState(false);
 
@@ -186,91 +186,93 @@ const QuestionSelector = () => {
           </motion.div>
         </Button>
       </div>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{
-              height: {
-                duration: 0.25,
-                ease: "easeInOut",
-              },
-              opacity: {
-                duration: 0.15,
-              },
-            }}
-            className="flex-1"
-          >
-            <motion.div
-              initial={{ y: -8 }}
-              animate={{ y: 0 }}
-              exit={{ y: -8 }}
-              transition={{
-                duration: 0.2,
-                ease: "easeOut",
-              }}
-              className="h-full p-3 pt-0 flex flex-col"
-            >
-              <div className="flex-1 foverflow-y-auto scrollbar-thin py-1">
-                <DragDropProvider
-                  onDragEnd={(event) => {
-                    if (!questions || event.canceled) return;
-
-                    const nextQuestions = move(questions, event);
-
-                    setValue("questions", nextQuestions, {
-                      shouldDirty: true,
-                      shouldTouch: true,
-                      shouldValidate: false,
-                    });
-                  }}
-                >
-                  <ul className="flex flex-col gap-0.5 list-none">
-                    {questions?.map((question, index) => {
-                      const isSelected = selectedQuestionId === question.id;
-                      const canMoveUp = index > 0;
-                      const canMoveDown = index < questions.length - 1;
-                      return (
-                        <Sortable
-                          key={question.id}
-                          index={index}
-                          question={question}
-                          handleClick={() => selectQuestion(question.id)}
-                          isSelected={isSelected}
-                          moveUp={() => moveQuestion(index, index - 1)}
-                          moveDown={() => moveQuestion(index, index + 1)}
-                          canMoveUp={canMoveUp}
-                          canMoveDown={canMoveDown}
-                        />
-                      );
-                    })}
-                  </ul>
-                </DragDropProvider>
-              </div>
-              <Button
-                onClick={() => {
-                  selectQuestion(null);
-                  setTypeSelectorOpen(true);
-                }}
-                size="lg"
-                className="group relative w-full overflow-hidden cursor-pointer rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 px-5 py-6 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98]"
-              >
-                <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-
-                <div className="relative flex items-center justify-center gap-3">
-                  <div className="flex size-8 items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover:rotate-90">
-                    <IconPlus className="size-4" />
-                  </div>
-
-                  <span>Add Question</span>
-                </div>
-              </Button>
-            </motion.div>
-          </motion.div>
+      <motion.div
+        initial={{ height: 0, opacity: 0 }}
+        animate={{ height: "auto", opacity: 1 }}
+        exit={{ height: 0, opacity: 0 }}
+        transition={{
+          height: {
+            duration: 0.25,
+            ease: "easeInOut",
+          },
+          opacity: {
+            duration: 0.15,
+          },
+        }}
+        className={cn(
+          "flex-1 overflow-hidden md:block",
+          open ? "block" : "hidden md:block",
         )}
-      </AnimatePresence>
+      >
+        <motion.div
+          initial={{ y: -8 }}
+          animate={{ y: 0 }}
+          exit={{ y: -8 }}
+          transition={{
+            duration: 0.2,
+            ease: "easeOut",
+          }}
+          className="h-full p-3 pt-0 flex flex-col"
+        >
+          <div className="flex-1 foverflow-y-auto scrollbar-thin py-1">
+            <DragDropProvider
+              onDragEnd={(event) => {
+                if (!questions || event.canceled) return;
+
+                const nextQuestions = move(questions, event);
+
+                setValue("questions", nextQuestions, {
+                  shouldDirty: true,
+                  shouldTouch: true,
+                  shouldValidate: false,
+                });
+              }}
+            >
+              <ul className="flex flex-col gap-0.5 list-none">
+                {questions?.map((question, index) => {
+                  const isSelected = selectedQuestionId === question.id;
+                  const canMoveUp = index > 0;
+                  const canMoveDown = index < questions.length - 1;
+                  return (
+                    <Sortable
+                      key={question.id}
+                      index={index}
+                      question={question}
+                      handleClick={() => {
+                        selectQuestion(question.id);
+                        setTimeout(() => setOpen(false), 150);
+                      }}
+                      isSelected={isSelected}
+                      moveUp={() => moveQuestion(index, index - 1)}
+                      moveDown={() => moveQuestion(index, index + 1)}
+                      canMoveUp={canMoveUp}
+                      canMoveDown={canMoveDown}
+                    />
+                  );
+                })}
+              </ul>
+            </DragDropProvider>
+          </div>
+          <Button
+            onClick={() => {
+              selectQuestion(null);
+              setTypeSelectorOpen(true);
+            }}
+            size="lg"
+            className="group relative w-full overflow-hidden cursor-pointer rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 px-5 py-6 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98]"
+          >
+            <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+
+            <div className="relative flex items-center justify-center gap-3">
+              <div className="flex size-8 items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover:rotate-90">
+                <IconPlus className="size-4" />
+              </div>
+
+              <span>Add Question</span>
+            </div>
+          </Button>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

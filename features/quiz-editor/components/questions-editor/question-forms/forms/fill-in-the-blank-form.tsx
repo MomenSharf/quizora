@@ -1,19 +1,16 @@
+import RichTextEditor from "@/components/rich-text-editor";
+import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
+import { parseFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-parser";
+import { serializeFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-serializer";
+import {
+  FillBlankData
+} from "@/features/quiz-editor/validation/question";
+import { useMemo } from "react";
 import { useWatch } from "react-hook-form";
 import ExplanationSection from "../explanation-section";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
-import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import {
-  FillBlankBlock,
-  FillBlankData,
-  FillBlankQuestion,
-} from "@/features/quiz-editor/validation/question";
-import { useMemo, useState } from "react";
-import RichTextEditor from "@/components/rich-text-editor";
-import { Button } from "@/components/ui/button";
-import { parseFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-parser";
-import { serializeFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-serializer";
 
 export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
