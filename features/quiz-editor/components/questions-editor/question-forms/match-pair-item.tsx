@@ -14,6 +14,7 @@ import {
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
 import { ActionsDropdown } from "./actions-dropdown";
+import { createId } from "@paralleldrive/cuid2";
 
 export default function MatchPairItem({
   pairId,
@@ -73,6 +74,25 @@ export default function MatchPairItem({
     if (questionIndex === -1 || !pairs) return;
 
     const nextPairs = pairs.filter((p) => p.id !== pair.id);
+
+    setValue(`questions.${questionIndex}.content.pairs`, nextPairs, {
+      shouldDirty: true,
+    });
+  };
+
+  const onDuplicate = () => {
+    if (questionIndex === -1 || !pairs) return;
+
+    const pairIndex = pairs.findIndex((p) => p.id === pair.id);
+    if (pairIndex === -1) return;
+
+    const duplicatedPair = {
+      ...pair,
+      id: createId(),
+    };
+
+    const nextPairs = [...pairs];
+    nextPairs.splice(pairIndex + 1, 0, duplicatedPair);
 
     setValue(`questions.${questionIndex}.content.pairs`, nextPairs, {
       shouldDirty: true,
@@ -200,6 +220,7 @@ export default function MatchPairItem({
 
         <div className="hidden shrink-0 lg:block lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100">
           <ActionsDropdown
+            onDuplicate={onDuplicate}
             onDelete={onDelete}
             canDelete={pairs.length > 1}
             canMoveDown={canMoveDown}
@@ -212,6 +233,7 @@ export default function MatchPairItem({
 
       <div className="mt-3 flex justify-end lg:hidden">
         <ActionsDropdown
+          onDuplicate={onDuplicate}
           onDelete={onDelete}
           canDelete={pairs.length > 1}
           canMoveDown={canMoveDown}

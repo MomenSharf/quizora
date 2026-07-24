@@ -3,14 +3,13 @@
 import { useRef } from "react";
 
 import { Button } from "@/components/ui/button";
+import { createMatchQuestion } from "@/features/quiz-editor/create-defaults/questions/match-question";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { DragDropProvider } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
+import { DragDropProvider } from "@dnd-kit/react";
 import { IconPlus } from "@tabler/icons-react";
 import { useWatch } from "react-hook-form";
 import MatchPairItem from "./match-pair-item";
-import { createDefaultQuestion } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
-import { createMatchQuestion } from "@/features/quiz-editor/create-defaults/questions/match-question";
 
 export function MatchPairsGroup({ questionIndex }: { questionIndex: number }) {
   const { control, setValue } = useQuizForm();

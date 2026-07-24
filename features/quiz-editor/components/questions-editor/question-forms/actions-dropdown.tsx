@@ -20,7 +20,7 @@ import {
 import { useWatch } from "react-hook-form";
 
 export function ActionsDropdown({
-  onCopy,
+  onDuplicate,
   onDelete,
   canDelete,
   moveUp,
@@ -28,7 +28,7 @@ export function ActionsDropdown({
   canMoveUp,
   canMoveDown,
 }: {
-  onCopy?: () => void;
+  onDuplicate?: () => void;
   onDelete?: () => void;
   canDelete?: boolean;
   moveUp: () => void;
@@ -49,14 +49,14 @@ export function ActionsDropdown({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-56 rounded-xl p-2">
-        {onCopy && (
+        {onDuplicate && (
           <>
             <DropdownMenuItem
-              onClick={onCopy}
+              onClick={onDuplicate}
               className="cursor-pointer rounded-md"
             >
               <IconCopy className="mr-2 size-4" />
-              Copy
+              Duplicate
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />

@@ -18,6 +18,7 @@ import {
 import { useController, useWatch } from "react-hook-form";
 import { ActionsDropdown } from "./actions-dropdown";
 import { Option } from "@/features/quiz-editor/validation/question";
+import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 
 export default function AnswerOption({
   optionId,
@@ -114,11 +115,7 @@ export default function AnswerOption({
     }
   };
 
-  const onCopy = async () => {
-    if (!option) return;
-
-    await navigator.clipboard.writeText(option.text);
-  };
+  
 
   const onDelete = () => {
     if (questionIndex === -1 || !option) return;
@@ -129,6 +126,20 @@ export default function AnswerOption({
       shouldDirty: true,
     });
   };
+
+  const onDuplicate = () => {
+  if (questionIndex === -1 || !option) return;
+
+  const optionIndex = options.findIndex((o) => o.id === option.id);
+  if (optionIndex === -1) return;
+
+  const nextOptions = [...options];
+  nextOptions.splice(optionIndex + 1, 0, createDefaultOption(option.text));
+
+  setValue(`questions.${questionIndex}.content.options`, nextOptions, {
+    shouldDirty: true,
+  });
+};
 
   const color = QUESTION_TYPE_COLORS[type];
 
@@ -205,7 +216,7 @@ export default function AnswerOption({
 
           <div className="lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100">
             <ActionsDropdown
-              onCopy={onCopy}
+              onDuplicate={onDuplicate}
               onDelete={onDelete}
               canDelete={options.length > 1}
               canMoveDown={canMoveDown}
@@ -236,7 +247,7 @@ export default function AnswerOption({
 
         <div className="max-lg:hidden  ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100">
           <ActionsDropdown
-            onCopy={onCopy}
+            onDuplicate={onDuplicate}
             onDelete={onDelete}
             canDelete={options.length > 1}
             canMoveDown={canMoveDown}
