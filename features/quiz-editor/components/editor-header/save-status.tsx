@@ -44,7 +44,7 @@ export function SaveStatus() {
               isSaving && "animate-pulse bg-blue-500",
               dirty && !isSaving && "bg-amber-500",
               isError && "bg-destructive",
-              isDisabled && "bg-muted-foreground/30"
+              isDisabled && "bg-muted-foreground/30",
             )}
           />
 
@@ -56,11 +56,10 @@ export function SaveStatus() {
               isSaving && "text-blue-600 dark:text-blue-400",
               dirty && !isSaving && "text-amber-600 dark:text-amber-400",
               isError && "text-destructive",
-              isDisabled && "text-muted-foreground"
+              isDisabled && "text-muted-foreground",
             )}
           >
-            {/* {label}  */}
-            unsaved changes
+            {label}
           </span>
         </div>
       </TooltipTrigger>
