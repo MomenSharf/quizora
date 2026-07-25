@@ -7,11 +7,20 @@ import { SectionCard } from "../section-card";
 import SectionField from "../section-field";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import RichTextEditor from "@/components/rich-text-editor";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
-export function DropdownForm({  questionIndex }: QuestionFormProps) {
+export function DropdownForm({ questionIndex }: QuestionFormProps) {
   const { control } = useQuizForm();
+  const color = QUESTION_TYPE_COLORS.DROPDOWN;
   return (
-    <div className="space-y-5">
+    <div
+      className="space-y-5"
+      style={
+        {
+          "--primary": `${color}`,
+        } as React.CSSProperties
+      }
+    >
       <SectionCard type="DROPDOWN" title="Dropdown">
         <QuestionSection questionIndex={questionIndex} type="DROPDOWN" />
       </SectionCard>
@@ -41,7 +50,7 @@ export function DropdownForm({  questionIndex }: QuestionFormProps) {
         </div>
       </SectionCard>
       <SectionCard type="DROPDOWN" title="Explanation">
-        <ExplanationSection  questionIndex={questionIndex} />
+        <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
     </div>
   );

@@ -139,23 +139,15 @@ export default function AnswerOption({
     });
   };
 
-  const color = QUESTION_TYPE_COLORS[type];
 
   return (
     <div
       ref={setElement}
-      style={
-        {
-          "--question-color": color,
-          touchAction: "none",
-        } as React.CSSProperties
-      }
       className={cn(
         "touch-none group rounded-xl border bg-card p-3 transition-all",
-        "hover:border-(--question-color) hover:shadow-sm",
-        "focus-within:border-(--question-color) focus-within:ring-2 focus-within:ring-(--question-color)/20",
-        isDragging &&
-          "z-50 scale-[1.02] shadow-xl ring-2 ring-(--question-color)",
+        "hover:border-primary hover:shadow-sm",
+        "focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
+        isDragging && "z-50 scale-[1.02] shadow-xl ring-2 ring-primary",
       )}
     >
       <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
@@ -171,14 +163,7 @@ export default function AnswerOption({
             <IconGripVertical className="size-5" />
           </button>
 
-          <div
-            className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold"
-            style={{
-              borderColor: `${color}40`,
-              backgroundColor: `${color}18`,
-              color,
-            }}
-          >
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
             {index + 1}
           </div>
 
@@ -190,20 +175,16 @@ export default function AnswerOption({
             >
               {type === QuestionType.MULTIPLE_SELECT ? (
                 isCorrect ? (
-                  <IconSquareCheckFilled className="size-6" style={{ color }} />
+                  <IconSquareCheckFilled className="size-6 text-primary" />
                 ) : (
                   <IconSquare
-                    className="size-6"
-                    style={{ color: `${color}80` }}
+                    className="size-6 text-primary/80"
                   />
                 )
               ) : isCorrect ? (
-                <IconCircleCheckFilled className="size-6" style={{ color }} />
+                <IconCircleCheckFilled className="size-6 text-primary" />
               ) : (
-                <IconCircle
-                  className="size-6"
-                  style={{ color: `${color}80` }}
-                />
+                <IconCircle className="size-6 text-primary/80" />
               )}
             </button>
           )}

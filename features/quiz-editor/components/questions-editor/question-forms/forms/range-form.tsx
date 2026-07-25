@@ -1,8 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import {
-  IconArrowsHorizontal,
-  IconArrowsLeftRight,
+  IconArrowBadgeRight,
   IconRulerMeasure,
   IconScale,
   IconTargetArrow,
@@ -13,13 +12,12 @@ import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { RangeNumberInput } from "../range-number-input";
 import { SectionCard } from "../section-card";
-import { Slider } from "@/components/ui/slider";
 import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
-import { Switch } from "@/components/ui/switch";
 
 export function RangeForm({ questionIndex }: QuestionFormProps) {
+  const color = QUESTION_TYPE_COLORS.RANGE;
+  
   const { control } = useQuizForm();
-
   const min = useController({
     control,
     name: `questions.${questionIndex}.content.min`,
@@ -50,195 +48,228 @@ export function RangeForm({ questionIndex }: QuestionFormProps) {
     name: `questions.${questionIndex}.content.answer.max`,
   });
 
-  const color = QUESTION_TYPE_COLORS["RANGE"];
-
   const minValue = Number(min.field.value ?? 0);
   const maxValue = Number(max.field.value ?? 10);
+  const stepValue = Math.max(1, Number(step.field.value ?? 1));
 
   const isRangeValid = maxValue > minValue;
 
-  const range = maxValue - minValue;
+  const acceptedMin = Number(answerMin.field.value ?? minValue);
+  const acceptedMax = Number(answerMax.field.value ?? maxValue);
 
-  const TICK_COUNT = !isRangeValid
-    ? 0
-    : Math.min(Math.ceil(range / 10) * 10, 50);
+  const isAcceptedRangeValid = acceptedMax > acceptedMin;
 
-  const ticks = isRangeValid
-    ? Array.from({ length: TICK_COUNT }, (_, index) => {
-        const progress = index / (TICK_COUNT - 1);
+  const isAcceptedRangeValidAndIsRangeValid =
+    isRangeValid && isAcceptedRangeValid;
 
-        const value = Math.round(minValue + (maxValue - minValue) * progress);
+  const ticks = [];
 
-        const isFirst = index === 0;
-        const isLast = index === TICK_COUNT - 1;
+  if (isAcceptedRangeValidAndIsRangeValid) {
+    for (let value = minValue; value <= maxValue; value += stepValue) {
+      ticks.push({
+        value,
+        active: value >= acceptedMin && value <= acceptedMax,
+      });
+    }
 
-        const isMajor = isFirst || isLast || index % 10 === 0;
-        const isMedium = !isMajor && index % 5 === 0;
+    if (ticks.at(-1)?.value !== maxValue) {
+      ticks.push({
+        value: maxValue,
+        active: maxValue >= acceptedMin && maxValue <= acceptedMax,
+      });
+    }
+  }
 
-        return {
-          value,
-          active:
-            value >= Number(answerMin.field.value ?? minValue) &&
-            value <= Number(answerMax.field.value ?? maxValue),
+  const selectTick = (value: number) => {
+    const start = Number(answerMin.field.value ?? minValue);
+    const end = Number(answerMax.field.value ?? maxValue);
 
-          height: isMajor ? 80 : isMedium ? 60 : 42,
-          showLabel: isMajor,
-        };
-      })
-    : [];
+    if (value < start) {
+      answerMin.field.onChange(value);
+      return;
+    }
+
+    if (value > end) {
+      answerMax.field.onChange(value);
+      return;
+    }
+
+    const middle = (start + end) / 2;
+
+    if (value <= middle) {
+      answerMin.field.onChange(value);
+    } else {
+      answerMax.field.onChange(value);
+    }
+  };
 
   return (
-    <div className="space-y-5">
-      {/* <SectionCard type="RANGE" title="Range">
+   <div
+      className="space-y-5"
+      style={
+        {
+          "--primary": `${color}`,
+        } as React.CSSProperties
+      }
+    >
+      <SectionCard type="RANGE" title="Range">
         <QuestionSection questionIndex={questionIndex} type="RANGE" />
-      </SectionCard> */}
-
-      <SectionCard type="RANGE" title="Range Settings">
+      </SectionCard>
+      <SectionCard type="RANGE" title="">
         <div className="space-y-4">
-          <div
-            className="rounded-xl border p-4"
-            style={{
-              borderColor: `${color}30`,
-            }}
-          >
-            <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
-              <div
-                className="size-7 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: `${color}18`, color }}
-              >
-                <IconArrowsLeftRight size={16} />
+          <div className="rounded-2xl border p-5 border-primary/30">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex size-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                <IconRulerMeasure size={18} />
               </div>
-              Range
+
+              <div>
+                <p className="font-semibold">Scale</p>
+                <p className="text-xs text-muted-foreground">
+                  Configure the available values.
+                </p>
+              </div>
             </div>
 
-            <div className="grid gap-3 grid-cols-3">
-              <RangeNumberInput
-                label="Min"
-                icon={<IconArrowsHorizontal size={14} />}
-                field={min.field}
-                color={color}
-              />
+            <div className="grid grid-cols-3 gap-3">
+              <RangeNumberInput label="Minimum" field={min.field} />
 
-              <RangeNumberInput
-                label="Max"
-                icon={<IconArrowsHorizontal size={14} />}
-                field={max.field}
-                color={color}
-              />
+              <RangeNumberInput label="Maximum" field={max.field} />
 
-              <RangeNumberInput
-                label="Step"
-                icon={<IconScale size={14} />}
-                field={step.field}
-                color={color}
-              />
+              <RangeNumberInput label="Interval" field={step.field} />
             </div>
 
-            <div className="mt-3">
+            <div className="mt-4">
               <Input
-                placeholder="Unit (kg, %, cm...)"
                 {...unit.field}
-                className="h-9 rounded-lg bg-background"
-                style={
-                  color
-                    ? ({
-                        "--tw-ring-color": color,
-                        borderColor: `${color}30`,
-                      } as React.CSSProperties)
-                    : undefined
-                }
+                placeholder="Unit (kg, cm, %, pts...)"
+                className="h-10 border-primary"
               />
             </div>
           </div>
 
           <div
-            className="rounded-xl border p-4"
-            style={{
-              borderColor: `${color}30`,
-            }}
+            className="rounded-2xl border p-5 border-primary/30"
+            
           >
-            <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
-              <div
-                className="size-7 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: `${color}18`, color }}
-              >
-                <IconTargetArrow size={16} />
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex size-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                <IconTargetArrow size={18} />
               </div>
-              Correct Range
+
+              <div>
+                <p className="font-semibold">Accepted Answer</p>
+                <p className="text-xs text-muted-foreground">
+                  Select the correct answer range.
+                </p>
+              </div>
             </div>
 
-            <div className="grid gap-3 grid-cols-2">
-              <RangeNumberInput
-                label="From"
-                field={answerMin.field}
-                color={color}
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <RangeNumberInput label="Accept From" field={answerMin.field} />
 
-              <RangeNumberInput
-                label="To"
-                field={answerMax.field}
-                color={color}
-              />
+              <RangeNumberInput label="Accept To" field={answerMax.field} />
             </div>
           </div>
+          <div className="rounded-2xl border p-5 border-primary/30">
+            <div className="mb-5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex size-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                  <IconScale size={18} />
+                </div>
 
-          <div
-            className="rounded-xl border p-4"
-            style={{
-              borderColor: `${color}30`,
-            }}
-          >
-            <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
-              <div
-                className="size-7 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: `${color}18`, color }}
-              >
-                <IconTargetArrow size={16} />
+                <div>
+                  <p className="font-semibold">Interactive Preview</p>
+                  <p className="text-xs text-muted-foreground">
+                    Click the scale to quickly adjust the accepted range.
+                  </p>
+                </div>
               </div>
-              Correct Range
+
+              <div className="flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-primary/15 text-primary">
+                <span>
+                  {acceptedMin}
+                  {unit.field.value ? ` ${unit.field.value}` : ""}
+                </span>
+
+                <IconArrowBadgeRight size={14} />
+
+                <span>
+                  {acceptedMax}
+                  {unit.field.value ? ` ${unit.field.value}` : ""}
+                </span>
+              </div>
             </div>
 
-            {!isRangeValid ? (
-              <div className="flex h-36 items-center justify-center rounded-xl border border-destructive/30 bg-destructive/5">
+            {!isAcceptedRangeValidAndIsRangeValid ? (
+              <div className="flex h-40 items-center justify-center rounded-xl border border-destructive/20 bg-destructive/5">
                 <p className="text-sm font-medium text-destructive">
                   Maximum value must be greater than minimum value.
                 </p>
               </div>
             ) : (
-              <div
-                className="w-full overflow-hidden rounded-xl border p-3"
-                style={{ borderColor: `${color}30` }}
-              >
-                <div className="flex h-28 w-full items-end">
-                  {ticks.map((tick, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-1 flex-col items-center justify-end"
-                    >
-                      {tick.showLabel && (
-                        <span
-                          className="mb-1 text-[9px] font-medium text-muted-foreground"
-                          style={{ color }}
-                        >
-                          {tick.value}
-                        </span>
-                      )}
+              <div className="overflow-hidden rounded-xl border p-4 border-primary/25">
+                <div className="flex h-36 items-end">
+                  {ticks.map((tick, index) => {
+                    const isFirst = index === 0;
+                    const isMiddle =
+                      index === Math.floor((ticks.length - 1) / 2);
+                    const isLast = index === ticks.length - 1;
 
-                      <div
-                        className="w-px rounded-full transition-all duration-200 hover:scale-y-110"
-                        style={{
-                          height: tick.height,
-                          backgroundColor: tick.active
-                            ? color
-                            : "var(--muted-foreground)",
-                          opacity: tick.active ? 1 : 0.35,
-                          boxShadow: tick.active
-                            ? `0 0 8px ${color}55`
-                            : undefined,
-                        }}
-                      />
-                    </div>
-                  ))}
+                    const showLabel = isFirst || isMiddle || isLast;
+
+                    return (
+                      <button
+                        key={tick.value}
+                        type="button"
+                        onClick={() => selectTick(tick.value)}
+                        className="group flex flex-1 flex-col items-center justify-end rounded-md py-2 transition-colors hover:bg-muted/40"
+                      >
+                        {showLabel && (
+                          <span className="mb-2 text-[10px] font-semibold text-primary">
+                            {tick.value}
+                          </span>
+                        )}
+
+                        <div
+                          className="flex w-full justify-center"
+                          title={String(tick.value)}
+                        >
+                          <div
+                            className="w-0.75 rounded-full transition-all duration-200 group-hover:scale-y-110"
+                            style={{
+                              height: showLabel
+                                ? 78
+                                : index % 2 === 0
+                                  ? 56
+                                  : 40,
+
+                              backgroundColor: tick.active
+                                ? "var(--primary)"
+                                : "var(--muted-foreground)",
+
+                              opacity: tick.active ? 1 : 0.25,
+
+                              boxShadow: tick.active
+                                ? `0 0 10px var(--primary)66`
+                                : undefined,
+                            }}
+                          />
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-5 flex items-center justify-between text-xs text-muted-foreground">
+                  <span>{minValue}</span>
+
+                  <span>
+                    Step {stepValue}
+                    {unit.field.value ? ` ${unit.field.value}` : ""}
+                  </span>
+
+                  <span>{maxValue}</span>
                 </div>
               </div>
             )}

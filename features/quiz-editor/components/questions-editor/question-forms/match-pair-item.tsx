@@ -2,11 +2,11 @@
 
 import { useRef, useState } from "react";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { MatchPair } from "@/features/quiz-editor/validation/question";
 import { cn } from "@/lib/utils";
 import { useSortable } from "@dnd-kit/react/sortable";
+import { createId } from "@paralleldrive/cuid2";
 import {
   IconArrowsLeftRight,
   IconGripVertical,
@@ -14,7 +14,6 @@ import {
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
 import { ActionsDropdown } from "../actions-dropdown";
-import { createId } from "@paralleldrive/cuid2";
 
 export default function MatchPairItem({
   pairId,
@@ -41,8 +40,6 @@ export default function MatchPairItem({
   canMoveUp: boolean;
   canMoveDown: boolean;
 }) {
-  const color = QUESTION_TYPE_COLORS.MATCH;
-
   const [element, setElement] = useState<Element | null>(null);
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
@@ -102,18 +99,11 @@ export default function MatchPairItem({
   return (
     <div
       ref={setElement}
-      style={
-        {
-          "--question-color": color,
-          touchAction: "none",
-        } as React.CSSProperties
-      }
       className={cn(
         "group rounded-xl border bg-card p-3 transition-all",
-        "hover:border-(--question-color) hover:shadow-sm",
-        "focus-within:border-(--question-color) focus-within:ring-2 focus-within:ring-(--question-color)/20",
-        isDragging &&
-          "z-50 scale-[1.02] shadow-xl ring-2 ring-(--question-color)",
+        "hover:border-primary hover:shadow-sm",
+        "focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
+        isDragging && "z-50 scale-[1.02] shadow-xl ring-2 ring-primary",
       )}
     >
       <div className="flex items-start gap-3">
@@ -128,14 +118,7 @@ export default function MatchPairItem({
           <IconGripVertical className="size-5" />
         </button>
 
-        <div
-          className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold"
-          style={{
-            borderColor: `${color}40`,
-            backgroundColor: `${color}18`,
-            color,
-          }}
-        >
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
           {index + 1}
         </div>
 
@@ -173,14 +156,7 @@ export default function MatchPairItem({
             </div>
 
             <div className="flex items-center justify-center max-lg:py-2">
-              <div
-                className="flex size-11 items-center justify-center rounded-full border"
-                style={{
-                  borderColor: `${color}35`,
-                  backgroundColor: `${color}12`,
-                  color,
-                }}
-              >
+              <div className="flex size-11 items-center justify-center rounded-full border border-primary/35 bg-primary/12 text-primary">
                 <IconArrowsLeftRight className="size-5" />
               </div>
             </div>

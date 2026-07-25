@@ -1,6 +1,5 @@
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { IconPhotoPlus, IconUpload } from "@tabler/icons-react";
-import { QUESTION_TYPE_COLORS } from "../../constants/question-types";
 
 type ImageUploadPlaceholderProps = {
   questionIndex?: number;
@@ -14,8 +13,6 @@ export function ImageUploadPlaceholder({
   onClick,
   disabled,
 }: ImageUploadPlaceholderProps) {
-  const color = QUESTION_TYPE_COLORS[type];
-
   return (
     <button
       type="button"
@@ -23,7 +20,7 @@ export function ImageUploadPlaceholder({
       onClick={onClick}
       style={
         {
-          "--accent": color,
+          "--accent": "var(--primary)",
         } as React.CSSProperties
       }
       className="group relative flex min-h-52 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border border-dashed border-border bg-background px-6 py-8 text-center transition-all duration-200 hover:-translate-y-0.5 hover:border-(--accent)/40 hover:shadow-lg disabled:pointer-events-none disabled:opacity-50"
@@ -32,18 +29,12 @@ export function ImageUploadPlaceholder({
         className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background:
-            `radial-gradient(circle at top, ${color}18 0%, transparent 70%)`,
+            "radial-gradient( circle at top, oklch(from var(--primary) l c h / 0.18) 0%, transparent 70%)"
+    ,
         }}
       />
 
-      <div
-        className="relative flex size-14 items-center justify-center rounded-xl border transition-all duration-200 group-hover:scale-105"
-        style={{
-          backgroundColor: `${color}10`,
-          borderColor: `${color}25`,
-          color,
-        }}
-      >
+      <div className="relative flex size-14 items-center justify-center rounded-xl border transition-all duration-200 group-hover:scale-105 bg-primary/10 border-primary/25 text-primary">
         <IconPhotoPlus className="size-7 transition-transform duration-200 group-hover:scale-110" />
       </div>
 
@@ -55,13 +46,7 @@ export function ImageUploadPlaceholder({
         </p>
       </div>
 
-      <div
-        className="relative mt-5 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-all duration-200"
-        style={{
-          backgroundColor: `${color}10`,
-          color,
-        }}
-      >
+      <div className="relative mt-5 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-all duration-200 border-primary/10 text-primary">
         <IconUpload className="size-3.5" />
         Choose Image
       </div>
@@ -77,13 +62,7 @@ export function ImageUploadPlaceholder({
           WEBP
         </span>
 
-        <span
-          className="rounded-full px-2 py-1 font-medium"
-          style={{
-            backgroundColor: `${color}12`,
-            color,
-          }}
-        >
+        <span className="rounded-full px-2 py-1 font-medium bg-primary/12 text-primary">
           Max 5 MB
         </span>
       </div>

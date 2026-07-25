@@ -17,7 +17,6 @@ function AnswerInput({
   questionIndex,
   index,
   expectedAnswers,
-  color,
   textareaRef,
   autoResize,
 }: {
@@ -25,7 +24,6 @@ function AnswerInput({
   questionIndex: number;
   index: number;
   expectedAnswers: AcceptedAnswer[];
-  color: string | undefined;
   textareaRef: (el: HTMLTextAreaElement | null) => void;
   autoResize: (textarea: HTMLTextAreaElement) => void;
 }) {
@@ -37,22 +35,8 @@ function AnswerInput({
   });
 
   return (
-    <div
-      className="group flex items-center gap-3 rounded-xl border bg-card p-3  hover:border-(--question-color) hover:shadow-sm focus-within:border-(--question-color) focus-within:ring-2 focus-within:ring-(--question-color)/20"
-      style={
-        {
-          "--question-color": color,
-        } as React.CSSProperties
-      }
-    >
-      <div
-        className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold"
-        style={{
-          borderColor: `${color}40`,
-          backgroundColor: `${color}18`,
-          color,
-        }}
-      >
+    <div className="group flex items-center gap-3 rounded-xl border bg-card p-3  hover:border-primary hover:shadow-sm focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
         {index + 1}
       </div>
       <div className="w-full rounded-lg border p-2">
@@ -114,10 +98,16 @@ export function TypeAnswerForm({ questionIndex }: QuestionFormProps) {
     textarea.style.height = `${Math.max(textarea.scrollHeight, 44)}px`;
   };
 
-  const color = QUESTION_TYPE_COLORS["TYPE_ANSWER"];
-
+  const color = QUESTION_TYPE_COLORS.SINGLE_SELECT;
   return (
-    <div className="space-y-5">
+    <div
+      className="space-y-5"
+      style={
+        {
+          "--primary": `${color}`,
+        } as React.CSSProperties
+      }
+    >
       <SectionCard type="TYPE_ANSWER" title="Type Answer">
         <QuestionSection questionIndex={questionIndex} type="TYPE_ANSWER" />
       </SectionCard>
@@ -131,7 +121,6 @@ export function TypeAnswerForm({ questionIndex }: QuestionFormProps) {
               questionIndex={questionIndex}
               index={index}
               expectedAnswers={expectedAnswers}
-              color={color}
               textareaRef={(el) => {
                 textareas.current[index] = el;
               }}

@@ -2,15 +2,14 @@ import RichTextEditor from "@/components/rich-text-editor";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { parseFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-parser";
 import { serializeFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-serializer";
-import {
-  FillBlankData
-} from "@/features/quiz-editor/validation/question";
+import { FillBlankData } from "@/features/quiz-editor/validation/question";
 import { useMemo } from "react";
 import { useWatch } from "react-hook-form";
 import ExplanationSection from "../explanation-section";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
@@ -22,9 +21,17 @@ export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editorContent = useMemo(() => serializeFillInTheBlank(content), []);
-  
+
+  const color = QUESTION_TYPE_COLORS.FILL_BLANK;
   return (
-    <div className="space-y-5">
+    <div
+      className="space-y-5"
+      style={
+        {
+          "--primary": `${color}`,
+        } as React.CSSProperties
+      }
+    >
       <SectionCard type="FILL_BLANK" title="Fill in the Blank">
         <QuestionSection questionIndex={questionIndex} type="FILL_BLANK" />
       </SectionCard>

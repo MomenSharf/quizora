@@ -8,6 +8,7 @@ import ExplanationSection from "../explanation-section";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export function TrueFalseForm({  questionIndex }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
@@ -34,8 +35,16 @@ export function TrueFalseForm({  questionIndex }: QuestionFormProps) {
     },
   ];
 
+  const color = QUESTION_TYPE_COLORS.TRUE_FALSE;
   return (
-    <div className="space-y-5">
+    <div
+      className="space-y-5"
+      style={
+        {
+          "--primary": `${color}`,
+        } as React.CSSProperties
+      }
+    >
       <SectionCard type="TRUE_FALSE" title="Question">
         <QuestionSection  questionIndex={questionIndex} type="TRUE_FALSE" />
       </SectionCard>
