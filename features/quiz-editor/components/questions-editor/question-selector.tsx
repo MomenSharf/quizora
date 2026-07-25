@@ -22,7 +22,11 @@ import {
 import { createDefaultQuestion } from "../../create-defaults/questions/create-default-question";
 import { useQuizForm } from "../../hooks/use-quiz-form";
 import { useSelectedQuestion } from "../../hooks/use-selected-question";
-import { useEditorActions, useIsQuestionSelectorOpen, useSelectedQuestionId } from "../../store";
+import {
+  useEditorActions,
+  useIsQuestionSelectorOpen,
+  useSelectedQuestionId,
+} from "../../store";
 import { Question } from "../../validation/question";
 import { ActionsDropdown } from "./actions-dropdown";
 import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
@@ -180,7 +184,7 @@ function Sortable({
             ? question.title.replace(/<[^>]*>/g, "").trim()
             : QUESTION_TYPE_LABELS[question.type]}{" "}
         </p>
-        
+
         <ActionsDropdown
           onDuplicate={onDuplicate}
           onDelete={onDelete}
@@ -198,13 +202,12 @@ function Sortable({
 }
 
 const QuestionSelector = () => {
-
   const { control, setValue } = useQuizForm();
 
   const selectedQuestionId = useSelectedQuestionId();
   const isQuestionSelectorOpen = useIsQuestionSelectorOpen();
-  const { selectQuestion, setTypeSelectorOpen, setQuestionSelectorOpen } = useEditorActions();
-
+  const { selectQuestion, setTypeSelectorOpen, setQuestionSelectorOpen } =
+    useEditorActions();
 
   const questions = useWatch({
     control,
@@ -242,7 +245,7 @@ const QuestionSelector = () => {
           className="size-8 rounded-lg max-md:cursor-pointer md:hidden"
           onClick={(e) => {
             e.stopPropagation();
-           setQuestionSelectorOpen(!isQuestionSelectorOpen)
+            setQuestionSelectorOpen(!isQuestionSelectorOpen);
           }}
         >
           <motion.div
@@ -284,7 +287,7 @@ const QuestionSelector = () => {
           }}
           className="h-full p-3 pt-0 flex flex-col"
         >
-          <div className="flex-1 foverflow-y-auto scrollbar-thin py-1">
+          <div className="flex-1 overflow-y-auto min-h-0 scrollbar-thin py-1">
             <DragDropProvider
               onDragEnd={(event) => {
                 if (!questions || event.canceled) return;
@@ -310,7 +313,11 @@ const QuestionSelector = () => {
                       question={question}
                       handleClick={() => {
                         selectQuestion(question.id);
-                        setTimeout(() => setQuestionSelectorOpen(!isQuestionSelectorOpen), 150);
+                        setTimeout(
+                          () =>
+                            setQuestionSelectorOpen(!isQuestionSelectorOpen),
+                          150,
+                        );
                       }}
                       isSelected={isSelected}
                       moveUp={() => moveQuestion(index, index - 1)}

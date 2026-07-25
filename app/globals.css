@@ -83,6 +83,20 @@
   --pending: oklch(0.714 0.203 41.116);
   --pending-foreground: oklch(0.98 0.016 73.684);
 
+  /* Quizora colors */
+  --question-single: oklch(0.62 0.20 255);
+  --question-multiple: oklch(0.60 0.22 305);
+  --question-true-false: oklch(0.72 0.18 145);
+  --question-dropdown: oklch(0.53 0.10 190);
+  --question-type-answer: oklch(0.70 0.18 160);
+  --question-fill-blank: oklch(0.75 0.13 185);
+  --question-ordering: oklch(0.80 0.17 80);
+  --question-match: oklch(0.76 0.13 220);
+  --question-flashcards: oklch(0.67 0.23 345);
+  --question-range: oklch(0.74 0.18 50);
+  --question-location: oklch(0.66 0.22 25);
+  --question-guess: oklch(0.61 0.19 280);
+
   /* Shacn ui colors */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

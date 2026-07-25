@@ -6,7 +6,6 @@ import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 import { AcceptedAnswer } from "@/features/quiz-editor/validation/question";
 import { createId } from "@paralleldrive/cuid2";
 import { CheckCircle2, Plus, Trash2 } from "lucide-react";
@@ -98,13 +97,12 @@ export function TypeAnswerForm({ questionIndex }: QuestionFormProps) {
     textarea.style.height = `${Math.max(textarea.scrollHeight, 44)}px`;
   };
 
-  const color = QUESTION_TYPE_COLORS.SINGLE_SELECT;
   return (
     <div
       className="space-y-5"
       style={
         {
-          "--primary": `${color}`,
+          "--primary": 'var(--question-type-answer)',
         } as React.CSSProperties
       }
     >

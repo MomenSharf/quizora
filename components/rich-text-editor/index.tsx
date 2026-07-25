@@ -15,7 +15,7 @@ import MenuBar from "./menu-bar";
 import { Blank } from "./extensions/blank/blank";
 
 interface RichTextEditorProps {
-  content: Content ;
+  content: Content;
   onChange?: (html: string) => void;
   onJsonChange?: (json: JSONContent) => void;
   placeholder?: string;
@@ -35,6 +35,7 @@ export default function RichTextEditor({
   menuBarClassName,
   allowInsertBlank = false,
 }: RichTextEditorProps) {
+  // TODO: Fix Heading sizes and add P paragraph
   const editor = useEditor({
     immediatelyRender: false,
     shouldRerenderOnTransaction: true,
@@ -78,7 +79,7 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class: cn(
-          "w-full min-w-0 rounded-md border border-input bg-transparent px-2 py-3 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+          "w-full min-w-0 rounded-xl border border-border/70 bg-background/70 px-3 py-2.5 text-sm text-foreground backdrop-blur-sm shadow-sm transition-all duration-200 placeholder:text-muted-foreground/70 outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 hover:border-primary/30 hover:bg-background focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10 focus-visible:shadow-[0_0_0_1px_var(--primary)] aria-invalid:border-destructive aria-invalid:ring-4 aria-invalid:ring-destructive/10 dark:bg-background/40 dark:hover:border-primary/40 dark:focus-visible:ring-primary/15",
           className,
         ),
         style: `font-size: ${fontSize};`,

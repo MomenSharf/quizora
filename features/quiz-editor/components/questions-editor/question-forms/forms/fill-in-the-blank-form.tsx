@@ -9,7 +9,6 @@ import ExplanationSection from "../explanation-section";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
@@ -22,13 +21,12 @@ export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editorContent = useMemo(() => serializeFillInTheBlank(content), []);
 
-  const color = QUESTION_TYPE_COLORS.FILL_BLANK;
   return (
     <div
       className="space-y-5"
       style={
         {
-          "--primary": `${color}`,
+          "--primary": 'var(--question-fill-blank)',
         } as React.CSSProperties
       }
     >

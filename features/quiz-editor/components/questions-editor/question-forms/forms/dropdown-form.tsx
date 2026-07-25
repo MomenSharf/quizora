@@ -1,3 +1,5 @@
+import RichTextEditor from "@/components/rich-text-editor";
+import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { Controller } from "react-hook-form";
 import { AnswerOptionsGroup } from "../answer-options-group";
 import ExplanationSection from "../explanation-section";
@@ -5,19 +7,15 @@ import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 import SectionField from "../section-field";
-import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import RichTextEditor from "@/components/rich-text-editor";
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export function DropdownForm({ questionIndex }: QuestionFormProps) {
   const { control } = useQuizForm();
-  const color = QUESTION_TYPE_COLORS.DROPDOWN;
   return (
     <div
       className="space-y-5"
       style={
         {
-          "--primary": `${color}`,
+          "--primary": 'var(--question-dropdown)',
         } as React.CSSProperties
       }
     >

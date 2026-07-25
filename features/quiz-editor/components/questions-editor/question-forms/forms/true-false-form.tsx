@@ -1,14 +1,13 @@
-import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { cn } from "@/lib/utils";
+import { CheckCircle2 } from "lucide-react";
 import { useWatch } from "react-hook-form";
 
 import ExplanationSection from "../explanation-section";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export function TrueFalseForm({  questionIndex }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
@@ -35,13 +34,12 @@ export function TrueFalseForm({  questionIndex }: QuestionFormProps) {
     },
   ];
 
-  const color = QUESTION_TYPE_COLORS.TRUE_FALSE;
   return (
     <div
       className="space-y-5"
       style={
         {
-          "--primary": `${color}`,
+          "--primary": 'var(--question-true-false)',
         } as React.CSSProperties
       }
     >

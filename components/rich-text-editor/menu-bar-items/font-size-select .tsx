@@ -45,7 +45,9 @@ export default function FontSizeDialog({
 
   useEffect(() => {
     const update = () => {
-      setValue(editor.getAttributes("textStyle").fontSize || defaultFontSize || "16px");
+      setValue(
+        editor.getAttributes("textStyle").fontSize || defaultFontSize || "16px",
+      );
     };
 
     update();
@@ -80,6 +82,8 @@ export default function FontSizeDialog({
     setValue("16px");
     setOpen(false);
   };
+
+ 
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

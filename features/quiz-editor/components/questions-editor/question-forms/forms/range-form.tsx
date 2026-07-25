@@ -12,10 +12,8 @@ import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { RangeNumberInput } from "../range-number-input";
 import { SectionCard } from "../section-card";
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export function RangeForm({ questionIndex }: QuestionFormProps) {
-  const color = QUESTION_TYPE_COLORS.RANGE;
   
   const { control } = useQuizForm();
   const min = useController({
@@ -108,7 +106,7 @@ export function RangeForm({ questionIndex }: QuestionFormProps) {
       className="space-y-5"
       style={
         {
-          "--primary": `${color}`,
+          "--primary": 'var(--question-range)',
         } as React.CSSProperties
       }
     >
