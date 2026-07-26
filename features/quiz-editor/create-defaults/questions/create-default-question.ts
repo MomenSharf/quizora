@@ -10,7 +10,6 @@ import { createTypeAnswerQuestion } from "./type-answer-question";
 import { createFillBlankQuestion } from "./fill-blank-question";
 import { createFlashcardsQuestion } from "./flashcards-question";
 import { createRangeQuestion } from "./range-question";
-import { createLocationQuestion } from "./location-question";
 import { createGuessQuestion } from "./guess-question";
 import { createTapFindQuestion } from "./tap-find-question";
 import { createDropdownQuestion } from "./dropdown-question";
@@ -44,8 +43,7 @@ export function createDefaultQuestion(type: QuestionType): Question {
     case "RANGE":
       return createRangeQuestion();
 
-    case "LOCATION":
-      return createLocationQuestion();
+
 
     case "GUESS":
       return createGuessQuestion();

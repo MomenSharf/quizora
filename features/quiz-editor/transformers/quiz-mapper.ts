@@ -5,7 +5,6 @@ import {
   FillBlankQuestion,
   FlashcardsQuestion,
   GuessQuestion,
-  LocationQuestion,
   MatchQuestion,
   MultipleSelectQuestion,
   OrderingQuestion,
@@ -22,8 +21,6 @@ import type {
   QuizSettings,
 } from "@/features/quiz-editor/validation/quiz";
 
-
-
 import { createDefaultQuiz } from "../create-defaults/quiz/create-default-quiz";
 import { defaultEditorState, type EditorState } from "../store";
 
@@ -33,13 +30,11 @@ type PrismaQuiz = Prisma.QuizGetPayload<{
   };
 }>;
 
-const defaultQuiz = createDefaultQuiz()
-const defaultQuizSettings = defaultQuiz.settings
-const defaultQuizAppearance = defaultQuiz.appearance
+const defaultQuiz = createDefaultQuiz();
+const defaultQuizSettings = defaultQuiz.settings;
+const defaultQuizAppearance = defaultQuiz.appearance;
 
-function mapAppearance(
-  value: Prisma.JsonValue | null,
-): QuizAppearance {
+function mapAppearance(value: Prisma.JsonValue | null): QuizAppearance {
   return {
     ...defaultQuizAppearance,
     ...((value as Partial<QuizAppearance>) ?? {}),
@@ -73,24 +68,21 @@ export function mapEditorState(state: Prisma.JsonValue): EditorState {
       isTypeSelectorOpen:
         editorState.navigation?.isTypeSelectorOpen ??
         defaultEditorState.navigation.isTypeSelectorOpen,
+
+      isQuestionSelectorOpen:
+        editorState.navigation?.isQuestionSelectorOpen ??
+        defaultEditorState.navigation.isQuestionSelectorOpen,
     },
 
     autosave: {
       enabled:
-        editorState.autosave?.enabled ??
-        defaultEditorState.autosave.enabled,
+        editorState.autosave?.enabled ?? defaultEditorState.autosave.enabled,
 
-      dirty:
-        editorState.autosave?.dirty ??
-        defaultEditorState.autosave.dirty,
+      dirty: editorState.autosave?.dirty ?? defaultEditorState.autosave.dirty,
 
-      state:
-        editorState.autosave?.state ??
-        defaultEditorState.autosave.state,
+      state: editorState.autosave?.state ?? defaultEditorState.autosave.state,
 
-      error:
-        editorState.autosave?.error ??
-        defaultEditorState.autosave.error,
+      error: editorState.autosave?.error ?? defaultEditorState.autosave.error,
 
       lastSavedAt: editorState.autosave?.lastSavedAt
         ? new Date(editorState.autosave.lastSavedAt)
@@ -103,30 +95,19 @@ export function mapEditorState(state: Prisma.JsonValue): EditorState {
 
     history: {
       canUndo:
-        editorState.history?.canUndo ??
-        defaultEditorState.history.canUndo,
+        editorState.history?.canUndo ?? defaultEditorState.history.canUndo,
 
       canRedo:
-        editorState.history?.canRedo ??
-        defaultEditorState.history.canRedo,
+        editorState.history?.canRedo ?? defaultEditorState.history.canRedo,
 
-      index:
-        editorState.history?.index ??
-        defaultEditorState.history.index,
+      index: editorState.history?.index ?? defaultEditorState.history.index,
 
-      size:
-        editorState.history?.size ??
-        defaultEditorState.history.size,
+      size: editorState.history?.size ?? defaultEditorState.history.size,
     },
   };
 }
 
-
-
-
-function mapQuestion(
-  question: PrismaQuiz["questions"][number],
-): Question {
+function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
   const base = {
     id: question.id,
     title: question.title,
@@ -213,14 +194,6 @@ function mapQuestion(
         config: question.config as RangeQuestion["config"],
       };
 
-    case QuestionType.LOCATION:
-      return {
-        ...base,
-        type: QuestionType.LOCATION,
-        content: question.content as LocationQuestion["content"],
-        config: question.config as LocationQuestion["config"],
-      };
-
     case QuestionType.GUESS:
       return {
         ...base,
@@ -255,9 +228,7 @@ function mapQuestion(
   }
 }
 
-export function mapQuiz(
-  quiz: PrismaQuiz,
-): QuizEditor {
+export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
   return {
     id: quiz.id,
 
@@ -282,10 +253,7 @@ export function mapQuiz(
 
     appearance: mapAppearance(quiz.appearance),
 
-    settings: mapSettings(
-      quiz.settings,
-      quiz.visibility,
-    ),
+    settings: mapSettings(quiz.settings, quiz.visibility),
 
     questions: [...quiz.questions]
       .sort((a, b) => a.order - b.order)

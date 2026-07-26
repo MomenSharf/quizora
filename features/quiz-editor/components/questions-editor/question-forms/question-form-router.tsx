@@ -14,6 +14,7 @@ import { FillinTheBlankForm } from "./forms/fill-in-the-blank-form";
 import { AnimatePresence, motion } from "framer-motion";
 import { MatchingForm } from "./forms/matching-form";
 import { RangeForm } from "./forms/range-form";
+import { TapFindForm } from "./forms/tap-find-form";
 
 export interface QuestionFormProps {
   questionIndex: number;
@@ -30,9 +31,7 @@ export function QuestionFormRouter() {
     FILL_BLANK: FillinTheBlankForm,
     MATCH: MatchingForm,
     RANGE: RangeForm,
-    
-
-  
+    TAP_FIND: TapFindForm,
   };
 
   const { question, questionIndex } = useSelectedQuestion();

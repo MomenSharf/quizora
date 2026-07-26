@@ -1,21 +1,35 @@
 import { z } from "zod";
 import { BaseQuestionSchema } from "./base";
 
-export const TapFindTargetSchema = z.object({
+const RectTargetSchema = z.object({
   id: z.string(),
-
   label: z.string().trim().max(200),
-  shape: z.enum(["CIRCLE", "RECT", "POLYGON", "POINT"]),
 
-  coordinates: z
-    .array(
-      z.object({
-        x: z.number().min(0).max(1),
-        y: z.number().min(0).max(1),
-      }),
-    )
-    .min(1),
+  shape: z.literal("RECT"),
+
+  x: z.number().min(0).max(1),
+  y: z.number().min(0).max(1),
+
+  width: z.number().positive().max(1),
+  height: z.number().positive().max(1),
 });
+
+const CircleTargetSchema = z.object({
+  id: z.string(),
+  label: z.string().trim().max(200),
+
+  shape: z.literal("CIRCLE"),
+
+  x: z.number().min(0).max(1),
+  y: z.number().min(0).max(1),
+
+  radius: z.number().positive().max(1),
+});
+
+export const TapFindTargetSchema = z.discriminatedUnion("shape", [
+  RectTargetSchema,
+  CircleTargetSchema,
+]);
 
 export const TapFindDataSchema = z.object({
   image: z.url(),

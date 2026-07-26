@@ -198,7 +198,6 @@ enum QuestionType {
   FILL_BLANK
 
   RANGE
-  LOCATION
 
   GUESS
 

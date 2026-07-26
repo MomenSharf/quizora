@@ -12,7 +12,7 @@ import {
   IconSelector,
   IconTargetArrow,
   IconTextPlus,
-  TablerIcon
+  TablerIcon,
 } from "@tabler/icons-react";
 
 import { LucideIcon } from "lucide-react";
@@ -78,8 +78,7 @@ export const QUESTION_TYPES = [
     icon: IconSelector,
     color: "#0F766E",
     backgroundColor: "#F0FDFA",
-  }
-  ,
+  },
 
   {
     id: "TYPE_ANSWER",
@@ -152,26 +151,14 @@ export const QUESTION_TYPES = [
   },
 
   {
-    id: "LOCATION",
-    label: "Location",
-    shortLabel: "Location",
-    description: "Select the correct location on a map.",
-    bestFor: "Geography, anatomy, floor plans, and spatial learning.",
-    icon: IconMap,
-    color: "#EF4444",
-    backgroundColor: "#FEF2F2",
-    badge: "Map",
-  },
-
-  {
     id: "GUESS",
     label: "Guess It",
     shortLabel: "Guess",
     description: "Find the answer using clues.",
     bestFor: "Inference-based learning, puzzles, and classroom games.",
     icon: IconTargetArrow,
-    color: "#6366F1",
-    backgroundColor: "#EEF2FF",
+    color: "#EF4444",
+    backgroundColor: "#FEF2F2",
   },
 
   {

@@ -6,7 +6,7 @@ import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 export function createTapFindQuestion(): TapFindQuestion {
   return {
-...createBaseQuestion(),
+    ...createBaseQuestion(),
 
     type: QuestionType.TAP_FIND,
 
@@ -21,16 +21,10 @@ export function createTapFindQuestion(): TapFindQuestion {
 
           shape: "RECT",
 
-          coordinates: [
-            {
-              x: 0.25,
-              y: 0.25,
-            },
-            {
-              x: 0.75,
-              y: 0.75,
-            },
-          ],
+          x: 0.25,
+          y: 0.25,
+          width: 0.5,
+          height: 0.5,
         },
       ],
     },
