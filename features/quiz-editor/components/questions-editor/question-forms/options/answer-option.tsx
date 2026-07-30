@@ -16,9 +16,9 @@ import {
   IconSquareCheckFilled,
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
-import { ActionsDropdown } from "../actions-dropdown";
 import { Option } from "@/features/quiz-editor/validation/question";
 import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
+import { ActionsDropdown } from "../../actions-dropdown";
 
 export default function AnswerOption({
   optionId,

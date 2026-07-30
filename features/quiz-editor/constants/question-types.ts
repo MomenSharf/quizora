@@ -7,7 +7,6 @@ import {
   IconCircleCheck,
   IconHandClick,
   IconListNumbers,
-  IconMap,
   IconPencil,
   IconSelector,
   IconTargetArrow,
@@ -30,6 +29,7 @@ export type QuestionTypeUI = {
   isPopular?: boolean;
   isNew?: boolean;
   badge?: string;
+  notAvailable?: boolean;
 };
 export const QUESTION_TYPES = [
   {
@@ -151,17 +151,6 @@ export const QUESTION_TYPES = [
   },
 
   {
-    id: "GUESS",
-    label: "Guess It",
-    shortLabel: "Guess",
-    description: "Find the answer using clues.",
-    bestFor: "Inference-based learning, puzzles, and classroom games.",
-    icon: IconTargetArrow,
-    color: "#EF4444",
-    backgroundColor: "#FEF2F2",
-  },
-
-  {
     id: "TAP_FIND",
     label: "Tap & Find",
     shortLabel: "Tap",
@@ -171,6 +160,19 @@ export const QUESTION_TYPES = [
     color: "#0EA5E9",
     backgroundColor: "#F0F9FF",
     isNew: true,
+  },
+  
+  {
+    id: "GUESS",
+    label: "Guess It",
+    shortLabel: "Guess",
+    description: "Find the answer using clues.",
+    bestFor: "Inference-based learning, puzzles, and classroom games.",
+    icon: IconTargetArrow,
+    color: "#EF4444",
+    backgroundColor: "#FEF2F2",
+    badge: "Soon",
+    notAvailable: true,
   },
 ] satisfies readonly QuestionTypeUI[];
 

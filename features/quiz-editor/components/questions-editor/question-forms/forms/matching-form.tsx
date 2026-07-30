@@ -1,7 +1,7 @@
 "use client";
 
 import ExplanationSection from "../explanation-section";
-import { MatchPairsGroup } from "../match-pairs-group";
+import { MatchPairsGroup } from "../pairs/match-pairs-group";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";

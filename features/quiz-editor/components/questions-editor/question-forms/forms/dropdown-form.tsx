@@ -1,12 +1,12 @@
 import RichTextEditor from "@/components/rich-text-editor";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { Controller } from "react-hook-form";
-import { AnswerOptionsGroup } from "../answer-options-group";
 import ExplanationSection from "../explanation-section";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 import SectionField from "../section-field";
+import { AnswerOptionsGroup } from "../options/answer-options-group";
 
 export function DropdownForm({ questionIndex }: QuestionFormProps) {
   const { control } = useQuizForm();

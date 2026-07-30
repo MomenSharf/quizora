@@ -14,15 +14,15 @@ import { TrueFalseQuestionSchema } from "./true-false";
 import { TypeAnswerQuestionSchema } from "./type-answer";
 
 export const QuestionSchema = z.discriminatedUnion("type", [
-  SingleSelectQuestionSchema,
-  MultipleSelectQuestionSchema,
-  TrueFalseQuestionSchema,
-  OrderingQuestionSchema,
-  MatchQuestionSchema,
-  TypeAnswerQuestionSchema,
-  FillBlankQuestionSchema,
-  FlashcardsQuestionSchema,
-  RangeQuestionSchema,
+  // SingleSelectQuestionSchema,
+  // MultipleSelectQuestionSchema,
+  // TrueFalseQuestionSchema,
+  // OrderingQuestionSchema,
+  // MatchQuestionSchema,
+  // TypeAnswerQuestionSchema,
+  // FillBlankQuestionSchema,
+  // FlashcardsQuestionSchema,
+  // RangeQuestionSchema,
   GuessQuestionSchema,
   TapFindQuestionSchema,
   DropdownQuestionSchema,
@@ -33,6 +33,9 @@ export const QuestionArraySchema = z.array(QuestionSchema);
 export type Question = z.infer<typeof QuestionSchema>;
 
 export type Questions = z.infer<typeof QuestionArraySchema>;
+
+export type QuestionConfig = Question['config']
+
 
 export * from "./base";
 export * from "./dropdown";

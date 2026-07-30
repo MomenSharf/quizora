@@ -13,7 +13,7 @@ import {
   IconPhotoPlus,
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
-import { ActionsDropdown } from "../actions-dropdown";
+import { ActionsDropdown } from "../../actions-dropdown";
 
 export default function MatchPairItem({
   pairId,

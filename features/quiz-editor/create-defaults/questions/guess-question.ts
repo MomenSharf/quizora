@@ -11,10 +11,17 @@ export function createGuessQuestion(): GuessQuestion {
     type: QuestionType.GUESS,
 
     content: {
-      asset: {
-        type: "IMAGE",
-        url: undefined,
-      },
+      image: "",
+      text: "",
+
+      mode: 'TEXT',
+
+      hints: [
+        {
+          id: createId(),
+          value: "",
+        },
+      ],
 
       answers: [
         {

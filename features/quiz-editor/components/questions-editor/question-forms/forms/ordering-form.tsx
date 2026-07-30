@@ -1,5 +1,5 @@
-import { AnswerOptionsGroup } from "../answer-options-group";
 import ExplanationSection from "../explanation-section";
+import { AnswerOptionsGroup } from "../options/answer-options-group";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";

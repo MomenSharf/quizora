@@ -15,8 +15,7 @@ interface SectionCardProps {
   title: string;
   children: ReactNode;
 
-  actions?: ReactNode;
-  settings?: ReactNode;
+  openConfig?: () => void;
 
   defaultOpen?: boolean;
   collapsible?: boolean;
@@ -29,11 +28,13 @@ export function SectionCard({
   type,
   title,
   children,
-  actions,
-  settings,
+  
+  openConfig,
 
   defaultOpen = true,
   collapsible = true,
+
+
 
   className,
   contentClassName,
@@ -70,13 +71,10 @@ export function SectionCard({
           className="flex items-center gap-1"
           onClick={(e) => e.stopPropagation()}
         >
-          {actions}
 
-          {settings ?? (
-            <Button variant="ghost" size="icon" className="size-8 rounded-lg">
+            <Button variant="ghost" size="icon" className="size-8 rounded-lg" onClick={openConfig}>
               <Settings2   className="size-4" />
             </Button>
-          )}
 
           {collapsible && (
             <Button

@@ -287,7 +287,7 @@ const QuestionSelector = () => {
           }}
           className="h-full p-3 pt-0 flex flex-col"
         >
-          <div className="flex-1 overflow-y-auto min-h-0 scrollbar-thin py-1">
+          <div className="flex-1 overflow-y-auto min-h-0 scrollbar-thin p-1">
             <DragDropProvider
               onDragEnd={(event) => {
                 if (!questions || event.canceled) return;

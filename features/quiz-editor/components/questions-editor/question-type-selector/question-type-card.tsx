@@ -9,6 +9,7 @@ import { IconArrowRight, IconHelp } from "@tabler/icons-react";
 import { useFieldArray } from "react-hook-form";
 import PreviewWrapper from "./preview-wrapper";
 import { QuestionTypeIcon } from "./question-type-icon";
+import { toast } from "sonner";
 
 const QuestionTypeCard = ({ type }: { type: QuestionTypeUI }) => {
   const { control } = useQuizForm();
@@ -36,18 +37,22 @@ return (
     onKeyDown={(e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
+        if(type.notAvailable) return toast.error("Not available yet");
         addQuestion();
       }
     }}
-    onClick={addQuestion}
+    onClick={() => {
+      if(type.notAvailable) return toast.error("Not available yet");
+      addQuestion();
+    }}
     className={cn(
       "group relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-3xl border bg-card p-3 text-left transition-all duration-300",
       "hover:-translate-y-1 hover:scale-[1.015]",
       "hover:bg-accent/30 hover:shadow-xl",
       "active:scale-[0.985]",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-      "hover:[border-color:var(--color-40)]",
-      "focus-visible:[--tw-ring-color:var(--color)]",
+      "hover:border-(--color-40)",
+      "focus-visible:ring-(--color)",
     )}
     style={
       {
@@ -71,7 +76,7 @@ return (
         <DialogTrigger asChild>
           <button
             type="button"
-            className="rounded-md p-1 transition-colors hover:[color:var(--color)] sm:hidden"
+            className="rounded-md p-1 transition-colors hover:text-(--color) sm:hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <IconHelp className="size-4" />
@@ -92,7 +97,7 @@ return (
       />
 
       <div className="space-y-1">
-        <h3 className="text-base font-semibold transition-colors group-hover:[color:var(--color)]">
+        <h3 className="text-base font-semibold transition-colors group-hover:text-(--color)">
           {type.label}
         </h3>
 
@@ -102,11 +107,11 @@ return (
       </div>
 
       <div className="mt-auto flex items-center justify-between">
-        <span className="text-sm font-medium text-muted-foreground transition-colors group-hover:[color:var(--color)]">
+        <span className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-(--color)">
           Create
         </span>
 
-        <IconArrowRight className="size-4 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-hover:[color:var(--color)]" />
+        <IconArrowRight className="size-4 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-hover:text-(--color)" />
       </div>
     </div>
 

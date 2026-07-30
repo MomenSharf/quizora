@@ -1,17 +1,23 @@
 import { z } from "zod";
 import { AcceptedAnswerSchema, BaseQuestionSchema } from "./base";
 
-export const GuessAssetSchema = z.object({
-  type: z.enum(["IMAGE", "VIDEO", "AUDIO"]),
-
-  url: z.url().optional(),
+export const GuessHintSchema = z.object({
+  id: z.string(),
+  value: z.string(),
 });
 
 export const GuessDataSchema = z.object({
-  asset: GuessAssetSchema,
+  mode: z.enum(["TEXT", "IMAGE"]),
+
+  text: z.string(),
+
+  image: z.string().url().optional().or(z.literal("")),
+
+  hints: z.array(GuessHintSchema).min(1).max(20),
 
   answers: z.array(AcceptedAnswerSchema).min(1).max(50),
 });
+// import AcceptedAnswerSchema
 
 export const GuessSettingsSchema = z.object({
   caseSensitive: z.boolean(),
@@ -37,7 +43,7 @@ export const GuessQuestionSchema = BaseQuestionSchema.extend({
   config: GuessSettingsSchema,
 });
 
-export type GuessAsset = z.infer<typeof GuessAssetSchema>;
+export type GuessHint = z.infer<typeof GuessHintSchema>;
 
 export type GuessData = z.infer<typeof GuessDataSchema>;
 

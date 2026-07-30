@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MatchingForm } from "./forms/matching-form";
 import { RangeForm } from "./forms/range-form";
 import { TapFindForm } from "./forms/tap-find-form";
+import { GessForm } from "./forms/guess-form";
 
 export interface QuestionFormProps {
   questionIndex: number;
@@ -32,6 +33,7 @@ export function QuestionFormRouter() {
     MATCH: MatchingForm,
     RANGE: RangeForm,
     TAP_FIND: TapFindForm,
+    // GUESS: GessForm,
   };
 
   const { question, questionIndex } = useSelectedQuestion();
