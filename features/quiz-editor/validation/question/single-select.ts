@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BaseQuestionSchema, OptionSchema } from "./base";
+import { BaseQuestionConfigSchema, BaseQuestionSchema, OptionSchema } from "./base";
 
 export const SingleSelectDataSchema = z.object({
   options: z.array(OptionSchema).min(2).max(20),
@@ -7,7 +7,7 @@ export const SingleSelectDataSchema = z.object({
   correctOptionid: z.string(),
 });
 
-export const SingleSelectSettingsSchema = z.object({
+export const SingleSelectConfigSchema = BaseQuestionConfigSchema.extend({
   randomizeOptions: z.boolean(),
 
   layout: z.enum(["VERTICAL", "HORIZONTAL", "GRID"]),
@@ -20,11 +20,11 @@ export const SingleSelectQuestionSchema = BaseQuestionSchema.extend({
 
   content: SingleSelectDataSchema,
 
-  config: SingleSelectSettingsSchema,
+  config: SingleSelectConfigSchema,
 });
 
 export type SingleSelectData = z.infer<typeof SingleSelectDataSchema>;
 
-export type SingleSelectSettings = z.infer<typeof SingleSelectSettingsSchema>;
+export type SingleSelectConfig = z.infer<typeof SingleSelectConfigSchema>;
 
 export type SingleSelectQuestion = z.infer<typeof SingleSelectQuestionSchema>;

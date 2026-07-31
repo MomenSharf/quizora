@@ -1,46 +1,29 @@
 import { ReactNode } from "react";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 interface ConfigSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-
-  title?: string;
-  description?: string;
-
   children: ReactNode;
 }
 
 export function ConfigSheet({
   open,
   onOpenChange,
-  title = "Question Settings",
-  description = "Configure the selected question.",
   children,
 }: ConfigSheetProps) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-107.5 p-0 sm:max-w-107.5">
-        <SheetHeader className="border-b px-6 py-5 text-left">
-          <SheetTitle className="text-lg font-semibold tracking-tight">
-            {title}
-          </SheetTitle>
-
-          <SheetDescription className="text-sm leading-relaxed">
-            {description}
-          </SheetDescription>
-        </SheetHeader>
-
-        <ScrollArea className="h-[calc(100vh-88px)]">
-          <div className="px-6 py-6">{children}</div>
+      <SheetContent
+        side="right"
+        className="w-110 overflow-hidden border-l bg-background p-0 shadow-2xl sm:max-w-110"
+      >
+        <ScrollArea className="h-full">
+          <div className="min-h-full px-6 py-6">
+            <div className="space-y-6">{children}</div>
+          </div>
         </ScrollArea>
       </SheetContent>
     </Sheet>

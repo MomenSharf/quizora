@@ -15,7 +15,7 @@ export const TypeAnswerDataSchema = z.object({
     .max(100)
 });
 
-export const TypeAnswerSettingsSchema = z.object({
+export const TypeAnswerConfigSchema = z.object({
   caseSensitive: z.boolean(),
 
   trimWhitespace: z.boolean(),
@@ -40,13 +40,13 @@ export const TypeAnswerQuestionSchema = BaseQuestionSchema.extend({
 
   content: TypeAnswerDataSchema,
 
-  config: TypeAnswerSettingsSchema,
+  config: TypeAnswerConfigSchema,
 });
 
 export type TypeAnswerData = z.infer<typeof TypeAnswerDataSchema>;
 
-export type TypeAnswerSettings = z.infer<
-  typeof TypeAnswerSettingsSchema
+export type TypeAnswerConfig = z.infer<
+  typeof TypeAnswerConfigSchema
 >;
 
 export type TypeAnswerQuestion = z.infer<

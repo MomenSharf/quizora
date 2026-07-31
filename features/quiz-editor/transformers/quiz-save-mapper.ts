@@ -10,7 +10,11 @@ import { defaultEditorState, EditorState } from "../store";
 
 type PrismaQuiz = Prisma.QuizGetPayload<{
   include: {
-    questions: true;
+    questions: {
+      include: {
+        image: true;
+      };
+    };
   };
 }>;
 
@@ -36,6 +40,8 @@ export function mapEditorState(state: Prisma.JsonValue): EditorState {
       activePanel: editorState.navigation?.activePanel ?? "questions",
       selectedQuestionId: editorState.navigation?.selectedQuestionId ?? null,
       isTypeSelectorOpen: editorState.navigation?.isTypeSelectorOpen ?? false,
+      isQuestionSelectorOpen:
+        editorState.navigation?.isQuestionSelectorOpen ?? false,
     },
     autosave: {
       enabled: editorState.autosave?.enabled ?? true,
@@ -77,9 +83,15 @@ function mapQuestion(question: PrismaQuiz["questions"][number]) {
 
     points: question.points,
 
-    media: {
-      image: question.imageUrl ?? undefined,
-    },
+    image: question.image
+      ? {
+          id: question.image.id,
+          url: question.image.url,
+          alt: question.image.alt,
+          caption: question.image.caption ?? undefined,
+          ratio: question.image.ratio,
+        }
+      : undefined,
 
     content: question.content,
 

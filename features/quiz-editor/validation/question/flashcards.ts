@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { BaseQuestionSchema } from "./base";
+import { BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
+import { ImageSchema } from "../quiz/image";
 
 export const FlashcardSchema = z.object({
   id: z.string(),
@@ -7,13 +8,13 @@ export const FlashcardSchema = z.object({
   front: z.object({
     title: z.string().trim().max(200),
     content: z.string().trim(),
-    image: z.url().optional(),
+    image: ImageSchema.optional(),
   }),
 
   back: z.object({
     title: z.string().trim().max(200),
     content: z.string().trim(),
-    image: z.url().optional(),
+    image: ImageSchema.optional(),
   }),
 });
 
@@ -21,7 +22,7 @@ export const FlashcardsDataSchema = z.object({
   cards: z.array(FlashcardSchema).min(1).max(500),
 });
 
-export const FlashcardsSettingsSchema = z.object({
+export const FlashcardsConfigSchema = BaseQuestionConfigSchema.extend({
   shuffleCards: z.boolean(),
 
   flipDirection: z.enum(["HORIZONTAL", "VERTICAL"]),
@@ -42,13 +43,13 @@ export const FlashcardsQuestionSchema = BaseQuestionSchema.extend({
 
   content: FlashcardsDataSchema,
 
-  config: FlashcardsSettingsSchema,
+  config: FlashcardsConfigSchema,
 });
 
 export type Flashcard = z.infer<typeof FlashcardSchema>;
 
 export type FlashcardsData = z.infer<typeof FlashcardsDataSchema>;
 
-export type FlashcardsSettings = z.infer<typeof FlashcardsSettingsSchema>;
+export type FlashcardsConfig = z.infer<typeof FlashcardsConfigSchema>;
 
 export type FlashcardsQuestion = z.infer<typeof FlashcardsQuestionSchema>;

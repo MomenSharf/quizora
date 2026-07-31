@@ -1,23 +1,18 @@
 import { z } from "zod";
-import { BaseQuestionSchema, OptionSchema } from "./base";
-
+import {
+  BaseQuestionConfigSchema,
+  BaseQuestionSchema,
+  OptionSchema,
+} from "./base";
 
 export const OrderingDataSchema = z.object({
-  options: z
-    .array(OptionSchema)
-    .min(2)
-    .max(50),
+  options: z.array(OptionSchema).min(2).max(50),
 });
 
-export const OrderingSettingsSchema = z.object({
+export const OrderingConfigSchema = BaseQuestionConfigSchema.extend({
   randomizeItems: z.boolean(),
 
-  layout: z
-    .enum([
-      "VERTICAL",
-      "HORIZONTAL",
-    ])
-,
+  layout: z.enum(["VERTICAL", "HORIZONTAL"]),
   showNumbers: z.boolean(),
 
   allowRetry: z.boolean(),
@@ -28,16 +23,11 @@ export const OrderingQuestionSchema = BaseQuestionSchema.extend({
 
   content: OrderingDataSchema,
 
-  config: OrderingSettingsSchema,
+  config: OrderingConfigSchema,
 });
-
 
 export type OrderingData = z.infer<typeof OrderingDataSchema>;
 
-export type OrderingSettings = z.infer<
-  typeof OrderingSettingsSchema
->;
+export type OrderingConfig = z.infer<typeof OrderingConfigSchema>;
 
-export type OrderingQuestion = z.infer<
-  typeof OrderingQuestionSchema
->;
+export type OrderingQuestion = z.infer<typeof OrderingQuestionSchema>;

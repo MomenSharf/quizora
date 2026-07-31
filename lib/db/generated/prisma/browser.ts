@@ -47,3 +47,8 @@ export type Quiz = Prisma.QuizModel
  * 
  */
 export type Question = Prisma.QuestionModel
+/**
+ * Model Image
+ * 
+ */
+export type Image = Prisma.ImageModel

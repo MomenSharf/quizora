@@ -1,12 +1,23 @@
 import { QuestionType as QuestionTypePrisma } from "@/lib/db/generated/prisma/enums";
 import { z } from "zod";
+import { ImageSchema } from "../quiz/image";
 
 export const QuestionTypeSchema = z.enum(QuestionTypePrisma);
 
-export const MediaSchema = z.object({
-  image: z.url().optional(),
-  video: z.url().optional(),
-  audio: z.url().optional(),
+export const BaseQuestionConfigSchema = z.object({
+  required: z.boolean(),
+
+  shuffle: z.boolean(),
+
+  showExplanation: z.boolean(),
+
+  allowSkip: z.boolean(),
+
+  timeLimit: z.number().int().min(0),
+
+  maxAttempts: z.number().int().min(0),
+
+  points: z.number().min(0),
 });
 
 export const BaseQuestionSchema = z.object({
@@ -14,90 +25,49 @@ export const BaseQuestionSchema = z.object({
 
   type: QuestionTypeSchema,
 
-  title: z
-    .string()
-    .trim()
-    .min(1, "Question title is required")
-    .max(500),
+  title: z.string().trim().min(1, "Question title is required").max(500),
 
-  description: z
-    .string()
-    .trim()
-    .max(2000)
-,
-  explanation: z
-    .string()
-    .trim()
-    .max(5000)
-,
-  hint: z
-    .string()
-    .trim()
-    .max(1000)
-,
+  description: z.string().trim().max(2000),
 
-  points: z
-    .number()
-    .min(0)
-,
-  imageUrl: z.url().optional(),
+  explanation: z.string().trim().max(5000),
 
-  tags: z
-    .array(
-      z.string().trim().min(1).max(30)
-    )
-    .max(20)
-   ,
+  hint: z.string().trim().max(1000),
 
-  difficulty: z
-    .enum(["EASY", "MEDIUM", "HARD"])
-,
-  media: MediaSchema,
+  image: ImageSchema.optional(),
+
+  tags: z.array(z.string().trim().min(1).max(30)).max(20),
+
+  difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
+
 });
 
 export const OptionSchema = z.object({
   id: z.string(),
 
-  text: z
-    .string()
-    .trim()
-    .min(1)
-    .max(500),
+  text: z.string().trim().min(1).max(500),
 
-  image: z.url().optional(),
+  image: ImageSchema.optional(),
 
-  explanation: z
-    .string()
-    .trim()
-    .max(1000)
-    ,
+  explanation: z.string().trim().max(1000),
 });
 
 export const ContentSchema = z.object({
-  text: z
-    .string()
-    .trim()
-    .min(1)
-    .max(500),
+  text: z.string().trim().min(1).max(500),
 
-  image: z.url().optional(),
+  image: ImageSchema.optional(),
 });
 
 export const AcceptedAnswerSchema = z.object({
   id: z.string(),
 
-  value: z
-    .string()
-    .trim()
-    .min(1)
-    .max(500),
+  value: z.string().trim().min(1).max(500),
 });
 
 export type QuestionType = z.infer<typeof QuestionTypeSchema>;
 
-export type BaseQuestion = z.infer<typeof BaseQuestionSchema>;
+export type BaseQuestionConfig = z.infer<typeof BaseQuestionConfigSchema>;
 
-export type Media = z.infer<typeof MediaSchema>;
+export type BaseQuestion = z.infer<typeof BaseQuestionSchema>;
 
 export type Option = z.infer<typeof OptionSchema>;
 

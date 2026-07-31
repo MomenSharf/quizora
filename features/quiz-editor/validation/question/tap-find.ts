@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { BaseQuestionSchema } from "./base";
+import { BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
+import { ImageSchema } from "../quiz/image";
 
 const RectTargetSchema = z.object({
   id: z.string(),
@@ -32,12 +33,12 @@ export const TapFindTargetSchema = z.discriminatedUnion("shape", [
 ]);
 
 export const TapFindDataSchema = z.object({
-  image: z.url(),
+  image:ImageSchema.optional(),
 
   targets: z.array(TapFindTargetSchema).min(1).max(50),
 });
 
-export const TapFindSettingsSchema = z.object({
+export const TapFindConfigSchema = BaseQuestionConfigSchema.extend({
   showHints: z.boolean(),
 
   showTargetOutline: z.boolean(),
@@ -55,13 +56,13 @@ export const TapFindQuestionSchema = BaseQuestionSchema.extend({
 
   content: TapFindDataSchema,
 
-  config: TapFindSettingsSchema,
+  config: TapFindConfigSchema,
 });
 
 export type TapFindTarget = z.infer<typeof TapFindTargetSchema>;
 
 export type TapFindData = z.infer<typeof TapFindDataSchema>;
 
-export type TapFindSettings = z.infer<typeof TapFindSettingsSchema>;
+export type TapFindConfig = z.infer<typeof TapFindConfigSchema>;
 
 export type TapFindQuestion = z.infer<typeof TapFindQuestionSchema>;

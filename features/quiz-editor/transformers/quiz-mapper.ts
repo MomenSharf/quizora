@@ -21,12 +21,19 @@ import type {
   QuizSettings,
 } from "@/features/quiz-editor/validation/quiz";
 
+import type { Ratio } from "@/features/quiz-editor/validation/quiz/image";
+
 import { createDefaultQuiz } from "../create-defaults/quiz/create-default-quiz";
 import { defaultEditorState, type EditorState } from "../store";
 
 type PrismaQuiz = Prisma.QuizGetPayload<{
   include: {
-    questions: true;
+    questions: {
+      include: {
+        image: true;
+      };
+    };
+    thumbnail: true;
   };
 }>;
 
@@ -120,13 +127,7 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
 
     difficulty: question.difficulty ?? "MEDIUM",
 
-    required: true,
-
     points: question.points,
-
-    media: {
-      image: question.imageUrl ?? undefined,
-    },
   };
 
   switch (question.type) {
@@ -136,6 +137,15 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         type: QuestionType.SINGLE_SELECT,
         content: question.content as SingleSelectQuestion["content"],
         config: question.config as SingleSelectQuestion["config"],
+        image: question.image
+          ? {
+              id: question.image.id,
+              alt: question.image.alt,
+              caption: question.image.caption ?? undefined,
+              ratio: question.image.ratio as Ratio,
+              url: "",
+            }
+          : undefined,
       };
 
     case QuestionType.MULTIPLE_SELECT:
@@ -242,7 +252,15 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
       title: quiz.title,
       description: quiz.description ?? "",
 
-      thumbnail: quiz.thumbnail ?? undefined,
+      thumbnail: quiz.thumbnail
+        ? {
+            id: quiz.thumbnail.id,
+            url: quiz.thumbnail.url,
+            alt: quiz.thumbnail.alt,
+            caption: quiz.thumbnail.caption ?? undefined,
+            ratio: quiz.thumbnail.ratio as Ratio,
+          }
+        : undefined,
 
       tags: quiz.tags,
 

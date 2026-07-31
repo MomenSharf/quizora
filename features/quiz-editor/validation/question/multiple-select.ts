@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BaseQuestionSchema, OptionSchema } from "./base";
+import { BaseQuestionConfigSchema, BaseQuestionSchema, OptionSchema } from "./base";
 
 
 
@@ -14,7 +14,7 @@ export const MultipleSelectDataSchema = z.object({
     .min(1),
 });
 
-export const MultipleSelectSettingsSchema = z.object({
+export const MultipleSelectConfigSchema = BaseQuestionConfigSchema.extend({
   randomizeOptions: z.boolean(),
 
   layout: z
@@ -44,7 +44,7 @@ export const MultipleSelectQuestionSchema = BaseQuestionSchema.extend({
 
   content: MultipleSelectDataSchema,
 
-  config: MultipleSelectSettingsSchema,
+  config: MultipleSelectConfigSchema,
 });
 
 
@@ -52,8 +52,8 @@ export type MultipleSelectData = z.infer<
   typeof MultipleSelectDataSchema
 >;
 
-export type MultipleSelectSettings = z.infer<
-  typeof MultipleSelectSettingsSchema
+export type MultipleSelectConfig = z.infer<
+  typeof MultipleSelectConfigSchema
 >;
 
 export type MultipleSelectQuestion = z.infer<

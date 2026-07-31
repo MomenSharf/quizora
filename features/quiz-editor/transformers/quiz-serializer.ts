@@ -16,9 +16,7 @@ function serializeSettings(quiz: QuizEditor): Prisma.InputJsonValue {
   } satisfies Prisma.InputJsonValue;
 }
 
-function serializeEditorState(
-  editorState: EditorState,
-): Prisma.InputJsonValue {
+function serializeEditorState(editorState: EditorState): Prisma.InputJsonValue {
   return {
     navigation: {
       activePanel: editorState.navigation.activePanel as string,
@@ -58,11 +56,18 @@ function serializeQuestion(
 
     hint: question.hint,
 
-    points: question.points,
-
     order,
 
-    imageUrl: question.imageUrl,
+    image: question.image
+      ? {
+          create: {
+            url: question.image.url,
+            alt: question.image.alt,
+            caption: question.image.caption,
+            ratio: question.image.ratio,
+          },
+        }
+      : undefined,
 
     tags: question.tags ?? [],
 
@@ -85,10 +90,6 @@ export function serializeNewQuiz({
 }): Prisma.QuizCreateInput {
   const questionCount = quiz.questions.length;
 
-  const totalPoints = quiz.questions.reduce(
-    (sum, question) => sum + question.points,
-    0,
-  );
 
   return {
     id: quiz.id,
@@ -110,8 +111,6 @@ export function serializeNewQuiz({
     settings: serializeSettings(quiz),
     editorState: serializeEditorState(editorState),
     questionCount,
-    totalPoints,
-
     questions: {
       create: quiz.questions.map(serializeQuestion),
     },
@@ -123,11 +122,6 @@ export function serializeUpdateQuiz(
   editorState: EditorState,
 ): Prisma.QuizUpdateInput {
   const questionCount = quiz.questions.length;
-
-  const totalPoints = quiz.questions.reduce(
-    (sum, question) => sum + question.points,
-    0,
-  );
 
   return {
     title: quiz.info.title,
@@ -154,7 +148,6 @@ export function serializeUpdateQuiz(
 
     questionCount,
 
-    totalPoints,
 
     questions: {
       deleteMany: {},

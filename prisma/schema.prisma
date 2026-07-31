@@ -84,7 +84,8 @@ model Quiz {
   title       String
   description String? @db.Text
 
-  thumbnail String?
+  thumbnail Image? @relation(fields: [imageId], references: [id])
+  imageId   String?
 
   language String  @default("en")
   category String?
@@ -140,7 +141,8 @@ model Question {
 
   order Int
 
-  imageUrl String?
+  imageid String?
+  image   Image?  @relation(fields: [imageid], references: [id])
 
   tags String[] @default(["general"])
 
@@ -160,6 +162,22 @@ model Question {
   @@index([quizId, order])
   @@index([type])
   @@index([difficulty])
+}
+
+model Image {
+  id String @id @default(cuid())
+
+  url String
+
+  caption String?
+  alt     String
+
+  ratio String @default("AUTO")
+
+  createdAt DateTime @default(now())
+
+  questions Question[]
+  quizzes   Quiz[]
 }
 
 enum QuizStatus {

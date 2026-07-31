@@ -26,7 +26,7 @@ export const RangeDataSchema = z
       },
   );
 
-export const RangeSettingsSchema = z.object({
+export const RangeConfigSchema = z.object({
   showTicks: z.boolean(),
 
   showLabels: z.boolean(),
@@ -45,11 +45,11 @@ export const RangeQuestionSchema = BaseQuestionSchema.extend({
 
   content: RangeDataSchema,
 
-  config: RangeSettingsSchema,
+  config: RangeConfigSchema,
 });
 
 export type RangeData = z.infer<typeof RangeDataSchema>;
 
-export type RangeSettings = z.infer<typeof RangeSettingsSchema>;
+export type RangeConfig = z.infer<typeof RangeConfigSchema>;
 
 export type RangeQuestion = z.infer<typeof RangeQuestionSchema>;

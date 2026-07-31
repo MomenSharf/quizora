@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ImageSchema } from "./image";
 
 export const QuizInfoSchema = z.object({
   title: z
@@ -11,7 +12,7 @@ export const QuizInfoSchema = z.object({
     .string()
     .trim()
     .max(1000, "Description must be at most 1000 characters"),
-  thumbnail: z.url().optional(),
+  thumbnail: ImageSchema.optional(),
 
   tags: z.array(z.string().trim().min(1).max(30)).max(10),
   language: z.string().trim(),

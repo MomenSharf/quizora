@@ -56,7 +56,8 @@ export const ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Quiz: 'Quiz',
-  Question: 'Question'
+  Question: 'Question',
+  Image: 'Image'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -138,7 +139,7 @@ export const QuizScalarFieldEnum = {
   slug: 'slug',
   title: 'title',
   description: 'description',
-  thumbnail: 'thumbnail',
+  imageId: 'imageId',
   language: 'language',
   category: 'category',
   ownerId: 'ownerId',
@@ -171,7 +172,7 @@ export const QuestionScalarFieldEnum = {
   hint: 'hint',
   points: 'points',
   order: 'order',
-  imageUrl: 'imageUrl',
+  imageid: 'imageid',
   tags: 'tags',
   difficulty: 'difficulty',
   content: 'content',
@@ -183,6 +184,18 @@ export const QuestionScalarFieldEnum = {
 } as const
 
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
+
+
+export const ImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  caption: 'caption',
+  alt: 'alt',
+  ratio: 'ratio',
+  createdAt: 'createdAt'
+} as const
+
+export type ImageScalarFieldEnum = (typeof ImageScalarFieldEnum)[keyof typeof ImageScalarFieldEnum]
 
 
 export const SortOrder = {

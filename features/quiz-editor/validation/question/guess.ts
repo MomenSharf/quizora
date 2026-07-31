@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AcceptedAnswerSchema, BaseQuestionSchema } from "./base";
+import { AcceptedAnswerSchema, BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
 
 export const GuessHintSchema = z.object({
   id: z.string(),
@@ -19,7 +19,7 @@ export const GuessDataSchema = z.object({
 });
 // import AcceptedAnswerSchema
 
-export const GuessSettingsSchema = z.object({
+export const GuessConfigSchema = BaseQuestionConfigSchema.extend({
   caseSensitive: z.boolean(),
 
   trimWhitespace: z.boolean(),
@@ -40,13 +40,13 @@ export const GuessQuestionSchema = BaseQuestionSchema.extend({
 
   content: GuessDataSchema,
 
-  config: GuessSettingsSchema,
+  config: GuessConfigSchema,
 });
 
 export type GuessHint = z.infer<typeof GuessHintSchema>;
 
 export type GuessData = z.infer<typeof GuessDataSchema>;
 
-export type GuessSettings = z.infer<typeof GuessSettingsSchema>;
+export type GuessConfig = z.infer<typeof GuessConfigSchema>;
 
 export type GuessQuestion = z.infer<typeof GuessQuestionSchema>;

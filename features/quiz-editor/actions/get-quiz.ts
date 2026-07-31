@@ -10,7 +10,13 @@ export async function getQuiz(id: string) {
       id,
     },
     include: {
-      questions: true,
+      questions: {
+        include: {
+          image: true,
+        },
+      },
+
+      thumbnail: true,
     },
   });
   

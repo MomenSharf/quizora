@@ -19,21 +19,28 @@ export function SingleSelectForm({ questionIndex }: QuestionFormProps) {
         } as React.CSSProperties
       }
     >
-      <SectionCard type="SINGLE_SELECT" title="Single Select" openConfig={openConfig}>
+      <SectionCard
+        type="SINGLE_SELECT"
+        title="Single Select"
+        openConfig={openConfig}
+      >
         <QuestionSection questionIndex={questionIndex} type="SINGLE_SELECT" />
       </SectionCard>
-      <SectionCard type="SINGLE_SELECT" title="Answer Content" openConfig={openConfig}>
+      <SectionCard
+        type="SINGLE_SELECT"
+        title="Answer Content"
+        openConfig={openConfig}
+      >
         <AnswerOptionsGroup questionIndex={questionIndex} />
       </SectionCard>
-      <SectionCard type="SINGLE_SELECT" title="Explanation" openConfig={openConfig}>
+      <SectionCard
+        type="SINGLE_SELECT"
+        title="Explanation"
+        openConfig={openConfig}
+      >
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
-      <ConfigSheet
-        open={isConfigOpen}
-        onOpenChange={setIsConfigOpen}
-        title="Single Select"
-        description="Configure the selected question."
-      >
+      <ConfigSheet open={isConfigOpen} onOpenChange={setIsConfigOpen}>
         <SingleSelectConfig questionIndex={questionIndex} />
       </ConfigSheet>
     </div>

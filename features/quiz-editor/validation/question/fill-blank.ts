@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AcceptedAnswerSchema, BaseQuestionSchema } from "./base";
+import { AcceptedAnswerSchema, BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
 
 export const FillBlankBlockSchema = z.discriminatedUnion("type", [
   z.object({
@@ -29,7 +29,7 @@ export const FillBlankDataSchema = z.object({
   blanks: z.array(BlankSchema).max(50),
 });
 
-export const FillBlankSettingsSchema = z.object({
+export const FillBlankConfigSchema = BaseQuestionConfigSchema.extend({
   caseSensitive: z.boolean(),
 
   trimWhitespace: z.boolean(),
@@ -46,7 +46,7 @@ export const FillBlankQuestionSchema = BaseQuestionSchema.extend({
 
   content: FillBlankDataSchema,
 
-  config: FillBlankSettingsSchema,
+  config: FillBlankConfigSchema,
 });
 
 export type FillBlankBlock = z.infer<typeof FillBlankBlockSchema>;
@@ -55,6 +55,6 @@ export type Blank = z.infer<typeof BlankSchema>;
 
 export type FillBlankData = z.infer<typeof FillBlankDataSchema>;
 
-export type FillBlankSettings = z.infer<typeof FillBlankSettingsSchema>;
+export type FillBlankConfig = z.infer<typeof FillBlankConfigSchema>;
 
 export type FillBlankQuestion = z.infer<typeof FillBlankQuestionSchema>;

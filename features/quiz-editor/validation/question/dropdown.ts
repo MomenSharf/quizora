@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BaseQuestionSchema, OptionSchema } from "./base";
+import { BaseQuestionConfigSchema, BaseQuestionSchema, OptionSchema } from "./base";
 
 export const DropdownDataSchema = z.object({
     label: z
@@ -16,7 +16,7 @@ export const DropdownDataSchema = z.object({
   correctOptionId: z.string(),
 });
 
-export const DropdownSettingsSchema = z.object({
+export const DropdownConfigSchema = BaseQuestionConfigSchema.extend({
   placeholder: z
     .string()
     .trim()
@@ -37,13 +37,13 @@ export const DropdownQuestionSchema = BaseQuestionSchema.extend({
 
   content: DropdownDataSchema,
 
-  config: DropdownSettingsSchema,
+  config: DropdownConfigSchema,
 });
 
 export type DropdownData = z.infer<typeof DropdownDataSchema>;
 
-export type DropdownSettings = z.infer<
-  typeof DropdownSettingsSchema
+export type DropdownConfig = z.infer<
+  typeof DropdownConfigSchema
 >;
 
 export type DropdownQuestion = z.infer<

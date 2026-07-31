@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ImageSchema } from "./image";
 
 export const QuizAppearanceSchema = z.object({
   theme: z.enum(["SYSTEM", "LIGHT", "DARK"]),
@@ -9,9 +10,9 @@ export const QuizAppearanceSchema = z.object({
 
   textColor: z.string(),
 
-  logo: z.url().optional(),
+  logo: ImageSchema.optional(),
 
-  coverImage: z.url().optional(),
+  coverImage: ImageSchema.optional(),
 
   font: z.string(),
 
