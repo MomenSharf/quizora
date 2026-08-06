@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 import SectionField from "./section-field";
 import { QuestionFormProps } from "./question-form-router";
 
-const ExplanationSection = ({ questionIndex }: QuestionFormProps) => {
+const ExplanationSection = ({ questionIndex }: { questionIndex: number }) => {
   const { control } = useQuizForm();
 
   return (

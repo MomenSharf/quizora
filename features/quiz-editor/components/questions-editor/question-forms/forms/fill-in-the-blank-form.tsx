@@ -10,7 +10,7 @@ import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 
-export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
+export function FillinTheBlankForm({ questionIndex, openConfig }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
 
   const content = useWatch({
@@ -30,10 +30,10 @@ export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
         } as React.CSSProperties
       }
     >
-      <SectionCard type="FILL_BLANK" title="Fill in the Blank">
+      <SectionCard type="FILL_BLANK" title="Fill in the Blank" openConfig={openConfig}>
         <QuestionSection questionIndex={questionIndex} type="FILL_BLANK" />
       </SectionCard>
-      <SectionCard type="FILL_BLANK" title="Blanks">
+      <SectionCard type="FILL_BLANK" title="Blanks" openConfig={openConfig}>
         <div className="group rounded-xl border bg-card transition-all duration-200 hover:border-primary/20 focus-within:border-primary/40 focus-within:shadow-sm">
           <div className="p-4">
             <RichTextEditor
@@ -72,7 +72,7 @@ export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
           </div>
         </div>
       </SectionCard>
-      <SectionCard type="FILL_BLANK" title="Explanation">
+      <SectionCard type="FILL_BLANK" title="Explanation" openConfig={openConfig}>
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
     </div>

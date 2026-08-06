@@ -1,2 +1,2 @@
-export *  from './config-sheet'
+export *  from './config-panel'
 export *  from './config-wrapper'

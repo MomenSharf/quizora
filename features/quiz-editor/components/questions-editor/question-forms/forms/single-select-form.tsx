@@ -1,15 +1,10 @@
-import { useState } from "react";
 import ExplanationSection from "../explanation-section";
 import { AnswerOptionsGroup } from "../options/answer-options-group";
-import { ConfigSheet } from "../question-config/sheet";
-import { SingleSelectConfig } from "../question-config/types/single-select-config";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 
-export function SingleSelectForm({ questionIndex }: QuestionFormProps) {
-  const [isConfigOpen, setIsConfigOpen] = useState(false);
-  const openConfig = () => setIsConfigOpen(true);
+export function SingleSelectForm({ questionIndex, toggleConfig }: QuestionFormProps) {
   return (
     <div
       className="space-y-5"
@@ -22,27 +17,24 @@ export function SingleSelectForm({ questionIndex }: QuestionFormProps) {
       <SectionCard
         type="SINGLE_SELECT"
         title="Single Select"
-        openConfig={openConfig}
+        toggleConfig={toggleConfig}
       >
         <QuestionSection questionIndex={questionIndex} type="SINGLE_SELECT" />
       </SectionCard>
       <SectionCard
         type="SINGLE_SELECT"
         title="Answer Content"
-        openConfig={openConfig}
+        toggleConfig={toggleConfig}
       >
         <AnswerOptionsGroup questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard
         type="SINGLE_SELECT"
         title="Explanation"
-        openConfig={openConfig}
+        toggleConfig={toggleConfig}
       >
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
-      <ConfigSheet open={isConfigOpen} onOpenChange={setIsConfigOpen}>
-        <SingleSelectConfig questionIndex={questionIndex} />
-      </ConfigSheet>
     </div>
   );
 }

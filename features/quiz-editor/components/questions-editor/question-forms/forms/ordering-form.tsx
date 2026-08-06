@@ -20,7 +20,7 @@ export function OrdeingrForm({ questionIndex }: QuestionFormProps) {
       <SectionCard type="ORDERING" title="Answer Content">
         <AnswerOptionsGroup questionIndex={questionIndex} />
       </SectionCard>
-      <SectionCard type="SINGLE_SELECT" title="Explanation">
+      <SectionCard type="ORDERING" title="Explanation">
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
     </div>

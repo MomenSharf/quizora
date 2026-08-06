@@ -6,7 +6,7 @@ import { QuestionFormProps } from "./question-form-router";
 import SectionField from "./section-field";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
-const QuestionSection = ({  questionIndex, type }: QuestionFormProps & {type: QuestionType}) => {
+const QuestionSection = ({  questionIndex, type }: {questionIndex: number, type: QuestionType}) => {
   const { control } = useQuizForm();
 
   return (

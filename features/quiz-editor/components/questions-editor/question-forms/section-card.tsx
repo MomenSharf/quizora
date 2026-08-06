@@ -15,7 +15,7 @@ interface SectionCardProps {
   title: string;
   children: ReactNode;
 
-  openConfig?: () => void;
+  toggleConfig?: () => void;
 
   defaultOpen?: boolean;
   collapsible?: boolean;
@@ -29,7 +29,7 @@ export function SectionCard({
   title,
   children,
   
-  openConfig,
+  toggleConfig,
 
   defaultOpen = true,
   collapsible = true,
@@ -72,7 +72,7 @@ export function SectionCard({
           onClick={(e) => e.stopPropagation()}
         >
 
-            <Button variant="ghost" size="icon" className="size-8 rounded-lg" onClick={openConfig}>
+            <Button variant="ghost" size="icon" className="size-8 rounded-lg hidden xl:flex" onClick={toggleConfig}>
               <Settings2   className="size-4" />
             </Button>
 

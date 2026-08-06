@@ -27,10 +27,7 @@ export default function PageRouter() {
 
 function renderPanel(activePanel: ReturnType<typeof useActivePanel>) {
   switch (activePanel) {
-    case "cover":
-      return "Cover";
-
-    case "questions":
+    case "questions-results":
       return <QuestionLayout />;
 
     case "design":
@@ -38,9 +35,6 @@ function renderPanel(activePanel: ReturnType<typeof useActivePanel>) {
 
     case "logic":
       return "Logic";
-
-    case "results":
-      return "Results";
 
     case "publish":
       return "Publish";

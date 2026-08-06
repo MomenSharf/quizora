@@ -206,7 +206,7 @@ export function RangeForm({ questionIndex }: QuestionFormProps) {
                 </p>
               </div>
             ) : (
-              <div className="overflow-hidden rounded-xl border p-4 border-primary/25">
+              <div className="overflow-y-auto scrollbar-thin rounded-xl border p-4 border-primary/25">
                 <div className="flex h-36 items-end">
                   {ticks.map((tick, index) => {
                     const isFirst = index === 0;

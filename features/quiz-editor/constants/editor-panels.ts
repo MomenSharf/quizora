@@ -1,11 +1,9 @@
 import {
   IconAdjustments,
-  IconBook2,
   IconBrush,
   IconChecklist,
   IconHierarchy2,
-  IconTrophy,
-  TablerIcon,
+  TablerIcon
 } from "@tabler/icons-react";
 import { EditorPanel } from "../store";
 
@@ -15,29 +13,18 @@ export const EDITOR_PANELS: {
   icon: TablerIcon;
   value: EditorPanel;
 }[] = [
+
   {
-    title: "Cover",
-    url: "/cover",
-    icon: IconBook2,
-    value: "cover",
-  },
-  {
-    title: "Questions",
-    url: "/questions",
+    title: "Questions & Results",
+    url: "/questions-results",
     icon: IconChecklist,
-    value: "questions",
+    value: "questions-results",
   },
   {
     title: "Branching Logic",
     url: "/branching-logic",
     icon: IconHierarchy2,
     value: "logic",
-  },
-  {
-    title: "Results",
-    url: "/results",
-    icon: IconTrophy,
-    value: "results",
   },
   {
     title: "Design",

@@ -8,7 +8,8 @@ import { SectionCard } from "../section-card";
 import SectionField from "../section-field";
 import { AnswerOptionsGroup } from "../options/answer-options-group";
 
-export function DropdownForm({ questionIndex }: QuestionFormProps) {
+export function DropdownForm({ questionIndex , openConfig }: QuestionFormProps) {
+  
   const { control } = useQuizForm();
   return (
     <div
@@ -19,10 +20,10 @@ export function DropdownForm({ questionIndex }: QuestionFormProps) {
         } as React.CSSProperties
       }
     >
-      <SectionCard type="DROPDOWN" title="Dropdown">
+      <SectionCard type="DROPDOWN" title="Dropdown" openConfig={openConfig}>
         <QuestionSection questionIndex={questionIndex} type="DROPDOWN" />
       </SectionCard>
-      <SectionCard type="DROPDOWN" title="Answer Options">
+      <SectionCard type="DROPDOWN" title="Answer Options" openConfig={openConfig}>
         <div className="space-y-5">
           <SectionField
             label="Label"
@@ -47,7 +48,7 @@ export function DropdownForm({ questionIndex }: QuestionFormProps) {
           <AnswerOptionsGroup questionIndex={questionIndex} />
         </div>
       </SectionCard>
-      <SectionCard type="DROPDOWN" title="Explanation">
+      <SectionCard type="DROPDOWN" title="Explanation" openConfig={openConfig}>
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
     </div>
