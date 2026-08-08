@@ -44,7 +44,7 @@ export interface QuestionFormProps {
 type QuestionFormComponent = React.ComponentType<QuestionFormProps>;
 
 export function QuestionFormRouter() {
-  const [isConfigOpen, setIsConfigOpen] = useState(true);
+  const [isConfigOpen, setIsConfigOpen] = useState(false);
 
   const { question, questionIndex } = useSelectedQuestion();
   const isTypeSelectorOpen = useIsTypeSelectorOpen();
@@ -57,9 +57,7 @@ export function QuestionFormRouter() {
     return null;
   }
 
-  const FORM_MAP: Partial<
-    Record<QuestionType, QuestionFormComponent>
-  > = {
+  const FORM_MAP: Partial<Record<QuestionType, QuestionFormComponent>> = {
     SINGLE_SELECT: SingleSelectForm,
     MULTIPLE_SELECT: MultipleSelectForm,
     TRUE_FALSE: TrueFalseForm,
@@ -73,12 +71,8 @@ export function QuestionFormRouter() {
     // GUESS: GessForm,
   };
 
-  const CONFIG_MAP: Partial<
-    Record<QuestionType, React.ReactNode>
-  > = {
-    SINGLE_SELECT: (
-      <SingleSelectConfig questionIndex={questionIndex} />
-    ),
+  const CONFIG_MAP: Partial<Record<QuestionType, React.ReactNode>> = {
+    SINGLE_SELECT: <SingleSelectConfig questionIndex={questionIndex} />,
 
     // MULTIPLE_SELECT: (
     //   <MultipleSelectConfig questionIndex={questionIndex} />
@@ -147,9 +141,7 @@ export function QuestionFormRouter() {
         className={cn(
           "min-w-0 flex-1",
           "transition-[padding] duration-300",
-          isConfigOpen
-            ? "xl:pr-0"
-            : "xl:flex xl:justify-center"
+          isConfigOpen ? "xl:pr-0" : "xl:flex xl:justify-center",
         )}
       >
         <motion.div
@@ -161,24 +153,14 @@ export function QuestionFormRouter() {
             duration: 0.2,
             ease: "easeOut",
           }}
-          className={cn(
-            "w-full",
-            !isConfigOpen && "xl:max-w-5xl"
-          )}
+          className={cn("w-full", !isConfigOpen && "xl:max-w-5xl")}
         >
-          <Form
-            questionIndex={questionIndex}
-            toggleConfig={toggleConfig}
-          />
+          <Form questionIndex={questionIndex} toggleConfig={toggleConfig} />
         </motion.div>
       </motion.main>
 
       {/* Mobile / Tablet */}
-      <div className="w-full xl:hidden">
-        <ConfigPanel open>
-          {Config}
-        </ConfigPanel>
-      </div>
+      <div className="w-full xl:hidden">{Config}</div>
 
       {/* XL+ Inspector */}
       <AnimatePresence initial={false}>
@@ -208,9 +190,7 @@ export function QuestionFormRouter() {
             }}
             className="hidden min-h-0 shrink-0 overflow-hidden xl:block"
           >
-            <ConfigPanel open>
-              {Config}
-            </ConfigPanel>
+            {Config}
           </motion.aside>
         )}
       </AnimatePresence>

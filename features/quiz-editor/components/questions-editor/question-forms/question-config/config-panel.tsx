@@ -7,24 +7,16 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
 interface ConfigPanelProps {
-  open: boolean;
   children: ReactNode;
-  color?: string;
 }
 
-export function ConfigPanel({ open, children, color = "single" }: ConfigPanelProps) {
+export function ConfigPanel({ children }: ConfigPanelProps) {
   return (
     <aside
       className={cn(
         "flex min-h-0 flex-col overflow-hidden border bg-card rounded-lg",
-        "transition-[width,opacity] duration-300 ease-in-out",
-        open ? "w-full opacity-100 xl:w-80" : "w-0 opacity-0"
+        "transition-[width,opacity] duration-300 ease-in-out w-full xl:w-80",
       )}
-      style={
-        {
-          "--primary": `var(--question-${color})`,
-        } as React.CSSProperties
-      }
     >
       {/* Header */}
       <div className="shrink-0 border-b px-4 py-3">
@@ -33,7 +25,7 @@ export function ConfigPanel({ open, children, color = "single" }: ConfigPanelPro
             className={cn(
               "flex size-8 items-center justify-center rounded-lg",
               "bg-[color-mix(in_oklab,var(--primary)_12%,transparent)]",
-              "text-primary"
+              "text-primary",
             )}
           >
             <Settings2 className="size-4" />
@@ -58,4 +50,3 @@ export function ConfigPanel({ open, children, color = "single" }: ConfigPanelPro
     </aside>
   );
 }
-
