@@ -1,19 +1,19 @@
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { ConfigWrapper } from "./sheet";
 import { SelectField } from "./fields/select-field";
 import { SwitchField } from "./fields/switch-field";
+import { ConfigSection } from "./config-section";
+import { Ratio } from "@/features/quiz-editor/validation/quiz/image";
+import { Separator } from "@/components/ui/separator";
 
 type BaseQuestionConfigProps = {
   questionIndex: number;
 };
 
-export function BaseQuestionConfig({
-  questionIndex,
-}: BaseQuestionConfigProps) {
+export function BaseQuestionConfig({ questionIndex }: BaseQuestionConfigProps) {
   const { control } = useQuizForm();
 
   return (
-    <ConfigWrapper title="General" separator={false}>
+    <ConfigSection title="Options" separator={false}>
       <SelectField
         control={control}
         name={`questions.${questionIndex}.config.points`}
@@ -29,7 +29,6 @@ export function BaseQuestionConfig({
           { label: "50 Points", value: "50" },
           { label: "100 Points", value: "100" },
         ]}
-        inline
       />
 
       <SelectField
@@ -48,13 +47,12 @@ export function BaseQuestionConfig({
           { label: "90 Seconds", value: "90" },
           { label: "120 Seconds", value: "120" },
         ]}
-        inline
       />
 
       <SelectField
         control={control}
         name={`questions.${questionIndex}.config.maxAttempts`}
-        label="Maximum attempts"
+        label="Max attempts"
         description="How many tries the user gets."
         options={[
           { label: "Unlimited", value: "0" },
@@ -63,8 +61,8 @@ export function BaseQuestionConfig({
           { label: "3 Attempts", value: "3" },
           { label: "5 Attempts", value: "5" },
         ]}
-        inline
       />
+
 
       <SwitchField
         control={control}
@@ -75,17 +73,17 @@ export function BaseQuestionConfig({
 
       <SwitchField
         control={control}
-        name={`questions.${questionIndex}.config.allowSkip`}
-        label="Allow skip"
-        description="Allow users to skip this question."
-      />
-
-      <SwitchField
-        control={control}
         name={`questions.${questionIndex}.config.showExplanation`}
         label="Show explanation"
         description="Display the explanation after answering."
       />
-    </ConfigWrapper>
+
+      <SwitchField
+        control={control}
+        name={`questions.${questionIndex}.config.allowSkip`}
+        label="Allow skip"
+        description="Allow users to skip this question."
+      />
+    </ConfigSection>
   );
 }

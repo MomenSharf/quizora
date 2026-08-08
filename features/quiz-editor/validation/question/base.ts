@@ -7,9 +7,9 @@ export const QuestionTypeSchema = z.enum(QuestionTypePrisma);
 export const BaseQuestionConfigSchema = z.object({
   required: z.boolean(),
 
-  shuffle: z.boolean(),
-
   showExplanation: z.boolean(),
+
+  showMedia: z.boolean(),
 
   allowSkip: z.boolean(),
 

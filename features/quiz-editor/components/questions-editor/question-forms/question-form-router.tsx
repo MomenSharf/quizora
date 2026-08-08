@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 import { useSelectedQuestion } from "@/features/quiz-editor/hooks/use-selected-question";
 import { useIsTypeSelectorOpen } from "@/features/quiz-editor/store";
@@ -10,7 +10,9 @@ import { cn } from "@/lib/utils";
 
 import QuestionTypeSelector from "../question-type-selector";
 
+import { ConfigPanel } from "./question-config/config-panel";
 import { SingleSelectConfig } from "./question-config/types/single-select-config";
+
 // import { MultipleSelectConfig } from "./question-config/types/multiple-select-config";
 // import { OrderingConfig } from "./question-config/types/ordering-config";
 // import { TrueFalseConfig } from "./question-config/types/true-false-config";
@@ -32,13 +34,14 @@ import { FillinTheBlankForm } from "./forms/fill-in-the-blank-form";
 import { MatchingForm } from "./forms/matching-form";
 import { RangeForm } from "./forms/range-form";
 import { TapFindForm } from "./forms/tap-find-form";
-import { ConfigPanel } from "./question-config/sheet";
 // import { GessForm } from "./forms/guess-form";
 
 export interface QuestionFormProps {
   questionIndex: number;
   toggleConfig: () => void;
 }
+
+type QuestionFormComponent = React.ComponentType<QuestionFormProps>;
 
 export function QuestionFormRouter() {
   const [isConfigOpen, setIsConfigOpen] = useState(true);
@@ -54,7 +57,9 @@ export function QuestionFormRouter() {
     return null;
   }
 
-  const FORM_MAP: Partial<Record<QuestionType, React.FC<QuestionFormProps>>> = {
+  const FORM_MAP: Partial<
+    Record<QuestionType, QuestionFormComponent>
+  > = {
     SINGLE_SELECT: SingleSelectForm,
     MULTIPLE_SELECT: MultipleSelectForm,
     TRUE_FALSE: TrueFalseForm,
@@ -68,28 +73,69 @@ export function QuestionFormRouter() {
     // GUESS: GessForm,
   };
 
-  const CONFIG_MAP: Partial<Record<QuestionType, React.ReactNode>> = {
-    SINGLE_SELECT: <SingleSelectConfig questionIndex={questionIndex} />,
-    // MULTIPLE_SELECT: <MultipleSelectConfig questionIndex={questionIndex} />,
-    // TRUE_FALSE: <TrueFalseConfig questionIndex={questionIndex} />,
-    // DROPDOWN: <DropdownConfig questionIndex={questionIndex} />,
-    // ORDERING: <OrderingConfig questionIndex={questionIndex} />,
-    // TYPE_ANSWER: <TypeAnswerConfig questionIndex={questionIndex} />,
-    // FILL_BLANK: <FillBlankConfig questionIndex={questionIndex} />,
-    // MATCH: <MatchingConfig questionIndex={questionIndex} />,
-    // RANGE: <RangeConfig questionIndex={questionIndex} />,
-    // TAP_FIND: <TapFindConfig questionIndex={questionIndex} />,
-    // GUESS: <GuessConfig questionIndex={questionIndex} />,
+  const CONFIG_MAP: Partial<
+    Record<QuestionType, React.ReactNode>
+  > = {
+    SINGLE_SELECT: (
+      <SingleSelectConfig questionIndex={questionIndex} />
+    ),
+
+    // MULTIPLE_SELECT: (
+    //   <MultipleSelectConfig questionIndex={questionIndex} />
+    // ),
+
+    // TRUE_FALSE: (
+    //   <TrueFalseConfig questionIndex={questionIndex} />
+    // ),
+
+    // DROPDOWN: (
+    //   <DropdownConfig questionIndex={questionIndex} />
+    // ),
+
+    // ORDERING: (
+    //   <OrderingConfig questionIndex={questionIndex} />
+    // ),
+
+    // TYPE_ANSWER: (
+    //   <TypeAnswerConfig questionIndex={questionIndex} />
+    // ),
+
+    // FILL_BLANK: (
+    //   <FillBlankConfig questionIndex={questionIndex} />
+    // ),
+
+    // MATCH: (
+    //   <MatchingConfig questionIndex={questionIndex} />
+    // ),
+
+    // RANGE: (
+    //   <RangeConfig questionIndex={questionIndex} />
+    // ),
+
+    // TAP_FIND: (
+    //   <TapFindConfig questionIndex={questionIndex} />
+    // ),
+
+    // GUESS: (
+    //   <GuessConfig questionIndex={questionIndex} />
+    // ),
   };
 
   const Form = FORM_MAP[question.type];
+  const Config = CONFIG_MAP[question.type];
 
-  if (!Form) return null;
+  if (!Form) {
+    return null;
+  }
+
+  const toggleConfig = () => {
+    setIsConfigOpen((previous) => !previous);
+  };
 
   return (
-    <div className="flex flex-col gap-6 xl:flex-row">
-      {/* Form */}
-      <motion.div
+    <div className="flex min-h-0 w-full flex-1 flex-col xl:flex-row gap-3">
+      {/* Question editor */}
+      <motion.main
         layout
         transition={{
           layout: {
@@ -99,55 +145,73 @@ export function QuestionFormRouter() {
           },
         }}
         className={cn(
-          "min-w-0",
-          isConfigOpen ? "flex-1" : "mx-auto w-full max-w-5xl"
+          "min-w-0 flex-1",
+          "transition-[padding] duration-300",
+          isConfigOpen
+            ? "xl:pr-0"
+            : "xl:flex xl:justify-center"
         )}
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={question.id}
-            layout
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-          >
-            <Form
-              questionIndex={questionIndex}
-              toggleConfig={() => setIsConfigOpen((prev) => !prev)}
-            />
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
+        <motion.div
+          key={question.id}
+          layout
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.2,
+            ease: "easeOut",
+          }}
+          className={cn(
+            "w-full",
+            !isConfigOpen && "xl:max-w-5xl"
+          )}
+        >
+          <Form
+            questionIndex={questionIndex}
+            toggleConfig={toggleConfig}
+          />
+        </motion.div>
+      </motion.main>
 
-      {/* Mobile / Tablet / LG - Always visible */}
-      <div className="xl:hidden">
+      {/* Mobile / Tablet */}
+      <div className="w-full xl:hidden">
         <ConfigPanel open>
-          {CONFIG_MAP[question.type]}
+          {Config}
         </ConfigPanel>
       </div>
 
-      {/* XL+ - Collapsible */}
+      {/* XL+ Inspector */}
       <AnimatePresence initial={false}>
         {isConfigOpen && (
-          <motion.div
-            initial={{ width: 0, opacity: 0, x: 24 }}
-            animate={{ width: 420, opacity: 1, x: 0 }}
-            exit={{ width: 0, opacity: 0, x: 24 }}
+          <motion.aside
+            initial={{
+              width: 0,
+              opacity: 0,
+            }}
+            animate={{
+              width: 320,
+              opacity: 1,
+            }}
+            exit={{
+              width: 0,
+              opacity: 0,
+            }}
             transition={{
               width: {
                 type: "spring",
-                stiffness: 260,
-                damping: 28,
+                stiffness: 280,
+                damping: 30,
               },
-              opacity: { duration: 0.15 },
+              opacity: {
+                duration: 0.15,
+              },
             }}
-            className="hidden overflow-hidden xl:block xl:shrink-0"
+            className="hidden min-h-0 shrink-0 overflow-hidden xl:block"
           >
             <ConfigPanel open>
-              {CONFIG_MAP[question.type]}
+              {Config}
             </ConfigPanel>
-          </motion.div>
+          </motion.aside>
         )}
       </AnimatePresence>
     </div>

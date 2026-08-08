@@ -51,47 +51,56 @@ export function SelectField<T extends FieldValues>({
   });
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-lg border p-3 hover:border-primary/30">
-      <div className="flex min-w-0 items-center gap-2">
-        <span className="text-sm font-medium">{label}</span>
+    <div className="flex min-h-9 items-center justify-between gap-3">
+      <div
+        className={`flex min-w-0 items-center gap-1.5 ${
+          disabled ? "opacity-50" : ""
+        }`}
+      >
+        <span className="truncate text-sm font-medium">{label}</span>
 
         {description && (
-          <TooltipProvider delayDuration={150}>
+          <TooltipProvider delayDuration={200}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
                   type="button"
-                  className="text-muted-foreground transition-colors hover:text-foreground"
+                  aria-label={`About ${label}`}
+                  disabled={disabled}
+                  className="flex size-4 shrink-0 items-center justify-center rounded-full text-muted-foreground/60 transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <CircleHelp className="size-4" />
+                  <CircleHelp className="size-3" />
                 </button>
               </TooltipTrigger>
 
               <TooltipContent
                 side="top"
-                className="max-w-xs"
+                align="start"
+                className="max-w-64 text-xs leading-relaxed"
               >
-                <p>{description}</p>
+                {description}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         )}
       </div>
 
+      {/* Select */}
       <Select
-        value={field.value}
+        value={field.value ?? ""}
         onValueChange={field.onChange}
         disabled={disabled}
       >
-        <SelectTrigger className="w-44 shrink-0">
+        <SelectTrigger className="h-8 w-32 shrink-0 px-2.5 text-xs ">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
 
-        <SelectContent >
+        <SelectContent>
           {options.map((option) => (
             <SelectItem
               key={option.value}
               value={option.value}
+              className="text-xs"
             >
               {option.label}
             </SelectItem>
@@ -101,3 +110,4 @@ export function SelectField<T extends FieldValues>({
     </div>
   );
 }
+

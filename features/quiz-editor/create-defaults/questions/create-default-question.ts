@@ -1,5 +1,9 @@
 import { createId } from "@paralleldrive/cuid2";
-import { Option, QuestionType } from "../../validation/question/base";
+import {
+  BaseQuestionConfig,
+  Option,
+  QuestionType,
+} from "../../validation/question/base";
 import { Question } from "../../validation/question";
 import { createSingleSelectQuestion } from "./single-select-question";
 import { createMultipleSelectQuestion } from "./multiple-select-question";
@@ -43,8 +47,6 @@ export function createDefaultQuestion(type: QuestionType): Question {
     case "RANGE":
       return createRangeQuestion();
 
-
-
     case "GUESS":
       return createGuessQuestion();
 
@@ -57,6 +59,24 @@ export function createDefaultQuestion(type: QuestionType): Question {
     default:
       return createSingleSelectQuestion();
   }
+}
+
+export function createDefaultConfig(): BaseQuestionConfig {
+  return {
+    required: true,
+
+    showExplanation: true,
+
+    showMedia: true,
+
+    allowSkip: true,
+
+    timeLimit: 0,
+
+    maxAttempts: 0,
+
+    points: 1,
+  };
 }
 
 export function createDefaultOption(text: string): Option {

@@ -1,7 +1,7 @@
 
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { SingleSelectQuestion } from "../../validation/question";
-import { createBaseQuestion, createDefaultOption } from "./create-default-question";
+import { createBaseQuestion, createDefaultConfig, createDefaultOption } from "./create-default-question";
 
 
 export function createSingleSelectQuestion(): SingleSelectQuestion {
@@ -20,9 +20,12 @@ export function createSingleSelectQuestion(): SingleSelectQuestion {
     },
 
     config: {
-      randomizeOptions: false,
-      layout: "VERTICAL",
+      ...createDefaultConfig(),
+      showOptionMedia: true,
+      OptionMediaRatio: "AUTO",
+      suffleOptions: false,
       showOptionLetters: true,
+      layout: "VERTICAL",
     },
   };
 }

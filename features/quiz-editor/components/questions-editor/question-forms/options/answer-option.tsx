@@ -70,6 +70,11 @@ export default function AnswerOption({
     name: `questions.${questionIndex}.content.correctOptionIds`,
   });
 
+  const showOptionLetters = useWatch({
+    control,
+    name: `questions.${questionIndex}.config.showOptionLetters`,
+  });
+
   const { isDragging } = useSortable({
     id: optionId,
     index,
@@ -163,9 +168,9 @@ export default function AnswerOption({
             <IconGripVertical className="size-5" />
           </button>
 
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
+         {showOptionLetters && <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
             {index + 1}
-          </div>
+          </div>}
 
           {type !== QuestionType.ORDERING && (
             <button
