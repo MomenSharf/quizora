@@ -1,10 +1,8 @@
 // store/editor.types.ts
 
 export type EditorPanel =
-  | "questions-results"
-  | "design"
+  | "questions"
   | "settings"
-  | "logic"
   | "publish";
 
 export type SaveState =
@@ -81,7 +79,7 @@ export type EditorStore = EditorState & EditorActions;
 
 export const defaultEditorState: EditorState = {
   navigation: {
-    activePanel: "questions-results",
+    activePanel: "questions",
     selectedQuestionId: null,
     isTypeSelectorOpen: false,
     isQuestionSelectorOpen: false,

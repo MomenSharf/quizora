@@ -230,7 +230,7 @@ const QuestionSelector = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full md:w-72 md:min-w-72 md:max-w-72 xl:w-80 xl:min-w-80 xl:max-w-80 rounded-lg rounded-tl-xl bg-background border-b sm:border">
+    <div className="flex-1 flex flex-col quiz-editor-sidebar">
       <div
         className="flex items-center gap-1 p-3 max-md:hover:bg-muted/40 max-md:cursor-pointer md:pointer-events-none"
         onClick={() => setQuestionSelectorOpen(!isQuestionSelectorOpen)}

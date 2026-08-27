@@ -29,6 +29,7 @@ export function BaseQuestionConfig({ questionIndex }: BaseQuestionConfigProps) {
           { label: "50 Points", value: "50" },
           { label: "100 Points", value: "100" },
         ]}
+        
       />
 
       <SelectField

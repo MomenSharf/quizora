@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { useActivePanel } from "../store";
 import QuestionLayout from "./questions-editor/question-layout";
+import SettingsLayout from "./settings-editor/settings-layout";
 
 export default function PageRouter() {
   const activePanel = useActivePanel();
@@ -27,14 +28,13 @@ export default function PageRouter() {
 
 function renderPanel(activePanel: ReturnType<typeof useActivePanel>) {
   switch (activePanel) {
-    case "questions-results":
+    case "questions":
       return <QuestionLayout />;
 
-    case "design":
-      return "Design";
 
-    case "logic":
-      return "Logic";
+
+    case "settings":
+      return <SettingsLayout />;
 
     case "publish":
       return "Publish";

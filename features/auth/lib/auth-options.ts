@@ -20,13 +20,14 @@ const authConfig = {
   },
 
   pages: {
-    signIn: "/signin",
+    signIn: "/login",
   },
 
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
     }),
 
     Credentials({
@@ -53,7 +54,7 @@ const authConfig = {
         if (!user?.password) return null;
 
         const valid = await bcrypt.compare(password, user.password);
-        
+
         if (!valid) return null;
 
         return {
@@ -88,8 +89,6 @@ const authConfig = {
 
       return session;
     },
-
-    
   },
 } satisfies NextAuthConfig;
 

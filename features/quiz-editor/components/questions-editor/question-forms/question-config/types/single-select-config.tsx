@@ -12,7 +12,10 @@ export function SingleSelectConfig({
 }: {
   questionIndex: number;
 }) {
-  const { control } = useQuizForm();
+  const { control, getValues } = useQuizForm();
+
+  console.log(getValues(`questions.${questionIndex}.config.timeLimit`));
+  
 
   return (
     <div
@@ -33,6 +36,7 @@ export function SingleSelectConfig({
               control={control}
               ratioName={`questions.${questionIndex}.image.ratio`}
               showMediaName={`questions.${questionIndex}.config.showMedia`}
+              
             />
           </ConfigSection>
 

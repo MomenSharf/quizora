@@ -12,7 +12,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { IconBooks, IconSmartHome } from "@tabler/icons-react";
+import { IconBooks, IconCompass, IconKey, IconKeyboard, IconSmartHome } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   FrameIcon,
@@ -42,20 +42,19 @@ const data = {
       isActive: true,
     },
     {
-      title: "library",
+      title: "Discover",
+      url: "/discover",
+      icon: IconCompass,
+    },
+    {
+      title: "Library",
       url: "/library",
       icon: IconBooks,
     },
     {
-      title: "Ask AI",
-      url: "#",
-      icon: Sparkles,
-    },
-    {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-      badge: "10",
+      title: "Join by Code",
+      url: "/join",
+      icon: IconKey,
     },
   ],
   projects: [

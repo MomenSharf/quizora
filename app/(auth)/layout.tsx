@@ -1,21 +1,27 @@
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Logo } from "@/components/logo";
+import { auth } from "@/features/auth/lib/auth-options";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
+  const session = await auth();
 
+  if (session?.user) {
+    redirect("/");
+  }
+  return (
     <main className="grid min-h-screen md:grid-cols-2">
       <div className="flex flex-col p-3">
         <div className="flex mt-5 justify-between">
-        <Link href="/">
-          <Logo />
-        </Link>
+          <Link href="/">
+            <Logo />
+          </Link>
           <ThemeToggle />
         </div>
 

@@ -11,7 +11,7 @@ const QuestionSection = ({  questionIndex, type }: {questionIndex: number, type:
 
   return (
     <div className="space-y-3">
-      <ImageUploadPlaceholder onClick={() => {}}  questionIndex={questionIndex} type={type} />
+      <ImageUploadPlaceholder onClick={() => {}}  questionIndex={questionIndex}  />
       <SectionField
         label="Title"
         description="Provide a title for this question."

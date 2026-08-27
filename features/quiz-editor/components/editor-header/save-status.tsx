@@ -35,10 +35,10 @@ export function SaveStatus() {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="flex h-5 cursor-default items-center gap-1 md:gap-2">
+        <div className="flex min-w-0 items-center gap-1 md:gap-2">
           <div
             className={cn(
-              "size-1.5 rounded-full transition-colors md:size-2",
+              "size-1.5 shrink-0 rounded-full transition-colors md:size-2",
               isIdle && "bg-muted-foreground/50",
               isSaved && "bg-emerald-500",
               isSaving && "animate-pulse bg-blue-500",
@@ -50,7 +50,10 @@ export function SaveStatus() {
 
           <span
             className={cn(
-              "text-[8px] min-[500px]:text-[11px] max-[500px]:w-15  font-medium transition-colors md:inline truncate w-fit",
+              "min-w-0 truncate text-[8px] font-medium transition-colors",
+              "min-[500px]:text-[10px]",
+              "sm:text-[11px]",
+              "w-24 sm:w-28 md:w-36 lg:w-40 truncate",
               isIdle && "text-muted-foreground",
               isSaved && "text-muted-foreground",
               isSaving && "text-blue-600 dark:text-blue-400",

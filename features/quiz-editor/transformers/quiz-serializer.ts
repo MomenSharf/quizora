@@ -58,14 +58,9 @@ function serializeQuestion(
 
     order,
 
-    image: question.image
+    image: question.image?.url
       ? {
-          create: {
-            url: question.image.url,
-            alt: question.image.alt,
-            caption: question.image.caption,
-            ratio: question.image.ratio,
-          },
+          create: question.image,
         }
       : undefined,
 
@@ -89,7 +84,6 @@ export function serializeNewQuiz({
   ownerId: string;
 }): Prisma.QuizCreateInput {
   const questionCount = quiz.questions.length;
-
 
   return {
     id: quiz.id,
@@ -148,6 +142,11 @@ export function serializeUpdateQuiz(
 
     questionCount,
 
+    category: quiz.info.category,
+
+    language: quiz.info.language,
+
+    thumbnail : quiz.info.thumbnail?.url ? { create: quiz.info.thumbnail } : undefined,
 
     questions: {
       deleteMany: {},

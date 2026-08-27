@@ -181,6 +181,7 @@
   }
 }
 
+/* Rich text editor */
 .tiptap a {
   @apply underline underline-offset-4 transition-colors hover:text-primary/80;
 }
@@ -193,10 +194,50 @@
   pointer-events: none;
 }
 
+/* Global */
 .text-xxs {
   font-size: var(--text-xxs); /* 0.625rem = 10px */
   line-height: var(
     --tw-leading,
     var(--text-xxs--line-height) /* 0.875rem = 14px */
   );
+}
+
+/* Quiz Editor */
+.quiz-editor-sidebar {
+  @apply w-full md:w-72 md:min-w-72 md:max-w-72 xl:w-80 xl:min-w-80 xl:max-w-80 bg-background border-r
+}
+
+.quiz-editor-input {
+  @apply h-11 w-full rounded-xl
+    border border-border/60
+    bg-muted/20
+    px-3.5
+    text-sm text-foreground
+    shadow-sm shadow-black/[0.02]
+    outline-none
+    transition-all duration-200
+    placeholder:text-muted-foreground/50
+    hover:border-border
+    hover:bg-muted/30
+    focus:border-primary/50
+    focus:bg-background
+    focus:ring-4 focus:ring-primary/10;
+}
+
+.quiz-editor-textarea {
+  @apply min-h-28 w-full resize-none rounded-xl
+    border border-border/60
+    bg-muted/20
+    px-3.5 py-3
+    text-sm leading-6 text-foreground
+    shadow-sm shadow-black/[0.02]
+    outline-none
+    transition-all duration-200
+    placeholder:text-muted-foreground/50
+    hover:border-border
+    hover:bg-muted/30
+    focus:border-primary/50
+    focus:bg-background
+    focus:ring-4 focus:ring-primary/10;
 }

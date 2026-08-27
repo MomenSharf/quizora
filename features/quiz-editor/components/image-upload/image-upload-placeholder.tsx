@@ -1,15 +1,12 @@
-import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { IconPhotoPlus, IconUpload } from "@tabler/icons-react";
 
 type ImageUploadPlaceholderProps = {
   questionIndex?: number;
-  type: QuestionType;
   onClick?: () => void;
   disabled?: boolean;
 };
 
 export function ImageUploadPlaceholder({
-  type,
   onClick,
   disabled,
 }: ImageUploadPlaceholderProps) {
