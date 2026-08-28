@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { AcceptedAnswerSchema, BaseQuestionSchema } from "./base";
+import { AcceptedAnswerSchema, BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
+import { MediaRatioSchema } from "../quiz/image";
 
 
 
@@ -15,26 +16,22 @@ export const TypeAnswerDataSchema = z.object({
     .max(100)
 });
 
-export const TypeAnswerConfigSchema = z.object({
+export const TypeAnswerConfigSchema = BaseQuestionConfigSchema.extend({
   caseSensitive: z.boolean(),
-
   trimWhitespace: z.boolean(),
-
   ignoreExtraSpaces: z.boolean(),
 
   acceptRegex: z.boolean(),
 
-  maxLength: z
-    .number()
-    .int()
-    .min(1)
- ,
+  maxLength: z.number().int().min(1),
 
   multiline: z.boolean(),
 
-  autoComplete: z.boolean(),
-});
+  showMedia: z.boolean(),
+  mediaRatio: MediaRatioSchema,
 
+  showExplanation: z.boolean(),
+});
 export const TypeAnswerQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("TYPE_ANSWER"),
 

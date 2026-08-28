@@ -7,20 +7,18 @@ import { MediaConfig } from "../media-config";
 import { Separator } from "@/components/ui/separator";
 import { ConfigPanel } from "../config-panel";
 
-type SingleSelectConfigProps = {
+type MatchConfigProps = {
   questionIndex: number;
 };
 
-export function SingleSelectConfig({
-  questionIndex,
-}: SingleSelectConfigProps) {
+export function MatchConfig({ questionIndex }: MatchConfigProps) {
   const { control } = useQuizForm();
 
   return (
     <div
       style={
         {
-          "--primary": "var(--question-single)",
+          "--primary": "var(--question-match)",
         } as React.CSSProperties
       }
     >
@@ -40,27 +38,44 @@ export function SingleSelectConfig({
 
           <Separator className="my-4 opacity-50" />
 
-          <ConfigSection title="Options">
+          <ConfigSection title="Matching">
             <SwitchField
               control={control}
-              name={`questions.${questionIndex}.config.shuffleOptions`}
-              label="Shuffle options"
-              description="Randomize the order of options for each attempt."
+              name={`questions.${questionIndex}.config.shuffleLeft`}
+              label="Shuffle left items"
+              description="Randomize the order of items on the left."
             />
 
             <SwitchField
               control={control}
-              name={`questions.${questionIndex}.config.showOptionLetters`}
-              label="Show option letters"
-              description="Display A, B, C, and so on before each option."
+              name={`questions.${questionIndex}.config.shuffleRight`}
+              label="Shuffle right items"
+              description="Randomize the order of items on the right."
             />
+          </ConfigSection>
 
-            <MediaConfig
+          <Separator className="my-4 opacity-50" />
+
+          <ConfigSection title="Layout">
+            <SelectField
               control={control}
-              ratioName={`questions.${questionIndex}.config.optionMediaRatio`}
-              showMediaName={`questions.${questionIndex}.config.showOptionMedia`}
-              ratioLabel="Option media ratio"
-              showMediaLabel="Show option media"
+              name={`questions.${questionIndex}.config.layout`}
+              label="Match style"
+              description="Choose how players connect the matching pairs."
+              options={[
+                {
+                  label: "Lines",
+                  value: "LINES",
+                },
+                {
+                  label: "Dropdown",
+                  value: "DROPDOWN",
+                },
+                {
+                  label: "Drag & drop",
+                  value: "DRAG_DROP",
+                },
+              ]}
             />
           </ConfigSection>
 
@@ -72,22 +87,6 @@ export function SingleSelectConfig({
               name={`questions.${questionIndex}.config.showExplanation`}
               label="Show explanation"
               description="Display the explanation after the player submits an answer."
-            />
-          </ConfigSection>
-
-          <Separator className="my-4 opacity-50" />
-
-          <ConfigSection title="Layout">
-            <SelectField
-              control={control}
-              name={`questions.${questionIndex}.config.layout`}
-              label="Option layout"
-              description="Choose how answer options are arranged in Play Mode."
-              options={[
-                { label: "Vertical", value: "VERTICAL" },
-                { label: "Horizontal", value: "HORIZONTAL" },
-                { label: "Grid", value: "GRID" },
-              ]}
             />
           </ConfigSection>
         </div>

@@ -4,18 +4,22 @@ import {
   BaseQuestionSchema,
   OptionSchema,
 } from "./base";
+import { MediaRatioSchema } from "../quiz/image";
 
 export const OrderingDataSchema = z.object({
   options: z.array(OptionSchema).min(2).max(50),
 });
 
 export const OrderingConfigSchema = BaseQuestionConfigSchema.extend({
-  randomizeItems: z.boolean(),
+  showMedia: z.boolean(),
+  mediaRatio: MediaRatioSchema,
 
-  layout: z.enum(["VERTICAL", "HORIZONTAL"]),
+  shuffleItems: z.boolean(),
   showNumbers: z.boolean(),
 
-  allowRetry: z.boolean(),
+  layout: z.enum(["VERTICAL", "HORIZONTAL"]),
+
+  showExplanation: z.boolean(),
 });
 
 export const OrderingQuestionSchema = BaseQuestionSchema.extend({

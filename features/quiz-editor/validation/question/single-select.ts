@@ -4,7 +4,7 @@ import {
   BaseQuestionSchema,
   OptionSchema,
 } from "./base";
-import { RatioSchema } from "../quiz/image";
+import { MediaRatioSchema } from "../quiz/image";
 
 export const SingleSelectDataSchema = z.object({
   options: z.array(OptionSchema).min(2).max(20),
@@ -13,10 +13,17 @@ export const SingleSelectDataSchema = z.object({
 });
 
 export const SingleSelectConfigSchema = BaseQuestionConfigSchema.extend({
-  showOptionMedia: z.boolean(),
-  OptionMediaRatio: RatioSchema,
-  suffleOptions: z.boolean(),
+  showMedia: z.boolean(),
+  mediaRatio: MediaRatioSchema,
+
+  showExplanation: z.boolean(),
+
+  shuffleOptions: z.boolean(),
   showOptionLetters: z.boolean(),
+
+  showOptionMedia: z.boolean(),
+  optionMediaRatio: MediaRatioSchema,
+
   layout: z.enum(["VERTICAL", "HORIZONTAL", "GRID"]),
 });
 

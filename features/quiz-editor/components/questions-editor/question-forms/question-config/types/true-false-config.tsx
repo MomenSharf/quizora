@@ -6,21 +6,22 @@ import { ConfigSection } from "../config-section";
 import { MediaConfig } from "../media-config";
 import { Separator } from "@/components/ui/separator";
 import { ConfigPanel } from "../config-panel";
+import { TextField } from "../fields/text-field";
 
-type SingleSelectConfigProps = {
+type TrueFalseConfigProps = {
   questionIndex: number;
 };
 
-export function SingleSelectConfig({
+export function TrueFalseConfig({
   questionIndex,
-}: SingleSelectConfigProps) {
+}: TrueFalseConfigProps) {
   const { control } = useQuizForm();
 
   return (
     <div
       style={
         {
-          "--primary": "var(--question-single)",
+          "--primary": "var(--question-true-false)",
         } as React.CSSProperties
       }
     >
@@ -40,27 +41,32 @@ export function SingleSelectConfig({
 
           <Separator className="my-4 opacity-50" />
 
+          <ConfigSection title="Labels">
+            <TextField
+              control={control}
+              name={`questions.${questionIndex}.config.trueLabel`}
+              label="True label"
+              description="Text displayed for the true answer."
+              placeholder="True"
+            />
+
+            <TextField
+              control={control}
+              name={`questions.${questionIndex}.config.falseLabel`}
+              label="False label"
+              description="Text displayed for the false answer."
+              placeholder="False"
+            />
+          </ConfigSection>
+
+          <Separator className="my-4 opacity-50" />
+
           <ConfigSection title="Options">
             <SwitchField
               control={control}
               name={`questions.${questionIndex}.config.shuffleOptions`}
               label="Shuffle options"
-              description="Randomize the order of options for each attempt."
-            />
-
-            <SwitchField
-              control={control}
-              name={`questions.${questionIndex}.config.showOptionLetters`}
-              label="Show option letters"
-              description="Display A, B, C, and so on before each option."
-            />
-
-            <MediaConfig
-              control={control}
-              ratioName={`questions.${questionIndex}.config.optionMediaRatio`}
-              showMediaName={`questions.${questionIndex}.config.showOptionMedia`}
-              ratioLabel="Option media ratio"
-              showMediaLabel="Show option media"
+              description="Randomize the order of the two answers."
             />
           </ConfigSection>
 
@@ -72,22 +78,6 @@ export function SingleSelectConfig({
               name={`questions.${questionIndex}.config.showExplanation`}
               label="Show explanation"
               description="Display the explanation after the player submits an answer."
-            />
-          </ConfigSection>
-
-          <Separator className="my-4 opacity-50" />
-
-          <ConfigSection title="Layout">
-            <SelectField
-              control={control}
-              name={`questions.${questionIndex}.config.layout`}
-              label="Option layout"
-              description="Choose how answer options are arranged in Play Mode."
-              options={[
-                { label: "Vertical", value: "VERTICAL" },
-                { label: "Horizontal", value: "HORIZONTAL" },
-                { label: "Grid", value: "GRID" },
-              ]}
             />
           </ConfigSection>
         </div>

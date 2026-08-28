@@ -65,15 +65,7 @@ export function createDefaultConfig(): BaseQuestionConfig {
   return {
     required: true,
 
-    showExplanation: true,
-
-    showMedia: true,
-
-    allowSkip: true,
-
-    timeLimit: 0,
-
-    maxAttempts: 0,
+    timeLimit: 30,
 
     points: 1,
   };

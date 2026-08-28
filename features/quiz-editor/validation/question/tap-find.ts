@@ -39,16 +39,7 @@ export const TapFindDataSchema = z.object({
 });
 
 export const TapFindConfigSchema = BaseQuestionConfigSchema.extend({
-  showHints: z.boolean(),
-
-  showTargetOutline: z.boolean(),
-
-  allowMultipleClicks: z.boolean(),
-
-  tolerance: z.number().int().min(0).max(50),
-  zoomable: z.boolean(),
-
-  revealTargetsAfterSubmit: z.boolean(),
+  showExplanation: z.boolean(),
 });
 
 export const TapFindQuestionSchema = BaseQuestionSchema.extend({

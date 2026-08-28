@@ -6,21 +6,22 @@ import { ConfigSection } from "../config-section";
 import { MediaConfig } from "../media-config";
 import { Separator } from "@/components/ui/separator";
 import { ConfigPanel } from "../config-panel";
+import { TextField } from "../fields/text-field";
 
-type SingleSelectConfigProps = {
+type DropdownConfigProps = {
   questionIndex: number;
 };
 
-export function SingleSelectConfig({
+export function DropdownConfig({
   questionIndex,
-}: SingleSelectConfigProps) {
+}: DropdownConfigProps) {
   const { control } = useQuizForm();
 
   return (
     <div
       style={
         {
-          "--primary": "var(--question-single)",
+          "--primary": "var(--question-dropdown)",
         } as React.CSSProperties
       }
     >
@@ -66,28 +67,38 @@ export function SingleSelectConfig({
 
           <Separator className="my-4 opacity-50" />
 
+          <ConfigSection title="Dropdown">
+            <TextField
+              control={control}
+              name={`questions.${questionIndex}.config.placeholder`}
+              label="Placeholder"
+              description="Text shown when no option is selected."
+              placeholder="Select an option..."
+            />
+
+            <SwitchField
+              control={control}
+              name={`questions.${questionIndex}.config.searchable`}
+              label="Searchable"
+              description="Allow players to search through the options."
+            />
+
+            <SwitchField
+              control={control}
+              name={`questions.${questionIndex}.config.clearable`}
+              label="Clear selection"
+              description="Allow players to remove their selected answer."
+            />
+          </ConfigSection>
+
+          <Separator className="my-4 opacity-50" />
+
           <ConfigSection title="Behavior">
             <SwitchField
               control={control}
               name={`questions.${questionIndex}.config.showExplanation`}
               label="Show explanation"
               description="Display the explanation after the player submits an answer."
-            />
-          </ConfigSection>
-
-          <Separator className="my-4 opacity-50" />
-
-          <ConfigSection title="Layout">
-            <SelectField
-              control={control}
-              name={`questions.${questionIndex}.config.layout`}
-              label="Option layout"
-              description="Choose how answer options are arranged in Play Mode."
-              options={[
-                { label: "Vertical", value: "VERTICAL" },
-                { label: "Horizontal", value: "HORIZONTAL" },
-                { label: "Grid", value: "GRID" },
-              ]}
             />
           </ConfigSection>
         </div>

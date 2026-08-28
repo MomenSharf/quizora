@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { BaseQuestionSchema } from "./base";
+import { BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
+import { MediaRatioSchema } from "../quiz/image";
 
 export const RangeDataSchema = z
   .object({
@@ -25,19 +26,13 @@ export const RangeDataSchema = z
         message: "Invalid range values",
       },
   );
-
-export const RangeConfigSchema = z.object({
-  showTicks: z.boolean(),
-
-  showLabels: z.boolean(),
-
-  showCurrentValue: z.boolean(),
-
-  showMinMaxLabels: z.boolean(),
-
-  orientation: z.enum(["HORIZONTAL", "VERTICAL"]),
+export const RangeConfigSchema = BaseQuestionConfigSchema.extend({
+  showMedia: z.boolean(),
+  mediaRatio: MediaRatioSchema,
 
   snapToStep: z.boolean(),
+
+  showExplanation: z.boolean(),
 });
 
 export const RangeQuestionSchema = BaseQuestionSchema.extend({

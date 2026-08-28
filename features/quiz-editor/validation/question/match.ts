@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { BaseQuestionConfigSchema, BaseQuestionSchema, ContentSchema } from "./base";
+import { MediaRatioSchema } from "../quiz/image";
 
 export const MatchPairSchema = z.object({
   id: z.string(),
@@ -13,14 +14,15 @@ export const MatchDataSchema = z.object({
 });
 
 export const MatchConfigSchema = BaseQuestionConfigSchema.extend({
-  randomizeLeft: z.boolean(),
+  showMedia: z.boolean(),
+  mediaRatio: MediaRatioSchema,
 
-  randomizeRight: z.boolean(),
+  shuffleLeft: z.boolean(),
+  shuffleRight: z.boolean(),
 
   layout: z.enum(["LINES", "DROPDOWN", "DRAG_DROP"]),
-  showImages: z.boolean(),
 
-  allowRetry: z.boolean(),
+  showExplanation: z.boolean(),
 });
 
 export const MatchQuestionSchema = BaseQuestionSchema.extend({

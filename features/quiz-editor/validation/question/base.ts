@@ -6,17 +6,7 @@ export const QuestionTypeSchema = z.enum(QuestionTypePrisma);
 
 export const BaseQuestionConfigSchema = z.object({
   required: z.boolean(),
-
-  showExplanation: z.boolean(),
-
-  showMedia: z.boolean(),
-
-  allowSkip: z.boolean(),
-
   timeLimit: z.number().int().min(0),
-
-  maxAttempts: z.number().int().min(0),
-
   points: z.number().min(0),
 });
 
@@ -38,7 +28,6 @@ export const BaseQuestionSchema = z.object({
   tags: z.array(z.string().trim().min(1).max(30)).max(20),
 
   difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
-
 });
 
 export const OptionSchema = z.object({

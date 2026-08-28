@@ -18,6 +18,15 @@ import { FillinTheBlankForm } from "./forms/fill-in-the-blank-form";
 import { MatchingForm } from "./forms/matching-form";
 import { RangeForm } from "./forms/range-form";
 import { TapFindForm } from "./forms/tap-find-form";
+import { DropdownConfig } from "./question-config/types/drowpdown-config";
+import { FillBlankConfig } from "./question-config/types/fill-blank-config";
+import { MatchConfig } from "./question-config/types/match-config";
+import { MultipleSelectConfig } from "./question-config/types/multiple-select-config";
+import { OrderingConfig } from "./question-config/types/ordering-config";
+import { RangeConfig } from "./question-config/types/range-config";
+import { TapFindConfig } from "./question-config/types/tap-find-config";
+import { TypeAnswerConfig } from "./question-config/types/type-answer";
+import { TrueFalseConfig } from "./question-config/types/true-false-config";
 
 export interface QuestionFormProps {
   questionIndex: number;
@@ -37,9 +46,7 @@ export function QuestionFormRouter() {
     return null;
   }
 
-  const FORM_MAP: Partial<
-    Record<QuestionType, QuestionFormComponent>
-  > = {
+  const FORM_MAP: Partial<Record<QuestionType, QuestionFormComponent>> = {
     SINGLE_SELECT: SingleSelectForm,
     MULTIPLE_SELECT: MultipleSelectForm,
     TRUE_FALSE: TrueFalseForm,
@@ -53,9 +60,19 @@ export function QuestionFormRouter() {
   };
 
   const CONFIG_MAP: Partial<Record<QuestionType, React.ReactNode>> = {
-    SINGLE_SELECT: (
-      <SingleSelectConfig questionIndex={questionIndex} />
-    ),
+    SINGLE_SELECT: <SingleSelectConfig questionIndex={questionIndex} />,
+    DROPDOWN: <DropdownConfig questionIndex={questionIndex} />,
+    FILL_BLANK: <FillBlankConfig questionIndex={questionIndex} />,
+    MATCH: <MatchConfig questionIndex={questionIndex} />,
+    MULTIPLE_SELECT: <MultipleSelectConfig questionIndex={questionIndex} />,
+    ORDERING: <OrderingConfig questionIndex={questionIndex} />,
+    RANGE: <RangeConfig questionIndex={questionIndex} />,
+    TAP_FIND: <TapFindConfig questionIndex={questionIndex} />,
+    TYPE_ANSWER: <TypeAnswerConfig questionIndex={questionIndex} />,
+    TRUE_FALSE: <TrueFalseConfig questionIndex={questionIndex} />,
+    // FLASHCARDS: <FlashcardsConfig questionIndex={questionIndex} />,
+    // GUESS: <GuessConfig questionIndex={questionIndex} />,
+    
   };
 
   const Form = FORM_MAP[question.type];
@@ -73,9 +90,7 @@ export function QuestionFormRouter() {
         </div>
       </main>
 
-      <div className="w-full xl:hidden">
-        {Config}
-      </div>
+      <div className="w-full xl:hidden">{Config}</div>
 
       <aside className="hidden min-h-0 w-80 shrink-0 overflow-hidden xl:block">
         {Config}

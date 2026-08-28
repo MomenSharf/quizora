@@ -2,7 +2,7 @@ import { createId } from "@paralleldrive/cuid2";
 
 import type { FillBlankQuestion } from "../../validation/question/fill-blank";
 
-import { createBaseQuestion } from "./create-default-question";
+import { createBaseQuestion, createDefaultConfig } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 export function createFillBlankQuestion(): FillBlankQuestion {
   const blankId = createId();
@@ -42,12 +42,19 @@ export function createFillBlankQuestion(): FillBlankQuestion {
       ],
     },
 
-    config: {
-      caseSensitive: false,
-      trimWhitespace: true,
-      ignoreExtraSpaces: true,
-      allowAnyOrder: false,
-      autoResizeInputs: true,
-    },
+   config: {
+  ...createDefaultConfig(),
+
+  showMedia: true,
+  mediaRatio: "AUTO",
+
+  caseSensitive: false,
+  trimWhitespace: true,
+  ignoreExtraSpaces: true,
+
+  autoResizeInputs: true,
+
+  showExplanation: true,
+},
   };
 }

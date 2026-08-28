@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { BaseQuestionConfigSchema, BaseQuestionSchema, OptionSchema } from "./base";
+import { MediaRatioSchema } from "../quiz/image";
 
 export const DropdownDataSchema = z.object({
     label: z
@@ -17,19 +18,19 @@ export const DropdownDataSchema = z.object({
 });
 
 export const DropdownConfigSchema = BaseQuestionConfigSchema.extend({
-  placeholder: z
-    .string()
-    .trim()
-    .max(100)
-,
+  placeholder: z.string().trim().max(100),
 
-  randomizeOptions: z.boolean(),
-
+  shuffleOptions: z.boolean(),
   searchable: z.boolean(),
-
   clearable: z.boolean(),
-
   showOptionLetters: z.boolean(),
+
+  showMedia: z.boolean(),
+  mediaRatio: MediaRatioSchema,
+  showOptionMedia: z.boolean(),
+  optionMediaRatio: MediaRatioSchema,
+
+  showExplanation: z.boolean(),
 });
 
 export const DropdownQuestionSchema = BaseQuestionSchema.extend({

@@ -13,7 +13,6 @@ export function createSingleSelectQuestion(): SingleSelectQuestion {
 
     type: QuestionType.SINGLE_SELECT,
 
-
     content: {
       options: [option1, option2],
       correctOptionid: option1.id,
@@ -21,9 +20,12 @@ export function createSingleSelectQuestion(): SingleSelectQuestion {
 
     config: {
       ...createDefaultConfig(),
+      showMedia: true,
+      mediaRatio: "AUTO",
       showOptionMedia: true,
-      OptionMediaRatio: "AUTO",
-      suffleOptions: false,
+      optionMediaRatio: "AUTO",
+      showExplanation: true,
+      shuffleOptions: false,
       showOptionLetters: true,
       layout: "VERTICAL",
     },

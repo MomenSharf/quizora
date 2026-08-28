@@ -1,7 +1,10 @@
 import { createId } from "@paralleldrive/cuid2";
 
 import type { TapFindQuestion } from "../../validation/question/tap-find";
-import { createBaseQuestion } from "./create-default-question";
+import {
+  createBaseQuestion,
+  createDefaultConfig,
+} from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 export function createTapFindQuestion(): TapFindQuestion {
@@ -11,8 +14,6 @@ export function createTapFindQuestion(): TapFindQuestion {
     type: QuestionType.TAP_FIND,
 
     content: {
-      image: "",
-
       targets: [
         {
           id: createId(),
@@ -30,12 +31,9 @@ export function createTapFindQuestion(): TapFindQuestion {
     },
 
     config: {
-      showHints: false,
-      showTargetOutline: false,
-      allowMultipleClicks: false,
-      tolerance: 5,
-      zoomable: true,
-      revealTargetsAfterSubmit: true,
+      ...createDefaultConfig(),
+
+      showExplanation: true,
     },
   };
 }

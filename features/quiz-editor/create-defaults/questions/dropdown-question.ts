@@ -1,7 +1,7 @@
 
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { DropdownQuestion } from "../../validation/question/dropdown";
-import { createBaseQuestion, createDefaultOption } from "./create-default-question";
+import { createBaseQuestion, createDefaultConfig, createDefaultOption } from "./create-default-question";
 
 
 export function createDropdownQuestion(): DropdownQuestion {
@@ -21,12 +21,17 @@ export function createDropdownQuestion(): DropdownQuestion {
     },
 
     config: {
-      randomizeOptions: false,
-      searchable: true,
-      clearable: true,  
-      placeholder: "Select an option",
+       ...createDefaultConfig(),
+      clearable: true,
+      placeholder: "Select an option...",
       showOptionLetters: true,
-
+      shuffleOptions: false,
+      showOptionMedia: true,
+      searchable: true,
+      showMedia: true,
+      mediaRatio: "AUTO",
+      optionMediaRatio: "AUTO",
+      showExplanation: true,
     },
   };
 }

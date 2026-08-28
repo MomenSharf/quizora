@@ -1,7 +1,12 @@
+"use client";
+
+import { useState } from "react";
+import { useWatch } from "react-hook-form";
+import { IconCheck, IconPencilBolt } from "@tabler/icons-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -9,45 +14,102 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Field, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { IconPencilBolt } from "@tabler/icons-react";
+import { useQuizForm } from "../../hooks/use-quiz-form";
 
-export function EditableTitle({ title }: { title: string }) {
+const MAX_TITLE_LENGTH = 80;
+
+export function EditableTitle() {
+  const { control, setValue } = useQuizForm();
+
+  const title = useWatch({
+    control,
+    name: "info.title",
+  });
+
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState("");
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+
+    if (nextOpen) {
+      setDraft(title ?? "");
+    }
+  };
+
+  const handleSave = () => {
+    const value = draft.trim();
+
+    if (!value) return;
+
+    setValue("info.title", value, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+
+    setOpen(false);
+  };
+
   return (
-    <Dialog>
-      <form >
-        <DialogTrigger asChild>
-          <div className="flex gap-1 items-center cursor-pointer group ">
-            <h1 className="text-sm sm:text-base md:text-lg font-semibold truncate max-w-28 md:max-w-50">{title}</h1>
-            <IconPencilBolt
-              size={16}
-              className="text-muted-foreground group-hover:text-foreground"
-            />
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger asChild>
+        <div className="group flex cursor-pointer items-center gap-1">
+          <h1 className="max-w-28 truncate text-sm font-semibold sm:text-base md:max-w-50 md:text-lg">
+            {title || "Untitled quiz"}
+          </h1>
+
+          <IconPencilBolt
+            size={16}
+            className="text-muted-foreground transition-colors group-hover:text-foreground"
+          />
+        </div>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Edit quiz title</DialogTitle>
+          <DialogDescription>
+            Give your quiz a clear name.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-2">
+          <Input
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            maxLength={MAX_TITLE_LENGTH}
+            placeholder="Enter quiz title"
+            autoFocus
+            className="h-11 rounded-xl"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && draft.trim()) {
+                e.preventDefault();
+                handleSave();
+              }
+            }}
+          />
+
+          <div className="flex justify-end">
+            <span className="text-xs tabular-nums text-muted-foreground">
+              {draft.length}/{MAX_TITLE_LENGTH}
+            </span>
           </div>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle>Edit Quiz Title</DialogTitle>
-            <DialogDescription>
-              Update your quiz name to make it clear and easy to recognize.
-            </DialogDescription>
-          </DialogHeader>
-          <FieldGroup>
-            <Field>
-              <Label htmlFor="quiz-title">Title</Label>
-              <Input id="quiz-title" name="title" defaultValue={title} />
-            </Field>
-          </FieldGroup>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save</Button>
-          </DialogFooter>
-        </DialogContent>
-      </form>
+        </div>
+
+        <DialogFooter>
+          <Button
+            type="button"
+            onClick={handleSave}
+            disabled={!draft.trim()}
+            className="gap-2 rounded-xl"
+          >
+            <IconCheck size={16} />
+            Save
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

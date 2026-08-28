@@ -1,5 +1,4 @@
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { SelectField } from "../fields/select-field";
 import { SwitchField } from "../fields/switch-field";
 import { BaseQuestionConfig } from "../base-question-config";
 import { ConfigSection } from "../config-section";
@@ -7,20 +6,20 @@ import { MediaConfig } from "../media-config";
 import { Separator } from "@/components/ui/separator";
 import { ConfigPanel } from "../config-panel";
 
-type SingleSelectConfigProps = {
+type FillBlankConfigProps = {
   questionIndex: number;
 };
 
-export function SingleSelectConfig({
+export function FillBlankConfig({
   questionIndex,
-}: SingleSelectConfigProps) {
+}: FillBlankConfigProps) {
   const { control } = useQuizForm();
 
   return (
     <div
       style={
         {
-          "--primary": "var(--question-single)",
+          "--primary": "var(--question-fill-blank)",
         } as React.CSSProperties
       }
     >
@@ -40,27 +39,37 @@ export function SingleSelectConfig({
 
           <Separator className="my-4 opacity-50" />
 
-          <ConfigSection title="Options">
+          <ConfigSection title="Answer">
             <SwitchField
               control={control}
-              name={`questions.${questionIndex}.config.shuffleOptions`}
-              label="Shuffle options"
-              description="Randomize the order of options for each attempt."
+              name={`questions.${questionIndex}.config.caseSensitive`}
+              label="Case sensitive"
+              description="Require uppercase and lowercase letters to match exactly."
             />
 
             <SwitchField
               control={control}
-              name={`questions.${questionIndex}.config.showOptionLetters`}
-              label="Show option letters"
-              description="Display A, B, C, and so on before each option."
+              name={`questions.${questionIndex}.config.trimWhitespace`}
+              label="Trim whitespace"
+              description="Ignore spaces at the beginning and end of an answer."
             />
 
-            <MediaConfig
+            <SwitchField
               control={control}
-              ratioName={`questions.${questionIndex}.config.optionMediaRatio`}
-              showMediaName={`questions.${questionIndex}.config.showOptionMedia`}
-              ratioLabel="Option media ratio"
-              showMediaLabel="Show option media"
+              name={`questions.${questionIndex}.config.ignoreExtraSpaces`}
+              label="Ignore extra spaces"
+              description="Treat multiple consecutive spaces as a single space."
+            />
+          </ConfigSection>
+
+          <Separator className="my-4 opacity-50" />
+
+          <ConfigSection title="Input">
+            <SwitchField
+              control={control}
+              name={`questions.${questionIndex}.config.autoResizeInputs`}
+              label="Auto-resize inputs"
+              description="Adjust the input width to fit the entered answer."
             />
           </ConfigSection>
 
@@ -72,22 +81,6 @@ export function SingleSelectConfig({
               name={`questions.${questionIndex}.config.showExplanation`}
               label="Show explanation"
               description="Display the explanation after the player submits an answer."
-            />
-          </ConfigSection>
-
-          <Separator className="my-4 opacity-50" />
-
-          <ConfigSection title="Layout">
-            <SelectField
-              control={control}
-              name={`questions.${questionIndex}.config.layout`}
-              label="Option layout"
-              description="Choose how answer options are arranged in Play Mode."
-              options={[
-                { label: "Vertical", value: "VERTICAL" },
-                { label: "Horizontal", value: "HORIZONTAL" },
-                { label: "Grid", value: "GRID" },
-              ]}
             />
           </ConfigSection>
         </div>

@@ -49,6 +49,7 @@ export function SelectField<T extends FieldValues>({
     control,
     name,
   });
+  
 
   return (
     <div className="flex min-h-9 items-center justify-between gap-3">
@@ -85,16 +86,14 @@ export function SelectField<T extends FieldValues>({
         )}
       </div>
 
-      {/* Select */}
       <Select
-        value={field.value ?? ""}
+        value={field.value == null ? undefined : String(field.value)}
         onValueChange={field.onChange}
         disabled={disabled}
       >
         <SelectTrigger className="h-8 w-32 shrink-0 px-2.5 text-xs ">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-
         <SelectContent>
           {options.map((option) => (
             <SelectItem

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { AcceptedAnswerSchema, BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
+import { MediaRatioSchema } from "../quiz/image";
 
 export const FillBlankBlockSchema = z.discriminatedUnion("type", [
   z.object({
@@ -30,17 +31,17 @@ export const FillBlankDataSchema = z.object({
 });
 
 export const FillBlankConfigSchema = BaseQuestionConfigSchema.extend({
+  showMedia: z.boolean(),
+  mediaRatio: MediaRatioSchema,
+
   caseSensitive: z.boolean(),
-
   trimWhitespace: z.boolean(),
-
   ignoreExtraSpaces: z.boolean(),
 
-  allowAnyOrder: z.boolean(),
-
   autoResizeInputs: z.boolean(),
-});
 
+  showExplanation: z.boolean(),
+});
 export const FillBlankQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("FILL_BLANK"),
 

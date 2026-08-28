@@ -3,6 +3,7 @@ import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import type { MultipleSelectQuestion } from "../../validation/question/multiple-select";
 import {
   createBaseQuestion,
+  createDefaultConfig,
   createDefaultOption,
 } from "./create-default-question";
 
@@ -21,13 +22,26 @@ export function createMultipleSelectQuestion(): MultipleSelectQuestion {
       correctOptionIds: [option1.id],
     },
 
-    config: {
-      randomizeOptions: false,
-      layout: "VERTICAL",
-      showOptionLetters: true,
-      minSelections: 0,
-      maxSelections: 0,
-      allowPartialCredit: true,
-    },
+   config: {
+  ...createDefaultConfig(),
+
+  showMedia: true,
+  mediaRatio: "AUTO",
+
+  shuffleOptions: false,
+  showOptionLetters: true,
+
+  showOptionMedia: true,
+  optionMediaRatio: "AUTO",
+
+  minSelections: 1,
+  maxSelections: 0,
+
+  allowPartialCredit: false,
+
+  showExplanation: true,
+
+  layout: "VERTICAL",
+},
   };
 }

@@ -4,7 +4,7 @@ import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 
-export function SingleSelectForm({ questionIndex, toggleConfig }: QuestionFormProps) {
+export function SingleSelectForm({ questionIndex }: QuestionFormProps) {
   return (
     <div
       className="space-y-5"
@@ -17,21 +17,18 @@ export function SingleSelectForm({ questionIndex, toggleConfig }: QuestionFormPr
       <SectionCard
         type="SINGLE_SELECT"
         title="Single Select"
-        toggleConfig={toggleConfig}
       >
         <QuestionSection questionIndex={questionIndex} type="SINGLE_SELECT" />
       </SectionCard>
       <SectionCard
         type="SINGLE_SELECT"
         title="Answer Content"
-        toggleConfig={toggleConfig}
       >
         <AnswerOptionsGroup questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard
         type="SINGLE_SELECT"
         title="Explanation"
-        toggleConfig={toggleConfig}
       >
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
