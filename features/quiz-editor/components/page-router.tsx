@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useActivePanel } from "../store";
 import QuestionLayout from "./questions-editor/question-layout";
 import SettingsLayout from "./settings-editor/settings-layout";
+import { IssuesPanel } from "./issues/issues-panel";
 
 export default function PageRouter() {
   const activePanel = useActivePanel();
@@ -38,6 +39,9 @@ function renderPanel(activePanel: ReturnType<typeof useActivePanel>) {
 
     case "publish":
       return "Publish";
+
+    case "issues":
+      return <IssuesPanel />;
 
     default:
       return null;

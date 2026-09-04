@@ -55,14 +55,13 @@ export function EditableTitle() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <div className="group flex cursor-pointer items-center gap-1">
-          <h1 className="max-w-28 truncate text-sm font-semibold sm:text-base md:max-w-50 md:text-lg">
+        <div className="group flex min-w-0 cursor-pointer items-center gap-0.5 md:gap-1">
+          <h1 className="max-w-28 truncate text-xs font-semibold sm:max-w-36 sm:text-sm md:max-w-50 md:text-lg">
             {title || "Untitled quiz"}
           </h1>
 
           <IconPencilBolt
-            size={16}
-            className="text-muted-foreground transition-colors group-hover:text-foreground"
+            className="size-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground md:size-4"
           />
         </div>
       </DialogTrigger>

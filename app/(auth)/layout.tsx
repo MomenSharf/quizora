@@ -19,9 +19,7 @@ export default async function AuthLayout({
     <main className="grid min-h-screen md:grid-cols-2">
       <div className="flex flex-col p-3">
         <div className="flex mt-5 justify-between">
-          <Link href="/">
             <Logo />
-          </Link>
           <ThemeToggle />
         </div>
 

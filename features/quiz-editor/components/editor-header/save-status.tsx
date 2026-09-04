@@ -53,7 +53,7 @@ export function SaveStatus() {
               "min-w-0 truncate text-[8px] font-medium transition-colors",
               "min-[500px]:text-[10px]",
               "sm:text-[11px]",
-              "w-24 sm:w-28 md:w-36 lg:w-40 truncate",
+              "truncate",
               isIdle && "text-muted-foreground",
               isSaved && "text-muted-foreground",
               isSaving && "text-blue-600 dark:text-blue-400",

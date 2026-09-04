@@ -107,5 +107,24 @@ export const useEditorStore = create<EditorStore>()((set) => ({
       },
     })),
 
+    setValidationState: (validation) =>
+  set((state) => ({
+    validation: {
+      ...state.validation,
+      ...validation,
+    },
+  })),
+
+resetValidation: () =>
+  set({
+    validation: {
+      attempted: false,
+      isValidating: false,
+      errorCount: 0,
+      firstErrorPath: null,
+      lastValidatedAt: null,
+    },
+  }),
+
   reset: () => set(defaultEditorState),
 }));

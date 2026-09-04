@@ -1,9 +1,6 @@
 // store/editor.types.ts
 
-export type EditorPanel =
-  | "questions"
-  | "settings"
-  | "publish";
+export type EditorPanel = "questions" | "settings" | "publish" | "issues";
 
 export type SaveState =
   "idle" | "pending" | "saving" | "saved" | "error" | "offline";
@@ -39,17 +36,27 @@ export interface HistoryState {
   size: number;
 }
 
+export type EditorValidationState = {
+  attempted: boolean;
+  isValidating: boolean;
+  errorCount: number;
+  firstErrorPath: string | null;
+  lastValidatedAt: Date | null;
+};
+
 export interface EditorState {
   navigation: NavigationState;
 
   autosave: AutosaveState;
 
   history: HistoryState;
+
+  validation: EditorValidationState;
 }
 
 export interface EditorActions {
   setState(state: Partial<EditorState>): void;
-  
+
   selectQuestion(questionId: string | null): void;
 
   setTypeSelectorOpen: (open: boolean) => void;
@@ -71,6 +78,10 @@ export interface EditorActions {
   setLastAttemptAt(date: Date | null): void;
 
   setHistory(history: Partial<HistoryState>): void;
+
+  setValidationState: (state: Partial<EditorValidationState>) => void;
+
+  resetValidation: () => void;
 
   reset(): void;
 }
@@ -99,5 +110,13 @@ export const defaultEditorState: EditorState = {
     canRedo: false,
     index: 0,
     size: 0,
+  },
+
+  validation: {
+    attempted: false,
+    isValidating: false,
+    errorCount: 0,
+    firstErrorPath: null,
+    lastValidatedAt: null,
   },
 };

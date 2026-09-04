@@ -69,6 +69,8 @@ export const useEditorActions = () =>
       setLastSavedAt: state.setLastSavedAt,
       setLastAttemptAt: state.setLastAttemptAt,
       setHistory: state.setHistory,
+      setValidationState: state.setValidationState,
+      resetValidation: state.resetValidation,
       reset: state.reset,
     })),
   );

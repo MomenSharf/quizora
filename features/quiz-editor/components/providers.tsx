@@ -9,6 +9,7 @@ import { QuizEditorSchema, type QuizEditor } from "../validation/quiz";
 import { EditorState, useEditorActions } from "../store";
 
 import { useAutosaveHook } from "../hooks/use-autosave";
+import { useEditorValidation } from "../hooks/use-editor-validation";
 
 interface QuizEditorProviderProps {
   initialData: QuizEditor;
@@ -62,7 +63,8 @@ function QuizEditorEffects() {
   const { reset } = useEditorActions();
 
   useAutosaveHook();
-  // useHistorySync();
+  useEditorValidation();
+
 
   useEffect(() => {
     return () => {

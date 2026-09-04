@@ -1,107 +1,186 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
+
 import { useEditorActions } from "../store";
 import type { QuizEditor } from "../validation/quiz";
+
+const MAX_HISTORY = 40;
 
 export function useHistorySync() {
   const { reset, getValues, watch } = useFormContext<QuizEditor>();
   const { setHistory } = useEditorActions();
 
-  // Maintain pristine historical undo and redo structural tracking states
   const pastStack = useRef<QuizEditor[]>([]);
   const futureStack = useRef<QuizEditor[]>([]);
-  const lastCapturedState = useRef<string>("");
 
-  // Helper to accurately refresh state flags across Zustand contexts
-  const updateStoreMetrics = () => {
+  const currentState = useRef<string>("");
+  const isRestoring = useRef(false);
+
+  const updateHistoryState = useCallback(() => {
+    const past = pastStack.current.length;
+    const future = futureStack.current.length;
+
     setHistory({
-      canUndo: pastStack.current.length > 0,
-      canRedo: futureStack.current.length > 0,
-      size: pastStack.current.length + futureStack.current.length,
-      index: pastStack.current.length,
+      canUndo: past > 0,
+      canRedo: future > 0,
+      index: past,
+      size: past + future,
     });
-  };
+  }, [setHistory]);
 
-  // Push an explicit snapshot to the history stack
-  const captureCheckpoint = (state: QuizEditor) => {
-    const generalizedString = JSON.stringify(state);
-    if (generalizedString === lastCapturedState.current) return;
+  const serialize = (state: QuizEditor) => JSON.stringify(state);
 
-    if (lastCapturedState.current) {
-      pastStack.current.push(JSON.parse(lastCapturedState.current));
-      // Cap timeline memory depth to protect performance profiles
-      if (pastStack.current.length > 40) pastStack.current.shift();
-      futureStack.current = []; // Clear the redo history path on new interactions
+  const capture = useCallback(
+    (state: QuizEditor) => {
+      if (isRestoring.current) return;
+
+      const serialized = serialize(state);
+
+      // Nothing actually changed.
+      if (serialized === currentState.current) return;
+
+      // Save the current state before moving to the new state.
+      if (currentState.current) {
+        pastStack.current.push(
+          JSON.parse(currentState.current) as QuizEditor,
+        );
+
+        if (pastStack.current.length > MAX_HISTORY) {
+          pastStack.current.shift();
+        }
+      }
+
+      // Any new edit invalidates redo history.
+      futureStack.current = [];
+
+      currentState.current = serialized;
+
+      updateHistoryState();
+    },
+    [updateHistoryState],
+  );
+
+  const restore = useCallback(
+    (state: QuizEditor) => {
+      isRestoring.current = true;
+
+      currentState.current = serialize(state);
+
+      reset(state, {
+        keepDirty: true,
+      });
+
+      // reset() can synchronously trigger RHF subscribers,
+      // so release the flag after the reset cycle.
+      queueMicrotask(() => {
+        isRestoring.current = false;
+      });
+
+      updateHistoryState();
+    },
+    [reset, updateHistoryState],
+  );
+
+  const undo = useCallback(() => {
+    const previous = pastStack.current.pop();
+
+    if (!previous) return;
+
+    if (currentState.current) {
+      futureStack.current.unshift(
+        JSON.parse(currentState.current) as QuizEditor,
+      );
     }
 
-    lastCapturedState.current = generalizedString;
-    updateStoreMetrics();
-  };
+    restore(previous);
+  }, [restore]);
 
-  // Initialize initial structural parameters
-  useEffect(() => {
-    const currentValues = getValues();
-    lastCapturedState.current = JSON.stringify(currentValues);
-    
-    // Automatically capture structural variations (such as modifications to the questions array)
-    const subscription = watch((value, { name, type }) => {
-      if (name === "questions" || !name) {
-        captureCheckpoint(getValues());
+  const redo = useCallback(() => {
+    const next = futureStack.current.shift();
+
+    if (!next) return;
+
+    if (currentState.current) {
+      pastStack.current.push(
+        JSON.parse(currentState.current) as QuizEditor,
+      );
+
+      if (pastStack.current.length > MAX_HISTORY) {
+        pastStack.current.shift();
       }
+    }
+
+    restore(next);
+  }, [restore]);
+
+  /*
+   * Initialize history.
+   */
+  useEffect(() => {
+    currentState.current = serialize(getValues());
+
+    pastStack.current = [];
+    futureStack.current = [];
+
+    updateHistoryState();
+  }, [getValues, updateHistoryState]);
+
+  /*
+   * Listen to form changes.
+   */
+  useEffect(() => {
+    const subscription = watch((_, { name }) => {
+      if (isRestoring.current) return;
+
+      const isQuestionChange =
+        !name || name === "questions" || name.startsWith("questions.");
+
+      if (!isQuestionChange) return;
+
+      capture(getValues());
     });
 
     return () => subscription.unsubscribe();
-  }, [watch, getValues]);
+  }, [watch, getValues, capture]);
 
-  // Handle manual undo/redo operations
+
   useEffect(() => {
-    const handleUndo = () => {
-      if (pastStack.current.length === 0) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const modifier = event.ctrlKey || event.metaKey;
 
-      const previous = pastStack.current.pop()!;
-      if (lastCapturedState.current) {
-        futureStack.current.unshift(JSON.parse(lastCapturedState.current));
-      }
+      if (!modifier) return;
 
-      lastCapturedState.current = JSON.stringify(previous);
-      reset(previous, { keepDirty: true });
-      updateStoreMetrics();
-    };
+      const key = event.key.toLowerCase();
 
-    const handleRedo = () => {
-      if (futureStack.current.length === 0) return;
+      if (key === "z") {
+        event.preventDefault();
 
-      const next = futureStack.current.shift()!;
-      if (lastCapturedState.current) {
-        pastStack.current.push(JSON.parse(lastCapturedState.current));
-      }
-
-      lastCapturedState.current = JSON.stringify(next);
-      reset(next, { keepDirty: true });
-      updateStoreMetrics();
-    };
-
-    // Attach global hotkey event listeners
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const isMod = e.metaKey || e.ctrlKey;
-      if (!isMod) return;
-
-      if (e.key.toLowerCase() === "z") {
-        e.preventDefault();
-        if (e.shiftKey) {
-          handleRedo();
+        if (event.shiftKey) {
+          redo();
         } else {
-          handleUndo();
+          undo();
         }
-      } else if (e.key.toLowerCase() === "y") {
-        e.preventDefault();
-        handleRedo();
+
+        return;
+      }
+
+      if (key === "y") {
+        event.preventDefault();
+        redo();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [reset]);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [undo, redo]);
+
+  return {
+    undo,
+    redo,
+  };
 }

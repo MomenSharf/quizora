@@ -48,7 +48,7 @@ export default function AnswerOption({
   const [element, setElement] = useState<Element | null>(null);
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
-  const { control, setValue } = useQuizForm();
+  const { control, setValue, getFieldState } = useQuizForm();
 
   const { field: textField } = useController({
     control,
@@ -88,6 +88,13 @@ export default function AnswerOption({
       : type === QuestionType.MULTIPLE_SELECT
         ? multipleCorrect.includes(optionId)
         : false;
+
+  const fieldPath =
+    `questions.${questionIndex}.content.options.${index}.text` as const;
+
+  const fieldState = getFieldState(fieldPath);
+
+  const hasError = fieldState.invalid;
 
   const placeholder =
     type === QuestionType.ORDERING
@@ -144,7 +151,6 @@ export default function AnswerOption({
     });
   };
 
-
   return (
     <div
       ref={setElement}
@@ -153,6 +159,8 @@ export default function AnswerOption({
         "hover:border-primary hover:shadow-sm",
         "focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
         isDragging && "z-50 scale-[1.02] shadow-xl ring-2 ring-primary",
+        hasError &&
+          "border-destructive/60 bg-destructive/2 ring-1 ring-destructive/20",
       )}
     >
       <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
@@ -168,9 +176,11 @@ export default function AnswerOption({
             <IconGripVertical className="size-5" />
           </button>
 
-         {showOptionLetters && <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
-            {index + 1}
-          </div>}
+          {showOptionLetters && (
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
+              {index + 1}
+            </div>
+          )}
 
           {type !== QuestionType.ORDERING && (
             <button
@@ -182,9 +192,7 @@ export default function AnswerOption({
                 isCorrect ? (
                   <IconSquareCheckFilled className="size-6 text-primary" />
                 ) : (
-                  <IconSquare
-                    className="size-6 text-primary/80"
-                  />
+                  <IconSquare className="size-6 text-primary/80" />
                 )
               ) : isCorrect ? (
                 <IconCircleCheckFilled className="size-6 text-primary" />
@@ -222,6 +230,7 @@ export default function AnswerOption({
                 requestAnimationFrame(() => autoResize(el));
               }
             }}
+            data-field-name={fieldPath}
             onInput={(e) => autoResize(e.currentTarget)}
             rows={1}
             placeholder={placeholder}

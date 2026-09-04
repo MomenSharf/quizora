@@ -32,7 +32,7 @@ export function Logo({
         "group inline-flex items-center gap-2.5",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
         "rounded-lg",
-        className
+        className,
       )}
     >
       <div
@@ -41,7 +41,7 @@ export function Logo({
           "overflow-hidden rounded-lg",
           "bg-primary text-primary-foreground",
           "shadow-sm ring-1 ring-border/60",
-          containerClassName
+          containerClassName,
         )}
       >
         {/* Gradient */}
@@ -55,15 +55,13 @@ export function Logo({
           className={cn(
             "relative z-10 size-5 fill-current stroke-current transition-all duration-200",
             withChevron && "group-hover:-translate-x-5 group-hover:opacity-0",
-            iconClassName
+            iconClassName,
           )}
         />
 
         {/* Chevron */}
         {withChevron && (
-          <IconChevronLeft
-            className="absolute z-10 size-5 translate-x-5 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
-          />
+          <IconChevronLeft className="absolute z-10 size-5 translate-x-5 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" />
         )}
       </div>
 
@@ -71,7 +69,7 @@ export function Logo({
         <span
           className={cn(
             "text-xl font-semibold tracking-tight text-foreground",
-            textClassName
+            textClassName,
           )}
         >
           {appConfig.name}

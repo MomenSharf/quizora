@@ -20,7 +20,7 @@ export const QuizEditorSchema = z.object({
 
   settings: QuizSettingsSchema,
 
-  appearance: QuizAppearanceSchema,
+  // appearance: QuizAppearanceSchema,
 
   questions: z.array(QuestionSchema),
 });
