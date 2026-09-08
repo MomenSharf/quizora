@@ -4,9 +4,9 @@ import { AlertCircle, CheckCircle2, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import { useEditorActions } from "../../store";
+import { IconChevronLeft } from "@tabler/icons-react";
 import { useEditorValidation } from "../../hooks/use-editor-validation";
-import { focusEditorField } from "../../validation/quiz/focus-editor-field";
+import { useEditorActions } from "../../store";
 import { IssueLocation } from "./issue-location";
 
 export function IssuesPanel() {
@@ -49,8 +49,9 @@ export function IssuesPanel() {
           </div>
         </div>
 
-        <Button variant="outline" onClick={() => setActivePanel("questions")}>
-          Back to editor
+        <Button variant="ghost" onClick={() => setActivePanel("questions")}>
+          <IconChevronLeft className="mr-2 h-4 w-4" />
+          Back to questions
         </Button>
       </div>
 

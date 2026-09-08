@@ -39,7 +39,7 @@ export default function EditorHeader() {
         {/* Actions */}
         <div className="flex shrink-0 items-center gap-1">
           {/* History */}
-          <HistoryControls />
+          {/* <HistoryControls /> */}
 
           {/* Theme */}
           <div className="hidden md:block">

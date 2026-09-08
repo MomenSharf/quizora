@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 
 import { useEditorActions, useEditorStore } from "../../store";
 import { useEditorValidation } from "../../hooks/use-editor-validation";
+import { IssuesTrigger } from "../issues/issues-trigger";
 
 export function EditorActions() {
   const { setActivePanel } = useEditorActions();
@@ -45,49 +46,8 @@ export function EditorActions() {
 
   return (
     <div className="flex items-center gap-2">
-      {/* Issues — Desktop */}
-      {attempted && (
-        <Button
-          variant="outline"
-          onClick={onIssues}
-          className="hidden h-10 items-center gap-2 rounded-xl border-border/70 bg-background/60 px-3 font-medium shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-md active:translate-y-0 active:scale-[0.98] md:flex"
-        >
-          <IconAlertCircle
-            className={
-              errorCount > 0
-                ? "size-4 text-destructive"
-                : "size-4 text-emerald-500"
-            }
-          />
+      <IssuesTrigger />
 
-          <span>
-            {errorCount > 0
-              ? `${errorCount} ${
-                  errorCount === 1 ? "issue" : "issues"
-                }`
-              : "No issues"}
-          </span>
-        </Button>
-      )}
-
-      {/* Issues — Mobile */}
-      {attempted && (
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={onIssues}
-          aria-label="Validation issues"
-          className="size-8 rounded-xl border-border/70 bg-background/60 shadow-sm min-[400px]:size-10 md:hidden"
-        >
-          <IconAlertCircle
-            className={
-              errorCount > 0
-                ? "size-4 text-destructive min-[400px]:size-5"
-                : "size-4 text-emerald-500 min-[400px]:size-5"
-            }
-          />
-        </Button>
-      )}
 
       {/* Settings — Desktop */}
       <Button
