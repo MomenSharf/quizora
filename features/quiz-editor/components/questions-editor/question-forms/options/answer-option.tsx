@@ -92,10 +92,6 @@ export default function AnswerOption({
   const fieldPath =
     `questions.${questionIndex}.content.options.${index}.text` as const;
 
-  const fieldState = getFieldState(fieldPath);
-
-  const hasError = fieldState.invalid;
-
   const placeholder =
     type === QuestionType.ORDERING
       ? `Item ${index + 1}`
@@ -159,8 +155,6 @@ export default function AnswerOption({
         "hover:border-primary hover:shadow-sm",
         "focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
         isDragging && "z-50 scale-[1.02] shadow-xl ring-2 ring-primary",
-        hasError &&
-          "border-destructive/60 bg-destructive/2 ring-1 ring-destructive/20",
       )}
     >
       <div className="flex flex-col gap-2 lg:flex-row lg:items-start">

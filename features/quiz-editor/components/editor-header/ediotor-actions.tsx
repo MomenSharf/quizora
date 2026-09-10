@@ -17,21 +17,12 @@ export function EditorActions() {
 
   const { validate } = useEditorValidation();
 
-  const attempted = useEditorStore(
-    (state) => state.validation.attempted,
-  );
-
-  const errorCount = useEditorStore(
-    (state) => state.validation.errorCount,
-  );
 
   const onSettings = () => {
     setActivePanel("settings");
   };
 
-  const onIssues = () => {
-    setActivePanel("issues");
-  };
+
 
   const onPreview = async () => {
     const valid = await validate();

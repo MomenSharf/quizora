@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
-import { useFormContext } from "react-hook-form";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 
 import type { QuizEditor } from "../validation/quiz";
 import { getEditorIssues } from "../validation/editor-validation";
@@ -12,18 +12,31 @@ export function useEditorValidation() {
   const {
     trigger,
     getValues,
+    clearErrors,
+    control,
     formState: {
       errors,
       isValidating,
     },
   } = useFormContext<QuizEditor>();
 
+  const formValues = useWatch({
+    control,
+  });
+
   const attempted = useEditorStore(
     (state) => state.validation.attempted,
   );
 
-  const { setValidationState, resetValidation, setActivePanel, selectQuestion } =
-    useEditorActions();
+  const {
+    setValidationState,
+    resetValidation,
+    setActivePanel,
+    selectQuestion,
+  } = useEditorActions();
+
+  const validationRun = useRef(0);
+  const isFirstValidationChange = useRef(true);
 
   const issues = useMemo(
     () => getEditorIssues(errors),
@@ -34,6 +47,8 @@ export function useEditorValidation() {
   const firstErrorPath = issues[0]?.path ?? null;
 
   const validate = useCallback(async () => {
+    const run = ++validationRun.current;
+
     setValidationState({
       attempted: true,
       isValidating: true,
@@ -43,6 +58,12 @@ export function useEditorValidation() {
       shouldFocus: false,
     });
 
+    // Ignore an old validation result if validation was stopped
+    // or another validation started after this one.
+    if (run !== validationRun.current) {
+      return false;
+    }
+
     setValidationState({
       attempted: true,
       isValidating: false,
@@ -51,6 +72,33 @@ export function useEditorValidation() {
 
     return valid;
   }, [trigger, setValidationState]);
+
+  /**
+   * Re-validate automatically after the user has
+   * already attempted validation.
+   */
+  useEffect(() => {
+    if (!attempted) {
+      return;
+    }
+
+    // The values change after validate() has enabled attempted mode.
+    // Don't trigger an unnecessary validation for that transition.
+    if (isFirstValidationChange.current) {
+      isFirstValidationChange.current = false;
+      return;
+    }
+
+    void trigger(undefined, {
+      shouldFocus: false,
+    }).then(() => {
+      setValidationState({
+        attempted: true,
+        isValidating: false,
+        lastValidatedAt: new Date(),
+      });
+    });
+  }, [formValues, attempted, trigger, setValidationState]);
 
   const focusIssue = useCallback(
     (path: string) => {
@@ -79,9 +127,14 @@ export function useEditorValidation() {
     [getValues, setActivePanel, selectQuestion],
   );
 
-  const clearAttempt = useCallback(() => {
+  const stopValidation = useCallback(() => {
+    validationRun.current += 1;
+
+    clearErrors();
     resetValidation();
-  }, [resetValidation]);
+
+    isFirstValidationChange.current = true;
+  }, [clearErrors, resetValidation]);
 
   return {
     errors,
@@ -92,7 +145,7 @@ export function useEditorValidation() {
     isValidating,
     isValid: errorCount === 0,
     validate,
-    clearAttempt,
+    stopValidation,
     focusIssue,
   };
 }

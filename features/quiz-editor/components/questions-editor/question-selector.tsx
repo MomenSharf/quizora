@@ -30,6 +30,14 @@ import {
 import { Question } from "../../validation/question";
 import { ActionsDropdown } from "./actions-dropdown";
 import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
+import { hasFieldError } from "../../lib/has-field-error";
+
+import { AlertCircle } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function Sortable({
   index,
@@ -40,6 +48,7 @@ function Sortable({
   moveDown,
   canMoveUp,
   canMoveDown,
+  hasError,
 }: {
   index: number;
   question: Question;
@@ -49,6 +58,7 @@ function Sortable({
   moveDown: () => void;
   canMoveUp: boolean;
   canMoveDown: boolean;
+  hasError: boolean;
 }) {
   const [element, setElement] = useState<Element | null>(null);
 
@@ -61,7 +71,6 @@ function Sortable({
   });
 
   const { control, setValue } = useQuizForm();
-
   const { selectQuestion } = useEditorActions();
 
   const questions = useWatch({
@@ -140,7 +149,7 @@ function Sortable({
         }}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
+          "group relative flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
           {
             "z-50 scale-[1.02] opacity-90 shadow-2xl ring-2": isDragging,
             "shadow-sm": isSelected,
@@ -162,7 +171,12 @@ function Sortable({
       >
         <div
           ref={handleRef}
-          className={cn(buttonVariants({ variant: "ghost", size: "icon-xs" }))}
+          className={cn(
+            buttonVariants({
+              variant: "ghost",
+              size: "icon-xs",
+            }),
+          )}
           tabIndex={0}
           onClick={(e) => {
             e.preventDefault();
@@ -174,16 +188,37 @@ function Sortable({
         >
           <IconGripVertical className="text-muted-foreground" />
         </div>
+
         <QuestionTypeIcon
           type={question.type}
-          className="size-8 rounded-md"
+          className={cn(
+            "size-8 rounded-md",
+          )}
           iconClassName="size-5"
         />
+
         <p className="flex-1 truncate text-start">
           {question.title?.replace(/<[^>]*>/g, "").trim()
             ? question.title.replace(/<[^>]*>/g, "").trim()
-            : QUESTION_TYPE_LABELS[question.type]}{" "}
+            : QUESTION_TYPE_LABELS[question.type]}
         </p>
+
+        {hasError && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span
+                className="mr-1 flex size-7 shrink-0 items-center justify-center rounded-md text-destructive"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <AlertCircle className="size-4" />
+              </span>
+            </TooltipTrigger>
+
+            <TooltipContent side="right">
+              <p>This question has validation issues</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
 
         <ActionsDropdown
           onDuplicate={onDuplicate}
@@ -202,7 +237,7 @@ function Sortable({
 }
 
 const QuestionSelector = () => {
-  const { control, setValue } = useQuizForm();
+  const { control, setValue, getFieldState } = useQuizForm();
 
   const selectedQuestionId = useSelectedQuestionId();
   const isQuestionSelectorOpen = useIsQuestionSelectorOpen();
@@ -306,6 +341,12 @@ const QuestionSelector = () => {
                   const isSelected = selectedQuestionId === question.id;
                   const canMoveUp = index > 0;
                   const canMoveDown = index < questions.length - 1;
+
+                  const hasError = hasFieldError(
+                    getFieldState,
+                    `questions.${index}`,
+                  );
+
                   return (
                     <Sortable
                       key={question.id}
@@ -324,6 +365,7 @@ const QuestionSelector = () => {
                       moveDown={() => moveQuestion(index, index + 1)}
                       canMoveUp={canMoveUp}
                       canMoveDown={canMoveDown}
+                      hasError={hasError}
                     />
                   );
                 })}

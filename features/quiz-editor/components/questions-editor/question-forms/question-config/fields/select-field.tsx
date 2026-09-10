@@ -94,7 +94,7 @@ export function SelectField<T extends FieldValues>({
         <SelectTrigger className="h-8 w-32 shrink-0 px-2.5 text-xs ">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent  position="popper">
           {options.map((option) => (
             <SelectItem
               key={option.value}

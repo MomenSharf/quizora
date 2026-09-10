@@ -49,6 +49,7 @@ function AnswerInput({
               requestAnimationFrame(() => autoResize(el));
             }
           }}
+          data-field-name={`questions.${questionIndex}.content.options.${index}.text`}
           onInput={(e) => autoResize(e.currentTarget)}
           rows={1}
           placeholder={`Accepted answer ${index + 1}`}

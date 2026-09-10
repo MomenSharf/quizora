@@ -6,12 +6,21 @@ import { QuestionFormProps } from "./question-form-router";
 import SectionField from "./section-field";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
-const QuestionSection = ({  questionIndex, type }: {questionIndex: number, type: QuestionType}) => {
+const QuestionSection = ({
+  questionIndex,
+  type,
+}: {
+  questionIndex: number;
+  type: QuestionType;
+}) => {
   const { control } = useQuizForm();
 
   return (
     <div className="space-y-3">
-      <ImageUploadPlaceholder onClick={() => {}}  questionIndex={questionIndex}  />
+      <ImageUploadPlaceholder
+        onClick={() => {}}
+        questionIndex={questionIndex}
+      />
       <SectionField
         label="Title"
         description="Provide a title for this question."
@@ -27,6 +36,7 @@ const QuestionSection = ({  questionIndex, type }: {questionIndex: number, type:
               className="text-2xl font-semibold"
               fontSize="24px"
               placeholder="Start typing..."
+              dataFieldName={`questions.${questionIndex}.title`}
             />
           )}
         />
@@ -41,7 +51,8 @@ const QuestionSection = ({  questionIndex, type }: {questionIndex: number, type:
           name={`questions.${questionIndex}.description`}
           render={({ field }) => (
             <RichTextEditor
-              content={field.value ?? ""}
+            content={field.value ?? ""}
+            dataFieldName={`questions.${questionIndex}.description`}
               onChange={field.onChange}
               placeholder="Start typing..."
             />
@@ -58,7 +69,8 @@ const QuestionSection = ({  questionIndex, type }: {questionIndex: number, type:
           name={`questions.${questionIndex}.hint`}
           render={({ field }) => (
             <RichTextEditor
-              content={field.value ?? ""}
+            content={field.value ?? ""}
+            dataFieldName={`questions.${questionIndex}.hint`}
               onChange={field.onChange}
               placeholder="Start typing..."
             />
