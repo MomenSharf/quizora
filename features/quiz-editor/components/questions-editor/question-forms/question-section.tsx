@@ -5,6 +5,7 @@ import { ImageUploadPlaceholder } from "../../image-upload/image-upload-placehol
 import { QuestionFormProps } from "./question-form-router";
 import SectionField from "./section-field";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
+import { ImageField } from "../../image-upload/image-field";
 
 const QuestionSection = ({
   questionIndex,
@@ -17,10 +18,7 @@ const QuestionSection = ({
 
   return (
     <div className="space-y-3">
-      <ImageUploadPlaceholder
-        onClick={() => {}}
-        questionIndex={questionIndex}
-      />
+    <ImageField  name={`questions.${questionIndex}.image`} />
       <SectionField
         label="Title"
         description="Provide a title for this question."

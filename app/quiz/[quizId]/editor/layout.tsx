@@ -1,8 +1,12 @@
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 
 import EditorHeader from "@/features/quiz-editor/components/editor-header";
 import { QuizEditorProvider } from "@/features/quiz-editor/components/providers";
 import { getQuiz } from "@/features/quiz-editor/actions/get-quiz";
+import { connection } from "next/server";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "@/app/api/uploadthing/core";
 
 type LayoutProps = {
   children: ReactNode;
@@ -11,6 +15,16 @@ type LayoutProps = {
   }>;
 };
 
+async function UploadThingSSR() {
+  await connection();
+
+  return (
+    <NextSSRPlugin
+      routerConfig={extractRouterConfig(ourFileRouter)}
+    />
+  );
+}
+
 export default async function Layout({ children, params }: LayoutProps) {
   const { quizId } = await params;
 
@@ -18,6 +32,9 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <QuizEditorProvider initialData={quiz} initialState={editorState}>
+       <Suspense fallback={null}>
+                <UploadThingSSR />
+              </Suspense>
       <div className="flex h-screen flex-col overflow-hidden">
         <div className="flex flex-1 flex-col overflow-hidden md:grid md:grid-rows-[65px_1fr]">
           <EditorHeader />

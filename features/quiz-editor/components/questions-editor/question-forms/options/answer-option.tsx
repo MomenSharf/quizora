@@ -19,6 +19,7 @@ import { useController, useWatch } from "react-hook-form";
 import { Option } from "@/features/quiz-editor/validation/question";
 import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 import { ActionsDropdown } from "../../actions-dropdown";
+import { ImageUploadDialog } from "../../../image-upload/image-upload-dialog";
 
 export default function AnswerOption({
   optionId,
@@ -196,9 +197,13 @@ export default function AnswerOption({
             </button>
           )}
 
-          <button className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted lg:size-14">
-            <IconPhotoPlus className="size-5 text-muted-foreground" />
-          </button>
+          <ImageUploadDialog
+            trigger={
+              <button className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted lg:size-14">
+                <IconPhotoPlus className="size-5 text-muted-foreground" />
+              </button>
+            }
+          />
 
           <div className="lg:hidden ml-auto shrink-0 lg:ml-0 lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100">
             <ActionsDropdown

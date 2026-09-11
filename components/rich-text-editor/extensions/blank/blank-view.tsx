@@ -26,7 +26,7 @@ export function BlankView({ placeholder, onEdit }: BlankViewProps) {
             type="button"
             variant="ghost"
             onClick={onEdit}
-            className="group h-9 rounded-md border px-2.5 shadow-xs transition-all duration-200 hover:-translate-y-px hover:shadow-sm focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="group h-9 rounded-md border mx-1 shadow-xs transition-all duration-200 hover:-translate-y-px hover:shadow-sm focus-visible:ring-2 focus-visible:ring-offset-2"
             style={{
               color,
               borderColor: `${color}2E`,

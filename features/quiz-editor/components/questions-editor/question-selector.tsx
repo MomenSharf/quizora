@@ -12,7 +12,6 @@ import {
   IconGripVertical,
   IconPlus,
 } from "@tabler/icons-react";
-import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { useWatch } from "react-hook-form";
 import {
@@ -63,6 +62,7 @@ function Sortable({
   const [element, setElement] = useState<Element | null>(null);
 
   const handleRef = useRef<HTMLDivElement | null>(null);
+
   const { isDragging } = useSortable({
     id: question.id,
     index,
@@ -80,7 +80,9 @@ function Sortable({
 
   const { question: selectedQuestion } = useSelectedQuestion();
 
-  const questionIndex = questions.findIndex((q) => q.id === question.id);
+  const questionIndex = questions.findIndex(
+    (q) => q.id === question.id,
+  );
 
   const onSelect = () => {
     selectQuestion(question.id);
@@ -115,12 +117,15 @@ function Sortable({
   const onDelete = () => {
     if (questionIndex === -1) return;
 
-    const nextQuestions = questions.filter((q) => q.id !== question.id);
+    const nextQuestions = questions.filter(
+      (q) => q.id !== question.id,
+    );
 
     setValue("questions", nextQuestions);
 
     const nextSelected =
-      nextQuestions[questionIndex] ?? nextQuestions[questionIndex - 1];
+      nextQuestions[questionIndex] ??
+      nextQuestions[questionIndex - 1];
 
     setTimeout(() => {
       if (question.id === selectedQuestion?.id) {
@@ -151,7 +156,8 @@ function Sortable({
           buttonVariants({ variant: "ghost" }),
           "group relative flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
           {
-            "z-50 scale-[1.02] opacity-90 shadow-2xl ring-2": isDragging,
+            "z-50 scale-[1.02] opacity-90 shadow-2xl ring-2":
+              isDragging,
             "shadow-sm": isSelected,
           },
         )}
@@ -191,9 +197,7 @@ function Sortable({
 
         <QuestionTypeIcon
           type={question.type}
-          className={cn(
-            "size-8 rounded-md",
-          )}
+          className="size-8 rounded-md"
           iconClassName="size-5"
         />
 
@@ -241,8 +245,12 @@ const QuestionSelector = () => {
 
   const selectedQuestionId = useSelectedQuestionId();
   const isQuestionSelectorOpen = useIsQuestionSelectorOpen();
-  const { selectQuestion, setTypeSelectorOpen, setQuestionSelectorOpen } =
-    useEditorActions();
+
+  const {
+    selectQuestion,
+    setTypeSelectorOpen,
+    setQuestionSelectorOpen,
+  } = useEditorActions();
 
   const questions = useWatch({
     control,
@@ -255,6 +263,7 @@ const QuestionSelector = () => {
 
     const nextQuestions = [...questions];
     const [item] = nextQuestions.splice(from, 1);
+
     nextQuestions.splice(to, 0, item);
 
     setValue("questions", nextQuestions, {
@@ -265,15 +274,21 @@ const QuestionSelector = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col quiz-editor-sidebar">
+    <div className="quiz-editor-sidebar flex flex-1 flex-col">
       <div
-        className="flex items-center gap-1 p-3 max-md:hover:bg-muted/40 max-md:cursor-pointer md:pointer-events-none"
-        onClick={() => setQuestionSelectorOpen(!isQuestionSelectorOpen)}
+        className="flex cursor-pointer items-center gap-1 p-3 max-md:hover:bg-muted/40 md:pointer-events-none"
+        onClick={() =>
+          setQuestionSelectorOpen(!isQuestionSelectorOpen)
+        }
       >
-        <h3 className="font-semibold text-muted-foreground text-xs mr-auto">
+        <h3 className="mr-auto text-xs font-semibold text-muted-foreground">
           QUESTIONS
         </h3>
-        <Badge variant="outline">{questions?.length ?? 0}</Badge>
+
+        <Badge variant="outline">
+          {questions?.length ?? 0}
+        </Badge>
+
         <Button
           variant="ghost"
           size="icon"
@@ -283,46 +298,25 @@ const QuestionSelector = () => {
             setQuestionSelectorOpen(!isQuestionSelectorOpen);
           }}
         >
-          <motion.div
-            animate={{ rotate: isQuestionSelectorOpen ? 180 : 0 }}
-            transition={{
-              duration: 0.2,
-              ease: "easeInOut",
-            }}
-          >
-            <IconChevronDown className="size-4" />
-          </motion.div>
+          <IconChevronDown
+            className={cn(
+              "size-4",
+              isQuestionSelectorOpen && "rotate-180",
+            )}
+          />
         </Button>
       </div>
-      <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: "auto", opacity: 1 }}
-        exit={{ height: 0, opacity: 0 }}
-        transition={{
-          height: {
-            duration: 0.25,
-            ease: "easeInOut",
-          },
-          opacity: {
-            duration: 0.15,
-          },
-        }}
+
+      <div
         className={cn(
           "flex-1 overflow-hidden md:block",
-          isQuestionSelectorOpen ? "block" : "hidden md:block",
+          isQuestionSelectorOpen
+            ? "block"
+            : "hidden md:block",
         )}
       >
-        <motion.div
-          initial={{ y: -8 }}
-          animate={{ y: 0 }}
-          exit={{ y: -8 }}
-          transition={{
-            duration: 0.2,
-            ease: "easeOut",
-          }}
-          className="h-full p-2 pt-0 flex flex-col"
-        >
-          <div className="flex-1 overflow-y-auto min-h-0 scrollbar-thin pb-2">
+        <div className="flex h-full flex-col p-2 pt-0">
+          <div className="scrollbar-thin min-h-0 flex-1 overflow-y-auto pb-2">
             <DragDropProvider
               onDragEnd={(event) => {
                 if (!questions || event.canceled) return;
@@ -336,11 +330,14 @@ const QuestionSelector = () => {
                 });
               }}
             >
-              <ul className="flex flex-col gap-0.5 list-none">
+              <ul className="flex list-none flex-col gap-0.5">
                 {questions?.map((question, index) => {
-                  const isSelected = selectedQuestionId === question.id;
+                  const isSelected =
+                    selectedQuestionId === question.id;
+
                   const canMoveUp = index > 0;
-                  const canMoveDown = index < questions.length - 1;
+                  const canMoveDown =
+                    index < questions.length - 1;
 
                   const hasError = hasFieldError(
                     getFieldState,
@@ -354,15 +351,15 @@ const QuestionSelector = () => {
                       question={question}
                       handleClick={() => {
                         selectQuestion(question.id);
-                        setTimeout(
-                          () =>
-                            setQuestionSelectorOpen(!isQuestionSelectorOpen),
-                          150,
-                        );
+                        setQuestionSelectorOpen(false);
                       }}
                       isSelected={isSelected}
-                      moveUp={() => moveQuestion(index, index - 1)}
-                      moveDown={() => moveQuestion(index, index + 1)}
+                      moveUp={() =>
+                        moveQuestion(index, index - 1)
+                      }
+                      moveDown={() =>
+                        moveQuestion(index, index + 1)
+                      }
                       canMoveUp={canMoveUp}
                       canMoveDown={canMoveDown}
                       hasError={hasError}
@@ -372,13 +369,14 @@ const QuestionSelector = () => {
               </ul>
             </DragDropProvider>
           </div>
+
           <Button
             onClick={() => {
               selectQuestion(null);
               setTypeSelectorOpen(true);
             }}
             size="lg"
-            className="group relative w-full overflow-hidden cursor-pointer rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 px-5 py-6 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98]"
+            className="group relative w-full cursor-pointer overflow-hidden rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 px-5 py-6 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98]"
           >
             <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
 
@@ -390,8 +388,8 @@ const QuestionSelector = () => {
               <span>Add Question</span>
             </div>
           </Button>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 };
