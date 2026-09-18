@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type {
-  FieldPath,
-  FieldValues,
-} from "react-hook-form";
+import type { FieldPath, FieldValues } from "react-hook-form";
 
 import {
   Dialog,
@@ -18,28 +15,27 @@ import type { ImageData } from "@/features/quiz-editor/validation/quiz/image";
 import { ImageUploadPlaceholder } from "./image-upload-placeholder";
 import { ImageEditor } from "./image-editor";
 import { cn } from "@/lib/utils";
+import { QuizEditor } from "../../validation/quiz";
 
-type ImageUploadDialogProps<
-  TFieldValues extends FieldValues = FieldValues,
-> = {
+type ImageUploadDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  name: FieldPath<TFieldValues>;
+  name: FieldPath<QuizEditor>;
   image?: ImageData;
   disabled?: boolean;
+  file: File | null;
+  setFile: (file: File | null) => void;
 };
 
-export function ImageUploadDialog<
-  TFieldValues extends FieldValues = FieldValues,
->({
+export function ImageUploadDialog({
   open,
   onOpenChange,
   name,
   image,
   disabled = false,
-}: ImageUploadDialogProps<TFieldValues>) {
-  const [file, setFile] = useState<File | null>(null);
-
+  file,
+  setFile,
+}: ImageUploadDialogProps) {
   const isEditing = Boolean(file);
 
   const handleOpenChange = (nextOpen: boolean) => {
@@ -58,25 +54,13 @@ export function ImageUploadDialog<
     setFile(null);
   };
 
-  const handleImageSave = async (
-    editedFile: File,
-    data: Pick<ImageData, "alt" | "caption" | "ratio">,
-  ) => {
-    console.log("Image saved:", {
-      name,
-      editedFile,
-      data,
-    });
-
+  const handleImageSave = async (image: ImageData) => {
     onOpenChange(false);
     setFile(null);
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={handleOpenChange}
-    >
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         className={cn(
           "flex flex-col gap-0 overflow-hidden p-0",
@@ -112,6 +96,7 @@ export function ImageUploadDialog<
             <ImageEditor
               file={file}
               initialData={image}
+              name={name}
               onImageSave={handleImageSave}
               onCancel={handleCancelEditor}
               disabled={disabled}

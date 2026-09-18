@@ -93,7 +93,7 @@ export function ImageUploadPlaceholder({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={[
-          "group relative flex min-h-52 w-full cursor-pointer flex-col",
+          "group relative flex h-full w-full cursor-pointer flex-col",
           "items-center justify-center overflow-hidden rounded-xl",
           "border border-dashed border-border bg-background",
           "px-6 py-8 text-center transition-all duration-200",

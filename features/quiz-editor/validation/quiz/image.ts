@@ -6,6 +6,7 @@ export const ImageSchema = z.object({
   url: z.string().url(),
   alt: z.string().trim().max(200),
   caption: z.string().trim().max(300).optional(),
+  key: z.string(),
   ratio: MediaRatioSchema,
 });
 

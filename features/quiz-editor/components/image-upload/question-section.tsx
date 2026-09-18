@@ -1,9 +1,12 @@
 import RichTextEditor from "@/components/rich-text-editor";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { Controller } from "react-hook-form";
+import { ImageUploadPlaceholder } from "../../image-upload/image-upload-placeholder";
+import { QuestionFormProps } from "./question-form-router";
+import SectionField from "./section-field";
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { ImageField } from "../../image-upload/image-field";
 import ImagePreviewTrigger from "../../image-upload/image-preview-trigger";
-import SectionField from "./section-field";
 
 const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
   const { control } = useQuizForm();

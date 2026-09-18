@@ -16,6 +16,8 @@ interface InsertBlankProps {
 }
 
 export function InsertBlank({ editor }: InsertBlankProps) {
+  const canInsert = editor.can().chain().focus().insertBlank().run();
+
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>
@@ -24,11 +26,12 @@ export function InsertBlank({ editor }: InsertBlankProps) {
             type="button"
             variant="outline"
             size="sm"
-            className="h-8 gap-2"
+            className="group relative h-8 gap-2"
             onClick={() => editor.chain().focus().insertBlank().run()}
-            disabled={!editor.can().chain().focus().insertBlank().run()}
+            disabled={!canInsert}
           >
-            <IconForms className="size-4" />
+            <IconForms className="size-4 text-primary animate-[blank-attention_1.2s_ease-in-out_infinite]" />
+
             <span>Blank</span>
           </Button>
         </TooltipTrigger>
