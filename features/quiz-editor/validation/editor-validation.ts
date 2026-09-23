@@ -6,8 +6,14 @@ export interface EditorIssue {
   id: string;
   path: string;
   message: string;
-  section?: string;
+  section: string;
   questionIndex?: number;
+}
+
+export interface EditorIssueGroup {
+  questionIndex?: number;
+  section: string;
+  issues: EditorIssue[];
 }
 
 function isFieldError(value: unknown): value is {
@@ -21,7 +27,7 @@ function isFieldError(value: unknown): value is {
   );
 }
 
-function getSectionFromPath(path: string) {
+function getSectionFromPath(path: string): string {
   if (path.startsWith("questions")) {
     return "questions";
   }
@@ -30,14 +36,10 @@ function getSectionFromPath(path: string) {
     return "settings";
   }
 
-  // if (path.startsWith("appearance")) {
-  //   return "appearance";
-  // }
-
   return "info";
 }
 
-function getQuestionIndex(path: string) {
+function getQuestionIndex(path: string): number | undefined {
   const match = path.match(/^questions\.(\d+)/);
 
   return match ? Number(match[1]) : undefined;
@@ -47,7 +49,7 @@ function walkErrors(
   value: unknown,
   parentPath = "",
   issues: EditorIssue[] = [],
-) {
+): EditorIssue[] {
   if (!value || typeof value !== "object") {
     return issues;
   }
@@ -86,4 +88,32 @@ export function getEditorIssues(
   errors: FieldErrors<QuizEditor>,
 ): EditorIssue[] {
   return walkErrors(errors);
+}
+
+export function groupEditorIssues(
+  issues: EditorIssue[],
+): EditorIssueGroup[] {
+  const groups = new Map<string, EditorIssueGroup>();
+
+  for (const issue of issues) {
+    const key =
+      issue.questionIndex !== undefined
+        ? `question:${issue.questionIndex}`
+        : `section:${issue.section}`;
+
+    const existing = groups.get(key);
+
+    if (existing) {
+      existing.issues.push(issue);
+      continue;
+    }
+
+    groups.set(key, {
+      questionIndex: issue.questionIndex,
+      section: issue.section,
+      issues: [issue],
+    });
+  }
+
+  return Array.from(groups.values());
 }

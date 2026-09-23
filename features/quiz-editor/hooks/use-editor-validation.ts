@@ -1,11 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
+
 import { useFormContext, useWatch } from "react-hook-form";
 
 import type { QuizEditor } from "../validation/quiz";
-import { getEditorIssues } from "../validation/editor-validation";
+
+import {
+  getEditorIssues,
+  groupEditorIssues,
+} from "../validation/editor-validation";
+
 import { useEditorActions, useEditorStore } from "../store";
+
 import { focusEditorField } from "../validation/quiz/focus-editor-field";
 
 export function useEditorValidation() {
@@ -43,8 +50,19 @@ export function useEditorValidation() {
     [errors],
   );
 
+  const issueGroups = useMemo(
+    () => groupEditorIssues(issues),
+    [issues],
+  );
+
   const errorCount = issues.length;
+
   const firstErrorPath = issues[0]?.path ?? null;
+
+  const firstQuestionWithError =
+    issueGroups.find(
+      (group) => group.questionIndex !== undefined,
+    )?.questionIndex ?? null;
 
   const validate = useCallback(async () => {
     const run = ++validationRun.current;
@@ -138,12 +156,21 @@ export function useEditorValidation() {
 
   return {
     errors,
+
+    // Flat issues
     issues,
+
+    // Issues grouped by question/section
+    issueGroups,
+
     errorCount,
     firstErrorPath,
+    firstQuestionWithError,
+
     attempted,
     isValidating,
     isValid: errorCount === 0,
+
     validate,
     stopValidation,
     focusIssue,
