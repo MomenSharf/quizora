@@ -31,7 +31,7 @@ type ImageEditorProps = {
   initialData?: Partial<ImageData>;
   name: FieldPath<QuizEditor>;
 
-  onImageSave: (image: ImageData) => Promise<void>;
+  onImageSaved: () => void;
   onCancel: () => void;
   disabled?: boolean;
 };
@@ -198,7 +198,7 @@ export function ImageEditor({
   file,
   initialData,
   name,
-  onImageSave,
+  onImageSaved,
   onCancel,
   disabled = false,
 }: ImageEditorProps) {
@@ -371,7 +371,7 @@ export function ImageEditor({
         shouldValidate: true,
       });
 
-      await onImageSave(imageData);
+      onImageSaved();
     } catch (error) {
       console.error("Failed to save image:", error);
     } finally {

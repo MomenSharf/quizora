@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { IconPhotoPlus, IconUpload } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
 
 type ImageUploadPlaceholderProps = {
   onImageSelect: (file: File) => void;
@@ -15,7 +16,6 @@ const ACCEPTED_TYPES = [
 ] as const;
 
 const ACCEPT_ATTRIBUTE = ACCEPTED_TYPES.join(",");
-
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export function ImageUploadPlaceholder({
@@ -28,11 +28,11 @@ export function ImageUploadPlaceholder({
   const handleFile = (file?: File) => {
     if (!file || disabled) return;
 
-    if (!ACCEPTED_TYPES.includes(file.type as (typeof ACCEPTED_TYPES)[number])) {
-      return;
-    }
+    const isValidType = ACCEPTED_TYPES.includes(
+      file.type as (typeof ACCEPTED_TYPES)[number],
+    );
 
-    if (file.size > MAX_FILE_SIZE) {
+    if (!isValidType || file.size > MAX_FILE_SIZE) {
       return;
     }
 
@@ -43,7 +43,6 @@ export function ImageUploadPlaceholder({
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     handleFile(event.target.files?.[0]);
-
     event.target.value = "";
   };
 
@@ -51,12 +50,11 @@ export function ImageUploadPlaceholder({
     event: React.DragEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
-
     setIsDragging(false);
 
-    if (disabled) return;
-
-    handleFile(event.dataTransfer.files?.[0]);
+    if (!disabled) {
+      handleFile(event.dataTransfer.files?.[0]);
+    }
   };
 
   const handleDragOver = (
@@ -73,14 +71,13 @@ export function ImageUploadPlaceholder({
     event: React.DragEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
-
     setIsDragging(false);
   };
 
   const handleClick = () => {
-    if (disabled) return;
-
-    inputRef.current?.click();
+    if (!disabled) {
+      inputRef.current?.click();
+    }
   };
 
   return (
@@ -92,82 +89,95 @@ export function ImageUploadPlaceholder({
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
-        className={[
-          "group relative flex h-full w-full cursor-pointer flex-col",
-          "items-center justify-center overflow-hidden rounded-xl",
-          "border border-dashed border-border bg-background",
-          "px-6 py-8 text-center transition-all duration-200",
-          "hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg",
+        className={cn(
+          "group relative flex size-full min-h-[320px]",
+          "flex-col items-center justify-center",
+          "overflow-hidden rounded-xl",
+          "border border-dashed",
+          "px-6 py-10 text-center",
+          "transition-all duration-200",
+          "focus-visible:outline-none",
+          "focus-visible:ring-2 focus-visible:ring-primary",
+          "focus-visible:ring-offset-2",
           "disabled:pointer-events-none disabled:opacity-50",
-          isDragging &&
-            "border-primary bg-primary/5 shadow-lg ring-2 ring-primary/20",
-        ]
-          .filter(Boolean)
-          .join(" ")}
+
+          !isDragging && [
+            "border-border/80 bg-background",
+            "hover:border-primary/40",
+            "hover:bg-primary/[0.015]",
+          ],
+
+          isDragging && [
+            "border-primary",
+            "bg-primary/[0.04]",
+            "ring-2 ring-primary/15",
+          ],
+        )}
       >
+        {/* Subtle hover glow */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          style={{
-            background:
-              "radial-gradient(circle at top, oklch(from var(--primary) l c h / 0.18) 0%, transparent 70%)",
-          }}
+          className={cn(
+            "pointer-events-none absolute inset-0",
+            "bg-[radial-gradient(circle_at_50%_20%,hsl(var(--primary)/0.08),transparent_55%)]",
+            "opacity-0 transition-opacity duration-300",
+            "group-hover:opacity-100",
+            isDragging && "opacity-100",
+          )}
         />
 
+        {/* Icon */}
         <div
-          className={[
-            "relative flex size-14 items-center justify-center rounded-xl",
-            "border border-primary/25 bg-primary/10 text-primary",
-            "transition-all duration-200",
+          className={cn(
+            "relative flex size-14 items-center justify-center",
+            "rounded-2xl",
+            "bg-primary/10 text-primary",
+            "ring-1 ring-primary/10",
+            "transition-transform duration-200",
             "group-hover:scale-105",
             isDragging && "scale-105",
-          ]
-            .filter(Boolean)
-            .join(" ")}
+          )}
         >
           <IconPhotoPlus
-            className={[
+            className={cn(
               "size-7 transition-transform duration-200",
-              "group-hover:scale-110",
               isDragging && "scale-110",
-            ]
-              .filter(Boolean)
-              .join(" ")}
+            )}
           />
         </div>
 
-        <div className="relative mt-4 space-y-1">
+        {/* Text */}
+        <div className="relative mt-5 space-y-1.5">
           <h3 className="text-sm font-semibold">
-            {isDragging ? "Drop image here" : "Upload image"}
+            {isDragging ? "Drop your image here" : "Upload an image"}
           </h3>
 
           <p className="text-xs text-muted-foreground">
             {isDragging
-              ? "Release to select your image"
-              : "Drag & drop or click to browse"}
+              ? "Release to upload your image"
+              : "Drag and drop an image here, or browse your device"}
           </p>
         </div>
 
-        <div className="relative mt-5 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-primary">
+        {/* Action */}
+        <div
+          className={cn(
+            "relative mt-5 inline-flex h-9 items-center gap-2",
+            "rounded-lg bg-primary px-3.5",
+            "text-xs font-medium text-primary-foreground",
+            "shadow-sm",
+            "transition-all duration-200",
+            "group-hover:shadow-md",
+          )}
+        >
           <IconUpload className="size-3.5" />
-          Choose Image
+          Browse images
         </div>
 
-        <div className="relative mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px]">
-          <span className="rounded-full bg-muted px-2 py-1 text-muted-foreground">
-            PNG
-          </span>
-
-          <span className="rounded-full bg-muted px-2 py-1 text-muted-foreground">
-            JPG
-          </span>
-
-          <span className="rounded-full bg-muted px-2 py-1 text-muted-foreground">
-            WEBP
-          </span>
-
-          <span className="rounded-full bg-primary/12 px-2 py-1 font-medium text-primary">
-            Max 5 MB
-          </span>
+        {/* File information */}
+        <div className="relative mt-5 flex items-center gap-2 text-[11px] text-muted-foreground">
+          <span>PNG, JPG or WEBP</span>
+          <span className="size-1 rounded-full bg-muted-foreground/40" />
+          <span>Up to 5 MB</span>
         </div>
       </button>
 
