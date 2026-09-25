@@ -7,6 +7,7 @@ import { connection } from "next/server";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
+import { notFound } from "next/navigation";
 
 type LayoutProps = {
   children: ReactNode;
@@ -18,23 +19,24 @@ type LayoutProps = {
 async function UploadThingSSR() {
   await connection();
 
-  return (
-    <NextSSRPlugin
-      routerConfig={extractRouterConfig(ourFileRouter)}
-    />
-  );
+  return <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />;
 }
 
 export default async function Layout({ children, params }: LayoutProps) {
   const { quizId } = await params;
 
-  const { quiz, editorState } = await getQuiz(quizId);
+  const result = await getQuiz(quizId);
+
+  if (result.error) {
+    return notFound();
+  }
+  const { quiz, editorState } = result.data;
 
   return (
     <QuizEditorProvider initialData={quiz} initialState={editorState}>
-       <Suspense fallback={null}>
-                <UploadThingSSR />
-              </Suspense>
+      <Suspense fallback={null}>
+        <UploadThingSSR />
+      </Suspense>
       <div className="flex h-screen flex-col overflow-hidden">
         <div className="flex flex-1 flex-col overflow-hidden md:grid md:grid-rows-[65px_1fr]">
           <EditorHeader />

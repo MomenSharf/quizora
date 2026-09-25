@@ -1,40 +1,24 @@
 "use server";
 
-import { type QuizEditor } from "@/features/quiz-editor/validation/quiz";
-import prisma from "@/lib/db/prisma";
-import { AppErrors } from "@/lib/errors/app-errors";
-import { EditorState } from "../store";
-import { serializeUpdateQuiz } from "../transformers/quiz-serializer";
+import type { QuizEditor } from "@/features/quiz-editor/validation/quiz";
 
-export async function saveQuiz(quiz: QuizEditor, editorState: EditorState) {
-  const exists = await prisma.quiz.findUnique({
-    where: {
-      id: quiz.id,
-    },
-    select: {
-      id: true,
-    },
-  });
+import { requireAuth } from "@/features/auth/lib/require-auth";
+import { tryCatchAsync } from "@/lib/utils/try-catch";
+import { quizEditorService } from "../services/quiz-editor.service";
+import type { EditorState } from "../store";
 
-  if (!exists) {
-    throw AppErrors.notFound("Quiz not found");
-  }
+export const saveQuiz = async (quiz: QuizEditor, editorState: EditorState) =>
+  tryCatchAsync(async () => {
+    const session = await requireAuth();
 
-  try {
-    await prisma.quiz.update({
-      where: {
-        id: quiz.id,
-      },
-      data: serializeUpdateQuiz(quiz, editorState),
-    });
+    const result = await quizEditorService.saveQuiz(
+      quiz,
+      editorState,
+      session.user.id,
+    );
 
     return {
-      success: true,
-      savedAt: new Date(),
+      ...result,
+      message: "Quiz saved successfully.",
     };
-  } catch (error) {
-    console.error(error);
-
-    throw AppErrors.internal("Failed to save quiz");
-  }
-}
+  });

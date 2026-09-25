@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { useTransition } from "react";
 
 import { createNewQuiz } from "@/features/quiz-editor/actions/create-new-quiz";
-import { createDefaultQuiz } from "@/features/quiz-editor/create-defaults/quiz/create-default-quiz";
 import { cn } from "@/lib/utils";
 import {
   SidebarGroup,
@@ -22,17 +21,15 @@ export default function NavCreateNew() {
 
   const handleCreate = () => {
     startTransition(async () => {
-      try {
-        const result = await createNewQuiz();
+      const res = await createNewQuiz();
 
-        toast.success("Quiz created successfully.");
-
-        router.push(`/quiz/${result.quizId}/editor`);
-      } catch (error) {
-        toast.error(
-          error instanceof Error ? error.message : "Failed to create quiz.",
-        );
+      if (res.error) {
+        toast.error(res.error.message);
+        return;
       }
+ 
+      toast.success(res.data.message);
+      router.push(`/quizzes/${res.data.quizId}/editor`);
     });
   };
 

@@ -18,6 +18,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { login } from "../actions/login";
+import { GoogleSignInButton } from "./google-sign-in-button";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -158,16 +159,7 @@ export function LoginForm() {
           </span>
         </div>
 
-        <Button
-          type="button"
-          variant="outline"
-          className="h-11 w-full rounded-xl"
-          disabled={form.formState.isSubmitting}
-          onClick={() => signIn("google", { callbackUrl: "/" })}
-        >
-          <Icons.google className="mr-2 size-4" />
-          Continue with Google
-        </Button>
+      <GoogleSignInButton disabled={form.formState.isSubmitting} />
       </form>
     </AuthFormWrapper>
   );

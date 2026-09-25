@@ -26,6 +26,7 @@ import {
   SignupInput,
   signupSchema,
 } from "../validations/auth";
+import { GoogleSignInButton } from "./google-sign-in-button";
 
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -211,16 +212,7 @@ export function SignupForm() {
           </span>
         </div>
 
-        <Button
-          type="button"
-          variant="outline"
-          className="h-11 w-full rounded-xl"
-          disabled={form.formState.isSubmitting}
-          onClick={() => signIn("google", { callbackUrl: "/" })}
-        >
-          <Icons.google className="mr-2 size-4" />
-          Continue with Google
-        </Button>
+   <GoogleSignInButton disabled={form.formState.isSubmitting} />
       </form>
     </AuthFormWrapper>
   );

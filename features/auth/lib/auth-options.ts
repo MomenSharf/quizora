@@ -6,7 +6,6 @@ import Google from "next-auth/providers/google";
 
 import prisma from "@/lib/db/prisma";
 
-// TODO: Fix login with google, like when user login with email and google with the same email
 const authConfig = {
   adapter: PrismaAdapter(prisma),
 

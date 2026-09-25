@@ -55,21 +55,18 @@ export function useAutosaveHook(debounceMs: number = 3000) {
     setSaveState("saving");
     setLastAttemptAt(new Date());
 
-    try {
-      await saveQuiz(payload, stateToSave);
+    const result = await saveQuiz(payload, stateToSave);
 
-      setSaveState("saved");
-      setLastSavedAt(new Date());
-      setDirty(false);
-      setSaveError(null);
-    } catch (error) {
-      console.error("Autosave Engine Failure:", error);
-
+    if (result.error) {
       setSaveState("error");
-      setSaveError(
-        error instanceof Error ? error.message : "Failed to save quiz.",
-      );
+      setSaveError(result.error.message);
+      return;
     }
+
+    setSaveState("saved");
+    setLastSavedAt(new Date());
+    setDirty(false);
+    setSaveError(null);
   }
 
   useEffect(() => {

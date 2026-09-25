@@ -1,33 +1,17 @@
 "use server";
 
-import prisma from "@/lib/db/prisma";
-import { AppErrors } from "@/lib/errors/app-errors";
-import { mapEditorState, mapQuiz } from "../transformers/quiz-mapper";
+import { requireAuth } from "@/features/auth/lib/require-auth";
+import { tryCatchAsync } from "@/lib/utils/try-catch";
+import { quizEditorService } from "../services/quiz-editor.service";
 
-export async function getQuiz(id: string) {
-  const record = await prisma.quiz.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      questions: {
-        include: {
-          image: true,
-        },
-      },
+export const getQuiz = async (id: string) =>
+  tryCatchAsync(async () => {
+    const session = await requireAuth();
 
-      thumbnail: true,
-    },
+    const result = await quizEditorService.getQuiz(id, session.user.id);
+
+    return {
+     ...result,
+      message: "Quiz loaded successfully.",
+    };
   });
-  
-
-  if (!record) {
-    throw AppErrors.notFound("Quiz not found");
-  }
-
-  
-  const quiz = mapQuiz(record);
-  const editorState = mapEditorState(record.editorState);
-
-  return {quiz, editorState};
-}

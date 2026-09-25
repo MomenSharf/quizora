@@ -2,54 +2,21 @@
 
 import { revalidatePath } from "next/cache";
 
-import { auth } from "@/features/auth/lib/auth-options";
-import prisma from "@/lib/db/prisma";
-import { AppErrors } from "@/lib/errors/app-errors";
-import { createDefaultQuiz } from "../create-defaults/quiz/create-default-quiz";
-import { defaultEditorState } from "../store";
-import { serializeNewQuiz } from "../transformers/quiz-serializer";
+import { tryCatchAsync } from "@/lib/utils/try-catch";
+import { requireAuth } from "@/features/auth/lib/require-auth";
 
-export async function createNewQuiz() {
-  const session = await auth();
+import { quizEditorService } from "../services/quiz-editor.service";
 
-  if (!session?.user?.id) {
-    throw AppErrors.unauthorized("You must be logged in to create a quiz");
-  }
+export const createNewQuiz = async () =>
+  tryCatchAsync(async () => {
+    const { user } = await requireAuth();
 
-  const quiz = createDefaultQuiz();
-
-  const editorState = {
-  ...defaultEditorState,
-  navigation: {
-    ...defaultEditorState.navigation,
-    selectedQuestionId: quiz.questions[0]?.id ?? null,
-  },
-};
-
-
-  const data = serializeNewQuiz({
-    quiz,
-    editorState: editorState,
-    ownerId: session.user.id,
-  });
-
-  try {
-    const createdQuiz = await prisma.quiz.create({
-      data,
-      select: {
-        id: true,
-      },
-    });
+    const result = await quizEditorService.createQuiz(user.id);
 
     revalidatePath("/dashboard");
 
     return {
-      success: true,
-      quizId: createdQuiz.id,
+      ...result,
+      message: "Quiz created successfully.",
     };
-  } catch (error) {
-    console.error(error);
-
-    throw AppErrors.internal("Failed to create quiz");
-  }
-}
+  });
