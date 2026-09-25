@@ -1,14 +1,9 @@
 "use client";
 
-import {
-  IconEdit,
-  IconPhoto,
-  IconPlus,
-  IconTrash,
-} from "@tabler/icons-react";
+import { IconEdit, IconPhoto, IconPlus, IconTrash } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
-import type { ImageData } from "@/features/quiz-editor/validation/quiz/image";
+import type { ImageData } from "@/features/quiz-editor/validation/image";
 
 type ImagePreviewTriggerProps = {
   image?: ImageData;
@@ -47,9 +42,7 @@ export default function ImagePreviewTrigger({
         </div>
 
         <div className="mt-3 space-y-1">
-          <p className="text-sm font-medium">
-            Add image
-          </p>
+          <p className="text-sm font-medium">Add image</p>
 
           <p className="text-xs text-muted-foreground">
             Upload and edit an image
@@ -90,9 +83,7 @@ export default function ImagePreviewTrigger({
                 {image.caption}
               </p>
             ) : (
-              <p className="text-[11px] text-muted-foreground">
-                Image
-              </p>
+              <p className="text-[11px] text-muted-foreground">Image</p>
             )}
           </div>
         </div>

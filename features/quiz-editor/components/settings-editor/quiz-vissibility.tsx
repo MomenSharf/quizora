@@ -31,7 +31,7 @@ export default function QuizVisibility() {
 
       <div className="p-5 md:p-6">
         <Controller
-          name="settings.visibility"
+          name="visibility"
           control={control}
           render={({ field }) => (
             <VisibilitySelector value={field.value} onChange={field.onChange} />

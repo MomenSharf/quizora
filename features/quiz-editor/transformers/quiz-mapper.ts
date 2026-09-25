@@ -15,16 +15,10 @@ import {
   TrueFalseQuestion,
   TypeAnswerQuestion,
 } from "@/features/quiz-editor/validation/question";
-import type {
-  QuizAppearance,
-  QuizEditor,
-  QuizSettings,
-} from "@/features/quiz-editor/validation/quiz";
+import type { QuizEditor } from "@/features/quiz-editor/validation/quiz";
 
-import type { Ratio } from "@/features/quiz-editor/validation/quiz/image";
-
-import { createDefaultQuiz } from "../create-defaults/quiz/create-default-quiz";
 import { defaultEditorState, type EditorState } from "../store";
+import { MediaRatio } from "../validation/image";
 
 type PrismaQuiz = Prisma.QuizGetPayload<{
   include: {
@@ -36,28 +30,6 @@ type PrismaQuiz = Prisma.QuizGetPayload<{
     thumbnail: true;
   };
 }>;
-
-const defaultQuiz = createDefaultQuiz();
-const defaultQuizSettings = defaultQuiz.settings;
-const defaultQuizAppearance = defaultQuiz.appearance;
-
-function mapAppearance(value: Prisma.JsonValue | null): QuizAppearance {
-  return {
-    ...defaultQuizAppearance,
-    ...((value as Partial<QuizAppearance>) ?? {}),
-  };
-}
-
-function mapSettings(
-  value: Prisma.JsonValue | null,
-  visibility: PrismaQuiz["visibility"],
-): QuizSettings {
-  return {
-    ...defaultQuizSettings,
-    ...((value as Partial<QuizSettings>) ?? {}),
-    visibility,
-  };
-}
 
 export function mapEditorState(state: Prisma.JsonValue): EditorState {
   const editorState = (state as Partial<EditorState>) ?? {};
@@ -79,6 +51,14 @@ export function mapEditorState(state: Prisma.JsonValue): EditorState {
       isQuestionSelectorOpen:
         editorState.navigation?.isQuestionSelectorOpen ??
         defaultEditorState.navigation.isQuestionSelectorOpen,
+    },
+
+    validation: {
+      attempted: editorState.validation?.attempted ?? false,
+      isValidating: editorState.validation?.isValidating ?? false,
+      lastValidatedAt: editorState.validation?.lastValidatedAt ?? null,
+      errorCount: editorState.validation?.errorCount ?? 0,
+      firstErrorPath: editorState.validation?.firstErrorPath ?? null,
     },
 
     autosave: {
@@ -140,9 +120,10 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         image: question.image
           ? {
               id: question.image.id,
+              key: question.image.key,
               alt: question.image.alt,
               caption: question.image.caption ?? undefined,
-              ratio: question.image.ratio as Ratio,
+              ratio: question.image.ratio as MediaRatio,
               url: "",
             }
           : undefined,
@@ -244,34 +225,27 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
 
     slug: quiz.slug ?? undefined,
 
-    status: quiz.status,
+    title: quiz.title,
+    description: quiz.description ?? "",
 
-    version: quiz.version,
+    thumbnail: quiz.thumbnail
+      ? {
+          key: quiz.thumbnail.key,
+          id: quiz.thumbnail.id,
+          url: quiz.thumbnail.url,
+          alt: quiz.thumbnail.alt,
+          caption: quiz.thumbnail.caption ?? undefined,
+          ratio: quiz.thumbnail.ratio as MediaRatio,
+        }
+      : undefined,
 
-    info: {
-      title: quiz.title,
-      description: quiz.description ?? "",
+    tags: quiz.tags,
 
-      thumbnail: quiz.thumbnail
-        ? {
-            id: quiz.thumbnail.id,
-            url: quiz.thumbnail.url,
-            alt: quiz.thumbnail.alt,
-            caption: quiz.thumbnail.caption ?? undefined,
-            ratio: quiz.thumbnail.ratio as Ratio,
-          }
-        : undefined,
+    language: quiz.language ?? "en",
 
-      tags: quiz.tags,
+    category: undefined,
 
-      language: quiz.language ?? "en",
-
-      category: undefined,
-    },
-
-    appearance: mapAppearance(quiz.appearance),
-
-    settings: mapSettings(quiz.settings, quiz.visibility),
+    visibility: quiz.visibility,
 
     questions: [...quiz.questions]
       .sort((a, b) => a.order - b.order)

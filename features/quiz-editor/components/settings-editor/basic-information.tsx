@@ -54,7 +54,7 @@ export default function BasicInformation() {
       <div className="space-y-5 p-5 md:p-6">
         {/* Title */}
         <Controller
-          name="info.title"
+          name="title"
           control={control}
           render={({ field, fieldState }) => (
             <div>
@@ -78,7 +78,7 @@ export default function BasicInformation() {
 
         {/* Description */}
         <Controller
-          name="info.description"
+          name="description"
           control={control}
           render={({ field, fieldState }) => (
             <div>
@@ -116,7 +116,7 @@ export default function BasicInformation() {
         <div className="grid gap-5 sm:grid-cols-2">
           {/* Category */}
           <Controller
-            name="info.category"
+            name="category"
             control={control}
             render={({ field, fieldState }) => (
               <div>
@@ -164,7 +164,7 @@ export default function BasicInformation() {
 
           {/* Language */}
           <Controller
-            name="info.language"
+            name="language"
             control={control}
             render={({ field, fieldState }) => (
               <div>

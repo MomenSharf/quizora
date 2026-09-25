@@ -3,7 +3,7 @@ import { Control, FieldPath, FieldValues } from "react-hook-form";
 import { SelectField } from "./fields/select-field";
 import { SwitchField } from "./fields/switch-field";
 import { ConfigSection } from "./config-section";
-import { Ratio } from "@/features/quiz-editor/validation/quiz/image";
+import { Ratio } from "@/features/quiz-editor/validation/image";
 
 type MediaConfigProps<T extends FieldValues> = {
   control: Control<T>;

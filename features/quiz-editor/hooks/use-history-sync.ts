@@ -43,9 +43,7 @@ export function useHistorySync() {
 
       // Save the current state before moving to the new state.
       if (currentState.current) {
-        pastStack.current.push(
-          JSON.parse(currentState.current) as QuizEditor,
-        );
+        pastStack.current.push(JSON.parse(currentState.current) as QuizEditor);
 
         if (pastStack.current.length > MAX_HISTORY) {
           pastStack.current.shift();
@@ -103,9 +101,7 @@ export function useHistorySync() {
     if (!next) return;
 
     if (currentState.current) {
-      pastStack.current.push(
-        JSON.parse(currentState.current) as QuizEditor,
-      );
+      pastStack.current.push(JSON.parse(currentState.current) as QuizEditor);
 
       if (pastStack.current.length > MAX_HISTORY) {
         pastStack.current.shift();
@@ -144,7 +140,6 @@ export function useHistorySync() {
 
     return () => subscription.unsubscribe();
   }, [watch, getValues, capture]);
-
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

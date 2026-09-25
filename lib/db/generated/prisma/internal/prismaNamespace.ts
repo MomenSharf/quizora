@@ -1034,12 +1034,7 @@ export const QuizScalarFieldEnum = {
   language: 'language',
   category: 'category',
   ownerId: 'ownerId',
-  status: 'status',
   visibility: 'visibility',
-  version: 'version',
-  publishedVersion: 'publishedVersion',
-  settings: 'settings',
-  appearance: 'appearance',
   editorState: 'editorState',
   tags: 'tags',
   questionCount: 'questionCount',
@@ -1079,6 +1074,7 @@ export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typ
 
 export const ImageScalarFieldEnum = {
   id: 'id',
+  key: 'key',
   url: 'url',
   caption: 'caption',
   alt: 'alt',
@@ -1188,20 +1184,6 @@ export type EnumVerificationTokenTypeFieldRefInput<$PrismaModel> = FieldRefInput
  * Reference to a field of type 'VerificationTokenType[]'
  */
 export type ListEnumVerificationTokenTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationTokenType[]'>
-    
-
-
-/**
- * Reference to a field of type 'QuizStatus'
- */
-export type EnumQuizStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizStatus'>
-    
-
-
-/**
- * Reference to a field of type 'QuizStatus[]'
- */
-export type ListEnumQuizStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizStatus[]'>
     
 
 

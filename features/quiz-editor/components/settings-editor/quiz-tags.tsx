@@ -23,7 +23,7 @@ export default function QuizTags() {
 
   return (
     <Controller
-      name="info.tags"
+      name="tags"
       control={control}
       render={({ field, fieldState }) => (
         <div>

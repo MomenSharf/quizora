@@ -57,7 +57,7 @@ export default function ResetPasswordForm({
     }
 
     toast.success(res.data?.message ?? "Password updated successfully.");
-    router.push("/login");
+    router.push("/login?email=" + encodeURIComponent(email));
   }
 
   return (

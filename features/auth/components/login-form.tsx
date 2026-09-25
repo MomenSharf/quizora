@@ -16,16 +16,14 @@ import AuthFormWrapper from "./auth-form-wrapper";
 import { LoginInput, loginSchema } from "../validations/auth";
 import Link from "next/link";
 import { toast } from "sonner";
-import { AUTH_ERRORS } from "@/lib/errors/auth-errors";
 import { useRouter, useSearchParams } from "next/navigation";
 import { login } from "../actions/login";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
-   const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const defaultEmail = searchParams.get("email");
-
 
   const router = useRouter();
 
@@ -41,7 +39,7 @@ export function LoginForm() {
   const email = useWatch({
     control: form.control,
     name: "email",
-  })
+  });
 
   async function onSubmit(data: LoginInput) {
     const res = await login(data);
@@ -60,7 +58,6 @@ export function LoginForm() {
     toast.success(res.data.message);
     router.push("/");
   }
-
 
   return (
     <AuthFormWrapper authMode="login" email={email}>
@@ -151,7 +148,7 @@ export function LoginForm() {
           disabled={!form.formState.isValid || form.formState.isSubmitting}
         >
           {form.formState.isSubmitting && <Spinner className="size-4" />}
-          Sign In
+          {form.formState.isSubmitting ? "Signing in..." : "Sign In"}
         </Button>
 
         <div className="relative py-1">

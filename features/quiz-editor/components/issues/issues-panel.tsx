@@ -30,14 +30,7 @@ export function IssuesPanel() {
     focusIssue,
   } = useEditorValidation();
 
-  /*
-   * We store collapsed groups instead of expanded groups.
-   *
-   * This means:
-   * - New groups are automatically expanded.
-   * - No useEffect is needed to synchronize state.
-   * - Only groups explicitly collapsed by the user are stored.
-   */
+  
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(
     () => new Set(),
   );

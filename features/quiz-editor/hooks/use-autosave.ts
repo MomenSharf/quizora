@@ -29,7 +29,7 @@ export function useAutosaveHook(debounceMs: number = 3000) {
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isOnline, setIsOnline] = useState(
-    typeof navigator !== "undefined" ? navigator.onLine : true
+    typeof navigator !== "undefined" ? navigator.onLine : true,
   );
 
   async function save() {
@@ -52,10 +52,8 @@ export function useAutosaveHook(debounceMs: number = 3000) {
       },
     };
 
-    const now = new Date();
-
     setSaveState("saving");
-    setLastAttemptAt(now);
+    setLastAttemptAt(new Date());
 
     try {
       await saveQuiz(payload, stateToSave);
@@ -65,12 +63,11 @@ export function useAutosaveHook(debounceMs: number = 3000) {
       setDirty(false);
       setSaveError(null);
     } catch (error) {
-      
       console.error("Autosave Engine Failure:", error);
 
       setSaveState("error");
       setSaveError(
-        error instanceof Error ? error.message : "Failed to save quiz."
+        error instanceof Error ? error.message : "Failed to save quiz.",
       );
     }
   }
@@ -83,7 +80,6 @@ export function useAutosaveHook(debounceMs: number = 3000) {
         save();
       }
     };
-    
 
     const handleOffline = () => {
       setIsOnline(false);
@@ -130,7 +126,7 @@ export function useAutosaveHook(debounceMs: number = 3000) {
         clearTimeout(timeoutRef.current);
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     watch,
     getValues,

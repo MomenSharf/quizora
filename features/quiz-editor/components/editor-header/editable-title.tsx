@@ -24,7 +24,7 @@ export function EditableTitle() {
 
   const title = useWatch({
     control,
-    name: "info.title",
+    name: "title",
   });
 
   const [open, setOpen] = useState(false);
@@ -43,7 +43,7 @@ export function EditableTitle() {
 
     if (!value) return;
 
-    setValue("info.title", value, {
+    setValue("title", value, {
       shouldDirty: true,
       shouldTouch: true,
       shouldValidate: true,

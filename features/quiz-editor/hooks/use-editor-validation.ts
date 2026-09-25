@@ -9,11 +9,11 @@ import type { QuizEditor } from "../validation/quiz";
 import {
   getEditorIssues,
   groupEditorIssues,
-} from "../validation/editor-validation";
+} from "../lib/validation/editor-validation";
 
 import { useEditorActions, useEditorStore } from "../store";
 
-import { focusEditorField } from "../validation/quiz/focus-editor-field";
+import { focusEditorField } from "../lib/validation/focus-editor-field";
 
 export function useEditorValidation() {
   const {
@@ -21,19 +21,14 @@ export function useEditorValidation() {
     getValues,
     clearErrors,
     control,
-    formState: {
-      errors,
-      isValidating,
-    },
+    formState: { errors, isValidating },
   } = useFormContext<QuizEditor>();
 
   const formValues = useWatch({
     control,
   });
 
-  const attempted = useEditorStore(
-    (state) => state.validation.attempted,
-  );
+  const attempted = useEditorStore((state) => state.validation.attempted);
 
   const {
     setValidationState,
@@ -45,24 +40,17 @@ export function useEditorValidation() {
   const validationRun = useRef(0);
   const isFirstValidationChange = useRef(true);
 
-  const issues = useMemo(
-    () => getEditorIssues(errors),
-    [errors],
-  );
+  const issues = useMemo(() => getEditorIssues(errors), [errors]);
 
-  const issueGroups = useMemo(
-    () => groupEditorIssues(issues),
-    [issues],
-  );
+  const issueGroups = useMemo(() => groupEditorIssues(issues), [issues]);
 
   const errorCount = issues.length;
 
   const firstErrorPath = issues[0]?.path ?? null;
 
   const firstQuestionWithError =
-    issueGroups.find(
-      (group) => group.questionIndex !== undefined,
-    )?.questionIndex ?? null;
+    issueGroups.find((group) => group.questionIndex !== undefined)
+      ?.questionIndex ?? null;
 
   const validate = useCallback(async () => {
     const run = ++validationRun.current;
@@ -76,8 +64,6 @@ export function useEditorValidation() {
       shouldFocus: false,
     });
 
-    // Ignore an old validation result if validation was stopped
-    // or another validation started after this one.
     if (run !== validationRun.current) {
       return false;
     }
@@ -91,17 +77,11 @@ export function useEditorValidation() {
     return valid;
   }, [trigger, setValidationState]);
 
-  /**
-   * Re-validate automatically after the user has
-   * already attempted validation.
-   */
   useEffect(() => {
     if (!attempted) {
       return;
     }
 
-    // The values change after validate() has enabled attempted mode.
-    // Don't trigger an unnecessary validation for that transition.
     if (isFirstValidationChange.current) {
       isFirstValidationChange.current = false;
       return;
@@ -118,32 +98,58 @@ export function useEditorValidation() {
     });
   }, [formValues, attempted, trigger, setValidationState]);
 
-  const focusIssue = useCallback(
-    (path: string) => {
-      const values = getValues();
+const focusIssue = useCallback(
+  (path: string) => {
+    const values = getValues();
 
-      const match = path.match(/^questions\.(\d+)(?:\.|$)/);
+    // Question fields
+    const questionMatch = path.match(/^questions\.(\d+)(?:\.|$)/);
 
-      if (match) {
-        const questionIndex = Number(match[1]);
-        const question = values.questions[questionIndex];
+    if (questionMatch) {
+      const questionIndex = Number(questionMatch[1]);
+      const question = values.questions[questionIndex];
 
-        if (question?.id) {
-          setActivePanel("questions");
-          selectQuestion(question.id);
+      if (question?.id) {
+        setActivePanel("questions");
+        selectQuestion(question.id);
 
-          window.setTimeout(() => {
-            focusEditorField(path);
-          }, 0);
+        window.setTimeout(() => {
+          focusEditorField(path);
+        }, 0);
 
-          return;
-        }
+        return;
       }
+    }
 
-      focusEditorField(path);
-    },
-    [getValues, setActivePanel, selectQuestion],
-  );
+    // Quiz settings fields
+    const settingsFields = new Set([
+      "slug",
+      "visibility",
+      "title",
+      "description",
+      "thumbnail",
+      "tags",
+      "language",
+      "category",
+    ]);
+
+    const rootField = path.split(".")[0];
+
+    if (settingsFields.has(rootField)) {
+      setActivePanel("settings");
+
+      window.setTimeout(() => {
+        focusEditorField(path);
+      }, 0);
+
+      return;
+    }
+
+    // Fallback
+    focusEditorField(path);
+  },
+  [getValues, setActivePanel, selectQuestion],
+);
 
   const stopValidation = useCallback(() => {
     validationRun.current += 1;
@@ -156,13 +162,8 @@ export function useEditorValidation() {
 
   return {
     errors,
-
-    // Flat issues
     issues,
-
-    // Issues grouped by question/section
     issueGroups,
-
     errorCount,
     firstErrorPath,
     firstQuestionWithError,

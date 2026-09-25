@@ -1,18 +1,16 @@
 import type { FieldErrors } from "react-hook-form";
 
-import type { QuizEditor } from "./quiz";
+import type { QuizEditor } from "../../validation/quiz";
 
 export interface EditorIssue {
   id: string;
   path: string;
   message: string;
-  section: string;
   questionIndex?: number;
 }
 
 export interface EditorIssueGroup {
-  questionIndex?: number;
-  section: string;
+  questionIndex: number;
   issues: EditorIssue[];
 }
 
@@ -25,18 +23,6 @@ function isFieldError(value: unknown): value is {
     value !== null &&
     ("message" in value || "type" in value)
   );
-}
-
-function getSectionFromPath(path: string): string {
-  if (path.startsWith("questions")) {
-    return "questions";
-  }
-
-  if (path.startsWith("settings")) {
-    return "settings";
-  }
-
-  return "info";
 }
 
 function getQuestionIndex(path: string): number | undefined {
@@ -64,7 +50,6 @@ function walkErrors(
       id: parentPath,
       path: parentPath,
       message,
-      section: getSectionFromPath(parentPath),
       questionIndex: getQuestionIndex(parentPath),
     });
 
@@ -74,9 +59,7 @@ function walkErrors(
   for (const [key, child] of Object.entries(value)) {
     if (child == null) continue;
 
-    const path = parentPath
-      ? `${parentPath}.${key}`
-      : key;
+    const path = parentPath ? `${parentPath}.${key}` : key;
 
     walkErrors(child, path, issues);
   }
@@ -93,24 +76,22 @@ export function getEditorIssues(
 export function groupEditorIssues(
   issues: EditorIssue[],
 ): EditorIssueGroup[] {
-  const groups = new Map<string, EditorIssueGroup>();
+  const groups = new Map<number, EditorIssueGroup>();
 
   for (const issue of issues) {
-    const key =
-      issue.questionIndex !== undefined
-        ? `question:${issue.questionIndex}`
-        : `section:${issue.section}`;
+    if (issue.questionIndex === undefined) {
+      continue;
+    }
 
-    const existing = groups.get(key);
+    const existing = groups.get(issue.questionIndex);
 
     if (existing) {
       existing.issues.push(issue);
       continue;
     }
 
-    groups.set(key, {
+    groups.set(issue.questionIndex, {
       questionIndex: issue.questionIndex,
-      section: issue.section,
       issues: [issue],
     });
   }

@@ -1,13 +1,9 @@
 "use client";
 
-import {
-  IconEdit,
-  IconPhotoPlus,
-  IconTrash,
-} from "@tabler/icons-react";
+import { IconEdit, IconPhotoPlus, IconTrash } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
-import type { ImageData } from "@/features/quiz-editor/validation/quiz/image";
+import type { ImageData } from "@/features/quiz-editor/validation/image";
 
 type ImageButtonTriggerProps = {
   image?: ImageData;

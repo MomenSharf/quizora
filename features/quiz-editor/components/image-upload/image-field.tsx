@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import {
-  useController,
-  type FieldPath,
-} from "react-hook-form";
+import { useController, type FieldPath } from "react-hook-form";
 
 import { ImageUploadDialog } from "./image-upload-dialog";
 
-import type { ImageData } from "@/features/quiz-editor/validation/quiz/image";
+import type { ImageData } from "@/features/quiz-editor/validation/image";
 import { QuizEditor } from "../../validation/quiz";
 import { useQuizForm } from "../../hooks/use-quiz-form";
 import { deleteFile } from "@/lib/uploadthing/delete-file";
@@ -25,9 +22,7 @@ type ImageFieldTriggerProps = {
 type ImageFieldProps = {
   name: FieldPath<QuizEditor>;
   disabled?: boolean;
-  trigger: (
-    props: ImageFieldTriggerProps,
-  ) => React.ReactNode;
+  trigger: (props: ImageFieldTriggerProps) => React.ReactNode;
 };
 
 export function ImageField({
@@ -82,13 +77,9 @@ export function ImageField({
 
       const blob = await response.blob();
 
-      const file = new File(
-        [blob],
-        image.alt || "image",
-        {
-          type: blob.type || "image/jpeg",
-        },
-      );
+      const file = new File([blob], image.alt || "image", {
+        type: blob.type || "image/jpeg",
+      });
 
       setFile(file);
       setDialogOpen(true);

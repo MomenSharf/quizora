@@ -84,7 +84,7 @@ model Quiz {
   title       String
   description String? @db.Text
 
-  thumbnail Image? @relation(fields: [imageId], references: [id])
+  thumbnail Image?  @relation(fields: [imageId], references: [id])
   imageId   String?
 
   language String  @default("en")
@@ -93,14 +93,7 @@ model Quiz {
   ownerId String
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  status     QuizStatus @default(DRAFT)
   visibility Visibility @default(PRIVATE)
-
-  version          Int  @default(1)
-  publishedVersion Int?
-
-  settings   Json
-  appearance Json
 
   editorState Json
 
@@ -118,7 +111,6 @@ model Quiz {
   updatedAt DateTime @updatedAt
 
   @@index([ownerId])
-  @@index([status])
   @@index([visibility])
   @@index([updatedAt])
 }
@@ -165,7 +157,8 @@ model Question {
 }
 
 model Image {
-  id String @id @default(cuid())
+  id  String @id @default(cuid())
+  key String
 
   url String
 

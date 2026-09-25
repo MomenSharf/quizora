@@ -1,17 +1,12 @@
 "use server";
 
-import {
-  type QuizEditor
-} from "@/features/quiz-editor/validation/quiz";
+import { type QuizEditor } from "@/features/quiz-editor/validation/quiz";
 import prisma from "@/lib/db/prisma";
 import { AppErrors } from "@/lib/errors/app-errors";
 import { EditorState } from "../store";
 import { serializeUpdateQuiz } from "../transformers/quiz-serializer";
 
-export async function saveQuiz(
-  quiz: QuizEditor,
-  editorState: EditorState,
-) {
+export async function saveQuiz(quiz: QuizEditor, editorState: EditorState) {
   const exists = await prisma.quiz.findUnique({
     where: {
       id: quiz.id,

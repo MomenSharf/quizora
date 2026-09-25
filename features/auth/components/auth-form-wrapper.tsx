@@ -32,12 +32,12 @@ const content: Record<
   }
 > = {
   login: {
-    title: "Welcome back",
+    title: "👋 Welcome back",
     description: "Sign in to continue building and playing quizzes.",
     showTabs: true,
   },
   signup: {
-    title: "Create your account",
+    title: "✨ Let’s get you started",
     description: "Start creating beautiful quizzes in just a few minutes.",
     showTabs: true,
   },

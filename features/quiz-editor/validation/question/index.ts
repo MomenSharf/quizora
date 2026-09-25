@@ -28,14 +28,14 @@ export const QuestionSchema = z.discriminatedUnion("type", [
   DropdownQuestionSchema,
 ]);
 
-export const QuestionArraySchema = z.array(QuestionSchema);
+export const QuestionArraySchema = z
+  .array(QuestionSchema)
+  .max(100, "A quiz can contain at most 100 questions");
 
 export type Question = z.infer<typeof QuestionSchema>;
-
 export type Questions = z.infer<typeof QuestionArraySchema>;
 
-export type QuestionConfig = Question['config']
-
+export type QuestionConfig = Question["config"];
 
 export * from "./base";
 export * from "./dropdown";

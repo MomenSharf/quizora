@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import type { ImageData } from "@/features/quiz-editor/validation/quiz/image";
+import type { ImageData } from "@/features/quiz-editor/validation/image";
 
 import { ImageUploadPlaceholder } from "./image-upload-placeholder";
 import { ImageEditor } from "./image-editor";

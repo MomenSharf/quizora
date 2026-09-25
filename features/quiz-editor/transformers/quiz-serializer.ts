@@ -2,20 +2,6 @@ import type { QuizEditor } from "@/features/quiz-editor/validation/quiz";
 import { Prisma } from "@/lib/db/generated/prisma/client";
 import { EditorState } from "../store";
 
-function serializeAppearance(
-  appearance: QuizEditor["appearance"],
-): Prisma.InputJsonValue {
-  return appearance satisfies Prisma.InputJsonValue;
-}
-
-function serializeSettings(quiz: QuizEditor): Prisma.InputJsonValue {
-  return {
-    ...quiz.settings,
-    language: quiz.info.language,
-    category: quiz.info.category,
-  } satisfies Prisma.InputJsonValue;
-}
-
 function serializeEditorState(editorState: EditorState): Prisma.InputJsonValue {
   return {
     navigation: {
@@ -94,15 +80,12 @@ export function serializeNewQuiz({
       },
     },
 
-    title: quiz.info.title,
-    description: quiz.info.description,
+    title: quiz.title,
+    description: quiz.description,
     slug: quiz.slug,
-    status: quiz.status,
-    version: quiz.version,
-    visibility: quiz.settings.visibility,
-    tags: quiz.info.tags,
-    appearance: serializeAppearance(quiz.appearance),
-    settings: serializeSettings(quiz),
+
+    visibility: quiz.visibility,
+    tags: quiz.tags,
     editorState: serializeEditorState(editorState),
     questionCount,
     questions: {
@@ -118,35 +101,27 @@ export function serializeUpdateQuiz(
   const questionCount = quiz.questions.length;
 
   return {
-    title: quiz.info.title,
+    title: quiz.title,
 
-    description: quiz.info.description,
+    description: quiz.description,
 
     slug: quiz.slug,
 
-    status: quiz.status,
 
-    version: {
-      increment: 1,
-    },
 
-    visibility: quiz.settings.visibility,
+    visibility: quiz.visibility,
 
-    tags: quiz.info.tags,
-
-    appearance: serializeAppearance(quiz.appearance),
-
-    settings: serializeSettings(quiz),
+    tags: quiz.tags,
 
     editorState: serializeEditorState(editorState),
 
     questionCount,
 
-    category: quiz.info.category,
+    category: quiz.category,
 
-    language: quiz.info.language,
+    language: quiz.language,
 
-    thumbnail : quiz.info.thumbnail?.url ? { create: quiz.info.thumbnail } : undefined,
+    thumbnail: quiz.thumbnail?.url ? { create: quiz.thumbnail } : undefined,
 
     questions: {
       deleteMany: {},

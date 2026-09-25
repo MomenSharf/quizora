@@ -1,12 +1,10 @@
 import {
-  QuizAppearanceSchema,
   QuizEditorSchema,
-  QuizSettingsSchema,
   type QuizEditor,
 } from "@/features/quiz-editor/validation/quiz";
 import { QuestionSchema } from "@/features/quiz-editor/validation/question";
 import { Prisma } from "@/lib/db/generated/prisma/client";
-import { defaultEditorState, EditorState } from "../store";
+import { EditorState } from "../store";
 
 type PrismaQuiz = Prisma.QuizGetPayload<{
   include: {
@@ -17,20 +15,6 @@ type PrismaQuiz = Prisma.QuizGetPayload<{
     };
   };
 }>;
-
-function mapAppearance(value: Prisma.JsonValue | null) {
-  return QuizAppearanceSchema.parse(value ?? {});
-}
-
-function mapSettings(
-  value: Prisma.JsonValue | null,
-  visibility: PrismaQuiz["visibility"],
-) {
-  return {
-    ...QuizSettingsSchema.parse(value ?? {}),
-    visibility,
-  };
-}
 
 export function mapEditorState(state: Prisma.JsonValue): EditorState {
   const editorState = state as Partial<EditorState>;
@@ -60,6 +44,13 @@ export function mapEditorState(state: Prisma.JsonValue): EditorState {
       canRedo: editorState.history?.canRedo ?? false,
       index: editorState.history?.index ?? 0,
       size: editorState.history?.size ?? 0,
+    },
+    validation: {
+      attempted: editorState.validation?.attempted ?? false,
+      isValidating: editorState.validation?.isValidating ?? false,
+      lastValidatedAt: editorState.validation?.lastValidatedAt ?? null,
+      errorCount: editorState.validation?.errorCount ?? 0,
+      firstErrorPath: editorState.validation?.firstErrorPath ?? null,
     },
   };
 }
@@ -105,26 +96,20 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
 
     slug: quiz.slug ?? undefined,
 
-    status: quiz.status,
+    title: quiz.title,
+    description: quiz.description ?? "",
 
-    version: quiz.version,
+    thumbnail: undefined,
 
-    info: {
-      title: quiz.title,
-      description: quiz.description ?? "",
+    tags: quiz.tags,
 
-      thumbnail: undefined,
+    language: "en",
 
-      tags: quiz.tags,
+    category: undefined,
 
-      language: "en",
+    // appearance: mapAppearance(quiz.appearance),
 
-      category: undefined,
-    },
-
-    appearance: mapAppearance(quiz.appearance),
-
-    settings: mapSettings(quiz.settings, quiz.visibility),
+    // settings: mapSettings(quiz.settings, quiz.visibility),
 
     questions: [...quiz.questions]
       .sort((a, b) => a.order - b.order)

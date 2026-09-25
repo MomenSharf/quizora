@@ -15,7 +15,7 @@ export function createSingleSelectQuestion(): SingleSelectQuestion {
 
     content: {
       options: [option1, option2],
-      correctOptionid: option1.id,
+       correctOptionId: option1.id,
     },
 
     config: {

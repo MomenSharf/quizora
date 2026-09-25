@@ -1,7 +1,7 @@
 import RichTextEditor from "@/components/rich-text-editor";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { parseFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-parser";
-import { serializeFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank-serializer";
+import { parseFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank/fill-in-the-blank-parser";
+import { serializeFillInTheBlank } from "@/features/quiz-editor/lib/fill-in-the-blank/fill-in-the-blank-serializer";
 import { FillBlankData } from "@/features/quiz-editor/validation/question";
 import { useMemo } from "react";
 import { useWatch } from "react-hook-form";

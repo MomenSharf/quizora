@@ -20,7 +20,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type {
   ImageData,
   MediaRatio,
-} from "@/features/quiz-editor/validation/quiz/image";
+} from "@/features/quiz-editor/validation/image";
 import { FieldPath } from "react-hook-form";
 import { useQuizForm } from "../../hooks/use-quiz-form";
 import { QuizEditor } from "../../validation/quiz";
@@ -318,66 +318,66 @@ export function ImageEditor({
     setRotation(0);
   };
 
-const handleSave = async () => {
-  if (
-    !editorFile ||
-    !imageUrl ||
-    !croppedAreaPixels ||
-    isSaving ||
-    isUploading ||
-    disabled ||
-    isPreparing ||
-    isImageLoading
-  ) {
-    return;
-  }
-
-  setIsSaving(true);
-
-  try {
-    const editedFile = await getCroppedFile(
-      imageUrl,
-      croppedAreaPixels,
-      rotation,
-      editorFile.name,
-      editorFile.type,
-    );
-
-    // Delete the existing UploadThing file when editing
-    if (initialData?.key) {
-      await deleteFile(initialData.key);
+  const handleSave = async () => {
+    if (
+      !editorFile ||
+      !imageUrl ||
+      !croppedAreaPixels ||
+      isSaving ||
+      isUploading ||
+      disabled ||
+      isPreparing ||
+      isImageLoading
+    ) {
+      return;
     }
 
-    const uploadedFiles = await startUpload([editedFile]);
+    setIsSaving(true);
 
-    const uploadedFile = uploadedFiles?.[0];
+    try {
+      const editedFile = await getCroppedFile(
+        imageUrl,
+        croppedAreaPixels,
+        rotation,
+        editorFile.name,
+        editorFile.type,
+      );
 
-    if (!uploadedFile) {
-      throw new Error("Upload completed without a file.");
+      // Delete the existing UploadThing file when editing
+      if (initialData?.key) {
+        await deleteFile(initialData.key);
+      }
+
+      const uploadedFiles = await startUpload([editedFile]);
+
+      const uploadedFile = uploadedFiles?.[0];
+
+      if (!uploadedFile) {
+        throw new Error("Upload completed without a file.");
+      }
+
+      const imageData: ImageData = {
+        id: crypto.randomUUID(),
+        url: uploadedFile.ufsUrl,
+        key: uploadedFile.key,
+        alt,
+        caption,
+        ratio,
+      };
+
+      setValue(name, imageData, {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
+
+      await onImageSave(imageData);
+    } catch (error) {
+      console.error("Failed to save image:", error);
+    } finally {
+      setIsSaving(false);
     }
-
-    const imageData: ImageData = {
-      id: crypto.randomUUID(),
-      url: uploadedFile.ufsUrl,
-      key: uploadedFile.key,
-      alt,
-      caption,
-      ratio,
-    };
-
-    setValue(name, imageData, {
-      shouldDirty: true,
-      shouldTouch: true,
-      shouldValidate: true,
-    });
-
-    await onImageSave(imageData);
-  } catch (error) {
-    console.error("Failed to save image:", error);
-  } finally {
-    setIsSaving(false);
-  }
-};
+  };
 
   const editorDisabled =
     disabled || isPreparing || isImageLoading || isSaving || isUploading;

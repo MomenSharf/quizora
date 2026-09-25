@@ -2,7 +2,10 @@ import { createId } from "@paralleldrive/cuid2";
 
 import type { FlashcardsQuestion } from "../../validation/question/flashcards";
 
-import { createBaseQuestion } from "./create-default-question";
+import {
+  createBaseQuestion,
+  createDefaultConfig,
+} from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 export function createFlashcardsQuestion(): FlashcardsQuestion {
@@ -11,7 +14,6 @@ export function createFlashcardsQuestion(): FlashcardsQuestion {
 
     type: QuestionType.FLASHCARDS,
 
-    
     content: {
       cards: [
         {
@@ -33,6 +35,7 @@ export function createFlashcardsQuestion(): FlashcardsQuestion {
     },
 
     config: {
+      ...createDefaultConfig(),
       shuffleCards: false,
       flipDirection: "HORIZONTAL",
       startSide: "FRONT",

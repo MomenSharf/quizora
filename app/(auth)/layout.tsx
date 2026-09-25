@@ -2,7 +2,6 @@ import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Logo } from "@/components/logo";
 import { auth } from "@/features/auth/lib/auth-options";
 import Image from "next/image";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function AuthLayout({
@@ -10,7 +9,7 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
+    const session = await auth();
 
   if (session?.user) {
     redirect("/");
