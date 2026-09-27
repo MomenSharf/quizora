@@ -1,13 +1,15 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
+
 import { useSelectedQuestion } from "@/features/quiz-editor/hooks/use-selected-question";
 import { useIsTypeSelectorOpen } from "@/features/quiz-editor/store";
+
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 import QuestionTypeSelector from "../question-type-selector";
 
 import { SingleSelectConfig } from "./question-config/types/single-select-config";
-
 import { SingleSelectForm } from "./forms/single-select-form";
 import { MultipleSelectForm } from "./forms/multiple-select-form";
 import { OrdeingrForm } from "./forms/ordering-form";
@@ -18,6 +20,7 @@ import { FillinTheBlankForm } from "./forms/fill-in-the-blank-form";
 import { MatchingForm } from "./forms/matching-form";
 import { RangeForm } from "./forms/range-form";
 import { TapFindForm } from "./forms/tap-find-form";
+
 import { DropdownConfig } from "./question-config/types/drowpdown-config";
 import { FillBlankConfig } from "./question-config/types/fill-blank-config";
 import { MatchConfig } from "./question-config/types/match-config";
@@ -34,6 +37,19 @@ export interface QuestionFormProps {
 
 type QuestionFormComponent = React.ComponentType<QuestionFormProps>;
 
+const FORM_MAP: Partial<Record<QuestionType, QuestionFormComponent>> = {
+  SINGLE_SELECT: SingleSelectForm,
+  MULTIPLE_SELECT: MultipleSelectForm,
+  TRUE_FALSE: TrueFalseForm,
+  DROPDOWN: DropdownForm,
+  ORDERING: OrdeingrForm,
+  TYPE_ANSWER: TypeAnswerForm,
+  FILL_BLANK: FillinTheBlankForm,
+  MATCH: MatchingForm,
+  RANGE: RangeForm,
+  TAP_FIND: TapFindForm,
+};
+
 export function QuestionFormRouter() {
   const { question, questionIndex } = useSelectedQuestion();
   const isTypeSelectorOpen = useIsTypeSelectorOpen();
@@ -46,54 +62,106 @@ export function QuestionFormRouter() {
     return null;
   }
 
-  const FORM_MAP: Partial<Record<QuestionType, QuestionFormComponent>> = {
-    SINGLE_SELECT: SingleSelectForm,
-    MULTIPLE_SELECT: MultipleSelectForm,
-    TRUE_FALSE: TrueFalseForm,
-    DROPDOWN: DropdownForm,
-    ORDERING: OrdeingrForm,
-    TYPE_ANSWER: TypeAnswerForm,
-    FILL_BLANK: FillinTheBlankForm,
-    MATCH: MatchingForm,
-    RANGE: RangeForm,
-    TAP_FIND: TapFindForm,
-  };
-
-  const CONFIG_MAP: Partial<Record<QuestionType, React.ReactNode>> = {
-    SINGLE_SELECT: <SingleSelectConfig questionIndex={questionIndex} />,
-    DROPDOWN: <DropdownConfig questionIndex={questionIndex} />,
-    FILL_BLANK: <FillBlankConfig questionIndex={questionIndex} />,
-    MATCH: <MatchConfig questionIndex={questionIndex} />,
-    MULTIPLE_SELECT: <MultipleSelectConfig questionIndex={questionIndex} />,
-    ORDERING: <OrderingConfig questionIndex={questionIndex} />,
-    RANGE: <RangeConfig questionIndex={questionIndex} />,
-    TAP_FIND: <TapFindConfig questionIndex={questionIndex} />,
-    TYPE_ANSWER: <TypeAnswerConfig questionIndex={questionIndex} />,
-    TRUE_FALSE: <TrueFalseConfig questionIndex={questionIndex} />,
-    // FLASHCARDS: <FlashcardsConfig questionIndex={questionIndex} />,
-    // GUESS: <GuessConfig questionIndex={questionIndex} />,
-    
-  };
-
   const Form = FORM_MAP[question.type];
-  const Config = CONFIG_MAP[question.type];
 
   if (!Form) {
     return null;
   }
 
+  const Config = (
+    <>
+      {question.type === "SINGLE_SELECT" && (
+        <SingleSelectConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "DROPDOWN" && (
+        <DropdownConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "FILL_BLANK" && (
+        <FillBlankConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "MATCH" && (
+        <MatchConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "MULTIPLE_SELECT" && (
+        <MultipleSelectConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "ORDERING" && (
+        <OrderingConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "RANGE" && (
+        <RangeConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "TAP_FIND" && (
+        <TapFindConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "TYPE_ANSWER" && (
+        <TypeAnswerConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "TRUE_FALSE" && (
+        <TrueFalseConfig questionIndex={questionIndex} />
+      )}
+    </>
+  );
+
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col gap-3 xl:flex-row">
       <main className="min-w-0 flex-1 xl:flex xl:justify-center">
         <div className="w-full xl:max-w-5xl">
-          <Form questionIndex={questionIndex} />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={question.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: 0.2,
+                ease: "easeOut",
+              }}
+            >
+              <Form questionIndex={questionIndex} />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </main>
 
-      <div className="w-full xl:hidden">{Config}</div>
+      <div className="w-full xl:hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={question.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            {Config}
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <aside className="hidden min-h-0 w-80 shrink-0 overflow-hidden xl:block">
-        {Config}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={question.id}
+            initial={{ opacity: 0,}}
+            animate={{ opacity: 1,  }}
+            exit={{ opacity: 0, }}
+            transition={{
+              duration: 0.25,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            {Config}
+          </motion.div>
+        </AnimatePresence>
       </aside>
     </div>
   );

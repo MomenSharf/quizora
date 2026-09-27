@@ -38,6 +38,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import { motion } from "framer-motion";
+
 function Sortable({
   index,
   question,
@@ -80,9 +82,7 @@ function Sortable({
 
   const { question: selectedQuestion } = useSelectedQuestion();
 
-  const questionIndex = questions.findIndex(
-    (q) => q.id === question.id,
-  );
+  const questionIndex = questions.findIndex((q) => q.id === question.id);
 
   const onSelect = () => {
     selectQuestion(question.id);
@@ -117,15 +117,12 @@ function Sortable({
   const onDelete = () => {
     if (questionIndex === -1) return;
 
-    const nextQuestions = questions.filter(
-      (q) => q.id !== question.id,
-    );
+    const nextQuestions = questions.filter((q) => q.id !== question.id);
 
     setValue("questions", nextQuestions);
 
     const nextSelected =
-      nextQuestions[questionIndex] ??
-      nextQuestions[questionIndex - 1];
+      nextQuestions[questionIndex] ?? nextQuestions[questionIndex - 1];
 
     setTimeout(() => {
       if (question.id === selectedQuestion?.id) {
@@ -156,8 +153,7 @@ function Sortable({
           buttonVariants({ variant: "ghost" }),
           "group relative flex h-12 w-full cursor-pointer items-center rounded-md px-1.5 transition-all duration-150",
           {
-            "z-50 scale-[1.02] opacity-90 shadow-2xl ring-2":
-              isDragging,
+            "z-50 scale-[1.02] opacity-90 shadow-2xl ring-2": isDragging,
             "shadow-sm": isSelected,
           },
         )}
@@ -246,11 +242,8 @@ const QuestionSelector = () => {
   const selectedQuestionId = useSelectedQuestionId();
   const isQuestionSelectorOpen = useIsQuestionSelectorOpen();
 
-  const {
-    selectQuestion,
-    setTypeSelectorOpen,
-    setQuestionSelectorOpen,
-  } = useEditorActions();
+  const { selectQuestion, setTypeSelectorOpen, setQuestionSelectorOpen } =
+    useEditorActions();
 
   const questions = useWatch({
     control,
@@ -274,20 +267,24 @@ const QuestionSelector = () => {
   };
 
   return (
-    <div className="quiz-editor-sidebar flex flex-1 flex-col">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="w-full md:w-72 md:min-w-72 md:max-w-72 xl:w-80 xl:min-w-80 xl:max-w-80 bg-background border-r flex flex-1 flex-col"
+    >
       <div
         className="flex cursor-pointer items-center gap-1 p-3 max-md:hover:bg-muted/40 md:pointer-events-none"
-        onClick={() =>
-          setQuestionSelectorOpen(!isQuestionSelectorOpen)
-        }
+        onClick={() => setQuestionSelectorOpen(!isQuestionSelectorOpen)}
       >
         <h3 className="mr-auto text-xs font-semibold text-muted-foreground">
           QUESTIONS
         </h3>
 
-        <Badge variant="outline">
-          {questions?.length ?? 0}
-        </Badge>
+        <Badge variant="outline">{questions?.length ?? 0}</Badge>
 
         <Button
           variant="ghost"
@@ -299,10 +296,7 @@ const QuestionSelector = () => {
           }}
         >
           <IconChevronDown
-            className={cn(
-              "size-4",
-              isQuestionSelectorOpen && "rotate-180",
-            )}
+            className={cn("size-4", isQuestionSelectorOpen && "rotate-180")}
           />
         </Button>
       </div>
@@ -310,9 +304,7 @@ const QuestionSelector = () => {
       <div
         className={cn(
           "flex-1 overflow-hidden md:block",
-          isQuestionSelectorOpen
-            ? "block"
-            : "hidden md:block",
+          isQuestionSelectorOpen ? "block" : "hidden md:block",
         )}
       >
         <div className="flex h-full flex-col p-2 pt-0">
@@ -332,12 +324,10 @@ const QuestionSelector = () => {
             >
               <ul className="flex list-none flex-col gap-0.5">
                 {questions?.map((question, index) => {
-                  const isSelected =
-                    selectedQuestionId === question.id;
+                  const isSelected = selectedQuestionId === question.id;
 
                   const canMoveUp = index > 0;
-                  const canMoveDown =
-                    index < questions.length - 1;
+                  const canMoveDown = index < questions.length - 1;
 
                   const hasError = hasFieldError(
                     getFieldState,
@@ -354,12 +344,8 @@ const QuestionSelector = () => {
                         setQuestionSelectorOpen(false);
                       }}
                       isSelected={isSelected}
-                      moveUp={() =>
-                        moveQuestion(index, index - 1)
-                      }
-                      moveDown={() =>
-                        moveQuestion(index, index + 1)
-                      }
+                      moveUp={() => moveQuestion(index, index - 1)}
+                      moveDown={() => moveQuestion(index, index + 1)}
                       canMoveUp={canMoveUp}
                       canMoveDown={canMoveDown}
                       hasError={hasError}
@@ -390,7 +376,7 @@ const QuestionSelector = () => {
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

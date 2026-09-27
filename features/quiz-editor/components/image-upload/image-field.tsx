@@ -3,20 +3,25 @@
 import { useState } from "react";
 import { useController, type FieldPath } from "react-hook-form";
 
-import { ImageUploadDialog } from "./image-upload-dialog";
-
 import type { ImageData } from "@/features/quiz-editor/validation/image";
-import { QuizEditor } from "../../validation/quiz";
+import type { QuizEditor } from "../../validation/quiz";
+
 import { useQuizForm } from "../../hooks/use-quiz-form";
 import { deleteFile } from "@/lib/uploadthing/delete-file";
+
+import { ImageDialog } from "./image-dialog";
+import { toast } from "sonner";
+
+export type DialogMode = "upload" | "edit" | "preview";
 
 type ImageFieldTriggerProps = {
   image?: ImageData;
   disabled?: boolean;
   isDeleting?: boolean;
+  onAdd: () => void;
+  onPreview: () => void;
   onEdit: () => void;
   onDelete: () => void;
-  onAdd: () => void;
 };
 
 type ImageFieldProps = {
@@ -31,6 +36,8 @@ export function ImageField({
   trigger,
 }: ImageFieldProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogMode, setDialogMode] = useState<DialogMode>("upload");
+
   const [file, setFile] = useState<File | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -47,6 +54,15 @@ export function ImageField({
     if (disabled || isDeleting) return;
 
     setFile(null);
+    setDialogMode("upload");
+    setDialogOpen(true);
+  };
+
+  const handlePreview = () => {
+    if (disabled || !image || isDeleting) return;
+
+    setFile(null);
+    setDialogMode("preview");
     setDialogOpen(true);
   };
 
@@ -58,8 +74,11 @@ export function ImageField({
     try {
       await deleteFile(image.key);
       field.onChange(undefined);
+      setDialogOpen(false);
+      setFile(null);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      console.error("Failed to delete image:", error);
+      toast.error("Failed to delete image.");
     } finally {
       setIsDeleting(false);
     }
@@ -77,14 +96,23 @@ export function ImageField({
 
       const blob = await response.blob();
 
-      const file = new File([blob], image.alt || "image", {
+      const imageFile = new File([blob], image.alt || "image", {
         type: blob.type || "image/jpeg",
       });
 
-      setFile(file);
+      setFile(imageFile);
+      setDialogMode("edit");
       setDialogOpen(true);
     } catch (error) {
       console.error("Failed to prepare image for editing:", error);
+    }
+  };
+
+  const handleDialogChange = (open: boolean) => {
+    setDialogOpen(open);
+
+    if (!open) {
+      setFile(null);
     }
   };
 
@@ -95,18 +123,22 @@ export function ImageField({
         disabled,
         isDeleting,
         onAdd: handleAdd,
+        onPreview: handlePreview,
         onEdit: handleEdit,
         onDelete: handleDelete,
       })}
 
-      <ImageUploadDialog
+      <ImageDialog
         open={dialogOpen}
-        onOpenChange={setDialogOpen}
+        onOpenChange={handleDialogChange}
         name={name}
         image={image}
         disabled={disabled || isDeleting}
         file={file}
         setFile={setFile}
+        mode={dialogMode}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
       />
     </>
   );

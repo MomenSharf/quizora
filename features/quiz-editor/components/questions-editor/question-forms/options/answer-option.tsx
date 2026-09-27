@@ -19,7 +19,7 @@ import { useController, useWatch } from "react-hook-form";
 import { Option } from "@/features/quiz-editor/validation/question";
 import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 import { ActionsDropdown } from "../../actions-dropdown";
-import { ImageUploadDialog } from "../../../image-upload/image-upload-dialog";
+import { ImageUploadDialog } from "../../../image-upload/image-dialog";
 import { ImageField } from "../../../image-upload/image-field";
 import { ImageButtonTrigger } from "../../../image-upload/image-button-trigger";
 

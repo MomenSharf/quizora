@@ -206,10 +206,7 @@
   );
 }
 
-/* Quiz Editor */
-.quiz-editor-sidebar {
-  @apply w-full md:w-72 md:min-w-72 md:max-w-72 xl:w-80 xl:min-w-80 xl:max-w-80 bg-background border-r
-}
+
 
 .quiz-editor-input {
   @apply h-11 w-full rounded-xl

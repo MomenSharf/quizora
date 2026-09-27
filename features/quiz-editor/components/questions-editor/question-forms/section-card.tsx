@@ -6,7 +6,7 @@ import { ReactNode, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { cn } from "@/lib/utils";
-import { IconAdjustmentsHorizontal, IconChevronDown } from "@tabler/icons-react";
+import { IconChevronDown } from "@tabler/icons-react";
 import { QuestionTypeIcon } from "../question-type-selector/question-type-icon";
 import { Settings2 } from "lucide-react";
 
@@ -14,8 +14,6 @@ interface SectionCardProps {
   type: QuestionType;
   title: string;
   children: ReactNode;
-
-  toggleConfig?: () => void;
 
   defaultOpen?: boolean;
   collapsible?: boolean;
@@ -28,13 +26,9 @@ export function SectionCard({
   type,
   title,
   children,
-  
-  toggleConfig,
 
   defaultOpen = true,
   collapsible = true,
-
-
 
   className,
   contentClassName,
@@ -59,6 +53,7 @@ export function SectionCard({
           "flex items-center justify-between gap-4 px-5 py-4 transition-colors",
           collapsible && "hover:bg-muted/40",
         )}
+        onClick={toggle}
       >
         <div className="min-w-0 flex-1">
           <div className="flex gap-2 items-center">
@@ -71,11 +66,6 @@ export function SectionCard({
           className="flex items-center gap-1"
           onClick={(e) => e.stopPropagation()}
         >
-
-            <Button variant="ghost" size="icon" className="size-8 rounded-lg hidden xl:flex" onClick={toggleConfig}>
-              <Settings2   className="size-4" />
-            </Button>
-
           {collapsible && (
             <Button
               variant="ghost"

@@ -6,12 +6,16 @@ export interface EditorIssue {
   id: string;
   path: string;
   message: string;
+  section: EditorIssueSection;
   questionIndex?: number;
 }
 
+export type EditorIssueSection = "settings" | "questions";
+
 export interface EditorIssueGroup {
-  questionIndex: number;
+  questionIndex?: number;
   issues: EditorIssue[];
+  section: EditorIssueSection;
 }
 
 function isFieldError(value: unknown): value is {
@@ -26,9 +30,13 @@ function isFieldError(value: unknown): value is {
 }
 
 function getQuestionIndex(path: string): number | undefined {
-  const match = path.match(/^questions\.(\d+)/);
+  const match = path.match(/^questions\.(\d+)(?:\.|$)/);
 
   return match ? Number(match[1]) : undefined;
+}
+
+function getIssueSection(path: string): EditorIssueSection {
+  return path.startsWith("questions.") ? "questions" : "settings";
 }
 
 function walkErrors(
@@ -50,6 +58,7 @@ function walkErrors(
       id: parentPath,
       path: parentPath,
       message,
+      section: getIssueSection(parentPath),
       questionIndex: getQuestionIndex(parentPath),
     });
 
@@ -76,25 +85,48 @@ export function getEditorIssues(
 export function groupEditorIssues(
   issues: EditorIssue[],
 ): EditorIssueGroup[] {
-  const groups = new Map<number, EditorIssueGroup>();
+  const groups = new Map<string, EditorIssueGroup>();
 
   for (const issue of issues) {
+    if (issue.section === "settings") {
+      const existing = groups.get("general");
+
+      if (existing) {
+        existing.issues.push(issue);
+      } else {
+        groups.set("general", {
+          questionIndex: undefined,
+          issues: [issue],
+          section: "settings",
+        });
+      }
+
+      continue;
+    }
+
     if (issue.questionIndex === undefined) {
       continue;
     }
 
-    const existing = groups.get(issue.questionIndex);
+    const key = `question-${issue.questionIndex}`;
+    const existing = groups.get(key);
 
     if (existing) {
       existing.issues.push(issue);
       continue;
     }
 
-    groups.set(issue.questionIndex, {
+    groups.set(key, {
       questionIndex: issue.questionIndex,
       issues: [issue],
+      section: "questions",
     });
   }
 
-  return Array.from(groups.values());
+  return Array.from(groups.values()).sort((a, b) => {
+    if (a.section === "settings") return -1;
+    if (b.section === "settings") return 1;
+
+    return (a.questionIndex ?? 0) - (b.questionIndex ?? 0);
+  });
 }

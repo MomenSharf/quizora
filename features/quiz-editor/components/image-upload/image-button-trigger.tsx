@@ -1,8 +1,14 @@
 "use client";
 
-import { IconEdit, IconPhotoPlus, IconTrash } from "@tabler/icons-react";
+import {
+  IconEdit,
+  IconEye,
+  IconPhotoPlus,
+  IconTrash,
+} from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
+
 import type { ImageData } from "@/features/quiz-editor/validation/image";
 
 type ImageButtonTriggerProps = {
@@ -10,6 +16,7 @@ type ImageButtonTriggerProps = {
   disabled?: boolean;
   isDeleting?: boolean;
   onAdd: () => void;
+  onPreview: () => void;
   onEdit: () => void;
   onDelete: () => void;
 };
@@ -19,6 +26,7 @@ export function ImageButtonTrigger({
   disabled = false,
   isDeleting = false,
   onAdd,
+  onPreview,
   onEdit,
   onDelete,
 }: ImageButtonTriggerProps) {
@@ -57,6 +65,18 @@ export function ImageButtonTrigger({
           type="button"
           variant="ghost"
           size="icon"
+          onClick={onPreview}
+          disabled={disabled || isDeleting}
+          className="size-7 rounded-md"
+          aria-label="Preview image"
+        >
+          <IconEye className="size-3.5" />
+        </Button>
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
           onClick={onEdit}
           disabled={disabled || isDeleting}
           className="size-7 rounded-md"
@@ -85,9 +105,9 @@ export function ImageButtonTrigger({
       {/* Image */}
       <button
         type="button"
-        onClick={onEdit}
+        onClick={onPreview}
         disabled={disabled || isDeleting}
-        aria-label="Edit image"
+        aria-label="Preview image"
         className={[
           "size-14 overflow-hidden rounded-lg border",
           "bg-muted shadow-sm",

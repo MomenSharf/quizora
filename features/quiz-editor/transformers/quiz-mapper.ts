@@ -124,7 +124,7 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
               alt: question.image.alt,
               caption: question.image.caption ?? undefined,
               ratio: question.image.ratio as MediaRatio,
-              url: "",
+              url: question.image.url,
             }
           : undefined,
       };
