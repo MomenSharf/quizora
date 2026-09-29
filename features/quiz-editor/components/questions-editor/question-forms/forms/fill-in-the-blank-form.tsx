@@ -10,7 +10,9 @@ import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 
-export function FillinTheBlankForm({ questionIndex, openConfig }: QuestionFormProps) {
+export function FillinTheBlankForm({
+  questionIndex,
+}: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
 
   const content = useWatch({
@@ -26,20 +28,21 @@ export function FillinTheBlankForm({ questionIndex, openConfig }: QuestionFormPr
       className="space-y-5"
       style={
         {
-          "--primary": 'var(--question-fill-blank)',
+          "--primary": "var(--question-fill-blank)",
         } as React.CSSProperties
       }
     >
-      <SectionCard type="FILL_BLANK" title="Fill in the Blank" openConfig={openConfig}>
-        <QuestionSection questionIndex={questionIndex} type="FILL_BLANK" />
+      <SectionCard type="FILL_BLANK" title="Fill in the Blank">
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
-      <SectionCard type="FILL_BLANK" title="Blanks" openConfig={openConfig}>
+      <SectionCard type="FILL_BLANK" title="Blanks">
         <div className="group rounded-xl border bg-card transition-all duration-200 hover:border-primary/20 focus-within:border-primary/40 focus-within:shadow-sm">
           <div className="p-4">
             <RichTextEditor
               content={editorContent}
               placeholder="Type your sentence and insert blanks..."
               allowInsertBlank
+              dataFieldName={`questions.${questionIndex}.content.blanks`}
               className="
                         min-h-60
                         rounded-lg
@@ -48,17 +51,14 @@ export function FillinTheBlankForm({ questionIndex, openConfig }: QuestionFormPr
                         px-5
                         py-4
                         shadow-none
-
                         focus-visible:border-transparent
                         focus-visible:ring-0
-
                         [&_.ProseMirror]:min-h-52
                         [&_.ProseMirror]:outline-none
                         [&_.ProseMirror]:text-[15px]
                         [&_.ProseMirror]:leading-7
                         [&_.ProseMirror]:tracking-normal
                         [&_.ProseMirror]:text-foreground
-
                         [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-muted-foreground/70
                       "
               onJsonChange={(json) => {
@@ -72,7 +72,7 @@ export function FillinTheBlankForm({ questionIndex, openConfig }: QuestionFormPr
           </div>
         </div>
       </SectionCard>
-      <SectionCard type="FILL_BLANK" title="Explanation" openConfig={openConfig}>
+      <SectionCard type="FILL_BLANK" title="Explanation">
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
     </div>

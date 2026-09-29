@@ -8,55 +8,83 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
-import { IconPencilBolt } from "@tabler/icons-react";
+import {
+  IconPencilBolt,
+  IconTrash,
+} from "@tabler/icons-react";
 
 interface BlankViewProps {
   placeholder: string;
   onEdit: () => void;
+  onDelete: () => void;
 }
 
-export function BlankView({ placeholder, onEdit }: BlankViewProps) {
-   const color = QUESTION_TYPE_COLORS["FILL_BLANK"];
+export function BlankView({
+  placeholder,
+  onEdit,
+  onDelete,
+}: BlankViewProps) {
+  const color = QUESTION_TYPE_COLORS["FILL_BLANK"];
 
   return (
     <TooltipProvider delayDuration={250}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={onEdit}
-            className="group h-9 rounded-md border mx-1 shadow-xs transition-all duration-200 hover:-translate-y-px hover:shadow-sm focus-visible:ring-2 focus-visible:ring-offset-2"
-            style={{
-              color,
-              borderColor: `${color}2E`,
-              backgroundColor: `${color}10`,
-              ["--tw-ring-color" as string]: `${color}55`,
-            }}
-          >
-            <span className="max-w-44 truncate text-sm font-medium">
-              {placeholder}
-            </span>
-
-            <span
-              className="ml-2 flex size-5 shrink-0 items-center justify-center rounded border transition-all duration-200 group-hover:-rotate-6 group-hover:scale-105"
+      <div className="mx-1 inline-flex h-9 items-center overflow-hidden rounded-md border shadow-xs">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={onEdit}
+              className="group h-full min-w-0 rounded-none border-0 px-2.5 text-sm font-medium hover:bg-transparent focus-visible:ring-0"
               style={{
-                backgroundColor: `${color}14`,
-                borderColor: `${color}20`,
+                color,
               }}
             >
-              <IconPencilBolt
-                className="size-3 opacity-60 transition-all duration-200 group-hover:opacity-100"
-                stroke={2.1}
-              />
-            </span>
-          </Button>
-        </TooltipTrigger>
+              <span className="max-w-44 truncate">
+                {placeholder}
+              </span>
 
-        <TooltipContent side="top" className="text-xs">
-          Edit blank
-        </TooltipContent>
-      </Tooltip>
+              <span
+                className="ml-2 flex size-5 shrink-0 items-center justify-center rounded border"
+                style={{
+                  backgroundColor: `${color}14`,
+                  borderColor: `${color}20`,
+                }}
+              >
+                <IconPencilBolt
+                  className="size-3 opacity-65 group-hover:opacity-100"
+                  stroke={2.1}
+                />
+              </span>
+            </Button>
+          </TooltipTrigger>
+
+          <TooltipContent side="top" className="text-xs">
+            Edit blank
+          </TooltipContent>
+        </Tooltip>
+
+        <div className="h-5 w-px bg-border" />
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={onDelete}
+              aria-label="Delete blank"
+              className="size-8 rounded-none text-muted-foreground hover:bg-destructive/10 hover:text-destructive focus-visible:ring-0"
+            >
+              <IconTrash className="size-3.5" stroke={2} />
+            </Button>
+          </TooltipTrigger>
+
+          <TooltipContent side="top" className="text-xs">
+            Delete blank
+          </TooltipContent>
+        </Tooltip>
+      </div>
     </TooltipProvider>
   );
 }

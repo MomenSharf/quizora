@@ -15,7 +15,7 @@ export function OrdeingrForm({ questionIndex }: QuestionFormProps) {
       }
     >
       <SectionCard type="ORDERING" title="Ordering">
-        <QuestionSection questionIndex={questionIndex} type="ORDERING" />
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard type="ORDERING" title="Answer Content">
         <AnswerOptionsGroup questionIndex={questionIndex} />

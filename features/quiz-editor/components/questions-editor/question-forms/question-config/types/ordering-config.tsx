@@ -50,7 +50,7 @@ export function OrderingConfig({
 
             <SwitchField
               control={control}
-              name={`questions.${questionIndex}.config.showNumbers`}
+              name={`questions.${questionIndex}.config.showOptionLetters`}
               label="Show numbers"
               description="Display the position number next to each item."
             />

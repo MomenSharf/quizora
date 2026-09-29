@@ -46,6 +46,8 @@ export function BlankNodeView({
         <BlankView
           placeholder={placeholder}
           onEdit={handleEdit}
+          onDelete={handleDelete}
+
         />
       )}
     </NodeViewWrapper>

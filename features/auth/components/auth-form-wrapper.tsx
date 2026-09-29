@@ -78,7 +78,7 @@ export default function AuthFormWrapper({
 
     const t = setTimeout(() => {
       toast.error(errorMessage);
-    }, 50);
+    }, 10);
 
     return () => clearTimeout(t);
   }, [errorMessage]);

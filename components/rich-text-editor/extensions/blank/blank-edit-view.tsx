@@ -1,8 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { IconCornerDownLeft, IconTrash } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import {
+  IconCheck,
+  IconTrash,
+} from "@tabler/icons-react";
 
 interface BlankEditViewProps {
   value: string;
@@ -10,80 +15,107 @@ interface BlankEditViewProps {
   onDelete: () => void;
 }
 
-export function BlankEditView({ value, onSave, onDelete }: BlankEditViewProps) {
+export function BlankEditView({
+  value,
+  onSave,
+  onDelete,
+}: BlankEditViewProps) {
   const [text, setText] = useState(value);
 
   const wrapperRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const color = QUESTION_TYPE_COLORS["FILL_BLANK"];
+
+  const handleSave = () => {
+    const trimmed = text.trim();
+
+    if (!trimmed) {
+      onDelete();
+      return;
+    }
+
+    onSave(trimmed);
+  };
+
   useEffect(() => {
     inputRef.current?.focus();
+    inputRef.current?.select();
   }, []);
 
   useEffect(() => {
-    function handlePointerDown(event: PointerEvent) {
+    const handlePointerDown = (event: PointerEvent) => {
       if (
         wrapperRef.current &&
         !wrapperRef.current.contains(event.target as Node)
       ) {
-        if (text.trim().length === 0) {
-          onDelete();
-        } else {
-          onSave(text.trim());
-        }
+        handleSave();
       }
-    }
+    };
 
     document.addEventListener("pointerdown", handlePointerDown);
 
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
     };
-  }, [text, onDelete, onSave]);
+  }, [text]);
 
   return (
     <span
       ref={wrapperRef}
-      className="group inline-flex items-center gap-1 rounded-full border px-1.5 py-1.5 shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-md focus-within:ring-2 focus-within:ring-offset-1 border-primary/30 bg-primary/0A"
+      className="group relative inline-flex h-10 items-center rounded-lg border bg-background shadow-sm transition-[box-shadow,border-color] duration-200 focus-within:shadow-md"
+      style={{
+        borderColor: `${color}55`,
+        boxShadow: `0 0 0 3px ${color}0D`,
+      }}
     >
+      <span
+        className="absolute inset-y-2 left-0.5 w-0.5 rounded-full"
+        style={{ backgroundColor: color }}
+      />
+
       <input
         ref={inputRef}
         value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Blank..."
-        className="w-24 bg-transparent px-2.5 text-sm font-medium text-foreground outline-none transition-all duration-300 placeholder:text-muted-foreground/60 focus:w-44"
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            onSave(text.trim());
+        onChange={(event) => setText(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            handleSave();
           }
-          if (e.key === "Escape") {
-            e.preventDefault();
+
+          if (event.key === "Escape") {
+            event.preventDefault();
             onDelete();
           }
         }}
+        placeholder="Type answer..."
+        className="h-full w-32 bg-transparent pl-3.5 pr-2 text-sm font-medium text-foreground outline-none placeholder:text-muted-foreground/50 focus:w-44"
+        style={{
+          transition: "width 180ms ease",
+        }}
       />
 
-      {/* Subtle vertical divider */}
-      <div className="mx-0.5 h-4 w-px bg-foreground/10" />
+      <span className="mr-1 h-5 w-px bg-border" />
 
-      {/* Save Button with Enter Arrow */}
       <Button
-        size="icon-sm"
-        aria-label="Save answer (Enter)"
-        className="size-7 rounded-full border-0 text-white shadow-sm transition-all duration-200 hover:scale-105 hover:brightness-110 active:scale-95 bg-primary"
-
-        onClick={() => onSave(text.trim())}
+        type="button"
+        size="icon"
+        variant="ghost"
+        onClick={handleSave}
+        aria-label="Save blank"
+        className="size-8 rounded-md text-muted-foreground hover:bg-primary/10 hover:text-primary"
       >
-        <IconCornerDownLeft className="size-3.5" stroke={2.5} />
+        <IconCheck className="size-4" stroke={2.3} />
       </Button>
 
       <Button
-        size="icon-sm"
+        type="button"
+        size="icon"
         variant="ghost"
-        aria-label="Delete answer"
-        className="size-7 rounded-full text-muted-foreground transition-all duration-200 hover:scale-105 hover:bg-destructive/15 hover:text-destructive active:scale-95"
         onClick={onDelete}
+        aria-label="Delete blank"
+        className="mr-0.5 size-8 rounded-md text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
       >
         <IconTrash className="size-3.5" stroke={2} />
       </Button>

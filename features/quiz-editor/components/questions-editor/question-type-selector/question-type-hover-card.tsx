@@ -17,7 +17,7 @@ export default function QuestionTypeHoverCard({
      const Preview = PREVIEW_MAP[type.id]
   
   return (
-    <HoverCard openDelay={800}>
+    <HoverCard openDelay={800} closeDelay={10}>
       <HoverCardTrigger asChild
        
       >

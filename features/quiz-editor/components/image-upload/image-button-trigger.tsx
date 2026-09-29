@@ -8,7 +8,7 @@ import {
 } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
-
+import { cn } from "@/lib/utils";
 import type { ImageData } from "@/features/quiz-editor/validation/image";
 
 type ImageButtonTriggerProps = {
@@ -46,27 +46,27 @@ export function ImageButtonTrigger({
     );
   }
 
+  const actionDisabled = disabled || isDeleting;
+
   return (
     <div className="group relative inline-flex">
-      {/* Actions */}
       <div
-        className={[
-          "absolute -right-1.5 -top-10 z-10",
+        className={cn(
+          "absolute -right-2 -top-10 z-10",
           "flex items-center gap-0.5 rounded-lg border bg-background p-0.5",
-          "shadow-sm",
-          "transition-all duration-200",
+          "shadow-sm transition-all duration-200",
           "opacity-100 translate-y-0",
           "sm:pointer-events-none sm:opacity-0 sm:-translate-y-1",
           "sm:group-hover:pointer-events-auto sm:group-hover:opacity-100 sm:group-hover:translate-y-0",
           "sm:group-focus-within:pointer-events-auto sm:group-focus-within:opacity-100 sm:group-focus-within:translate-y-0",
-        ].join(" ")}
+        )}
       >
         <Button
           type="button"
           variant="ghost"
           size="icon"
           onClick={onPreview}
-          disabled={disabled || isDeleting}
+          disabled={actionDisabled}
           className="size-7 rounded-md"
           aria-label="Preview image"
         >
@@ -78,7 +78,7 @@ export function ImageButtonTrigger({
           variant="ghost"
           size="icon"
           onClick={onEdit}
-          disabled={disabled || isDeleting}
+          disabled={actionDisabled}
           className="size-7 rounded-md"
           aria-label="Edit image"
         >
@@ -90,7 +90,7 @@ export function ImageButtonTrigger({
           variant="ghost"
           size="icon"
           onClick={onDelete}
-          disabled={disabled || isDeleting}
+          disabled={actionDisabled}
           className="size-7 rounded-md text-destructive hover:bg-destructive/10 hover:text-destructive"
           aria-label="Delete image"
         >
@@ -102,20 +102,18 @@ export function ImageButtonTrigger({
         </Button>
       </div>
 
-      {/* Image */}
       <button
         type="button"
         onClick={onPreview}
-        disabled={disabled || isDeleting}
+        disabled={actionDisabled}
         aria-label="Preview image"
-        className={[
-          "size-14 overflow-hidden rounded-lg border",
-          "bg-muted shadow-sm",
+        className={cn(
+          "size-14 overflow-hidden rounded-lg border bg-muted shadow-sm",
           "transition-all duration-200",
           "hover:ring-2 hover:ring-primary/20",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30",
           "disabled:pointer-events-none disabled:opacity-50",
-        ].join(" ")}
+        )}
       >
         <img
           src={image.url}

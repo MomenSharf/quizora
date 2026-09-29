@@ -14,6 +14,8 @@ import {
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
 import { ActionsDropdown } from "../../actions-dropdown";
+import { ImageField } from "../../../image-upload/image-field";
+import { ImageButtonTrigger } from "../../../image-upload/image-button-trigger";
 
 export default function MatchPairItem({
   pairId,
@@ -43,7 +45,12 @@ export default function MatchPairItem({
   const [element, setElement] = useState<Element | null>(null);
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
-  const { control, setValue } = useQuizForm();
+  const {
+    control,
+    setValue,
+    resetField,
+    formState: { dirtyFields },
+  } = useQuizForm();
 
   const pairs = useWatch({
     control,
@@ -66,6 +73,12 @@ export default function MatchPairItem({
     element,
     handle: handleRef,
   });
+
+  const canReset = !!(
+    dirtyFields.questions?.[questionIndex]?.content as { pairs: MatchPair[] }
+  )?.pairs?.[index];
+  const onReset = () =>
+    resetField(`questions.${questionIndex}.content.pairs.${index}`);
 
   const onDelete = () => {
     if (questionIndex === -1 || !pairs) return;
@@ -94,6 +107,22 @@ export default function MatchPairItem({
     setValue(`questions.${questionIndex}.content.pairs`, nextPairs, {
       shouldDirty: true,
     });
+  };
+
+  const onFlip = () => {
+    if (!pairs) return;
+
+    setValue(
+      `questions.${questionIndex}.content.pairs.${index}`,
+      {
+        ...pair,
+        left: pair.right,
+        right: pair.left,
+      },
+      {
+        shouldDirty: true,
+      },
+    );
   };
 
   return (
@@ -129,13 +158,11 @@ export default function MatchPairItem({
                 Left
               </div>
 
-              <button
-                type="button"
-                className="flex h-12 w-full items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted"
-              >
-                <IconPhotoPlus className="size-5 text-muted-foreground" />
-              </button>
-
+              <ImageField
+                key={pair.left.image?.id}
+                name={`questions.${questionIndex}.content.pairs.${index}.left.image`}
+                trigger={(props) => <ImageButtonTrigger {...props} />}
+              />
               <div className="rounded-lg border p-2">
                 <textarea
                   {...leftText}
@@ -155,23 +182,25 @@ export default function MatchPairItem({
               </div>
             </div>
 
-            <div className="flex items-center justify-center max-lg:py-2">
-              <div className="flex size-11 items-center justify-center rounded-full border border-primary/35 bg-primary/12 text-primary">
+            <button
+              className="flex items-center justify-center max-lg:py-2"
+              onClick={onFlip}
+            >
+              <div className="flex size-11 items-center justify-center rounded-full border border-primary/35 bg-primary/12 text-primary cursor-pointer hover:bg-primary/30">
                 <IconArrowsLeftRight className="size-5" />
               </div>
-            </div>
+            </button>
 
             <div className="space-y-2">
               <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Right
               </div>
 
-              <button
-                type="button"
-                className="flex h-12 w-full items-center justify-center rounded-lg border border-dashed bg-muted/40 transition-colors hover:bg-muted"
-              >
-                <IconPhotoPlus className="size-5 text-muted-foreground" />
-              </button>
+              <ImageField
+                key={pair.right.image?.id}
+                name={`questions.${questionIndex}.content.pairs.${index}.right.image`}
+                trigger={(props) => <ImageButtonTrigger {...props} />}
+              />
 
               <div className="rounded-lg border p-2">
                 <textarea
@@ -199,6 +228,8 @@ export default function MatchPairItem({
             onDuplicate={onDuplicate}
             onDelete={onDelete}
             canDelete={pairs.length > 1}
+            canReset={canReset}
+            onReset={onReset}
             canMoveDown={canMoveDown}
             canMoveUp={canMoveUp}
             moveDown={moveDown}

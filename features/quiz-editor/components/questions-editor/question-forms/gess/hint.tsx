@@ -41,7 +41,7 @@ export default function Hint({
   const [element, setElement] = useState<Element | null>(null);
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
-  const { control, setValue } = useQuizForm();
+  const { control, setValue, resetField, formState: { dirtyFields } } = useQuizForm();
 
   const { field } = useController({
     control,
@@ -59,6 +59,11 @@ export default function Hint({
     element,
     handle: handleRef,
   });
+
+  const canReset = !!dirtyFields.questions?.[questionIndex];
+
+  const onReset = () => resetField(`questions.${questionIndex}`);
+
 
   const onDelete = () => {
     if (!hint) return;
@@ -125,10 +130,13 @@ export default function Hint({
               onDuplicate={onDuplicate}
               onDelete={onDelete}
               canDelete={hints.length > 1}
+              canReset={canReset}
+              onReset={onReset}
               moveUp={moveUp}
               moveDown={moveDown}
               canMoveUp={canMoveUp}
               canMoveDown={canMoveDown}
+            
             />
           </div>
         </div>

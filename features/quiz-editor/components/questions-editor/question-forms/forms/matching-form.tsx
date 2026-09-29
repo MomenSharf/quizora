@@ -17,7 +17,7 @@ export function MatchingForm({ questionIndex }: QuestionFormProps) {
       }
     >
       <SectionCard type="MATCH" title="Question">
-        <QuestionSection questionIndex={questionIndex} type="MATCH" />
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
 
       <SectionCard type="MATCH" title="Match Pairs">

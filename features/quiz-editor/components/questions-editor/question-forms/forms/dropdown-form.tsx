@@ -8,20 +8,19 @@ import { SectionCard } from "../section-card";
 import SectionField from "../section-field";
 import { AnswerOptionsGroup } from "../options/answer-options-group";
 
-export function DropdownForm({ questionIndex  }: QuestionFormProps) {
-  
+export function DropdownForm({ questionIndex }: QuestionFormProps) {
   const { control } = useQuizForm();
   return (
     <div
       className="space-y-5"
       style={
         {
-          "--primary": 'var(--question-dropdown)',
+          "--primary": "var(--question-dropdown)",
         } as React.CSSProperties
       }
     >
-      <SectionCard type="DROPDOWN" title="Dropdown" >
-        <QuestionSection questionIndex={questionIndex} type="DROPDOWN" />
+      <SectionCard type="DROPDOWN" title="Dropdown">
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard type="DROPDOWN" title="Answer Options">
         <div className="space-y-5">
@@ -29,7 +28,6 @@ export function DropdownForm({ questionIndex  }: QuestionFormProps) {
             label="Label"
             description="Provide a label for this dropdown."
             required
-            className="px-4"
           >
             <Controller
               control={control}
@@ -41,6 +39,7 @@ export function DropdownForm({ questionIndex  }: QuestionFormProps) {
                   className="text-2xl font-semibold"
                   fontSize="24px"
                   placeholder="Start typing..."
+                  dataFieldName={`questions.${questionIndex}.content.label`}
                 />
               )}
             />

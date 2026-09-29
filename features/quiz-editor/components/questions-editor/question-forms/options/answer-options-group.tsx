@@ -11,7 +11,6 @@ import { useWatch } from "react-hook-form";
 import { move } from "@dnd-kit/helpers";
 import AnswerOption from "./answer-option";
 import { IconPlus } from "@tabler/icons-react";
-import { scrollElement } from "@/lib/utils/dom";
 
 export function AnswerOptionsGroup({
   questionIndex,

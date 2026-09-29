@@ -27,6 +27,8 @@ export function ActionsDropdown({
   canDelete,
   onSelect,
   onReset,
+  // TODO: Solve canReset issue when user add new item it's not dirty
+  canReset,
   moveUp,
   moveDown,
   canMoveUp,
@@ -36,8 +38,9 @@ export function ActionsDropdown({
   onDuplicate?: () => void;
   onDelete?: () => void;
   canDelete?: boolean;
-  onSelect?: () => void;
   onReset?: () => void;
+  canReset?: boolean;
+  onSelect?: () => void;
   moveUp: () => void;
   moveDown: () => void;
   canMoveUp: boolean;
@@ -57,7 +60,7 @@ export function ActionsDropdown({
         )}
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-56 rounded-xl p-2">
+      <DropdownMenuContent align="end" className="w-56 rounded-xl p-2" onClick={(e) => e.stopPropagation()}>
         {onSelect && (
           <DropdownMenuItem
             onClick={onSelect}
@@ -104,6 +107,7 @@ export function ActionsDropdown({
           <>
             <DropdownMenuItem
               onClick={onReset}
+              disabled={!canReset}
               className="cursor-pointer rounded-md"
             >
               <IconRotateClockwise className="mr-2 size-4" />

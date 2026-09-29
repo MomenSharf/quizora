@@ -26,7 +26,7 @@ export function createOrderingQuestion(): OrderingQuestion {
   mediaRatio: "AUTO",
 
   shuffleItems: true,
-  showNumbers: true,
+  showOptionLetters: true,
 
   layout: "VERTICAL",
 

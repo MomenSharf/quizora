@@ -19,7 +19,6 @@ import { useController, useWatch } from "react-hook-form";
 import { Option } from "@/features/quiz-editor/validation/question";
 import { createDefaultOption } from "@/features/quiz-editor/create-defaults/questions/create-default-question";
 import { ActionsDropdown } from "../../actions-dropdown";
-import { ImageUploadDialog } from "../../../image-upload/image-dialog";
 import { ImageField } from "../../../image-upload/image-field";
 import { ImageButtonTrigger } from "../../../image-upload/image-button-trigger";
 
@@ -51,7 +50,12 @@ export default function AnswerOption({
   const [element, setElement] = useState<Element | null>(null);
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
-  const { control, setValue, getFieldState } = useQuizForm();
+  const {
+    control,
+    setValue,
+    resetField,
+    formState: { dirtyFields },
+  } = useQuizForm();
 
   const { field: textField } = useController({
     control,
@@ -125,6 +129,13 @@ export default function AnswerOption({
       });
     }
   };
+
+  const canReset = !!(
+    dirtyFields.questions?.[questionIndex]?.content as { options: Option[] }
+  )?.options?.[index] 
+
+  const onReset = () =>
+    resetField(`questions.${questionIndex}.content.options.${index}`);
 
   const onDelete = () => {
     if (questionIndex === -1 || !option) return;
@@ -209,6 +220,8 @@ export default function AnswerOption({
               onDuplicate={onDuplicate}
               onDelete={onDelete}
               canDelete={options.length > 1}
+              canReset={canReset}
+              onReset={onReset}
               canMoveDown={canMoveDown}
               canMoveUp={canMoveUp}
               moveDown={moveDown}
@@ -240,6 +253,8 @@ export default function AnswerOption({
           <ActionsDropdown
             onDuplicate={onDuplicate}
             onDelete={onDelete}
+            canReset={canReset}
+            onReset={onReset}
             canDelete={options.length > 1}
             canMoveDown={canMoveDown}
             canMoveUp={canMoveUp}

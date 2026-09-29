@@ -40,7 +40,7 @@ export const OrderingConfigSchema = BaseQuestionConfigSchema.extend({
 
   shuffleItems: z.boolean(),
 
-  showNumbers: z.boolean(),
+  showOptionLetters: z.boolean(),
 
   layout: z.enum(["VERTICAL", "HORIZONTAL"], {
     message: "Please select a valid ordering layout",

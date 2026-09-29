@@ -15,12 +15,12 @@ export function MultipleSelectForm({ questionIndex }: QuestionFormProps) {
       }
     >
       <SectionCard type="MULTIPLE_SELECT" title="Multiple Select">
-        <QuestionSection questionIndex={questionIndex} type="MULTIPLE_SELECT" />
+        <QuestionSection questionIndex={questionIndex}  />
       </SectionCard>
       <SectionCard type="MULTIPLE_SELECT" title="Answer Content">
         <AnswerOptionsGroup questionIndex={questionIndex} />
       </SectionCard>
-      <SectionCard type="SINGLE_SELECT" title="Explanation">
+      <SectionCard type="MULTIPLE_SELECT" title="Explanation">
         <ExplanationSection questionIndex={questionIndex} />
       </SectionCard>
     </div>

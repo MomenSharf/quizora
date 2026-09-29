@@ -72,7 +72,7 @@ function Sortable({
     handle: handleRef,
   });
 
-  const { control, setValue } = useQuizForm();
+  const { control, setValue, resetField, formState: { dirtyFields } } = useQuizForm();
   const { selectQuestion } = useEditorActions();
 
   const questions = useWatch({
@@ -83,6 +83,8 @@ function Sortable({
   const { question: selectedQuestion } = useSelectedQuestion();
 
   const questionIndex = questions.findIndex((q) => q.id === question.id);
+
+  const canReset = !!dirtyFields.questions?.[questionIndex];
 
   const onSelect = () => {
     selectQuestion(question.id);
@@ -98,21 +100,10 @@ function Sortable({
 
     setTimeout(() => {
       selectQuestion(newQuestion.id);
-    }, 50);
+    }, 10);
   };
 
-  const onReset = () => {
-    if (questionIndex === -1) return;
-
-    const nextQuestions = [...questions];
-
-    nextQuestions[questionIndex] = {
-      ...createDefaultQuestion(question.type),
-      id: question.id,
-    };
-
-    setValue("questions", nextQuestions);
-  };
+  const onReset = () => resetField(`questions.${questionIndex}`);
 
   const onDelete = () => {
     if (questionIndex === -1) return;
@@ -128,7 +119,7 @@ function Sortable({
       if (question.id === selectedQuestion?.id) {
         selectQuestion(nextSelected?.id ?? null);
       }
-    }, 50);
+    }, 10);
   };
 
   const color = QUESTION_TYPE_COLORS[question.type];
@@ -225,6 +216,7 @@ function Sortable({
           onDelete={onDelete}
           canDelete={questions.length > 1}
           onReset={onReset}
+          canReset={canReset}
           onSelect={onSelect}
           canMoveDown={canMoveDown}
           canMoveUp={canMoveUp}
