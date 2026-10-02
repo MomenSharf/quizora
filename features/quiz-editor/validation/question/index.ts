@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import { DropdownQuestionSchema } from "./dropdown";
 import { FillBlankQuestionSchema } from "./fill-blank";
-import { FlashcardsQuestionSchema } from "./flashcards";
 import { GuessQuestionSchema } from "./guess";
 import { MatchQuestionSchema } from "./match";
 import { MultipleSelectQuestionSchema } from "./multiple-select";
@@ -12,6 +11,7 @@ import { SingleSelectQuestionSchema } from "./single-select";
 import { TapFindQuestionSchema } from "./tap-find";
 import { TrueFalseQuestionSchema } from "./true-false";
 import { TypeAnswerQuestionSchema } from "./type-answer";
+import { FlashcardQuestionSchema } from "./flashcard";
 
 export const QuestionSchema = z.discriminatedUnion("type", [
   SingleSelectQuestionSchema,
@@ -21,7 +21,7 @@ export const QuestionSchema = z.discriminatedUnion("type", [
   MatchQuestionSchema,
   TypeAnswerQuestionSchema,
   FillBlankQuestionSchema,
-  FlashcardsQuestionSchema,
+  FlashcardQuestionSchema,
   RangeQuestionSchema,
   GuessQuestionSchema,
   TapFindQuestionSchema,
@@ -40,7 +40,6 @@ export type QuestionConfig = Question["config"];
 export * from "./base";
 export * from "./dropdown";
 export * from "./fill-blank";
-export * from "./flashcards";
 export * from "./guess";
 export * from "./match";
 export * from "./multiple-select";
@@ -50,3 +49,4 @@ export * from "./single-select";
 export * from "./tap-find";
 export * from "./true-false";
 export * from "./type-answer";
+export * from "./flashcard";

@@ -9,13 +9,9 @@ import { TapFindTarget } from "@/features/quiz-editor/validation/question";
 
 type ImageCanvasProps = {
   image: string;
-
   targets: TapFindTarget[];
-
   selectedId?: string;
-
   onSelectedChange(id?: string): void;
-
   onTargetsChange(targets: TapFindTarget[]): void;
 };
 
@@ -75,6 +71,9 @@ export function ImageCanvas({
     };
   }, [konvaImage, size]);
 
+  const clamp = (value: number, min: number, max: number) =>
+    Math.min(Math.max(value, min), max);
+
   const updateTarget = (
     id: string,
     updater: (target: TapFindTarget) => TapFindTarget,
@@ -114,45 +113,150 @@ export function ImageCanvas({
           {imageBounds &&
             targets.map((target) => {
               if (target.shape === "RECT") {
+                const x =
+                  imageBounds.x +
+                  target.x * imageBounds.width;
+
+                const y =
+                  imageBounds.y +
+                  target.y * imageBounds.height;
+
+                const width =
+                  target.width * imageBounds.width;
+
+                const height =
+                  target.height * imageBounds.height;
+
                 return (
                   <RectHotspot
-                  id={target.id}
+                    id={target.id}
                     key={target.id}
                     selected={selectedId === target.id}
-                    x={imageBounds.x + target.x * imageBounds.width}
-                    y={imageBounds.y + target.y * imageBounds.height}
-                    width={target.width * imageBounds.width}
-                    height={target.height * imageBounds.height}
-                    onSelect={() => onSelectedChange(target.id)}
-                    onChange={(values) =>
+                    x={x}
+                    y={y}
+                    width={width}
+                    height={height}
+                    onSelect={() =>
+                      onSelectedChange(target.id)
+                    }
+                    onChange={(values) => {
+                      const relativeX =
+                        values.x - imageBounds.x;
+
+                      const relativeY =
+                        values.y - imageBounds.y;
+
+                      const clampedWidth = clamp(
+                        values.width,
+                        0,
+                        imageBounds.width,
+                      );
+
+                      const clampedHeight = clamp(
+                        values.height,
+                        0,
+                        imageBounds.height,
+                      );
+
+                      const clampedX = clamp(
+                        relativeX,
+                        0,
+                        imageBounds.width - clampedWidth,
+                      );
+
+                      const clampedY = clamp(
+                        relativeY,
+                        0,
+                        imageBounds.height - clampedHeight,
+                      );
+
                       updateTarget(target.id, (t) => ({
                         ...t,
-                        x: (values.x - imageBounds.x) / imageBounds.width,
-                        y: (values.y - imageBounds.y) / imageBounds.height,
-                        width: values.width / imageBounds.width,
-                        height: values.height / imageBounds.height,
-                      }))
-                    }
+                        x:
+                          clampedX /
+                          imageBounds.width,
+                        y:
+                          clampedY /
+                          imageBounds.height,
+                        width:
+                          clampedWidth /
+                          imageBounds.width,
+                        height:
+                          clampedHeight /
+                          imageBounds.height,
+                      }));
+                    }}
                   />
                 );
               }
+
+              const x =
+                imageBounds.x +
+                target.x * imageBounds.width;
+
+              const y =
+                imageBounds.y +
+                target.y * imageBounds.height;
+
+              const radius =
+                target.radius * imageBounds.width;
 
               return (
                 <CircleHotspot
                   key={target.id}
                   selected={selectedId === target.id}
-                  x={imageBounds.x + target.x * imageBounds.width}
-                  y={imageBounds.y + target.y * imageBounds.height}
-                  radius={target.radius * imageBounds.width}
-                  onSelect={() => onSelectedChange(target.id)}
-                  onChange={(values) =>
+                  x={x}
+                  y={y}
+                  radius={radius}
+                  onSelect={() =>
+                    onSelectedChange(target.id)
+                  }
+                  onChange={(values) => {
+                    const maxRadius =
+                      Math.min(
+                        imageBounds.width,
+                        imageBounds.height,
+                      ) / 2;
+
+                    const clampedRadius = clamp(
+                      values.radius,
+                      0,
+                      maxRadius,
+                    );
+
+                    const relativeX =
+                      values.x - imageBounds.x;
+
+                    const relativeY =
+                      values.y - imageBounds.y;
+
+                    const clampedX = clamp(
+                      relativeX,
+                      clampedRadius,
+                      imageBounds.width -
+                        clampedRadius,
+                    );
+
+                    const clampedY = clamp(
+                      relativeY,
+                      clampedRadius,
+                      imageBounds.height -
+                        clampedRadius,
+                    );
+
                     updateTarget(target.id, (t) => ({
                       ...t,
-                      x: (values.x - imageBounds.x) / imageBounds.width,
-                      y: (values.y - imageBounds.y) / imageBounds.height,
-                      radius: values.radius / imageBounds.width,
-                    }))
-                  }
+                      x:
+                        clampedX /
+                        imageBounds.width,
+                      y:
+                        clampedY /
+                        imageBounds.height,
+                      radius:
+                        clampedRadius /
+                        imageBounds.width,
+                    }));
+                  }}
                 />
               );
             })}

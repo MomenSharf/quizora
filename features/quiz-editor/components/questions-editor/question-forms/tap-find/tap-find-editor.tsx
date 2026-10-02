@@ -140,8 +140,8 @@ export function TapFindEditor({ questionIndex }: { questionIndex: number }) {
 
   return (
     <div className="space-y-5">
-      <div className="overflow-hidden rounded-xl border border-(--primary)/20 bg-card">
-        <div className="flex items-center justify-between border-b border-(--primary)/15 px-5 py-4">
+      <div className="overflow-hidden rounded-xl border border-primary/20 bg-card">
+        <div className="flex items-center justify-between border-b border-primary/15 px-5 py-4">
           <div>
             <h3 className="font-semibold">Image Hotspots</h3>
 
@@ -164,8 +164,8 @@ export function TapFindEditor({ questionIndex }: { questionIndex: number }) {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-(--primary)/20 bg-card">
-        <div className="flex items-center justify-between border-b border-(--primary)/15 px-4 py-3">
+      <div className="overflow-hidden rounded-xl border border-primary/20 bg-card">
+        <div className="flex items-center justify-between border-b border-primary/15 px-4 py-3">
           <div>
             <h4 className="text-sm font-medium">Targets</h4>
 
@@ -176,11 +176,13 @@ export function TapFindEditor({ questionIndex }: { questionIndex: number }) {
           <AddTargetMenu addRectangle={addRectangle} addCircle={addCircle} />
         </div>
 
-        <ScrollArea className="max-h-72">
+        <ScrollArea className="max-h-72 overflow-y-auto scrollbar-thin">
           <div className="space-y-2 p-3">
-            {targets.map((target) => {
+            {targets.map((target, index) => {
               return (
                 <HotspotRow
+                  questionIndex={questionIndex}
+                  index={index}
                   key={target.id}
                   label={target.label}
                   shape={target.shape}

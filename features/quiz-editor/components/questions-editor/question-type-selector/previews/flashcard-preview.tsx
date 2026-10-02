@@ -3,14 +3,11 @@
 import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
 
 export default function FlashcardPreview() {
-    const color = QUESTION_TYPE_COLORS['FLASHCARDS'];
-  
+  const color = QUESTION_TYPE_COLORS["FLASHCARD"];
 
   return (
     <div className="space-y-4">
-      <p className="text-sm font-medium">
-        What is the capital of France?
-      </p>
+      <p className="text-sm font-medium">What is the capital of France?</p>
 
       <div className="relative">
         <div

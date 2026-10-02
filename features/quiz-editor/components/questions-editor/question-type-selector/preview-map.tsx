@@ -27,7 +27,7 @@ export const PREVIEW_MAP: Record<QuestionType, React.ComponentType> = {
   GUESS: GuessPreview,
   RANGE: RangePreview,
   TAP_FIND: TapFindPreview,
-  FLASHCARDS: FlashcardPreview,
+  FLASHCARD: FlashcardPreview,
   TRUE_FALSE: TrueFalsePreview,
   DROPDOWN: DropdownPreview,
 };

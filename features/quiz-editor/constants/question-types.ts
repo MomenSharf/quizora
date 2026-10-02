@@ -152,16 +152,14 @@ export const QUESTION_TYPES = [
   },
 
   {
-    id: "FLASHCARDS",
-    label: "Flashcards",
+  id: "FLASHCARD",
+    label: "flashcard",
     shortLabel: "Cards",
     description: "Flip to reveal the answer or explanation.",
     bestFor: "Memorization, revision, and spaced repetition.",
     icon: IconCards,
     color: "#EC4899",
     backgroundColor: "#FDF2F8",
-    notAvailable: true,
-    badge: "Soon",
   },
 
   {

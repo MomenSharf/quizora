@@ -8,7 +8,7 @@
 */
 -- AlterEnum
 BEGIN;
-CREATE TYPE "QuestionType_new" AS ENUM ('SINGLE_SELECT', 'MULTIPLE_SELECT', 'TRUE_FALSE', 'ORDERING', 'MATCH', 'TYPE_ANSWER', 'FILL_BLANK', 'RANGE', 'GUESS', 'FLASHCARDS', 'TAP_FIND', 'DROPDOWN');
+CREATE TYPE "QuestionType_new" AS ENUM ('SINGLE_SELECT', 'MULTIPLE_SELECT', 'TRUE_FALSE', 'ORDERING', 'MATCH', 'TYPE_ANSWER', 'FILL_BLANK', 'RANGE', 'GUESS', 'flashcard', 'TAP_FIND', 'DROPDOWN');
 ALTER TABLE "Question" ALTER COLUMN "type" TYPE "QuestionType_new" USING ("type"::text::"QuestionType_new");
 ALTER TYPE "QuestionType" RENAME TO "QuestionType_old";
 ALTER TYPE "QuestionType_new" RENAME TO "QuestionType";

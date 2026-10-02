@@ -4,16 +4,13 @@ import { BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
 import { ImageSchema } from "../image";
 
 const RectTargetSchema = z.object({
-  id: z
-    .string()
-    .trim()
-    .min(1, "Target ID is required"),
+  id: z.string().trim().min(1, "Target ID is required"),
 
   label: z
     .string()
     .trim()
     .max(200, "Target label must be at most 200 characters")
-,
+    .min(1, "Target label cannot be empty"),
 
   shape: z.literal("RECT"),
 
@@ -47,16 +44,13 @@ const RectTargetSchema = z.object({
 });
 
 const CircleTargetSchema = z.object({
-  id: z
-    .string()
-    .trim()
-    .min(1, "Target ID is required"),
+  id: z.string().trim().min(1, "Target ID is required"),
 
   label: z
     .string()
     .trim()
     .max(200, "Target label must be at most 200 characters")
-,
+    .min(1, "Target label cannot be empty"),
 
   shape: z.literal("CIRCLE"),
 

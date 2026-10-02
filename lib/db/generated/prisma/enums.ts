@@ -63,7 +63,7 @@ export const QuestionType = {
   FILL_BLANK: 'FILL_BLANK',
   RANGE: 'RANGE',
   GUESS: 'GUESS',
-  FLASHCARDS: 'FLASHCARDS',
+  FLASHCARD: 'FLASHCARD',
   TAP_FIND: 'TAP_FIND',
   DROPDOWN: 'DROPDOWN'
 } as const

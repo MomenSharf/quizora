@@ -12,7 +12,7 @@ import { createOrderingQuestion } from "./ordering-question";
 import { createMatchQuestion } from "./match-question";
 import { createTypeAnswerQuestion } from "./type-answer-question";
 import { createFillBlankQuestion } from "./fill-blank-question";
-import { createFlashcardsQuestion } from "./flashcards-question";
+import { createflashcardQuestion } from "./flashcard-question";
 import { createRangeQuestion } from "./range-question";
 import { createGuessQuestion } from "./guess-question";
 import { createTapFindQuestion } from "./tap-find-question";
@@ -41,8 +41,8 @@ export function createDefaultQuestion(type: QuestionType): Question {
     case "FILL_BLANK":
       return createFillBlankQuestion();
 
-    case "FLASHCARDS":
-      return createFlashcardsQuestion();
+    case "FLASHCARD":
+      return createflashcardQuestion();
 
     case "RANGE":
       return createRangeQuestion();

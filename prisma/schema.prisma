@@ -212,7 +212,7 @@ enum QuestionType {
 
   GUESS
 
-  FLASHCARDS
+  FLASHCARD
 
   TAP_FIND
 

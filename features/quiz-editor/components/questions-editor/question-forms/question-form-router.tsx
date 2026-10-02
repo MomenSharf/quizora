@@ -9,17 +9,17 @@ import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 import QuestionTypeSelector from "../question-type-selector";
 
-import { SingleSelectConfig } from "./question-config/types/single-select-config";
-import { SingleSelectForm } from "./forms/single-select-form";
-import { MultipleSelectForm } from "./forms/multiple-select-form";
-import { OrdeingrForm } from "./forms/ordering-form";
-import { TrueFalseForm } from "./forms/true-false-form";
 import { DropdownForm } from "./forms/dropdown-form";
-import { TypeAnswerForm } from "./forms/type-answer-form";
 import { FillinTheBlankForm } from "./forms/fill-in-the-blank-form";
 import { MatchingForm } from "./forms/matching-form";
+import { MultipleSelectForm } from "./forms/multiple-select-form";
+import { OrdeingrForm } from "./forms/ordering-form";
 import { RangeForm } from "./forms/range-form";
+import { SingleSelectForm } from "./forms/single-select-form";
 import { TapFindForm } from "./forms/tap-find-form";
+import { TrueFalseForm } from "./forms/true-false-form";
+import { TypeAnswerForm } from "./forms/type-answer-form";
+import { SingleSelectConfig } from "./question-config/types/single-select-config";
 
 import { DropdownConfig } from "./question-config/types/drowpdown-config";
 import { FillBlankConfig } from "./question-config/types/fill-blank-config";
@@ -28,10 +28,9 @@ import { MultipleSelectConfig } from "./question-config/types/multiple-select-co
 import { OrderingConfig } from "./question-config/types/ordering-config";
 import { RangeConfig } from "./question-config/types/range-config";
 import { TapFindConfig } from "./question-config/types/tap-find-config";
-import { TypeAnswerConfig } from "./question-config/types/type-answer";
 import { TrueFalseConfig } from "./question-config/types/true-false-config";
-import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
-import { useWatch } from "react-hook-form";
+import { TypeAnswerConfig } from "./question-config/types/type-answer";
+import { FlashcardForm } from "./forms/flashcard-from";
 
 export interface QuestionFormProps {
   questionIndex: number;
@@ -50,6 +49,7 @@ const FORM_MAP: Partial<Record<QuestionType, QuestionFormComponent>> = {
   MATCH: MatchingForm,
   RANGE: RangeForm,
   TAP_FIND: TapFindForm,
+  FLASHCARD: FlashcardForm
 };
 
 export function QuestionFormRouter() {
