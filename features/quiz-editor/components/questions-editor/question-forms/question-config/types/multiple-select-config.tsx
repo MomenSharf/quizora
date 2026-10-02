@@ -66,45 +66,6 @@ export function MultipleSelectConfig({
 
           <Separator className="my-4 opacity-50" />
 
-          <ConfigSection title="Selection">
-            <SelectField
-              control={control}
-              name={`questions.${questionIndex}.config.minSelections`}
-              label="Minimum selections"
-              description="Minimum number of options the player must select."
-              options={[
-                { label: "No minimum", value: "0" },
-                { label: "1 option", value: "1" },
-                { label: "2 options", value: "2" },
-                { label: "3 options", value: "3" },
-                { label: "4 options", value: "4" },
-                { label: "5 options", value: "5" },
-              ]}
-            />
-
-            <SelectField
-              control={control}
-              name={`questions.${questionIndex}.config.maxSelections`}
-              label="Maximum selections"
-              description="Maximum number of options the player can select."
-              options={[
-                { label: "1 option", value: "1" },
-                { label: "2 options", value: "2" },
-                { label: "3 options", value: "3" },
-                { label: "4 options", value: "4" },
-                { label: "5 options", value: "5" },
-                { label: "6 options", value: "6" },
-                { label: "Unlimited", value: "0" },
-              ]}
-            />
-
-            <SwitchField
-              control={control}
-              name={`questions.${questionIndex}.config.allowPartialCredit`}
-              label="Partial credit"
-              description="Award points when some, but not all, selected answers are correct."
-            />
-          </ConfigSection>
 
           <Separator className="my-4 opacity-50" />
 

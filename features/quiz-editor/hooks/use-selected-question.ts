@@ -16,6 +16,11 @@ export function useSelectedQuestion() {
     name: "questions",
   });
 
+  const hasQuestions = useWatch({
+  control,
+  name: "questions",
+}).length > 0;
+
   const questionIndex = useMemo(() => {
     if (!selectedQuestionId || !questions) {
       return -1;
@@ -34,5 +39,6 @@ export function useSelectedQuestion() {
     question,
     questionIndex,
     hasSelection: questionIndex >= 0,
+    hasQuestions
   };
 }

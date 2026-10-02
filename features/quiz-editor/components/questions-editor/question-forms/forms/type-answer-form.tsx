@@ -33,6 +33,9 @@ function AnswerInput({
     name: `questions.${questionIndex}.content.options.${index}.text`,
   });
 
+   const fieldPath =
+    `questions.${questionIndex}.content.answers.${index}.value` as const;
+
   return (
     <div className="group flex items-center gap-3 rounded-xl border bg-card p-3  hover:border-primary hover:shadow-sm focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
       <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
@@ -49,7 +52,8 @@ function AnswerInput({
               requestAnimationFrame(() => autoResize(el));
             }
           }}
-          data-field-name={`questions.${questionIndex}.content.options.${index}.text`}
+                     data-field-name={fieldPath}
+
           onInput={(e) => autoResize(e.currentTarget)}
           rows={1}
           placeholder={`Accepted answer ${index + 1}`}
@@ -108,7 +112,7 @@ export function TypeAnswerForm({ questionIndex }: QuestionFormProps) {
       }
     >
       <SectionCard type="TYPE_ANSWER" title="Type Answer">
-        <QuestionSection questionIndex={questionIndex} type="TYPE_ANSWER" />
+        <QuestionSection questionIndex={questionIndex}  />
       </SectionCard>
 
       <SectionCard type="TYPE_ANSWER" title="Answer Content">

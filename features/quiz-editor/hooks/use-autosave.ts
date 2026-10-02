@@ -11,11 +11,7 @@ import {
 import { useQuizForm } from "./use-quiz-form";
 
 export function useAutosaveHook(debounceMs: number = 3000) {
-  const {
-    watch,
-    getValues,
-    formState: { isDirty },
-  } = useQuizForm();
+  const { watch, getValues } = useQuizForm();
 
   const {
     setSaveState,
@@ -28,6 +24,7 @@ export function useAutosaveHook(debounceMs: number = 3000) {
   const isAutosaveEnabled = useAutosaveEnabled();
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const [isOnline, setIsOnline] = useState(
     typeof navigator !== "undefined" ? navigator.onLine : true,
   );
@@ -97,8 +94,6 @@ export function useAutosaveHook(debounceMs: number = 3000) {
     if (!isAutosaveEnabled) return;
 
     const subscription = watch(() => {
-      if (!isDirty) return;
-
       setDirty(true);
 
       if (!isOnline) {
@@ -127,7 +122,6 @@ export function useAutosaveHook(debounceMs: number = 3000) {
   }, [
     watch,
     getValues,
-    isDirty,
     isAutosaveEnabled,
     debounceMs,
     isOnline,

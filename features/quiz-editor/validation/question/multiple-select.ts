@@ -79,22 +79,6 @@ export const MultipleSelectConfigSchema = BaseQuestionConfigSchema.extend({
 
   showOptionLetters: z.boolean(),
 
-  minSelections: z
-    .number({
-      message: "Minimum selections must be a number",
-    })
-    .int("Minimum selections must be a whole number")
-    .nonnegative("Minimum selections cannot be negative"),
-
-  maxSelections: z
-    .number({
-      message: "Maximum selections must be a number",
-    })
-    .int("Maximum selections must be a whole number")
-    .nonnegative("Maximum selections cannot be negative"),
-
-  allowPartialCredit: z.boolean(),
-
   showMedia: z.boolean(),
 
   mediaRatio: MediaRatioSchema,
@@ -104,18 +88,7 @@ export const MultipleSelectConfigSchema = BaseQuestionConfigSchema.extend({
   optionMediaRatio: MediaRatioSchema,
 
   showExplanation: z.boolean(),
-}).superRefine((config, ctx) => {
-  if (config.maxSelections < config.minSelections) {
-    ctx.addIssue({
-      code: "custom",
-      path: ["maxSelections"],
-      message: "Maximum selections cannot be less than minimum selections",
-      params: {
-        errorCode: "INVALID_SELECTION_RANGE",
-      },
-    });
-  }
-});
+})
 
 export const MultipleSelectQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("MULTIPLE_SELECT"),

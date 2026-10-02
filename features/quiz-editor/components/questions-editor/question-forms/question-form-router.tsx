@@ -30,6 +30,8 @@ import { RangeConfig } from "./question-config/types/range-config";
 import { TapFindConfig } from "./question-config/types/tap-find-config";
 import { TypeAnswerConfig } from "./question-config/types/type-answer";
 import { TrueFalseConfig } from "./question-config/types/true-false-config";
+import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
+import { useWatch } from "react-hook-form";
 
 export interface QuestionFormProps {
   questionIndex: number;
@@ -51,10 +53,11 @@ const FORM_MAP: Partial<Record<QuestionType, QuestionFormComponent>> = {
 };
 
 export function QuestionFormRouter() {
-  const { question, questionIndex } = useSelectedQuestion();
+  const { question, questionIndex , hasQuestions } = useSelectedQuestion();
   const isTypeSelectorOpen = useIsTypeSelectorOpen();
+;
 
-  if (isTypeSelectorOpen) {
+  if (isTypeSelectorOpen || !hasQuestions) {
     return <QuestionTypeSelector />;
   }
 

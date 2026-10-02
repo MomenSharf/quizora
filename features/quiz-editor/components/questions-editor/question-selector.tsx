@@ -214,7 +214,7 @@ function Sortable({
         <ActionsDropdown
           onDuplicate={onDuplicate}
           onDelete={onDelete}
-          canDelete={questions.length > 1}
+          canDelete
           onReset={onReset}
           canReset={canReset}
           onSelect={onSelect}
@@ -258,6 +258,41 @@ const QuestionSelector = () => {
     });
   };
 
+if (questions.length === 0) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="flex w-full flex-1 flex-col border-r bg-background md:w-72 md:min-w-72 md:max-w-72 xl:w-80 xl:min-w-80 xl:max-w-80"
+    >
+      <div className="flex items-center p-3">
+        <h3 className="text-xs font-semibold text-muted-foreground">
+          QUESTIONS
+        </h3>
+      </div>
+
+      <div className="flex min-h-0 flex-1 items-center justify-center p-4">
+        <div className="flex w-full max-w-60 flex-col items-center text-center">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.05, duration: 0.25 }}
+            className="mb-4 flex size-12 items-center justify-center rounded-xl border border-primary/15 bg-primary/10 text-primary"
+          >
+            <IconPlus className="size-5" />
+          </motion.div>
+
+          <h4 className="text-sm font-semibold">No questions yet</h4>
+
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+            Choose a question type from the panel to get started.
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
   return (
     <motion.div
       initial={{ opacity: 0 }}

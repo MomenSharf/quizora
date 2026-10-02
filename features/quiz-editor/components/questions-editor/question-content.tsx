@@ -20,12 +20,12 @@ const QuestionContent = () => {
       className="scrollbar-thin flex flex-col h-full overflow-y-auto"
     >
       <motion.div
-      initial={{ opacity: 0 }}
-animate={{ opacity: 1 }}
-transition={{
-  duration: 0.4,
-  ease: [0.22, 1, 0.36, 1],
-}}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          duration: 0.4,
+          ease: [0.22, 1, 0.36, 1],
+        }}
         className="flex flex-col gap p-1 sm:p-2"
       >
         <QuestionFormRouter />

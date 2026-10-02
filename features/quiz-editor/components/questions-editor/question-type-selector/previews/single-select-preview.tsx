@@ -4,7 +4,7 @@ import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-
 import { IconCircle, IconCircleCheck } from "@tabler/icons-react";
 
 export default function SingleSelectPreview() {
-    const color = QUESTION_TYPE_COLORS['FILL_BLANK'];
+    const color = QUESTION_TYPE_COLORS['SINGLE_SELECT'];
   
 
   return (
