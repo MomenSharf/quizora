@@ -18,7 +18,7 @@ export function SingleSelectForm({ questionIndex }: QuestionFormProps) {
         type="SINGLE_SELECT"
         title="Single Select"
       >
-        <QuestionSection questionIndex={questionIndex} type="SINGLE_SELECT" />
+        <QuestionSection questionIndex={questionIndex}/>
       </SectionCard>
       <SectionCard
         type="SINGLE_SELECT"

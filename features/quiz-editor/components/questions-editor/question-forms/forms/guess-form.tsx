@@ -1,6 +1,6 @@
 import ExplanationSection from "../explanation-section";
 import Accepted from "../gess/accepted";
-import ContentTabs from "../gess/content-tabs";
+// import ContentTabs from "../gess/content-tabs";
 import HintsGroup from "../gess/hint-group";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
@@ -17,11 +17,11 @@ export function GessForm({ questionIndex }: QuestionFormProps) {
       }
     >
       <SectionCard type="GUESS" title="Guesses">
-        <QuestionSection questionIndex={questionIndex} type="GUESS" />
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard type="GUESS" title="Guesses">
         <div className="space-y-5">
-          <ContentTabs questionIndex={questionIndex} />
+          {/* <ContentTabs questionIndex={questionIndex} /> */}
           <HintsGroup questionIndex={questionIndex} />
           <Accepted questionIndex={questionIndex} />
         </div>

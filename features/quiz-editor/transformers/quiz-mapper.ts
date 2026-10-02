@@ -3,7 +3,7 @@ import { Prisma, QuestionType } from "@/lib/db/generated/prisma/client";
 import {
   DropdownQuestion,
   FillBlankQuestion,
-  flashcardQuestion,
+  FlashcardQuestion,
   GuessQuestion,
   MatchQuestion,
   MultipleSelectQuestion,
@@ -193,12 +193,12 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         config: question.config as GuessQuestion["config"],
       };
 
-    case QuestionType.flashcard:
+    case QuestionType.FLASHCARD:
       return {
         ...base,
-        type: QuestionType.flashcard,
-        content: question.content as flashcardQuestion["content"],
-        config: question.config as flashcardQuestion["config"],
+        type: QuestionType.FLASHCARD,
+        content: question.content as FlashcardQuestion["content"],
+        config: question.config as FlashcardQuestion["config"],
       };
 
     case QuestionType.TAP_FIND:

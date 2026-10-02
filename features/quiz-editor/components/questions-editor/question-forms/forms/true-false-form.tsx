@@ -44,7 +44,7 @@ export function TrueFalseForm({  questionIndex }: QuestionFormProps) {
       }
     >
       <SectionCard type="TRUE_FALSE" title="Question">
-        <QuestionSection  questionIndex={questionIndex} type="TRUE_FALSE" />
+        <QuestionSection  questionIndex={questionIndex}  />
       </SectionCard>
 
       <SectionCard type="TRUE_FALSE" title="Correct Answer">

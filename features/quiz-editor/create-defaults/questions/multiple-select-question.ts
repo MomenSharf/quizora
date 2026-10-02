@@ -34,10 +34,7 @@ export function createMultipleSelectQuestion(): MultipleSelectQuestion {
   showOptionMedia: true,
   optionMediaRatio: "AUTO",
 
-  minSelections: 1,
-  maxSelections: 0,
 
-  allowPartialCredit: false,
 
   showExplanation: true,
 

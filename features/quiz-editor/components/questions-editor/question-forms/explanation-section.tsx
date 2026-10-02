@@ -20,6 +20,7 @@ const ExplanationSection = ({ questionIndex }: { questionIndex: number }) => {
           <RichTextEditor
             content={field.value ?? ""}
             onChange={field.onChange}
+            dataFieldNames={`questions.${questionIndex}.explanation`}
           />
         )}
       />

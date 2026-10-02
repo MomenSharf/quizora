@@ -31,6 +31,7 @@ import { TapFindConfig } from "./question-config/types/tap-find-config";
 import { TrueFalseConfig } from "./question-config/types/true-false-config";
 import { TypeAnswerConfig } from "./question-config/types/type-answer";
 import { FlashcardForm } from "./forms/flashcard-from";
+import { FlashcardConfig } from "./question-config/types/flashcard-config";
 
 export interface QuestionFormProps {
   questionIndex: number;
@@ -111,6 +112,10 @@ export function QuestionFormRouter() {
 
       {question.type === "TRUE_FALSE" && (
         <TrueFalseConfig questionIndex={questionIndex} />
+      )}
+
+      {question.type === "FLASHCARD" && (
+        <FlashcardConfig questionIndex={questionIndex} />
       )}
     </>
   );
