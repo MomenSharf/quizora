@@ -61,7 +61,7 @@ export const DropdownConfigSchema = BaseQuestionConfigSchema.extend({
     .string()
     .trim()
     .max(100, "Placeholder must be at most 100 characters")
-    .default(""),
+   ,
 
   shuffleOptions: z.boolean(),
   searchable: z.boolean(),

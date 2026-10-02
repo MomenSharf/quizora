@@ -14,7 +14,7 @@ export const FlashcardSchema = z.object({
       .string()
       .trim()
       .max(200, "Front title must be at most 200 characters")
-      .default(""),
+   ,
 
     content: z
       .string()
@@ -30,7 +30,7 @@ export const FlashcardSchema = z.object({
       .string()
       .trim()
       .max(200, "Back title must be at most 200 characters")
-      .default(""),
+,
 
     content: z
       .string()

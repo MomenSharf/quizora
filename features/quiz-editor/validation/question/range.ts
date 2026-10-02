@@ -33,7 +33,7 @@ export const RangeDataSchema = z
       .string()
       .trim()
       .max(30, "Unit must be at most 30 characters")
-      .default(""),
+,
   })
   .superRefine((data, ctx) => {
     if (data.min >= data.max) {

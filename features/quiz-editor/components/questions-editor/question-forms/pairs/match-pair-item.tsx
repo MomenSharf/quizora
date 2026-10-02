@@ -234,6 +234,7 @@ export default function MatchPairItem({
                   rows={1}
                   placeholder={`Left item ${index + 1}`}
                   className="h-11 min-h-11 w-full overflow-y-auto bg-transparent text-sm outline-none"
+                  data-field-names={`questions.${questionIndex}.content.pairs.${index}.left.text`}
                 />
               </div>
             </motion.div>
@@ -300,6 +301,7 @@ export default function MatchPairItem({
                   rows={1}
                   placeholder={`Right item ${index + 1}`}
                   className="h-11 min-h-11 w-full overflow-y-auto bg-transparent text-sm outline-none"
+                  data-field-names={`questions.${questionIndex}.content.pairs.${index}.right.text`}
                 />
               </div>
             </motion.div>

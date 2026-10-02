@@ -13,8 +13,7 @@ export const ImageSchema = z.object({
     .string()
     .trim()
     .max(200, "Image alt text must be at most 200 characters")
-    .default(""),
-
+,
   caption: z
     .string()
     .trim()

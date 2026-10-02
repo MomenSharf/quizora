@@ -6,9 +6,15 @@ interface IssueLocationProps {
   path: string;
 }
 
+function toTitleCase(value: string) {
+  return value
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
 function formatPath(path: string) {
   const parts = path.split(".");
-
   const result: string[] = [];
 
   for (let i = 0; i < parts.length; i++) {
@@ -16,7 +22,11 @@ function formatPath(path: string) {
 
     if (part === "questions") {
       const index = Number(parts[++i]);
-      result.push(`Question ${index + 1}`);
+
+      if (Number.isInteger(index)) {
+        result.push(`Question ${index + 1}`);
+      }
+
       continue;
     }
 
@@ -26,40 +36,26 @@ function formatPath(path: string) {
 
     if (part === "options") {
       const index = Number(parts[++i]);
-      result.push(`Option ${index + 1}`);
+
+      if (Number.isInteger(index)) {
+        result.push(`Option ${index + 1}`);
+      }
+
       continue;
     }
 
     if (part === "text") {
-      result.push("Answer text");
+      result.push("Answer Text");
       continue;
     }
 
-    if (part === "settings") {
-      result.push("Settings");
-      continue;
-    }
-
-    if (part === "appearance") {
-      result.push("Appearance");
-      continue;
-    }
-
-    // Convert camelCase to readable text
-    const readable = part
-      .replace(/([a-z])([A-Z])/g, "$1 $2")
-      .replace(/[-_]/g, " ")
-      .replace(/\b\w/g, (char) => char.toUpperCase());
-
-    result.push(readable);
+    result.push(toTitleCase(part));
   }
 
   return result;
 }
 
-export function IssueLocation({
-  path,
-}: IssueLocationProps) {
+export function IssueLocation({ path }: IssueLocationProps) {
   const parts = formatPath(path);
 
   return (
@@ -67,14 +63,10 @@ export function IssueLocation({
       {parts.map((part, index) => (
         <Fragment key={`${part}-${index}`}>
           {index > 0 && (
-            <span className="text-muted-foreground/50">
-              →
-            </span>
+            <span className="text-muted-foreground/50">→</span>
           )}
 
-          <span className="truncate">
-            {part}
-          </span>
+          <span className="truncate">{part}</span>
         </Fragment>
       ))}
     </div>

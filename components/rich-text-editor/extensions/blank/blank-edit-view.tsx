@@ -39,8 +39,9 @@ export function BlankEditView({
   };
 
   useEffect(() => {
-    inputRef.current?.focus();
-    inputRef.current?.select();
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
   }, []);
 
   useEffect(() => {

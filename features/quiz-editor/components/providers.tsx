@@ -63,7 +63,6 @@ function QuizEditorEffects() {
   const { reset } = useEditorActions();
 
   useAutosaveHook();
-  // useEditorValidation();
 
   useEffect(() => {
     return () => {

@@ -1,12 +1,10 @@
 export function focusEditorField(path: string) {
   const element = document.querySelector<HTMLElement>(
-    `[data-field-name="${CSS.escape(path)}"]`,
+    `[data-field-names~="${CSS.escape(path)}"]`,
   );
 
   if (!element) {
-    console.warn(
-      `Unable to find editor field: ${path}`,
-    );
+    console.warn(`Unable to find editor field: ${path}`);
 
     return false;
   }

@@ -41,7 +41,7 @@ export const BlankSchema = z.object({
     .string()
     .trim()
     .max(100, "Placeholder must be at most 100 characters")
-    .default(""),
+,
 });
 
 export const FillBlankDataSchema = z
@@ -50,7 +50,7 @@ export const FillBlankDataSchema = z
       .array(FillBlankBlockSchema)
       .min(1, "Add some text or a blank to your question"),
 
-    blanks: z.array(BlankSchema).max(50, "You can add up to 50 blanks"),
+    blanks: z.array(BlankSchema).max(50, "You can add up to 50 blanks").min(1, "Add at least one blank"),
   })
   .superRefine((data, ctx) => {
     const blankIds = new Set<string>();

@@ -16,8 +16,7 @@ export const TypeAnswerDataSchema = z.object({
   placeholder: z
     .string()
     .trim()
-    .max(100, "Placeholder must be at most 100 characters")
-    .default(""),
+    .max(100, "Placeholder must be at most 100 characters"),
 });
 
 export const TypeAnswerConfigSchema = BaseQuestionConfigSchema.extend({

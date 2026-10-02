@@ -51,20 +51,20 @@ export const BaseQuestionSchema = z.object({
   description: z
     .string()
     .trim()
-    .max(2000, "Question description must be at most 2,000 characters")
-    .default(""),
+    .max(1000, "Question description must be at most 1,000 characters")
+   ,
 
   explanation: z
     .string()
     .trim()
     .max(5000, "Explanation must be at most 5,000 characters")
-    .default(""),
+    ,
 
   hint: z
     .string()
     .trim()
     .max(1000, "Hint must be at most 1,000 characters")
-    .default(""),
+    ,
 
   image: ImageSchema.optional(),
 
@@ -122,7 +122,7 @@ export const OptionSchema = z.object({
     .string()
     .trim()
     .max(1000, "Option explanation must be at most 1,000 characters")
-    .default(""),
+    ,
 });
 
 /**

@@ -4,6 +4,7 @@ import { Controller } from "react-hook-form";
 import { ImageField } from "../../image-upload/image-field";
 import ImagePreviewTrigger from "../../image-upload/image-preview-trigger";
 import SectionField from "./section-field";
+import { FieldError } from "../../issues/field-error";
 
 const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
   const { control } = useQuizForm();
@@ -29,9 +30,13 @@ const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
               className="text-2xl font-semibold"
               fontSize="24px"
               placeholder="Start typing..."
-              dataFieldName={`questions.${questionIndex}.title`}
+              dataFieldNames={`questions.${questionIndex}.title`}
             />
           )}
+        />
+        <FieldError
+          control={control}
+          name={`questions.${questionIndex}.title`}
         />
       </SectionField>
       <SectionField
@@ -45,11 +50,15 @@ const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
           render={({ field }) => (
             <RichTextEditor
               content={field.value ?? ""}
-              dataFieldName={`questions.${questionIndex}.description`}
+              dataFieldNames={`questions.${questionIndex}.description`}
               onChange={field.onChange}
               placeholder="Start typing..."
             />
           )}
+        />
+        <FieldError
+          control={control}
+          name={`questions.${questionIndex}.description`}
         />
       </SectionField>
       <SectionField
@@ -63,11 +72,15 @@ const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
           render={({ field }) => (
             <RichTextEditor
               content={field.value ?? ""}
-              dataFieldName={`questions.${questionIndex}.hint`}
+              dataFieldNames={`questions.${questionIndex}.hint`}
               onChange={field.onChange}
               placeholder="Start typing..."
             />
           )}
+        />
+        <FieldError
+          control={control}
+          name={`questions.${questionIndex}.hint`}
         />
       </SectionField>
     </div>

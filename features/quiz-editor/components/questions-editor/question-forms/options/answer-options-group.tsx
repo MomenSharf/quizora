@@ -12,6 +12,7 @@ import { move } from "@dnd-kit/helpers";
 import AnswerOption from "./answer-option";
 import { IconPlus } from "@tabler/icons-react";
 import { AnimatePresence } from "framer-motion";
+import { FieldError } from "../../../issues/field-error";
 
 export function AnswerOptionsGroup({
   questionIndex,
@@ -112,6 +113,10 @@ export function AnswerOptionsGroup({
         <IconPlus className="mr-2 size-4" />
         Add another option
       </Button>
+      <FieldError
+        control={control}
+        name={`questions.${questionIndex}.content.options`}
+      />
     </div>
   );
 }

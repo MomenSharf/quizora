@@ -10,6 +10,7 @@ import { AcceptedAnswer } from "@/features/quiz-editor/validation/question";
 import { createId } from "@paralleldrive/cuid2";
 import { CheckCircle2, Plus, Trash2 } from "lucide-react";
 import { useRef } from "react";
+import { FieldError } from "../../../issues/field-error";
 
 function AnswerInput({
   id,
@@ -33,56 +34,62 @@ function AnswerInput({
     name: `questions.${questionIndex}.content.options.${index}.text`,
   });
 
-   const fieldPath =
+  const fieldPath =
     `questions.${questionIndex}.content.answers.${index}.value` as const;
 
   return (
-    <div className="group flex items-center gap-3 rounded-xl border bg-card p-3  hover:border-primary hover:shadow-sm focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
-        {index + 1}
-      </div>
-      <div className="w-full rounded-lg border p-2">
-        <textarea
-          {...textField}
-          ref={(el) => {
-            textField.ref(el);
-            textareaRef(el);
+    <div>
+      <div className="group flex items-center gap-3 rounded-xl border bg-card p-3  hover:border-primary hover:shadow-sm focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
+          {index + 1}
+        </div>
+        <div className="w-full rounded-lg border p-2">
+          <textarea
+            {...textField}
+            ref={(el) => {
+              textField.ref(el);
+              textareaRef(el);
 
-            if (el) {
-              requestAnimationFrame(() => autoResize(el));
-            }
-          }}
-                     data-field-name={fieldPath}
+              if (el) {
+                requestAnimationFrame(() => autoResize(el));
+              }
+            }}
+            data-field-names={fieldPath}
 
-          onInput={(e) => autoResize(e.currentTarget)}
-          rows={1}
-          placeholder={`Accepted answer ${index + 1}`}
-          className="h-11 min-h-11 w-full overflow-y-auto scrollbar-thin bg-transparent text-sm leading-6 outline-none placeholder:text-muted-foreground"
-        />
-      </div>
-      <div className="flex items-center gap-2">
-        <CheckCircle2 className="size-5 text-emerald-500" />
+            onInput={(e) => autoResize(e.currentTarget)}
+            rows={1}
+            placeholder={`Accepted answer ${index + 1}`}
+            className="h-11 min-h-11 w-full overflow-y-auto scrollbar-thin bg-transparent text-sm leading-6 outline-none placeholder:text-muted-foreground"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <CheckCircle2 className="size-5 text-emerald-500" />
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="hover:bg-destructive/10 hover:text-destructive"
-          disabled={expectedAnswers.length === 1}
-          onClick={() => {
-            const nweExpectedAnswers = expectedAnswers.filter(
-              (e) => e.id === id,
-            );
-            setValue(
-              `questions.${questionIndex}.content.answers`,
-              nweExpectedAnswers,
-              { shouldDirty: true },
-            );
-          }}
-        >
-          <Trash2 className="size-4" />
-        </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="hover:bg-destructive/10 hover:text-destructive"
+            disabled={expectedAnswers.length === 1}
+            onClick={() => {
+              const nweExpectedAnswers = expectedAnswers.filter(
+                (e) => e.id === id,
+              );
+              setValue(
+                `questions.${questionIndex}.content.answers`,
+                nweExpectedAnswers,
+                { shouldDirty: true },
+              );
+            }}
+          >
+            <Trash2 className="size-4" />
+          </Button>
+        </div>
       </div>
+      <FieldError
+        control={control}
+        name={`questions.${questionIndex}.content.answers.${index}.value`}
+      />
     </div>
   );
 }
@@ -107,12 +114,12 @@ export function TypeAnswerForm({ questionIndex }: QuestionFormProps) {
       className="space-y-5"
       style={
         {
-          "--primary": 'var(--question-type-answer)',
+          "--primary": "var(--question-type-answer)",
         } as React.CSSProperties
       }
     >
       <SectionCard type="TYPE_ANSWER" title="Type Answer">
-        <QuestionSection questionIndex={questionIndex}  />
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
 
       <SectionCard type="TYPE_ANSWER" title="Answer Content">

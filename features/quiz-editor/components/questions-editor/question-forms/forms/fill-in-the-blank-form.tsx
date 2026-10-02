@@ -9,10 +9,9 @@ import ExplanationSection from "../explanation-section";
 import { QuestionFormProps } from "../question-form-router";
 import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
+import { FieldError } from "../../../issues/field-error";
 
-export function FillinTheBlankForm({
-  questionIndex,
-}: QuestionFormProps) {
+export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
   const { control, setValue } = useQuizForm();
 
   const content = useWatch({
@@ -42,7 +41,10 @@ export function FillinTheBlankForm({
               content={editorContent}
               placeholder="Type your sentence and insert blanks..."
               allowInsertBlank
-              dataFieldName={`questions.${questionIndex}.content.blanks`}
+              dataFieldNames={[
+                `questions.${questionIndex}.content.blanks`,
+                `questions.${questionIndex}.content.blocks`,
+              ].join(" ")}
               className="
                         min-h-60
                         rounded-lg
@@ -71,6 +73,14 @@ export function FillinTheBlankForm({
             />
           </div>
         </div>
+        <FieldError
+          control={control}
+          name={`questions.${questionIndex}.content.blocks`}
+        />
+        <FieldError
+          control={control}
+          name={`questions.${questionIndex}.content.blanks`}
+        />
       </SectionCard>
       <SectionCard type="FILL_BLANK" title="Explanation">
         <ExplanationSection questionIndex={questionIndex} />

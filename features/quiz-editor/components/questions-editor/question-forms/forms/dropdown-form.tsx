@@ -39,7 +39,7 @@ export function DropdownForm({ questionIndex }: QuestionFormProps) {
                   className="text-2xl font-semibold"
                   fontSize="24px"
                   placeholder="Start typing..."
-                  dataFieldName={`questions.${questionIndex}.content.label`}
+                  dataFieldNames={`questions.${questionIndex}.content.label`}
                 />
               )}
             />

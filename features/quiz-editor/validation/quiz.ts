@@ -2,13 +2,9 @@ import { z } from "zod";
 
 import { QuestionSchema } from "./question";
 import { ImageSchema } from "./image";
-import { QuizStatus } from "@/lib/db/generated/prisma/enums";
 
 export const QuizEditorSchema = z.object({
-  id: z
-    .string()
-    .trim()
-    .min(1, "Quiz ID is required"),
+  id: z.string().trim().min(1, "Quiz ID is required"),
 
   slug: z
     .string()
@@ -20,10 +16,6 @@ export const QuizEditorSchema = z.object({
       "Slug can only contain lowercase letters, numbers, and hyphens",
     )
     .optional(),
-
-
-
-
 
   visibility: z.enum(["PRIVATE", "UNLISTED", "PUBLIC"], {
     message: "Please select a valid visibility option",
@@ -38,9 +30,7 @@ export const QuizEditorSchema = z.object({
   description: z
     .string()
     .trim()
-    .max(1000, "Descriptions can be at most 1,000 characters")
-    .default(""),
-
+    .max(1000, "Descriptions can be at most 1,000 characters"),
   thumbnail: ImageSchema.optional(),
 
   tags: z
@@ -62,7 +52,6 @@ export const QuizEditorSchema = z.object({
             code: "custom",
             path: [index],
             message: "This tag has already been added",
-          
           });
         }
 
@@ -87,5 +76,7 @@ export const QuizEditorSchema = z.object({
     .min(1, "Add at least one question to your quiz"),
 });
 
+
 export type QuizEditor = z.infer<typeof QuizEditorSchema>;
 export type QuizEditorInput = z.input<typeof QuizEditorSchema>;
+

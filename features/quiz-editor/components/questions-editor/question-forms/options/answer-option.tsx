@@ -22,6 +22,7 @@ import { ActionsDropdown } from "../../actions-dropdown";
 import { ImageField } from "../../../image-upload/image-field";
 import { ImageButtonTrigger } from "../../../image-upload/image-button-trigger";
 import { motion } from "framer-motion";
+import { FieldError } from "../../../issues/field-error";
 
 export default function AnswerOption({
   optionId,
@@ -266,7 +267,7 @@ export default function AnswerOption({
                 requestAnimationFrame(() => autoResize(el));
               }
             }}
-            data-field-name={fieldPath}
+            data-field-names={fieldPath}
             onInput={(e) => autoResize(e.currentTarget)}
             rows={1}
             placeholder={placeholder}
@@ -288,6 +289,10 @@ export default function AnswerOption({
           />
         </div>
       </div>
+      <FieldError
+        control={control}
+        name={`questions.${questionIndex}.content.options.${index}.text`}
+      />
     </motion.div>
   );
 }

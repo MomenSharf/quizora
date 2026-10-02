@@ -26,7 +26,7 @@ export const GuessDataSchema = z
       .string()
       .trim()
       .max(5000, "Guess text must be at most 5,000 characters")
-      .default(""),
+   ,
 
     image: z
       .string()

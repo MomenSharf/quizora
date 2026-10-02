@@ -41,11 +41,16 @@ export function useAutosaveHook(debounceMs: number = 3000) {
 
     const stateToSave: EditorStore = {
       ...editorState,
+      navigation: {
+        ...editorState.navigation,
+        activePanel: "questions",
+      },
       autosave: {
         ...editorState.autosave,
         state: "idle",
         dirty: false,
         error: null,
+
       },
     };
 

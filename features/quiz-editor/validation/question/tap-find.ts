@@ -13,7 +13,7 @@ const RectTargetSchema = z.object({
     .string()
     .trim()
     .max(200, "Target label must be at most 200 characters")
-    .default(""),
+,
 
   shape: z.literal("RECT"),
 
@@ -56,7 +56,7 @@ const CircleTargetSchema = z.object({
     .string()
     .trim()
     .max(200, "Target label must be at most 200 characters")
-    .default(""),
+,
 
   shape: z.literal("CIRCLE"),
 
