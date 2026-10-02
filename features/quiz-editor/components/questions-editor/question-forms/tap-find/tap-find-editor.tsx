@@ -24,11 +24,6 @@ export function TapFindEditor({ questionIndex }: { questionIndex: number }) {
       name: `questions.${questionIndex}.content.targets`,
     }) ?? [];
 
-  const image = useWatch({
-    control,
-    name: `questions.${questionIndex}.content.image`,
-  });
-
   const [selectedId, setSelectedId] = useState<string>();
 
   const updateTargets = (targets: TapFindTarget[]) => {
@@ -155,26 +150,7 @@ export function TapFindEditor({ questionIndex }: { questionIndex: number }) {
             </p>
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size="sm">
-                <IconPlus size={16} />
-                Add Target
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={addRectangle}>
-                <IconRectangle size={16} />
-                Rectangle
-              </DropdownMenuItem>
-
-              <DropdownMenuItem onClick={addCircle}>
-                <IconCircle size={16} />
-                Circle
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <AddTargetMenu addRectangle={addRectangle} addCircle={addCircle} />
         </div>
 
         <div className="p-4">
@@ -197,6 +173,7 @@ export function TapFindEditor({ questionIndex }: { questionIndex: number }) {
               {targets.length} target{targets.length !== 1 && "s"}
             </p>
           </div>
+          <AddTargetMenu addRectangle={addRectangle} addCircle={addCircle} />
         </div>
 
         <ScrollArea className="max-h-72">
@@ -213,7 +190,7 @@ export function TapFindEditor({ questionIndex }: { questionIndex: number }) {
                   onShapeChange={(shape) => updateTargetShape(target.id, shape)}
                   onDuplicate={() => duplicateTarget(target.id)}
                   onDelete={() => deleteTarget(target.id)}
-                  canDelete={selectedId !== target.id}
+                  canDelete={targets.length > 1}
                 />
               );
             })}
@@ -223,3 +200,34 @@ export function TapFindEditor({ questionIndex }: { questionIndex: number }) {
     </div>
   );
 }
+
+const AddTargetMenu = ({
+  addRectangle,
+  addCircle,
+}: {
+  addRectangle: () => void;
+  addCircle: () => void;
+}) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button size="sm">
+          <IconPlus size={16} />
+          Add Target
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={addRectangle}>
+          <IconRectangle size={16} />
+          Rectangle
+        </DropdownMenuItem>
+
+        <DropdownMenuItem onClick={addCircle}>
+          <IconCircle size={16} />
+          Circle
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};

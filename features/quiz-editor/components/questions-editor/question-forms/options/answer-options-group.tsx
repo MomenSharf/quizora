@@ -11,6 +11,7 @@ import { useWatch } from "react-hook-form";
 import { move } from "@dnd-kit/helpers";
 import AnswerOption from "./answer-option";
 import { IconPlus } from "@tabler/icons-react";
+import { AnimatePresence } from "framer-motion";
 
 export function AnswerOptionsGroup({
   questionIndex,
@@ -53,7 +54,6 @@ export function AnswerOptionsGroup({
     textarea.style.height = `${Math.max(textarea.scrollHeight, 44)}px`;
   };
 
-  
   return (
     <div className="space-y-3" ref={containerRef}>
       <DragDropProvider
@@ -69,30 +69,32 @@ export function AnswerOptionsGroup({
           });
         }}
       >
-        <div className="space-y-3">
-          {options.map((option, index) => {
-            const canMoveUp = index > 0;
-            const canMoveDown = index < options.length - 1;
-            return (
-              <AnswerOption
-                key={option.id}
-                optionId={option.id}
-                options={options}
-                index={index}
-                type={question.type}
-                questionIndex={questionIndex}
-                autoResize={autoResize}
-                textareaRef={(el) => {
-                  textareas.current[index] = el;
-                }}
-                moveUp={() => moveOption(index, index - 1)}
-                moveDown={() => moveOption(index, index + 1)}
-                canMoveUp={canMoveUp}
-                canMoveDown={canMoveDown}
-              />
-            );
-          })}
-        </div>
+        <AnimatePresence initial={false}>
+          <div className="space-y-3">
+            {options.map((option, index) => {
+              const canMoveUp = index > 0;
+              const canMoveDown = index < options.length - 1;
+              return (
+                <AnswerOption
+                  key={option.id}
+                  optionId={option.id}
+                  options={options}
+                  index={index}
+                  type={question.type}
+                  questionIndex={questionIndex}
+                  autoResize={autoResize}
+                  textareaRef={(el) => {
+                    textareas.current[index] = el;
+                  }}
+                  moveUp={() => moveOption(index, index - 1)}
+                  moveDown={() => moveOption(index, index + 1)}
+                  canMoveUp={canMoveUp}
+                  canMoveDown={canMoveDown}
+                />
+              );
+            })}
+          </div>
+        </AnimatePresence>
       </DragDropProvider>
 
       <Button

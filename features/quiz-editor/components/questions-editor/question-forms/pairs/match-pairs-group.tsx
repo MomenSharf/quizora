@@ -10,6 +10,7 @@ import { DragDropProvider } from "@dnd-kit/react";
 import { IconPlus } from "@tabler/icons-react";
 import { useWatch } from "react-hook-form";
 import MatchPairItem from "./match-pair-item";
+import { AnimatePresence } from "framer-motion";
 
 export function MatchPairsGroup({ questionIndex }: { questionIndex: number }) {
   const { control, setValue } = useQuizForm();
@@ -55,28 +56,30 @@ export function MatchPairsGroup({ questionIndex }: { questionIndex: number }) {
           });
         }}
       >
-        <div className="space-y-3">
-          {pairs.map((pair, index) => (
-            <MatchPairItem
-              key={pair.id}
-              pairId={pair.id}
-              pair={pair}
-              index={index}
-              questionIndex={questionIndex}
-              autoResize={autoResize}
-              textareaRef={(el) => {
-                textareas.current[index * 2] = el;
-              }}
-              rightTextareaRef={(el) => {
-                textareas.current[index * 2 + 1] = el;
-              }}
-              moveUp={() => movePair(index, index - 1)}
-              moveDown={() => movePair(index, index + 1)}
-              canMoveUp={index > 0}
-              canMoveDown={index < pairs.length - 1}
-            />
-          ))}
-        </div>
+        <AnimatePresence initial={false}>
+          <div className="space-y-3">
+            {pairs.map((pair, index) => (
+              <MatchPairItem
+                key={pair.id}
+                pairId={pair.id}
+                pair={pair}
+                index={index}
+                questionIndex={questionIndex}
+                autoResize={autoResize}
+                textareaRef={(el) => {
+                  textareas.current[index * 2] = el;
+                }}
+                rightTextareaRef={(el) => {
+                  textareas.current[index * 2 + 1] = el;
+                }}
+                moveUp={() => movePair(index, index - 1)}
+                moveDown={() => movePair(index, index + 1)}
+                canMoveUp={index > 0}
+                canMoveDown={index < pairs.length - 1}
+              />
+            ))}
+          </div>
+        </AnimatePresence>
       </DragDropProvider>
 
       <Button

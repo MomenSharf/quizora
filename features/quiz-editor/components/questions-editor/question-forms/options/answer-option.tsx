@@ -21,6 +21,7 @@ import { createDefaultOption } from "@/features/quiz-editor/create-defaults/ques
 import { ActionsDropdown } from "../../actions-dropdown";
 import { ImageField } from "../../../image-upload/image-field";
 import { ImageButtonTrigger } from "../../../image-upload/image-button-trigger";
+import { motion } from "framer-motion";
 
 export default function AnswerOption({
   optionId,
@@ -132,7 +133,7 @@ export default function AnswerOption({
 
   const canReset = !!(
     dirtyFields.questions?.[questionIndex]?.content as { options: Option[] }
-  )?.options?.[index] 
+  )?.options?.[index];
 
   const onReset = () =>
     resetField(`questions.${questionIndex}.content.options.${index}`);
@@ -162,10 +163,34 @@ export default function AnswerOption({
   };
 
   return (
-    <div
+    <motion.div
       ref={setElement}
+      layout
+      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{
+        opacity: 0,
+        scale: 0.96,
+        height: 0,
+        marginBottom: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        overflow: "hidden",
+      }}
+      transition={{
+        layout: {
+          duration: 0.25,
+          ease: [0.22, 1, 0.36, 1],
+        },
+        opacity: {
+          duration: 0.18,
+        },
+        scale: {
+          duration: 0.2,
+        },
+      }}
       className={cn(
-        "touch-none group rounded-xl border bg-card p-3 transition-all",
+        "touch-none group rounded-xl border bg-card p-3",
         "hover:border-primary hover:shadow-sm",
         "focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
         isDragging && "z-50 scale-[1.02] shadow-xl ring-2 ring-primary",
@@ -263,6 +288,6 @@ export default function AnswerOption({
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

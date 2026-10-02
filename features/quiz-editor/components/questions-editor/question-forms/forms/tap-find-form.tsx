@@ -15,7 +15,7 @@ export function TapFindForm({ questionIndex }: QuestionFormProps) {
       }
     >
       <SectionCard type="TAP_FIND" title="Tap & Find">
-        <QuestionSection questionIndex={questionIndex} type="TAP_FIND" />
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard type="TAP_FIND" title="Answer Content">
         <TapFindEditor questionIndex={questionIndex} />

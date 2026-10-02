@@ -14,7 +14,6 @@ import { RangeNumberInput } from "../range-number-input";
 import { SectionCard } from "../section-card";
 
 export function RangeForm({ questionIndex }: QuestionFormProps) {
-  
   const { control } = useQuizForm();
   const min = useController({
     control,
@@ -102,16 +101,16 @@ export function RangeForm({ questionIndex }: QuestionFormProps) {
   };
 
   return (
-   <div
+    <div
       className="space-y-5"
       style={
         {
-          "--primary": 'var(--question-range)',
+          "--primary": "var(--question-range)",
         } as React.CSSProperties
       }
     >
       <SectionCard type="RANGE" title="Range">
-        <QuestionSection questionIndex={questionIndex} type="RANGE" />
+        <QuestionSection questionIndex={questionIndex} />
       </SectionCard>
       <SectionCard type="RANGE" title="">
         <div className="space-y-4">
@@ -137,19 +136,18 @@ export function RangeForm({ questionIndex }: QuestionFormProps) {
               <RangeNumberInput label="Interval" field={step.field} />
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 space-y-2">
+              <p className="text-sm font-medium">Unit (optional)</p>
+
               <Input
                 {...unit.field}
-                placeholder="Unit (kg, cm, %, pts...)"
+                placeholder="e.g. kg, cm, %, pts"
                 className="h-10 border-primary"
               />
             </div>
           </div>
 
-          <div
-            className="rounded-2xl border p-5 border-primary/30"
-            
-          >
+          <div className="rounded-2xl border p-5 border-primary/30">
             <div className="mb-4 flex items-center gap-3">
               <div className="flex size-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
                 <IconTargetArrow size={18} />

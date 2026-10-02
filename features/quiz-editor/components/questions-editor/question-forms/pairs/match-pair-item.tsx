@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 
+import { motion } from "framer-motion";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { MatchPair } from "@/features/quiz-editor/validation/question";
 import { cn } from "@/lib/utils";
@@ -10,7 +11,6 @@ import { createId } from "@paralleldrive/cuid2";
 import {
   IconArrowsLeftRight,
   IconGripVertical,
-  IconPhotoPlus,
 } from "@tabler/icons-react";
 import { useController, useWatch } from "react-hook-form";
 import { ActionsDropdown } from "../../actions-dropdown";
@@ -43,6 +43,8 @@ export default function MatchPairItem({
   canMoveDown: boolean;
 }) {
   const [element, setElement] = useState<Element | null>(null);
+  const [flipKey, setFlipKey] = useState(0);
+
   const handleRef = useRef<HTMLButtonElement | null>(null);
 
   const {
@@ -77,6 +79,7 @@ export default function MatchPairItem({
   const canReset = !!(
     dirtyFields.questions?.[questionIndex]?.content as { pairs: MatchPair[] }
   )?.pairs?.[index];
+
   const onReset = () =>
     resetField(`questions.${questionIndex}.content.pairs.${index}`);
 
@@ -123,21 +126,56 @@ export default function MatchPairItem({
         shouldDirty: true,
       },
     );
+
+    setFlipKey((value) => value + 1);
   };
 
   return (
-    <div
+    <motion.div
       ref={setElement}
+      layout
+      initial={{
+        opacity: 0,
+        y: 8,
+        scale: 0.98,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        scale: isDragging ? 1.02 : 1,
+      }}
+      exit={{
+        opacity: 0,
+        scale: 0.96,
+        height: 0,
+        marginBottom: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        overflow: "hidden",
+      }}
+      transition={{
+        layout: {
+          duration: 0.25,
+          ease: [0.22, 1, 0.36, 1],
+        },
+        opacity: {
+          duration: 0.18,
+        },
+        scale: {
+          duration: 0.2,
+        },
+      }}
       className={cn(
-        "group rounded-xl border bg-card p-3 transition-all",
+        "group rounded-xl border bg-card p-3",
         "hover:border-primary hover:shadow-sm",
         "focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20",
-        isDragging && "z-50 scale-[1.02] shadow-xl ring-2 ring-primary",
+        isDragging && "z-50 shadow-xl ring-2 ring-primary",
       )}
     >
       <div className="flex items-start gap-3">
         <button
           ref={handleRef}
+          type="button"
           className="mt-1 cursor-grab rounded-md p-1 text-muted-foreground active:cursor-grabbing lg:opacity-0 lg:transition-opacity lg:group-hover:opacity-100"
           onClick={(e) => {
             e.preventDefault();
@@ -147,13 +185,30 @@ export default function MatchPairItem({
           <IconGripVertical className="size-5" />
         </button>
 
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold border-primary/40 bg-primary/18 text-primary">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/18 text-sm font-semibold text-primary">
           {index + 1}
         </div>
 
         <div className="flex-1">
           <div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr]">
-            <div className="space-y-2">
+            <motion.div
+              key={`left-${flipKey}`}
+              initial={{
+                opacity: 0,
+                x: -16,
+                scale: 0.98,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+                scale: 1,
+              }}
+              transition={{
+                duration: 0.25,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="space-y-2"
+            >
               <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Left
               </div>
@@ -163,6 +218,7 @@ export default function MatchPairItem({
                 name={`questions.${questionIndex}.content.pairs.${index}.left.image`}
                 trigger={(props) => <ImageButtonTrigger {...props} />}
               />
+
               <div className="rounded-lg border p-2">
                 <textarea
                   {...leftText}
@@ -180,18 +236,45 @@ export default function MatchPairItem({
                   className="h-11 min-h-11 w-full overflow-y-auto bg-transparent text-sm outline-none"
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <button
-              className="flex items-center justify-center max-lg:py-2"
+            <motion.button
+              type="button"
               onClick={onFlip}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              animate={{
+                rotate: flipKey % 2 === 0 ? 0 : 180,
+              }}
+              transition={{
+                duration: 0.3,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="flex items-center justify-center self-center max-lg:py-2"
             >
-              <div className="flex size-11 items-center justify-center rounded-full border border-primary/35 bg-primary/12 text-primary cursor-pointer hover:bg-primary/30">
+              <div className="flex size-11 items-center justify-center rounded-full border border-primary/35 bg-primary/12 text-primary transition-colors hover:bg-primary/30">
                 <IconArrowsLeftRight className="size-5" />
               </div>
-            </button>
+            </motion.button>
 
-            <div className="space-y-2">
+            <motion.div
+              key={`right-${flipKey}`}
+              initial={{
+                opacity: 0,
+                x: 16,
+                scale: 0.98,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+                scale: 1,
+              }}
+              transition={{
+                duration: 0.25,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="space-y-2"
+            >
               <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Right
               </div>
@@ -219,7 +302,7 @@ export default function MatchPairItem({
                   className="h-11 min-h-11 w-full overflow-y-auto bg-transparent text-sm outline-none"
                 />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 
@@ -249,6 +332,6 @@ export default function MatchPairItem({
           moveUp={moveUp}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
