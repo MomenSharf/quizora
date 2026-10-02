@@ -11,7 +11,7 @@ import QuestionSection from "../question-section";
 import { SectionCard } from "../section-card";
 import { FieldError } from "../../../issues/field-error";
 
-export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
+export function FillinTheBlankForm({ questionIndex }: QuestionFormProps ) {
   const { control, setValue } = useQuizForm();
 
   const content = useWatch({
@@ -19,7 +19,6 @@ export function FillinTheBlankForm({ questionIndex }: QuestionFormProps) {
     name: `questions.${questionIndex}.content`,
   }) as FillBlankData;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const editorContent = useMemo(() => serializeFillInTheBlank(content), []);
 
   return (
