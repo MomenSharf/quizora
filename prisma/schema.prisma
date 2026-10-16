@@ -18,9 +18,11 @@ model User {
   accounts Account[]
   sessions Session[]
   quizzes  Quiz[]
+  quizAttempts QuizAttempt[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
 }
 
 model Account {
@@ -104,6 +106,8 @@ model Quiz {
 
   questions Question[]
 
+  attempts  QuizAttempt[]
+
   publishedAt DateTime?
   deletedAt   DateTime?
 
@@ -154,6 +158,74 @@ model Question {
   @@index([quizId, order])
   @@index([type])
   @@index([difficulty])
+}
+
+model QuizAttempt {
+  id     String @id @default(cuid())
+  userId String
+  quizId String
+
+  mode   QuizAttemptMode
+  status QuizAttemptStatus @default(IN_PROGRESS)
+
+  quizTitle      String
+  quizSnapshot   Json
+  settings       Json
+
+  currentQuestionIndex Int @default(0)
+
+  totalQuestions   Int   @default(0)
+  answeredQuestions Int  @default(0)
+  correctAnswers  Int   @default(0)
+  score            Float @default(0)
+  totalPoints      Float @default(0)
+
+  timeLimitSeconds Int?
+  elapsedSeconds   Int   @default(0)
+
+  startedAt      DateTime  @default(now())
+  lastActivityAt DateTime  @default(now())
+  pausedAt       DateTime?
+  completedAt    DateTime?
+  expiresAt      DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz      Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  questions AttemptQuestion[]
+
+  @@index([userId, status])
+  @@index([quizId, userId, createdAt])
+  @@index([userId, mode, status])
+}
+
+model AttemptQuestion {
+  id        String @id @default(cuid())
+  attemptId String
+
+  questionId String?
+  orderIndex Int
+
+  questionSnapshot    Json
+  answerKeySnapshot   Json
+
+  response    Json?
+  isSubmitted Boolean @default(false)
+
+  status      AttemptQuestionStatus @default(UNANSWERED)
+  evaluation  Json?
+  earnedPoints Float @default(0)
+
+  timeSpentSeconds Int @default(0)
+  answeredAt       DateTime?
+  updatedAt        DateTime @updatedAt
+
+  attempt QuizAttempt @relation( fields: [attemptId], references: [id], onDelete: Cascade )
+
+  @@unique([attemptId, orderIndex])
+  @@index([attemptId, status])
 }
 
 model Image {
@@ -217,4 +289,23 @@ enum QuestionType {
   TAP_FIND
 
   DROPDOWN
+}
+
+enum QuizAttemptMode {
+  PRACTICE
+  TEST
+}
+
+enum QuizAttemptStatus {
+  IN_PROGRESS
+  PAUSED
+  COMPLETED
+  ABANDONED
+  EXPIRED
+}
+
+enum AttemptQuestionStatus {
+  UNANSWERED
+  ANSWERED
+  SKIPPED
 }

@@ -107,8 +107,6 @@ export function serializeUpdateQuiz(
 
     slug: quiz.slug,
 
-
-
     visibility: quiz.visibility,
 
     tags: quiz.tags,

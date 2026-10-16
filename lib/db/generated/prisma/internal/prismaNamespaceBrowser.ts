@@ -57,6 +57,8 @@ export const ModelName = {
   VerificationToken: 'VerificationToken',
   Quiz: 'Quiz',
   Question: 'Question',
+  QuizAttempt: 'QuizAttempt',
+  AttemptQuestion: 'AttemptQuestion',
   Image: 'Image'
 } as const
 
@@ -181,6 +183,55 @@ export const QuestionScalarFieldEnum = {
 export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
 
 
+export const QuizAttemptScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  quizId: 'quizId',
+  mode: 'mode',
+  status: 'status',
+  quizTitle: 'quizTitle',
+  quizSnapshot: 'quizSnapshot',
+  settings: 'settings',
+  currentQuestionIndex: 'currentQuestionIndex',
+  totalQuestions: 'totalQuestions',
+  answeredQuestions: 'answeredQuestions',
+  correctAnswers: 'correctAnswers',
+  score: 'score',
+  totalPoints: 'totalPoints',
+  timeLimitSeconds: 'timeLimitSeconds',
+  elapsedSeconds: 'elapsedSeconds',
+  startedAt: 'startedAt',
+  lastActivityAt: 'lastActivityAt',
+  pausedAt: 'pausedAt',
+  completedAt: 'completedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuizAttemptScalarFieldEnum = (typeof QuizAttemptScalarFieldEnum)[keyof typeof QuizAttemptScalarFieldEnum]
+
+
+export const AttemptQuestionScalarFieldEnum = {
+  id: 'id',
+  attemptId: 'attemptId',
+  questionId: 'questionId',
+  orderIndex: 'orderIndex',
+  questionSnapshot: 'questionSnapshot',
+  answerKeySnapshot: 'answerKeySnapshot',
+  response: 'response',
+  isSubmitted: 'isSubmitted',
+  status: 'status',
+  evaluation: 'evaluation',
+  earnedPoints: 'earnedPoints',
+  timeSpentSeconds: 'timeSpentSeconds',
+  answeredAt: 'answeredAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AttemptQuestionScalarFieldEnum = (typeof AttemptQuestionScalarFieldEnum)[keyof typeof AttemptQuestionScalarFieldEnum]
+
+
 export const ImageScalarFieldEnum = {
   id: 'id',
   key: 'key',
@@ -207,6 +258,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {

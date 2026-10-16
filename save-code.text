@@ -1,97 +1,198 @@
-"use client";
+import { Prisma } from "@/lib/db/generated/prisma/client";
+import type { Answer } from "./answer-types";
+import type { EvaluationResult } from "./evaluation-types";
 
-import { useEffect, useRef } from "react";
-import { saveQuiz } from "../actions/save-quiz";
-import {
-  EditorStore,
-  useAutosaveEnabled,
-  useEditorActions,
-  useEditorStore,
-} from "../store";
-import { useQuizForm } from "./use-quiz-form";
 
-export function useAutosaveHook(debounceMs: number = 3000) {
-  const {
-    watch,
-    getValues,
-    formState: { isDirty },
-  } = useQuizForm();
+export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
+  include: {
+    questions: true
+    image: true
+  }
+}>
 
-  const {
-    setSaveState,
-    setLastSavedAt,
-    setLastAttemptAt,
-    setDirty,
-    setSaveError,
-  } = useEditorActions();
-  const isAutosaveEnabled = useAutosaveEnabled();
+export type PrismaQuestion = Prisma.QuestionGetPayload<{
+  include: {
+    image: true
+  }
+}>
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+export type RuntimeEnvironment = "PREVIEW" | "PRODUCTION";
 
-  useEffect(() => {
-    if (!isAutosaveEnabled) return;
+export type PlayMode = "SOLO";
 
-    const subscription = watch(() => {
-      if (!isDirty) return;
+export type SessionMode = "PRACTICE" | "TEST";
 
-      setDirty(true);
-      setSaveState("pending");
+export type RuntimePhase =
+  | "READY"
+  | "QUESTION"
+  | "ANSWERING"
+  | "ANSWER_LOCKED"
+  | "FEEDBACK"
+  | "PAUSED"
+  | "SUBMITTING"
+  | "RESULT"
+  | "FINISHED";
 
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+export type RuntimeStatus =
+  | "IDLE"
+  | "IN_PROGRESS"
+  | "PAUSED"
+  | "COMPLETED"
+  | "ABANDONED"
+  | "EXPIRED";
 
-      timeoutRef.current = setTimeout(async () => {
-        const payload = getValues();
-        const editorState = useEditorStore.getState();
-        const now = new Date();
-        const stateToSave: EditorStore = {
-          ...editorState,
-          autosave: {
-            ...editorState.autosave,
-            state: "idle",
-            dirty: false,
-            error: null,
-          },
-        };
+export type QuestionNavigation = "SEQUENTIAL" | "FREE";
 
-        setSaveState("saving");
-        setLastAttemptAt(now);
+export type QuestionResultVisibility =
+  | "IMMEDIATE"
+  | "AFTER_SUBMISSION"
+  | "HIDDEN";
 
-        try {
-          await saveQuiz(payload, stateToSave);
+export type ScoreVisibility =
+  | "ALWAYS"
+  | "AFTER_QUESTION"
+  | "AFTER_SUBMISSION"
+  | "HIDDEN";
 
-          setSaveState("saved");
-          setLastSavedAt(new Date());
-          setDirty(false);
-        } catch (error) {
-          console.error("Autosave Engine Failure:", error);
+export type RuntimeSaveStatus =
+  | "IDLE"
+  | "PENDING"
+  | "SAVING"
+  | "SAVED"
+  | "ERROR"
+  | "OFFLINE";;
 
-          const message =
-            error instanceof Error ? error.message : "Failed to save quiz.";
+export type AttemptSettings = {
+  version: 1;
+  mode: SessionMode;
 
-          setSaveState("error");
-          setSaveError(message);
-        }
-      }, debounceMs);
-    });
+  navigation: QuestionNavigation;
+  allowSkip: boolean;
+  allowRetry: boolean;
 
-    return () => {
-      subscription.unsubscribe();
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+  questionTimerEnabled: boolean;
+  defaultQuestionTimeLimit: number | null;
+
+  totalTimerEnabled: boolean;
+  totalTimeLimitSeconds: number | null;
+
+  resultVisibility: QuestionResultVisibility;
+  scoreVisibility: ScoreVisibility;
+  showExplanations: boolean;
+
+  shuffleQuestions: boolean;
+  shuffleAnswers: boolean;
+};
+
+export type RuntimeQuestionStatus =
+  | "UNANSWERED"
+  | "ANSWERED"
+  | "SKIPPED";
+
+export type RuntimeQuestion = {
+  id: string;
+  questionId: string | null;
+  orderIndex: number;
+
+  question: unknown; // ??
+
+  status: RuntimeQuestionStatus;
+  answer: Answer | null;
+  evaluation: EvaluationResult | null;
+
+  earnedPoints: number;
+  timeSpentSeconds: number;
+  answeredAt: number | null;
+};
+
+export type RuntimeProgress = {
+  currentQuestionIndex: number;
+  totalQuestions: number;
+  answeredQuestions: number;
+  correctAnswers: number;
+  skippedQuestions: number;
+
+  score: number;
+  totalPoints: number;
+  elapsedSeconds: number;
+  remainingSeconds: number | null;
+};
+
+export type RuntimeTimerState = {
+  questionStartedAt: number | null;
+  questionDeadlineAt: number | null;
+  attemptDeadlineAt: number | null;
+  isQuestionTimerRunning: boolean;
+  isAttemptTimerRunning: boolean;
+};
+
+export type QuizAttemptRuntime = {
+  id: string;
+  quizId: string;
+  quizTitle: string;
+
+  environment: RuntimeEnvironment;
+  playMode: PlayMode;
+  settings: AttemptSettings;
+
+  status: RuntimeStatus;
+  phase: RuntimePhase;
+
+  questions: RuntimeQuestion[];
+  progress: RuntimeProgress;
+  timer: RuntimeTimerState;
+
+  startedAt: number | null;
+  lastActivityAt: number | null;
+  pausedAt: number | null;
+  completedAt: number | null;
+  expiresAt: number | null;
+
+  saveStatus: RuntimeSaveStatus;
+};
+
+export type RuntimeActionResult<T = undefined> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      error: string;
+      code?: string;
     };
-  }, [
-    watch,
-    getValues,
-    isDirty,
-    isAutosaveEnabled,
-    debounceMs,
-    setSaveState,
-    setLastSavedAt,
-    setLastAttemptAt,
-    setDirty,
-    setSaveError,
-  ]);
-}
+
+export type StartAttemptInput = {
+  quizId: string;
+  mode: SessionMode;
+  environment: RuntimeEnvironment;
+  settings?: Partial<AttemptSettings>;
+};
+
+export type SubmitAnswerInput = {
+  attemptId: string;
+  questionId: string;
+  answer: Answer;
+};
+
+export type NavigateQuestionInput = {
+  attemptId: string;
+  targetIndex: number;
+};
+
+export type AttemptSummary = {
+  id: string;
+  quizId: string;
+  quizTitle: string;
+  mode: SessionMode;
+  status: RuntimeStatus;
+
+  totalQuestions: number;
+  answeredQuestions: number;
+  score: number;
+  totalPoints: number;
+
+  startedAt: number;
+  lastActivityAt: number;
+  completedAt: number | null;
+};

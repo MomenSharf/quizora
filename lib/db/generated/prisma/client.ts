@@ -72,6 +72,16 @@ export type Quiz = Prisma.QuizModel
  */
 export type Question = Prisma.QuestionModel
 /**
+ * Model QuizAttempt
+ * 
+ */
+export type QuizAttempt = Prisma.QuizAttemptModel
+/**
+ * Model AttemptQuestion
+ * 
+ */
+export type AttemptQuestion = Prisma.AttemptQuestionModel
+/**
  * Model Image
  * 
  */
