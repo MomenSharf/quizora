@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check, LoaderCircle } from "lucide-react";
 
-import type { SessionMode } from "../../types/runtime-types";
+import type { AttemptSettings, SessionMode } from "../../types/runtime-types";
 import { MODE_DEFAULTS } from "../../config/mode-defaults";
 import { ModeSelection } from "./mode-selection";
 import { StartAttemptSettingsForm } from "./start-attempt-settings-form";
@@ -19,23 +19,7 @@ type StartNewPageProps = {
   questionCount: number;
 };
 
-export type AttemptSettings = {
-  version: number;
-  mode: SessionMode;
-  navigation: "FREE" | "SEQUENTIAL";
-  allowSkip: boolean;
-  allowQuestionRetry: boolean;
-  allowAnswerChange: boolean;
-  questionTimerEnabled: boolean;
-  defaultQuestionTimeLimit: number | null;
-  totalTimerEnabled: boolean;
-  totalTimeLimitSeconds: number | null;
-  resultVisibility: "IMMEDIATE" | "AFTER_SUBMISSION" | "HIDDEN";
-  scoreVisibility: "ALWAYS" | "AFTER_QUESTION" | "AFTER_SUBMISSION" | "HIDDEN";
-  showExplanations: boolean;
-  shuffleQuestions: boolean;
-  shuffleAnswers: boolean;
-};
+
 
 const createSettings = (mode: SessionMode): AttemptSettings => ({
   ...MODE_DEFAULTS[mode],
@@ -107,7 +91,7 @@ export default function StartAttemptPage({
                 ? { mode: "Link", href: "/" }
                 : { mode: "Button", onClick: () => setSelectedMode(null) }
             }
-            withChevron
+            withChevron={!!selectedMode}
           />
 
           <div className="mx-1 h-8 w-px shrink-0 bg-border sm:mx-2" />

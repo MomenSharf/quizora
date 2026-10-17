@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import {
-  ArrowLeft,
   ArrowRight,
   BookOpen,
   Check,
@@ -11,10 +10,10 @@ import {
   Eye,
   ListOrdered,
   Loader2,
-  Shuffle,
+  Shuffle
 } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
-import type { SessionMode } from "../../types/runtime-types";
+import type { AttemptSettings, SessionMode } from "../../types/runtime-types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,25 +33,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type AttemptSettings = {
-  version: number;
-  mode: SessionMode;
-  navigation: "FREE" | "SEQUENTIAL";
-  allowSkip: boolean;
-  allowQuestionRetry: boolean;
-  allowAnswerChange: boolean;
-  questionTimerEnabled: boolean;
-  defaultQuestionTimeLimit: number | null;
-  totalTimerEnabled: boolean;
-  totalTimeLimitSeconds: number | null;
-  resultVisibility: "IMMEDIATE" | "AFTER_SUBMISSION" | "HIDDEN";
-  scoreVisibility: "ALWAYS" | "AFTER_QUESTION" | "AFTER_SUBMISSION" | "HIDDEN";
-  showExplanations: boolean;
-  shuffleQuestions: boolean;
-  shuffleAnswers: boolean;
-};
+
 
 type StartAttemptSettingsFormProps = {
   quizTitle: string;
@@ -249,7 +231,7 @@ function SessionModeSelector({
               type="button"
               onClick={() => onModeChange(item.value)}
               aria-pressed={isActive}
-              className="relative flex min-w-0 items-center gap-3 rounded-xl px-3 py-3.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-4"
+              className="relative flex min-w-0 items-center gap-3 rounded-xl px-3 py-3.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-4 hover:bg-accent transition-colors cursor-pointer"
             >
               {isActive && (
                 <motion.span
@@ -288,7 +270,7 @@ function SessionModeSelector({
                 </span>
 
                 <span
-                  className={`truncate text-xs ${
+                  className={`truncate text-xs hidden md:inline ${
                     isActive
                       ? "text-primary-foreground/75"
                       : "text-muted-foreground"

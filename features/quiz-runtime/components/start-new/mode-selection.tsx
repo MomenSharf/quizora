@@ -1,10 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, BookOpen, ClipboardCheck } from "lucide-react";
+import { ArrowUpRight, BookOpen, ClipboardCheck, Gamepad2 } from "lucide-react";
 
 import type { SessionMode } from "../../types/runtime-types";
-import { Fragment } from "react/jsx-runtime";
 
 type ModeSelectionProps = {
   quizTitle: string;
@@ -18,7 +17,7 @@ const modes = [
     title: "Practice",
     description: "Learn at your own pace.",
     features: ["Learn", "Practice", "Improve"],
-    icon: BookOpen,
+    icon: Gamepad2,
     number: 1,
   },
   {
@@ -30,7 +29,6 @@ const modes = [
     number: 2,
   },
 ];
-
 export function ModeSelection({ onSelectMode }: ModeSelectionProps) {
   return (
     <section className="relative flex flex-col items-center justify-center overflow-hidden p-4 ">
@@ -102,10 +100,16 @@ export function ModeSelection({ onSelectMode }: ModeSelectionProps) {
                 }}
               />
 
-              <motion.div
+              {/* <motion.div
                 aria-hidden="true"
                 className="pointer-events-none absolute -right-8 top-16 -z-10 size-32 rotate-45 rounded-[32px] border border-primary/10 bg-primary/[0.025] transition-transform duration-700 group-hover:rotate-[75deg] group-hover:scale-125"
-              />
+              /> */}
+              <motion.div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-5 top-7 -z-10 text-primary/[0.08] transition-colors duration-500 group-hover:text-primary/[0.18]"
+              >
+                <Icon className="size-16 stroke-[1.1] transition-transform duration-700 ease-out group-hover:rotate-[-8deg] group-hover:scale-110 sm:size-30" />
+              </motion.div>
 
               <div className="flex items-start justify-between">
                 <motion.div
