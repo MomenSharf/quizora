@@ -4,29 +4,31 @@ import { IconChevronLeft } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import { appConfig } from "@/lib/config/app";
+import { useRouter } from "next/navigation";
 
 type LogoProps = {
-  href?: string;
   className?: string;
   containerClassName?: string;
   iconClassName?: string;
   textClassName?: string;
   iconOnly?: boolean;
   withChevron?: boolean;
+  handleClick?:
+    { mode: "Link"; href: string } | { mode: "Button"; onClick: () => void };
 };
 
 export function Logo({
-  href = "/",
   className,
   containerClassName,
   iconClassName,
   textClassName,
   iconOnly = false,
   withChevron = false,
+  handleClick,
 }: LogoProps) {
+  const router = useRouter();
   return (
-    <Link
-      href={href}
+    <button
       aria-label={iconOnly ? appConfig.name : undefined}
       className={cn(
         "group inline-flex items-center gap-2.5",
@@ -34,6 +36,21 @@ export function Logo({
         "rounded-lg",
         className,
       )}
+      onClick={() => {
+        if (!handleClick) return router.push("/");
+        switch (handleClick?.mode) {
+          case "Link":
+            router.push(handleClick.href);
+            return;
+
+          case "Button":
+            handleClick.onClick();
+            return;
+
+          default:
+            return;
+        }
+      }}
     >
       <div
         className={cn(
@@ -75,6 +92,6 @@ export function Logo({
           {appConfig.name}
         </span>
       )}
-    </Link>
+    </button>
   );
 }

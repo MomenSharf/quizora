@@ -1,10 +1,10 @@
-
 "use client";
 
 import { motion } from "framer-motion";
 import { ArrowUpRight, BookOpen, ClipboardCheck } from "lucide-react";
 
 import type { SessionMode } from "../../types/runtime-types";
+import { Fragment } from "react/jsx-runtime";
 
 type ModeSelectionProps = {
   quizTitle: string;
@@ -17,15 +17,17 @@ const modes = [
     id: "PRACTICE" as const,
     title: "Practice",
     description: "Learn at your own pace.",
+    features: ["Learn", "Practice", "Improve"],
     icon: BookOpen,
-    number: "01",
+    number: 1,
   },
   {
     id: "TEST" as const,
     title: "Test",
     description: "Put your knowledge to the test.",
+    features: ["Focus", "Challenge", "Evaluate"],
     icon: ClipboardCheck,
-    number: "02",
+    number: 2,
   },
 ];
 
@@ -47,8 +49,7 @@ export function ModeSelection({ onSelectMode }: ModeSelectionProps) {
           YOUR EXPERIENCE
         </p>
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          How would you like to{" "}
-          <span className="text-primary">play?</span>
+          How would you like to <span className="text-primary">play?</span>
         </h1>
         <p className="mt-3 text-sm text-muted-foreground sm:text-base">
           Choose your style. Make every question count.
@@ -116,7 +117,7 @@ export function ModeSelection({ onSelectMode }: ModeSelectionProps) {
                 </motion.div>
 
                 <span className="font-mono text-xs tracking-widest text-muted-foreground/50 transition-colors group-hover:text-primary">
-                  {mode.number}
+                  0{mode.number}
                 </span>
               </div>
 
@@ -127,6 +128,56 @@ export function ModeSelection({ onSelectMode }: ModeSelectionProps) {
                 <p className="mt-2 text-sm text-muted-foreground">
                   {mode.description}
                 </p>
+                <motion.div
+                  className="mt-2 flex flex-wrap items-center gap-3 text-xs font-medium"
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {mode.features.map((feature, index) => {
+                    const delay = Number(mode.number - 1) * 1.6 + index * 0.55;
+
+                    return (
+                      <motion.span
+                        key={feature}
+                        className="relative pb-1 text-muted-foreground"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                      >
+                        <motion.span
+                          animate={{
+                            color: [
+                              "var(--muted-foreground)",
+                              "var(--primary)",
+                              "var(--muted-foreground)",
+                            ],
+                          }}
+                          transition={{
+                            duration: 0.85,
+                            delay,
+                            repeat: Infinity,
+                            repeatDelay: 3.0,
+                            ease: "easeInOut",
+                          }}
+                        >
+                          {feature}
+                        </motion.span>
+
+                        <motion.span
+                          className="absolute inset-x-0 bottom-0 h-0.5 origin-left rounded-full bg-primary"
+                          animate={{ scaleX: [0, 1, 0] }}
+                          transition={{
+                            duration: 0.85,
+                            delay,
+                            repeat: Infinity,
+                            repeatDelay: 3.0,
+                            ease: "easeInOut",
+                          }}
+                        />
+                      </motion.span>
+                    );
+                  })}
+                </motion.div>
               </div>
 
               <div className="absolute bottom-6 right-6 flex size-9 items-center justify-center rounded-full border border-border/80 bg-background/70 text-muted-foreground transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:border-primary/30 group-hover:bg-primary group-hover:text-primary-foreground">

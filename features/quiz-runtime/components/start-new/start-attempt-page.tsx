@@ -99,10 +99,15 @@ export default function StartAttemptPage({
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-xl">
         <div className="mx-auto flex h-[68px] max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
           <Logo
-            href="/"
             containerClassName="size-9 rounded-xl"
             iconClassName="size-[18px]"
             textClassName="text-lg"
+            handleClick={
+              !selectedMode
+                ? { mode: "Link", href: "/" }
+                : { mode: "Button", onClick: () => setSelectedMode(null) }
+            }
+            withChevron
           />
 
           <div className="mx-1 h-8 w-px shrink-0 bg-border sm:mx-2" />
@@ -189,7 +194,7 @@ export default function StartAttemptPage({
                 onModeChange={setSelectedMode}
                 onSettingsChange={handleSettingsChange}
                 onStart={handleStart}
-               isStarting={isStarting}
+                isStarting={isStarting}
               />
             </motion.div>
           )}
