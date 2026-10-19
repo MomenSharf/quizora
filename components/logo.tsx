@@ -15,6 +15,7 @@ type LogoProps = {
   withChevron?: boolean;
   handleClick?:
     { mode: "Link"; href: string } | { mode: "Button"; onClick: () => void };
+  disabled?: boolean
 };
 
 export function Logo({
@@ -25,18 +26,20 @@ export function Logo({
   iconOnly = false,
   withChevron = false,
   handleClick,
+  disabled = false
 }: LogoProps) {
   const router = useRouter();
   return (
     <button
       aria-label={iconOnly ? appConfig.name : undefined}
       className={cn(
-        "group inline-flex items-center gap-2.5",
+        "group inline-flex items-center gap-2.5 cursor-pointer",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
         "rounded-lg",
         className,
       )}
       onClick={() => {
+        if(disabled) return;
         if (!handleClick) return router.push("/");
         switch (handleClick?.mode) {
           case "Link":

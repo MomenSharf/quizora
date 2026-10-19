@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { QuizAttemptRuntime } from "../types/runtime-types";
 import { useRuntimeStore } from "../store";
 import { InitializeGameplay } from "./initialize-gameplay";
+import GamePlayHeader from "./header/game-play-header";
 
 type GameplayLayoutProps = {
   attempt: QuizAttemptRuntime;
@@ -11,7 +12,9 @@ type GameplayLayoutProps = {
 export default function Gameplay({ attempt }: GameplayLayoutProps) {
   return (
     <InitializeGameplay attempt={attempt}>
-      <div>Gameplay</div>
+      <div className="">
+        <GamePlayHeader />
+      </div>
     </InitializeGameplay>
   );
 }
