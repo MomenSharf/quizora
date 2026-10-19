@@ -9,7 +9,7 @@ import {
   defaultRuntimeSubmission,
   type RuntimeAnswerState,
   type RuntimeLoadingState,
-  type RuntimeStore
+  type RuntimeStore,
 } from "./runtime-store.types";
 
 import type { Answer } from "../types/answer-types";
@@ -77,7 +77,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       },
       persistence: {
         ...defaultRuntimePersistence,
-        saveState: attempt.saveStatus ?? "IDLE",  
+        saveState: attempt.saveStatus ?? "IDLE",
         dirty: false,
       },
       loading: defaultRuntimeLoading,
@@ -92,7 +92,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   setEnvironment: (environment: RuntimeEnvironment) => set({ environment }),
 
   setMode: (mode: SessionMode) => set({ mode }),
-
 
   setSettings: (settings: AttemptSettings) =>
     set({
@@ -114,8 +113,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       completedAt: null,
       timer: {
         ...state.timer,
-        isAttemptTimerRunning:
-          state.settings?.totalTimerEnabled ?? false,
+        isAttemptTimerRunning: state.settings?.totalTimerEnabled ?? false,
       },
     })),
 
@@ -140,10 +138,8 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       lastActivityAt: resumedAt,
       timer: {
         ...state.timer,
-        isQuestionTimerRunning:
-          state.timer.questionDeadlineAt !== null,
-        isAttemptTimerRunning:
-          state.timer.attemptDeadlineAt !== null,
+        isQuestionTimerRunning: state.timer.questionDeadlineAt !== null,
+        isAttemptTimerRunning: state.timer.attemptDeadlineAt !== null,
       },
     })),
 
@@ -177,8 +173,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       },
     })),
 
-  updateLastActivity: (timestamp) =>
-    set({ lastActivityAt: timestamp }),
+  updateLastActivity: (timestamp) => set({ lastActivityAt: timestamp }),
 
   setQuestions: (questions: RuntimeQuestion[]) =>
     set((state) => ({
@@ -187,8 +182,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
         ...state.progress,
         totalQuestions: questions.length,
         totalPoints: questions.reduce(
-          (total, question) =>
-            total + (question.evaluation?.maxPoints ?? 0),
+          (total, question) => total + (question.evaluation?.maxPoints ?? 0),
           0,
         ),
       },
@@ -285,15 +279,13 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
   setAnswer: (questionId: string, answer: Answer) =>
     set((state) => {
-      const existing = state.answers[questionId];
-
       return {
         answers: {
           ...state.answers,
           [questionId]: {
             questionId,
             answer,
-            evaluation: existing?.evaluation ?? null,
+            evaluation: null,
             status: "ANSWERED",
             isDirty: true,
             lastModifiedAt: Date.now(),
@@ -346,52 +338,56 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       };
     }),
 
-setAnswerState: (
-  questionId: string,
-  answerState: Partial<RuntimeAnswerState>,
-) =>
-  set((state) => {
-    const existing = state.answers[questionId];
-
-    if (!existing) return state;
-
-    return {
-      answers: {
-        ...state.answers,
-        [questionId]: {
-          ...existing,
-          ...answerState,
-        },
-      },
-    };
-  }),
-
-  markAnswerSaved: (questionId) =>
+  setAnswerState: (
+    questionId: string,
+    answerState: Partial<RuntimeAnswerState>,
+  ) =>
     set((state) => {
-      const answer = state.answers[questionId];
+      const existing = state.answers[questionId];
 
-      if (!answer) return state;
+      if (!existing) return state;
 
       return {
         answers: {
           ...state.answers,
           [questionId]: {
-            ...answer,
-            isDirty: false,
+            ...existing,
+            ...answerState,
           },
         },
       };
     }),
 
-  setQuestionStatus: (
-    questionId: string,
-    status: RuntimeQuestionStatus,
-  ) =>
+markAnswerSaved: (questionId) =>
+  set((state) => {
+    const answers = {
+      ...state.answers,
+      [questionId]: {
+        ...state.answers[questionId],
+        isDirty: false,
+      },
+    };
+
+    const dirty = Object.values(answers).some(
+      (answer) => answer.isDirty,
+    );
+
+    return {
+      answers,
+      persistence: {
+        ...state.persistence,
+        dirty,
+        saveState: dirty ? "PENDING" : "SAVED",
+        lastSavedAt: dirty ? state.persistence.lastSavedAt : Date.now(),
+        error: null,
+      },
+    };
+  }),
+
+  setQuestionStatus: (questionId: string, status: RuntimeQuestionStatus) =>
     set((state) => ({
       questions: state.questions.map((question) =>
-        question.id === questionId
-          ? { ...question, status }
-          : question,
+        question.id === questionId ? { ...question, status } : question,
       ),
       answers: state.answers[questionId]
         ? {
@@ -439,6 +435,8 @@ setAnswerState: (
           : question;
       });
 
+      const answers = state.answers;
+
       const answeredQuestions = questions.filter(
         (question) => question.status === "ANSWERED",
       ).length;
@@ -451,15 +449,13 @@ setAnswerState: (
         (question) => question.status === "SKIPPED",
       ).length;
 
-      const score = questions.reduce(
-        (total, question) =>
-          total + (question.evaluation?.earnedPoints ?? 0),
+      const totalPoints = questions.reduce(
+        (sum, question) => sum + question.maxPoints,
         0,
       );
 
-      const totalPoints = questions.reduce(
-        (total, question) =>
-          total + (question.evaluation?.maxPoints ?? 0),
+      const score = Object.values(answers).reduce(
+        (sum, answerState) => sum + (answerState.evaluation?.earnedPoints ?? 0),
         0,
       );
 

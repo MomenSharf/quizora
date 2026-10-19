@@ -15,14 +15,13 @@ model User {
   emailVerified DateTime?
   image         String?
 
-  accounts Account[]
-  sessions Session[]
-  quizzes  Quiz[]
+  accounts     Account[]
+  sessions     Session[]
+  quizzes      Quiz[]
   quizAttempts QuizAttempt[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
 }
 
 model Account {
@@ -106,7 +105,7 @@ model Quiz {
 
   questions Question[]
 
-  attempts  QuizAttempt[]
+  attempts QuizAttempt[]
 
   publishedAt DateTime?
   deletedAt   DateTime?
@@ -160,28 +159,55 @@ model Question {
   @@index([difficulty])
 }
 
+enum RuntimeEnvironment {
+  PREVIEW
+  PRODUCTION
+}
+
+enum QuizAttemptMode {
+  PRACTICE
+  TEST
+}
+
+enum QuizAttemptStatus {
+  IN_PROGRESS
+  PAUSED
+  COMPLETED
+  ABANDONED
+  EXPIRED
+}
+
+enum AttemptQuestionStatus {
+  UNANSWERED
+  ANSWERED
+  SKIPPED
+}
+
 model QuizAttempt {
   id     String @id @default(cuid())
   userId String
   quizId String
 
-  mode   QuizAttemptMode
-  status QuizAttemptStatus @default(IN_PROGRESS)
+  mode        QuizAttemptMode
+  environment RuntimeEnvironment @default(PRODUCTION)
+  status      QuizAttemptStatus  @default(IN_PROGRESS)
 
-  quizTitle      String
-  quizSnapshot   Json
-  settings       Json
+  quizTitle    String
+  quizSnapshot Json
+  settings     Json
 
   currentQuestionIndex Int @default(0)
 
-  totalQuestions   Int   @default(0)
-  answeredQuestions Int  @default(0)
-  correctAnswers  Int   @default(0)
-  score            Float @default(0)
-  totalPoints      Float @default(0)
+  totalQuestions          Int   @default(0)
+  answeredQuestions       Int   @default(0)
+  correctAnswers          Int   @default(0)
+  skippedQuestions        Int   @default(0)
+  partiallyCorrectAnswers Int   @default(0)
+  score                   Float @default(0)
+  totalPoints             Float @default(0)
 
   timeLimitSeconds Int?
-  elapsedSeconds   Int   @default(0)
+  elapsedSeconds   Int  @default(0)
 
   startedAt      DateTime  @default(now())
   lastActivityAt DateTime  @default(now())
@@ -189,16 +215,17 @@ model QuizAttempt {
   completedAt    DateTime?
   expiresAt      DateTime?
 
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz      Quiz              @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  questions AttemptQuestion[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  quiz      Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  questions AttemptQuestion[]
 
   @@index([userId, status])
   @@index([quizId, userId, createdAt])
   @@index([userId, mode, status])
+  @@index([lastActivityAt])
 }
 
 model AttemptQuestion {
@@ -208,24 +235,25 @@ model AttemptQuestion {
   questionId String?
   orderIndex Int
 
-  questionSnapshot    Json
-  answerKeySnapshot   Json
+  questionSnapshot  Json
+  answerKeySnapshot Json
 
-  response    Json?
-  isSubmitted Boolean @default(false)
+  response     Json?
+  isSubmitted  Boolean               @default(false)
+  status       AttemptQuestionStatus @default(UNANSWERED)
+  evaluation   Json?
+  earnedPoints Float                 @default(0)
+  maxPoints    Float                 @default(1)
 
-  status      AttemptQuestionStatus @default(UNANSWERED)
-  evaluation  Json?
-  earnedPoints Float @default(0)
-
-  timeSpentSeconds Int @default(0)
+  timeSpentSeconds Int       @default(0)
   answeredAt       DateTime?
-  updatedAt        DateTime @updatedAt
+  updatedAt        DateTime  @updatedAt
 
-  attempt QuizAttempt @relation( fields: [attemptId], references: [id], onDelete: Cascade )
+  attempt QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
 
   @@unique([attemptId, orderIndex])
   @@index([attemptId, status])
+  @@index([questionId])
 }
 
 model Image {
@@ -289,23 +317,4 @@ enum QuestionType {
   TAP_FIND
 
   DROPDOWN
-}
-
-enum QuizAttemptMode {
-  PRACTICE
-  TEST
-}
-
-enum QuizAttemptStatus {
-  IN_PROGRESS
-  PAUSED
-  COMPLETED
-  ABANDONED
-  EXPIRED
-}
-
-enum AttemptQuestionStatus {
-  UNANSWERED
-  ANSWERED
-  SKIPPED
 }

@@ -31,15 +31,10 @@ export type SessionMode = "PRACTICE" | "TEST";
 export type QuestionNavigation = "SEQUENTIAL" | "FREE";
 
 export type QuestionResultVisibility =
-  | "IMMEDIATE"
-  | "AFTER_SUBMISSION"
-  | "HIDDEN";
+  "IMMEDIATE" | "AFTER_SUBMISSION" | "HIDDEN";
 
 export type ScoreVisibility =
-  | "ALWAYS"
-  | "AFTER_QUESTION"
-  | "AFTER_SUBMISSION"
-  | "HIDDEN";
+  "ALWAYS" | "AFTER_QUESTION" | "AFTER_SUBMISSION" | "HIDDEN";
 
 // --------------------------------------------------
 // Runtime lifecycle
@@ -57,20 +52,10 @@ export type RuntimePhase =
   | "FINISHED";
 
 export type RuntimeStatus =
-  | "IDLE"
-  | "IN_PROGRESS"
-  | "PAUSED"
-  | "COMPLETED"
-  | "ABANDONED"
-  | "EXPIRED";
+  "IDLE" | "IN_PROGRESS" | "PAUSED" | "COMPLETED" | "ABANDONED" | "EXPIRED";
 
 export type RuntimeSaveStatus =
-  | "IDLE"
-  | "PENDING"
-  | "SAVING"
-  | "SAVED"
-  | "ERROR"
-  | "OFFLINE";
+  "IDLE" | "PENDING" | "SAVING" | "SAVED" | "ERROR" | "OFFLINE";
 
 // --------------------------------------------------
 // Attempt settings
@@ -105,10 +90,7 @@ export type AttemptSettings = {
 // Question state
 // --------------------------------------------------
 
-export type RuntimeQuestionStatus =
-  | "UNANSWERED"
-  | "ANSWERED"
-  | "SKIPPED";
+export type RuntimeQuestionStatus = "UNANSWERED" | "ANSWERED" | "SKIPPED";
 
 export type RuntimeQuestion = {
   // Unique ID of this question in the attempt.
@@ -132,6 +114,8 @@ export type RuntimeQuestion = {
 
   timeSpentSeconds: number;
   answeredAt: number | null;
+
+  maxPoints: number;
 };
 
 // --------------------------------------------------
@@ -220,9 +204,7 @@ export type StartAttemptInput = {
   mode: SessionMode;
   environment: RuntimeEnvironment;
 
-  settings?: Partial<
-    Omit<AttemptSettings, "version" | "mode">
-  >;
+  settings?: Partial<Omit<AttemptSettings, "version" | "mode">>;
 };
 
 export type SubmitAnswerInput = {

@@ -29,12 +29,14 @@ export type AggregateAttemptQuestion = {
 export type AttemptQuestionAvgAggregateOutputType = {
   orderIndex: number | null
   earnedPoints: number | null
+  maxPoints: number | null
   timeSpentSeconds: number | null
 }
 
 export type AttemptQuestionSumAggregateOutputType = {
   orderIndex: number | null
   earnedPoints: number | null
+  maxPoints: number | null
   timeSpentSeconds: number | null
 }
 
@@ -46,6 +48,7 @@ export type AttemptQuestionMinAggregateOutputType = {
   isSubmitted: boolean | null
   status: $Enums.AttemptQuestionStatus | null
   earnedPoints: number | null
+  maxPoints: number | null
   timeSpentSeconds: number | null
   answeredAt: Date | null
   updatedAt: Date | null
@@ -59,6 +62,7 @@ export type AttemptQuestionMaxAggregateOutputType = {
   isSubmitted: boolean | null
   status: $Enums.AttemptQuestionStatus | null
   earnedPoints: number | null
+  maxPoints: number | null
   timeSpentSeconds: number | null
   answeredAt: Date | null
   updatedAt: Date | null
@@ -76,6 +80,7 @@ export type AttemptQuestionCountAggregateOutputType = {
   status: number
   evaluation: number
   earnedPoints: number
+  maxPoints: number
   timeSpentSeconds: number
   answeredAt: number
   updatedAt: number
@@ -86,12 +91,14 @@ export type AttemptQuestionCountAggregateOutputType = {
 export type AttemptQuestionAvgAggregateInputType = {
   orderIndex?: true
   earnedPoints?: true
+  maxPoints?: true
   timeSpentSeconds?: true
 }
 
 export type AttemptQuestionSumAggregateInputType = {
   orderIndex?: true
   earnedPoints?: true
+  maxPoints?: true
   timeSpentSeconds?: true
 }
 
@@ -103,6 +110,7 @@ export type AttemptQuestionMinAggregateInputType = {
   isSubmitted?: true
   status?: true
   earnedPoints?: true
+  maxPoints?: true
   timeSpentSeconds?: true
   answeredAt?: true
   updatedAt?: true
@@ -116,6 +124,7 @@ export type AttemptQuestionMaxAggregateInputType = {
   isSubmitted?: true
   status?: true
   earnedPoints?: true
+  maxPoints?: true
   timeSpentSeconds?: true
   answeredAt?: true
   updatedAt?: true
@@ -133,6 +142,7 @@ export type AttemptQuestionCountAggregateInputType = {
   status?: true
   evaluation?: true
   earnedPoints?: true
+  maxPoints?: true
   timeSpentSeconds?: true
   answeredAt?: true
   updatedAt?: true
@@ -237,6 +247,7 @@ export type AttemptQuestionGroupByOutputType = {
   status: $Enums.AttemptQuestionStatus
   evaluation: runtime.JsonValue | null
   earnedPoints: number
+  maxPoints: number
   timeSpentSeconds: number
   answeredAt: Date | null
   updatedAt: Date
@@ -277,6 +288,7 @@ export type AttemptQuestionWhereInput = {
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.JsonNullableFilter<"AttemptQuestion">
   earnedPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
+  maxPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -295,6 +307,7 @@ export type AttemptQuestionOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   evaluation?: Prisma.SortOrderInput | Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
+  maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -317,6 +330,7 @@ export type AttemptQuestionWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.JsonNullableFilter<"AttemptQuestion">
   earnedPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
+  maxPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -335,6 +349,7 @@ export type AttemptQuestionOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   evaluation?: Prisma.SortOrderInput | Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
+  maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -360,6 +375,7 @@ export type AttemptQuestionScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumAttemptQuestionStatusWithAggregatesFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.JsonNullableWithAggregatesFilter<"AttemptQuestion">
   earnedPoints?: Prisma.FloatWithAggregatesFilter<"AttemptQuestion"> | number
+  maxPoints?: Prisma.FloatWithAggregatesFilter<"AttemptQuestion"> | number
   timeSpentSeconds?: Prisma.IntWithAggregatesFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AttemptQuestion"> | Date | string
@@ -376,6 +392,7 @@ export type AttemptQuestionCreateInput = {
   status?: $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
+  maxPoints?: number
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -394,6 +411,7 @@ export type AttemptQuestionUncheckedCreateInput = {
   status?: $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
+  maxPoints?: number
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -410,6 +428,7 @@ export type AttemptQuestionUpdateInput = {
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -428,6 +447,7 @@ export type AttemptQuestionUncheckedUpdateInput = {
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -445,6 +465,7 @@ export type AttemptQuestionCreateManyInput = {
   status?: $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
+  maxPoints?: number
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -461,6 +482,7 @@ export type AttemptQuestionUpdateManyMutationInput = {
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -478,6 +500,7 @@ export type AttemptQuestionUncheckedUpdateManyInput = {
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -510,6 +533,7 @@ export type AttemptQuestionCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   evaluation?: Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
+  maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -518,6 +542,7 @@ export type AttemptQuestionCountOrderByAggregateInput = {
 export type AttemptQuestionAvgOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
+  maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
 }
 
@@ -529,6 +554,7 @@ export type AttemptQuestionMaxOrderByAggregateInput = {
   isSubmitted?: Prisma.SortOrder
   status?: Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
+  maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -542,6 +568,7 @@ export type AttemptQuestionMinOrderByAggregateInput = {
   isSubmitted?: Prisma.SortOrder
   status?: Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
+  maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -550,6 +577,7 @@ export type AttemptQuestionMinOrderByAggregateInput = {
 export type AttemptQuestionSumOrderByAggregateInput = {
   orderIndex?: Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
+  maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
 }
 
@@ -614,6 +642,7 @@ export type AttemptQuestionCreateWithoutAttemptInput = {
   status?: $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
+  maxPoints?: number
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -630,6 +659,7 @@ export type AttemptQuestionUncheckedCreateWithoutAttemptInput = {
   status?: $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
+  maxPoints?: number
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -676,6 +706,7 @@ export type AttemptQuestionScalarWhereInput = {
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.JsonNullableFilter<"AttemptQuestion">
   earnedPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
+  maxPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -692,6 +723,7 @@ export type AttemptQuestionCreateManyAttemptInput = {
   status?: $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
+  maxPoints?: number
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -708,6 +740,7 @@ export type AttemptQuestionUpdateWithoutAttemptInput = {
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -724,6 +757,7 @@ export type AttemptQuestionUncheckedUpdateWithoutAttemptInput = {
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -740,6 +774,7 @@ export type AttemptQuestionUncheckedUpdateManyWithoutAttemptInput = {
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -759,6 +794,7 @@ export type AttemptQuestionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   status?: boolean
   evaluation?: boolean
   earnedPoints?: boolean
+  maxPoints?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
   updatedAt?: boolean
@@ -777,6 +813,7 @@ export type AttemptQuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   status?: boolean
   evaluation?: boolean
   earnedPoints?: boolean
+  maxPoints?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
   updatedAt?: boolean
@@ -795,6 +832,7 @@ export type AttemptQuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   status?: boolean
   evaluation?: boolean
   earnedPoints?: boolean
+  maxPoints?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
   updatedAt?: boolean
@@ -813,12 +851,13 @@ export type AttemptQuestionSelectScalar = {
   status?: boolean
   evaluation?: boolean
   earnedPoints?: boolean
+  maxPoints?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
   updatedAt?: boolean
 }
 
-export type AttemptQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "orderIndex" | "questionSnapshot" | "answerKeySnapshot" | "response" | "isSubmitted" | "status" | "evaluation" | "earnedPoints" | "timeSpentSeconds" | "answeredAt" | "updatedAt", ExtArgs["result"]["attemptQuestion"]>
+export type AttemptQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "orderIndex" | "questionSnapshot" | "answerKeySnapshot" | "response" | "isSubmitted" | "status" | "evaluation" | "earnedPoints" | "maxPoints" | "timeSpentSeconds" | "answeredAt" | "updatedAt", ExtArgs["result"]["attemptQuestion"]>
 export type AttemptQuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attempt?: boolean | Prisma.QuizAttemptDefaultArgs<ExtArgs>
 }
@@ -846,6 +885,7 @@ export type $AttemptQuestionPayload<ExtArgs extends runtime.Types.Extensions.Int
     status: $Enums.AttemptQuestionStatus
     evaluation: runtime.JsonValue | null
     earnedPoints: number
+    maxPoints: number
     timeSpentSeconds: number
     answeredAt: Date | null
     updatedAt: Date
@@ -1284,6 +1324,7 @@ export interface AttemptQuestionFieldRefs {
   readonly status: Prisma.FieldRef<"AttemptQuestion", 'AttemptQuestionStatus'>
   readonly evaluation: Prisma.FieldRef<"AttemptQuestion", 'Json'>
   readonly earnedPoints: Prisma.FieldRef<"AttemptQuestion", 'Float'>
+  readonly maxPoints: Prisma.FieldRef<"AttemptQuestion", 'Float'>
   readonly timeSpentSeconds: Prisma.FieldRef<"AttemptQuestion", 'Int'>
   readonly answeredAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>

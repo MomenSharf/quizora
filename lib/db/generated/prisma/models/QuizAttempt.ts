@@ -31,6 +31,8 @@ export type QuizAttemptAvgAggregateOutputType = {
   totalQuestions: number | null
   answeredQuestions: number | null
   correctAnswers: number | null
+  skippedQuestions: number | null
+  partiallyCorrectAnswers: number | null
   score: number | null
   totalPoints: number | null
   timeLimitSeconds: number | null
@@ -42,6 +44,8 @@ export type QuizAttemptSumAggregateOutputType = {
   totalQuestions: number | null
   answeredQuestions: number | null
   correctAnswers: number | null
+  skippedQuestions: number | null
+  partiallyCorrectAnswers: number | null
   score: number | null
   totalPoints: number | null
   timeLimitSeconds: number | null
@@ -53,12 +57,15 @@ export type QuizAttemptMinAggregateOutputType = {
   userId: string | null
   quizId: string | null
   mode: $Enums.QuizAttemptMode | null
+  environment: $Enums.RuntimeEnvironment | null
   status: $Enums.QuizAttemptStatus | null
   quizTitle: string | null
   currentQuestionIndex: number | null
   totalQuestions: number | null
   answeredQuestions: number | null
   correctAnswers: number | null
+  skippedQuestions: number | null
+  partiallyCorrectAnswers: number | null
   score: number | null
   totalPoints: number | null
   timeLimitSeconds: number | null
@@ -77,12 +84,15 @@ export type QuizAttemptMaxAggregateOutputType = {
   userId: string | null
   quizId: string | null
   mode: $Enums.QuizAttemptMode | null
+  environment: $Enums.RuntimeEnvironment | null
   status: $Enums.QuizAttemptStatus | null
   quizTitle: string | null
   currentQuestionIndex: number | null
   totalQuestions: number | null
   answeredQuestions: number | null
   correctAnswers: number | null
+  skippedQuestions: number | null
+  partiallyCorrectAnswers: number | null
   score: number | null
   totalPoints: number | null
   timeLimitSeconds: number | null
@@ -101,6 +111,7 @@ export type QuizAttemptCountAggregateOutputType = {
   userId: number
   quizId: number
   mode: number
+  environment: number
   status: number
   quizTitle: number
   quizSnapshot: number
@@ -109,6 +120,8 @@ export type QuizAttemptCountAggregateOutputType = {
   totalQuestions: number
   answeredQuestions: number
   correctAnswers: number
+  skippedQuestions: number
+  partiallyCorrectAnswers: number
   score: number
   totalPoints: number
   timeLimitSeconds: number
@@ -129,6 +142,8 @@ export type QuizAttemptAvgAggregateInputType = {
   totalQuestions?: true
   answeredQuestions?: true
   correctAnswers?: true
+  skippedQuestions?: true
+  partiallyCorrectAnswers?: true
   score?: true
   totalPoints?: true
   timeLimitSeconds?: true
@@ -140,6 +155,8 @@ export type QuizAttemptSumAggregateInputType = {
   totalQuestions?: true
   answeredQuestions?: true
   correctAnswers?: true
+  skippedQuestions?: true
+  partiallyCorrectAnswers?: true
   score?: true
   totalPoints?: true
   timeLimitSeconds?: true
@@ -151,12 +168,15 @@ export type QuizAttemptMinAggregateInputType = {
   userId?: true
   quizId?: true
   mode?: true
+  environment?: true
   status?: true
   quizTitle?: true
   currentQuestionIndex?: true
   totalQuestions?: true
   answeredQuestions?: true
   correctAnswers?: true
+  skippedQuestions?: true
+  partiallyCorrectAnswers?: true
   score?: true
   totalPoints?: true
   timeLimitSeconds?: true
@@ -175,12 +195,15 @@ export type QuizAttemptMaxAggregateInputType = {
   userId?: true
   quizId?: true
   mode?: true
+  environment?: true
   status?: true
   quizTitle?: true
   currentQuestionIndex?: true
   totalQuestions?: true
   answeredQuestions?: true
   correctAnswers?: true
+  skippedQuestions?: true
+  partiallyCorrectAnswers?: true
   score?: true
   totalPoints?: true
   timeLimitSeconds?: true
@@ -199,6 +222,7 @@ export type QuizAttemptCountAggregateInputType = {
   userId?: true
   quizId?: true
   mode?: true
+  environment?: true
   status?: true
   quizTitle?: true
   quizSnapshot?: true
@@ -207,6 +231,8 @@ export type QuizAttemptCountAggregateInputType = {
   totalQuestions?: true
   answeredQuestions?: true
   correctAnswers?: true
+  skippedQuestions?: true
+  partiallyCorrectAnswers?: true
   score?: true
   totalPoints?: true
   timeLimitSeconds?: true
@@ -312,6 +338,7 @@ export type QuizAttemptGroupByOutputType = {
   userId: string
   quizId: string
   mode: $Enums.QuizAttemptMode
+  environment: $Enums.RuntimeEnvironment
   status: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: runtime.JsonValue
@@ -320,6 +347,8 @@ export type QuizAttemptGroupByOutputType = {
   totalQuestions: number
   answeredQuestions: number
   correctAnswers: number
+  skippedQuestions: number
+  partiallyCorrectAnswers: number
   score: number
   totalPoints: number
   timeLimitSeconds: number | null
@@ -361,6 +390,7 @@ export type QuizAttemptWhereInput = {
   userId?: Prisma.StringFilter<"QuizAttempt"> | string
   quizId?: Prisma.StringFilter<"QuizAttempt"> | string
   mode?: Prisma.EnumQuizAttemptModeFilter<"QuizAttempt"> | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFilter<"QuizAttempt"> | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFilter<"QuizAttempt"> | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFilter<"QuizAttempt"> | string
   quizSnapshot?: Prisma.JsonFilter<"QuizAttempt">
@@ -369,6 +399,8 @@ export type QuizAttemptWhereInput = {
   totalQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
   answeredQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
   correctAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
+  skippedQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
+  partiallyCorrectAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
   score?: Prisma.FloatFilter<"QuizAttempt"> | number
   totalPoints?: Prisma.FloatFilter<"QuizAttempt"> | number
   timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
@@ -390,6 +422,7 @@ export type QuizAttemptOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   quizId?: Prisma.SortOrder
   mode?: Prisma.SortOrder
+  environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
   quizSnapshot?: Prisma.SortOrder
@@ -398,6 +431,8 @@ export type QuizAttemptOrderByWithRelationInput = {
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
   correctAnswers?: Prisma.SortOrder
+  skippedQuestions?: Prisma.SortOrder
+  partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -422,6 +457,7 @@ export type QuizAttemptWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"QuizAttempt"> | string
   quizId?: Prisma.StringFilter<"QuizAttempt"> | string
   mode?: Prisma.EnumQuizAttemptModeFilter<"QuizAttempt"> | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFilter<"QuizAttempt"> | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFilter<"QuizAttempt"> | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFilter<"QuizAttempt"> | string
   quizSnapshot?: Prisma.JsonFilter<"QuizAttempt">
@@ -430,6 +466,8 @@ export type QuizAttemptWhereUniqueInput = Prisma.AtLeast<{
   totalQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
   answeredQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
   correctAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
+  skippedQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
+  partiallyCorrectAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
   score?: Prisma.FloatFilter<"QuizAttempt"> | number
   totalPoints?: Prisma.FloatFilter<"QuizAttempt"> | number
   timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
@@ -451,6 +489,7 @@ export type QuizAttemptOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   quizId?: Prisma.SortOrder
   mode?: Prisma.SortOrder
+  environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
   quizSnapshot?: Prisma.SortOrder
@@ -459,6 +498,8 @@ export type QuizAttemptOrderByWithAggregationInput = {
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
   correctAnswers?: Prisma.SortOrder
+  skippedQuestions?: Prisma.SortOrder
+  partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -485,6 +526,7 @@ export type QuizAttemptScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"QuizAttempt"> | string
   quizId?: Prisma.StringWithAggregatesFilter<"QuizAttempt"> | string
   mode?: Prisma.EnumQuizAttemptModeWithAggregatesFilter<"QuizAttempt"> | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentWithAggregatesFilter<"QuizAttempt"> | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusWithAggregatesFilter<"QuizAttempt"> | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringWithAggregatesFilter<"QuizAttempt"> | string
   quizSnapshot?: Prisma.JsonWithAggregatesFilter<"QuizAttempt">
@@ -493,6 +535,8 @@ export type QuizAttemptScalarWhereWithAggregatesInput = {
   totalQuestions?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
   answeredQuestions?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
   correctAnswers?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
+  skippedQuestions?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
+  partiallyCorrectAnswers?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
   score?: Prisma.FloatWithAggregatesFilter<"QuizAttempt"> | number
   totalPoints?: Prisma.FloatWithAggregatesFilter<"QuizAttempt"> | number
   timeLimitSeconds?: Prisma.IntNullableWithAggregatesFilter<"QuizAttempt"> | number | null
@@ -509,6 +553,7 @@ export type QuizAttemptScalarWhereWithAggregatesInput = {
 export type QuizAttemptCreateInput = {
   id?: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -517,6 +562,8 @@ export type QuizAttemptCreateInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -538,6 +585,7 @@ export type QuizAttemptUncheckedCreateInput = {
   userId: string
   quizId: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -546,6 +594,8 @@ export type QuizAttemptUncheckedCreateInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -563,6 +613,7 @@ export type QuizAttemptUncheckedCreateInput = {
 export type QuizAttemptUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -571,6 +622,8 @@ export type QuizAttemptUpdateInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -592,6 +645,7 @@ export type QuizAttemptUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -600,6 +654,8 @@ export type QuizAttemptUncheckedUpdateInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -619,6 +675,7 @@ export type QuizAttemptCreateManyInput = {
   userId: string
   quizId: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -627,6 +684,8 @@ export type QuizAttemptCreateManyInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -643,6 +702,7 @@ export type QuizAttemptCreateManyInput = {
 export type QuizAttemptUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -651,6 +711,8 @@ export type QuizAttemptUpdateManyMutationInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -669,6 +731,7 @@ export type QuizAttemptUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -677,6 +740,8 @@ export type QuizAttemptUncheckedUpdateManyInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -705,6 +770,7 @@ export type QuizAttemptCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   quizId?: Prisma.SortOrder
   mode?: Prisma.SortOrder
+  environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
   quizSnapshot?: Prisma.SortOrder
@@ -713,6 +779,8 @@ export type QuizAttemptCountOrderByAggregateInput = {
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
   correctAnswers?: Prisma.SortOrder
+  skippedQuestions?: Prisma.SortOrder
+  partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrder
@@ -731,6 +799,8 @@ export type QuizAttemptAvgOrderByAggregateInput = {
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
   correctAnswers?: Prisma.SortOrder
+  skippedQuestions?: Prisma.SortOrder
+  partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrder
@@ -742,12 +812,15 @@ export type QuizAttemptMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   quizId?: Prisma.SortOrder
   mode?: Prisma.SortOrder
+  environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
   correctAnswers?: Prisma.SortOrder
+  skippedQuestions?: Prisma.SortOrder
+  partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrder
@@ -766,12 +839,15 @@ export type QuizAttemptMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   quizId?: Prisma.SortOrder
   mode?: Prisma.SortOrder
+  environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
   correctAnswers?: Prisma.SortOrder
+  skippedQuestions?: Prisma.SortOrder
+  partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrder
@@ -790,6 +866,8 @@ export type QuizAttemptSumOrderByAggregateInput = {
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
   correctAnswers?: Prisma.SortOrder
+  skippedQuestions?: Prisma.SortOrder
+  partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrder
@@ -889,6 +967,10 @@ export type EnumQuizAttemptModeFieldUpdateOperationsInput = {
   set?: $Enums.QuizAttemptMode
 }
 
+export type EnumRuntimeEnvironmentFieldUpdateOperationsInput = {
+  set?: $Enums.RuntimeEnvironment
+}
+
 export type EnumQuizAttemptStatusFieldUpdateOperationsInput = {
   set?: $Enums.QuizAttemptStatus
 }
@@ -910,6 +992,7 @@ export type QuizAttemptUpdateOneRequiredWithoutQuestionsNestedInput = {
 export type QuizAttemptCreateWithoutUserInput = {
   id?: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -918,6 +1001,8 @@ export type QuizAttemptCreateWithoutUserInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -937,6 +1022,7 @@ export type QuizAttemptUncheckedCreateWithoutUserInput = {
   id?: string
   quizId: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -945,6 +1031,8 @@ export type QuizAttemptUncheckedCreateWithoutUserInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -993,6 +1081,7 @@ export type QuizAttemptScalarWhereInput = {
   userId?: Prisma.StringFilter<"QuizAttempt"> | string
   quizId?: Prisma.StringFilter<"QuizAttempt"> | string
   mode?: Prisma.EnumQuizAttemptModeFilter<"QuizAttempt"> | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFilter<"QuizAttempt"> | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFilter<"QuizAttempt"> | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFilter<"QuizAttempt"> | string
   quizSnapshot?: Prisma.JsonFilter<"QuizAttempt">
@@ -1001,6 +1090,8 @@ export type QuizAttemptScalarWhereInput = {
   totalQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
   answeredQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
   correctAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
+  skippedQuestions?: Prisma.IntFilter<"QuizAttempt"> | number
+  partiallyCorrectAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
   score?: Prisma.FloatFilter<"QuizAttempt"> | number
   totalPoints?: Prisma.FloatFilter<"QuizAttempt"> | number
   timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
@@ -1017,6 +1108,7 @@ export type QuizAttemptScalarWhereInput = {
 export type QuizAttemptCreateWithoutQuizInput = {
   id?: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1025,6 +1117,8 @@ export type QuizAttemptCreateWithoutQuizInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -1044,6 +1138,7 @@ export type QuizAttemptUncheckedCreateWithoutQuizInput = {
   id?: string
   userId: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1052,6 +1147,8 @@ export type QuizAttemptUncheckedCreateWithoutQuizInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -1095,6 +1192,7 @@ export type QuizAttemptUpdateManyWithWhereWithoutQuizInput = {
 export type QuizAttemptCreateWithoutQuestionsInput = {
   id?: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1103,6 +1201,8 @@ export type QuizAttemptCreateWithoutQuestionsInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -1123,6 +1223,7 @@ export type QuizAttemptUncheckedCreateWithoutQuestionsInput = {
   userId: string
   quizId: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1131,6 +1232,8 @@ export type QuizAttemptUncheckedCreateWithoutQuestionsInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -1163,6 +1266,7 @@ export type QuizAttemptUpdateToOneWithWhereWithoutQuestionsInput = {
 export type QuizAttemptUpdateWithoutQuestionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1171,6 +1275,8 @@ export type QuizAttemptUpdateWithoutQuestionsInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1191,6 +1297,7 @@ export type QuizAttemptUncheckedUpdateWithoutQuestionsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1199,6 +1306,8 @@ export type QuizAttemptUncheckedUpdateWithoutQuestionsInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1216,6 +1325,7 @@ export type QuizAttemptCreateManyUserInput = {
   id?: string
   quizId: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1224,6 +1334,8 @@ export type QuizAttemptCreateManyUserInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -1240,6 +1352,7 @@ export type QuizAttemptCreateManyUserInput = {
 export type QuizAttemptUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1248,6 +1361,8 @@ export type QuizAttemptUpdateWithoutUserInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1267,6 +1382,7 @@ export type QuizAttemptUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1275,6 +1391,8 @@ export type QuizAttemptUncheckedUpdateWithoutUserInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1293,6 +1411,7 @@ export type QuizAttemptUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   quizId?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1301,6 +1420,8 @@ export type QuizAttemptUncheckedUpdateManyWithoutUserInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1318,6 +1439,7 @@ export type QuizAttemptCreateManyQuizInput = {
   id?: string
   userId: string
   mode: $Enums.QuizAttemptMode
+  environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   quizTitle: string
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1326,6 +1448,8 @@ export type QuizAttemptCreateManyQuizInput = {
   totalQuestions?: number
   answeredQuestions?: number
   correctAnswers?: number
+  skippedQuestions?: number
+  partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
   timeLimitSeconds?: number | null
@@ -1342,6 +1466,7 @@ export type QuizAttemptCreateManyQuizInput = {
 export type QuizAttemptUpdateWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1350,6 +1475,8 @@ export type QuizAttemptUpdateWithoutQuizInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1369,6 +1496,7 @@ export type QuizAttemptUncheckedUpdateWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1377,6 +1505,8 @@ export type QuizAttemptUncheckedUpdateWithoutQuizInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1395,6 +1525,7 @@ export type QuizAttemptUncheckedUpdateManyWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
+  environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1403,6 +1534,8 @@ export type QuizAttemptUncheckedUpdateManyWithoutQuizInput = {
   totalQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   answeredQuestions?: Prisma.IntFieldUpdateOperationsInput | number
   correctAnswers?: Prisma.IntFieldUpdateOperationsInput | number
+  skippedQuestions?: Prisma.IntFieldUpdateOperationsInput | number
+  partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1452,6 +1585,7 @@ export type QuizAttemptSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   userId?: boolean
   quizId?: boolean
   mode?: boolean
+  environment?: boolean
   status?: boolean
   quizTitle?: boolean
   quizSnapshot?: boolean
@@ -1460,6 +1594,8 @@ export type QuizAttemptSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   totalQuestions?: boolean
   answeredQuestions?: boolean
   correctAnswers?: boolean
+  skippedQuestions?: boolean
+  partiallyCorrectAnswers?: boolean
   score?: boolean
   totalPoints?: boolean
   timeLimitSeconds?: boolean
@@ -1482,6 +1618,7 @@ export type QuizAttemptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   quizId?: boolean
   mode?: boolean
+  environment?: boolean
   status?: boolean
   quizTitle?: boolean
   quizSnapshot?: boolean
@@ -1490,6 +1627,8 @@ export type QuizAttemptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   totalQuestions?: boolean
   answeredQuestions?: boolean
   correctAnswers?: boolean
+  skippedQuestions?: boolean
+  partiallyCorrectAnswers?: boolean
   score?: boolean
   totalPoints?: boolean
   timeLimitSeconds?: boolean
@@ -1510,6 +1649,7 @@ export type QuizAttemptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   quizId?: boolean
   mode?: boolean
+  environment?: boolean
   status?: boolean
   quizTitle?: boolean
   quizSnapshot?: boolean
@@ -1518,6 +1658,8 @@ export type QuizAttemptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   totalQuestions?: boolean
   answeredQuestions?: boolean
   correctAnswers?: boolean
+  skippedQuestions?: boolean
+  partiallyCorrectAnswers?: boolean
   score?: boolean
   totalPoints?: boolean
   timeLimitSeconds?: boolean
@@ -1538,6 +1680,7 @@ export type QuizAttemptSelectScalar = {
   userId?: boolean
   quizId?: boolean
   mode?: boolean
+  environment?: boolean
   status?: boolean
   quizTitle?: boolean
   quizSnapshot?: boolean
@@ -1546,6 +1689,8 @@ export type QuizAttemptSelectScalar = {
   totalQuestions?: boolean
   answeredQuestions?: boolean
   correctAnswers?: boolean
+  skippedQuestions?: boolean
+  partiallyCorrectAnswers?: boolean
   score?: boolean
   totalPoints?: boolean
   timeLimitSeconds?: boolean
@@ -1559,7 +1704,7 @@ export type QuizAttemptSelectScalar = {
   updatedAt?: boolean
 }
 
-export type QuizAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "quizId" | "mode" | "status" | "quizTitle" | "quizSnapshot" | "settings" | "currentQuestionIndex" | "totalQuestions" | "answeredQuestions" | "correctAnswers" | "score" | "totalPoints" | "timeLimitSeconds" | "elapsedSeconds" | "startedAt" | "lastActivityAt" | "pausedAt" | "completedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizAttempt"]>
+export type QuizAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "quizId" | "mode" | "environment" | "status" | "quizTitle" | "quizSnapshot" | "settings" | "currentQuestionIndex" | "totalQuestions" | "answeredQuestions" | "correctAnswers" | "skippedQuestions" | "partiallyCorrectAnswers" | "score" | "totalPoints" | "timeLimitSeconds" | "elapsedSeconds" | "startedAt" | "lastActivityAt" | "pausedAt" | "completedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizAttempt"]>
 export type QuizAttemptInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
@@ -1587,6 +1732,7 @@ export type $QuizAttemptPayload<ExtArgs extends runtime.Types.Extensions.Interna
     userId: string
     quizId: string
     mode: $Enums.QuizAttemptMode
+    environment: $Enums.RuntimeEnvironment
     status: $Enums.QuizAttemptStatus
     quizTitle: string
     quizSnapshot: runtime.JsonValue
@@ -1595,6 +1741,8 @@ export type $QuizAttemptPayload<ExtArgs extends runtime.Types.Extensions.Interna
     totalQuestions: number
     answeredQuestions: number
     correctAnswers: number
+    skippedQuestions: number
+    partiallyCorrectAnswers: number
     score: number
     totalPoints: number
     timeLimitSeconds: number | null
@@ -2036,6 +2184,7 @@ export interface QuizAttemptFieldRefs {
   readonly userId: Prisma.FieldRef<"QuizAttempt", 'String'>
   readonly quizId: Prisma.FieldRef<"QuizAttempt", 'String'>
   readonly mode: Prisma.FieldRef<"QuizAttempt", 'QuizAttemptMode'>
+  readonly environment: Prisma.FieldRef<"QuizAttempt", 'RuntimeEnvironment'>
   readonly status: Prisma.FieldRef<"QuizAttempt", 'QuizAttemptStatus'>
   readonly quizTitle: Prisma.FieldRef<"QuizAttempt", 'String'>
   readonly quizSnapshot: Prisma.FieldRef<"QuizAttempt", 'Json'>
@@ -2044,6 +2193,8 @@ export interface QuizAttemptFieldRefs {
   readonly totalQuestions: Prisma.FieldRef<"QuizAttempt", 'Int'>
   readonly answeredQuestions: Prisma.FieldRef<"QuizAttempt", 'Int'>
   readonly correctAnswers: Prisma.FieldRef<"QuizAttempt", 'Int'>
+  readonly skippedQuestions: Prisma.FieldRef<"QuizAttempt", 'Int'>
+  readonly partiallyCorrectAnswers: Prisma.FieldRef<"QuizAttempt", 'Int'>
   readonly score: Prisma.FieldRef<"QuizAttempt", 'Float'>
   readonly totalPoints: Prisma.FieldRef<"QuizAttempt", 'Float'>
   readonly timeLimitSeconds: Prisma.FieldRef<"QuizAttempt", 'Int'>

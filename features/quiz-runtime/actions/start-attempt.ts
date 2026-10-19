@@ -24,7 +24,7 @@ export const startAttempt = async ({
   tryCatchAsync(async () => {
     const { user } = await requireAuth();
 
-    const result = await quizRuntimeService.startAttempt({
+    const result = await quizRuntimeService.createAttempt({
       quizId,
       userId: user.id,
       mode,

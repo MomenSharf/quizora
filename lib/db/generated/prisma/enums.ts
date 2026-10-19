@@ -17,6 +17,42 @@ export const VerificationTokenType = {
 export type VerificationTokenType = (typeof VerificationTokenType)[keyof typeof VerificationTokenType]
 
 
+export const RuntimeEnvironment = {
+  PREVIEW: 'PREVIEW',
+  PRODUCTION: 'PRODUCTION'
+} as const
+
+export type RuntimeEnvironment = (typeof RuntimeEnvironment)[keyof typeof RuntimeEnvironment]
+
+
+export const QuizAttemptMode = {
+  PRACTICE: 'PRACTICE',
+  TEST: 'TEST'
+} as const
+
+export type QuizAttemptMode = (typeof QuizAttemptMode)[keyof typeof QuizAttemptMode]
+
+
+export const QuizAttemptStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  ABANDONED: 'ABANDONED',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type QuizAttemptStatus = (typeof QuizAttemptStatus)[keyof typeof QuizAttemptStatus]
+
+
+export const AttemptQuestionStatus = {
+  UNANSWERED: 'UNANSWERED',
+  ANSWERED: 'ANSWERED',
+  SKIPPED: 'SKIPPED'
+} as const
+
+export type AttemptQuestionStatus = (typeof AttemptQuestionStatus)[keyof typeof AttemptQuestionStatus]
+
+
 export const QuizStatus = {
   DRAFT: 'DRAFT',
   PUBLISHED: 'PUBLISHED',
@@ -69,31 +105,3 @@ export const QuestionType = {
 } as const
 
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
-
-
-export const QuizAttemptMode = {
-  PRACTICE: 'PRACTICE',
-  TEST: 'TEST'
-} as const
-
-export type QuizAttemptMode = (typeof QuizAttemptMode)[keyof typeof QuizAttemptMode]
-
-
-export const QuizAttemptStatus = {
-  IN_PROGRESS: 'IN_PROGRESS',
-  PAUSED: 'PAUSED',
-  COMPLETED: 'COMPLETED',
-  ABANDONED: 'ABANDONED',
-  EXPIRED: 'EXPIRED'
-} as const
-
-export type QuizAttemptStatus = (typeof QuizAttemptStatus)[keyof typeof QuizAttemptStatus]
-
-
-export const AttemptQuestionStatus = {
-  UNANSWERED: 'UNANSWERED',
-  ANSWERED: 'ANSWERED',
-  SKIPPED: 'SKIPPED'
-} as const
-
-export type AttemptQuestionStatus = (typeof AttemptQuestionStatus)[keyof typeof AttemptQuestionStatus]

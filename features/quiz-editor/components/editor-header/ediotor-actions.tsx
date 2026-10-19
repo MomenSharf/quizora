@@ -1,28 +1,28 @@
 "use client";
 
-import {
-  IconAlertCircle,
-  IconPlayerPlay,
-  IconSettings2,
-} from "@tabler/icons-react";
+import { IconPlayerPlay, IconSettings2 } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
 
 import { useEditorActions, useEditorStore } from "../../store";
 import { useEditorValidation } from "../../hooks/use-editor-validation";
 import { IssuesTrigger } from "../issues/issues-trigger";
+import { useRouter } from "next/navigation";
+import { useQuizForm } from "../../hooks/use-quiz-form";
 
 export function EditorActions() {
   const { setActivePanel } = useEditorActions();
 
   const { validate } = useEditorValidation();
 
+  const { getValues } = useQuizForm();
+  const { id } = getValues();
+
+  const router = useRouter();
 
   const onSettings = () => {
     setActivePanel("settings");
   };
-
-
 
   const onPreview = async () => {
     const valid = await validate();
@@ -32,13 +32,12 @@ export function EditorActions() {
       return;
     }
 
-    // Your existing preview navigation here.
+    router.push(`/quizzes/${id}/start-new?environment=PREVIEW`);
   };
 
   return (
     <div className="flex items-center gap-2">
       <IssuesTrigger />
-
 
       {/* Settings — Desktop */}
       <Button

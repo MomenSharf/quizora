@@ -342,6 +342,13 @@ export type EnumQuizAttemptModeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumQuizAttemptModeFilter<$PrismaModel> | $Enums.QuizAttemptMode
 }
 
+export type EnumRuntimeEnvironmentFilter<$PrismaModel = never> = {
+  equals?: $Enums.RuntimeEnvironment | Prisma.EnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  in?: $Enums.RuntimeEnvironment[] | Prisma.ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RuntimeEnvironment[] | Prisma.ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRuntimeEnvironmentFilter<$PrismaModel> | $Enums.RuntimeEnvironment
+}
+
 export type EnumQuizAttemptStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.QuizAttemptStatus | Prisma.EnumQuizAttemptStatusFieldRefInput<$PrismaModel>
   in?: $Enums.QuizAttemptStatus[] | Prisma.ListEnumQuizAttemptStatusFieldRefInput<$PrismaModel>
@@ -357,6 +364,16 @@ export type EnumQuizAttemptModeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumQuizAttemptModeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumQuizAttemptModeFilter<$PrismaModel>
+}
+
+export type EnumRuntimeEnvironmentWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RuntimeEnvironment | Prisma.EnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  in?: $Enums.RuntimeEnvironment[] | Prisma.ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RuntimeEnvironment[] | Prisma.ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRuntimeEnvironmentWithAggregatesFilter<$PrismaModel> | $Enums.RuntimeEnvironment
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRuntimeEnvironmentFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRuntimeEnvironmentFilter<$PrismaModel>
 }
 
 export type EnumQuizAttemptStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -753,6 +770,13 @@ export type NestedEnumQuizAttemptModeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumQuizAttemptModeFilter<$PrismaModel> | $Enums.QuizAttemptMode
 }
 
+export type NestedEnumRuntimeEnvironmentFilter<$PrismaModel = never> = {
+  equals?: $Enums.RuntimeEnvironment | Prisma.EnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  in?: $Enums.RuntimeEnvironment[] | Prisma.ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RuntimeEnvironment[] | Prisma.ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRuntimeEnvironmentFilter<$PrismaModel> | $Enums.RuntimeEnvironment
+}
+
 export type NestedEnumQuizAttemptStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.QuizAttemptStatus | Prisma.EnumQuizAttemptStatusFieldRefInput<$PrismaModel>
   in?: $Enums.QuizAttemptStatus[] | Prisma.ListEnumQuizAttemptStatusFieldRefInput<$PrismaModel>
@@ -768,6 +792,16 @@ export type NestedEnumQuizAttemptModeWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumQuizAttemptModeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumQuizAttemptModeFilter<$PrismaModel>
+}
+
+export type NestedEnumRuntimeEnvironmentWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RuntimeEnvironment | Prisma.EnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  in?: $Enums.RuntimeEnvironment[] | Prisma.ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RuntimeEnvironment[] | Prisma.ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRuntimeEnvironmentWithAggregatesFilter<$PrismaModel> | $Enums.RuntimeEnvironment
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRuntimeEnvironmentFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRuntimeEnvironmentFilter<$PrismaModel>
 }
 
 export type NestedEnumQuizAttemptStatusWithAggregatesFilter<$PrismaModel = never> = {

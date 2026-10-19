@@ -70,9 +70,8 @@ export default function StartAttemptPage({
         toast.error(res.error.message);
         return;
       }
-
-      toast.success("Attempt started.");
-      // router.push(`/play/${res.data.attemptId}`);
+      
+      router.push(`/play/${res.data.attemptId}?environment=PREVIEW`);
     } finally {
       setIsStarting(false);
     }

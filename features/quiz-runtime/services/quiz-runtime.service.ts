@@ -12,10 +12,15 @@ type StartAttemptInput = {
   settings: unknown;
 };
 
+type GetAttemptInput = {
+  attemptId: string;
+  userId: string;
+};
+
 const ACTIVE_STATUSES = ["IN_PROGRESS", "PAUSED"] as const;
 
 export const quizRuntimeService = {
-  async startAttempt({
+  async createAttempt({
     quizId,
     userId,
     mode,
@@ -158,4 +163,32 @@ export const quizRuntimeService = {
       };
     });
   },
+
+    async getAttempt({ attemptId, userId }: GetAttemptInput) {
+    const attempt = await prisma.quizAttempt.findFirst({
+      where: {
+        id: attemptId,
+        userId,
+      },
+      include: {
+        questions: {
+          orderBy: {
+            orderIndex: "asc",
+          },
+        },
+        quiz: {
+          include: {
+            thumbnail: true,
+          }
+        }
+      },
+    });
+
+    if (!attempt) {
+      throw AppErrors.notFound("Quiz attempt not found");
+    }
+
+    return attempt;
+  },
+
 };

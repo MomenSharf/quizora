@@ -1227,6 +1227,7 @@ export const QuizAttemptScalarFieldEnum = {
   userId: 'userId',
   quizId: 'quizId',
   mode: 'mode',
+  environment: 'environment',
   status: 'status',
   quizTitle: 'quizTitle',
   quizSnapshot: 'quizSnapshot',
@@ -1235,6 +1236,8 @@ export const QuizAttemptScalarFieldEnum = {
   totalQuestions: 'totalQuestions',
   answeredQuestions: 'answeredQuestions',
   correctAnswers: 'correctAnswers',
+  skippedQuestions: 'skippedQuestions',
+  partiallyCorrectAnswers: 'partiallyCorrectAnswers',
   score: 'score',
   totalPoints: 'totalPoints',
   timeLimitSeconds: 'timeLimitSeconds',
@@ -1263,6 +1266,7 @@ export const AttemptQuestionScalarFieldEnum = {
   status: 'status',
   evaluation: 'evaluation',
   earnedPoints: 'earnedPoints',
+  maxPoints: 'maxPoints',
   timeSpentSeconds: 'timeSpentSeconds',
   answeredAt: 'answeredAt',
   updatedAt: 'updatedAt'
@@ -1475,6 +1479,20 @@ export type EnumQuizAttemptModeFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'QuizAttemptMode[]'
  */
 export type ListEnumQuizAttemptModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizAttemptMode[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RuntimeEnvironment'
+ */
+export type EnumRuntimeEnvironmentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RuntimeEnvironment'>
+    
+
+
+/**
+ * Reference to a field of type 'RuntimeEnvironment[]'
+ */
+export type ListEnumRuntimeEnvironmentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RuntimeEnvironment[]'>
     
 
 
