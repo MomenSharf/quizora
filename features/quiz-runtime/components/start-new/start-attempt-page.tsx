@@ -80,7 +80,7 @@ export default function StartAttemptPage({
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-[68px] max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-15 max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
           <Logo
             containerClassName="size-9 rounded-xl"
             iconClassName="size-[18px]"

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useShallow } from "zustand/react/shallow";
@@ -55,12 +54,9 @@ export const useRuntimeAnswers = () =>
 
 export const useCurrentAnswer = () =>
   useRuntimeStore((state) => {
-    const currentQuestion =
-      state.questions[state.questionState.currentIndex];
+    const currentQuestion = state.questions[state.questionState.currentIndex];
 
-    return currentQuestion
-      ? state.answers[currentQuestion.id] ?? null
-      : null;
+    return currentQuestion ? (state.answers[currentQuestion.id] ?? null) : null;
   });
 
 export const useAnswerByQuestionId = (questionId: string) =>
@@ -75,8 +71,7 @@ export const useQuestionById = (questionId: string) =>
 export const useRuntimeProgress = () =>
   useRuntimeStore((state) => state.progress);
 
-export const useRuntimeTimer = () =>
-  useRuntimeStore((state) => state.timer);
+export const useRuntimeTimer = () => useRuntimeStore((state) => state.timer);
 
 export const useRuntimeFeedback = () =>
   useRuntimeStore((state) => state.feedback);
@@ -90,46 +85,38 @@ export const useRuntimePersistence = () =>
 export const useRuntimeLoading = () =>
   useRuntimeStore((state) => state.loading);
 
-export const useRuntimeError = () =>
-  useRuntimeStore((state) => state.error);
+export const useRuntimeError = () => useRuntimeStore((state) => state.error);
 
 export const useRuntimeQuestionState = () =>
   useRuntimeStore((state) => state.questionState);
 
-export const useAttemptId = () =>
-  useRuntimeStore((state) => state.attemptId);
+export const useAttemptId = () => useRuntimeStore((state) => state.attemptId);
 
-export const useQuizId = () =>
-  useRuntimeStore((state) => state.quizId);
+export const useQuizId = () => useRuntimeStore((state) => state.quizId);
 
 export const useRuntimeEnvironment = () =>
   useRuntimeStore((state) => state.environment);
 
-export const useSessionMode = () =>
-  useRuntimeStore((state) => state.mode);
+export const useSessionMode = () => useRuntimeStore((state) => state.mode);
 
 export const useAttemptSettings = () =>
   useRuntimeStore((state) => state.settings);
 
-export const useRuntimeStatus = () =>
-  useRuntimeStore((state) => state.status);
+export const useRuntimeStatus = () => useRuntimeStore((state) => state.status);
 
-export const useRuntimePhase = () =>
-  useRuntimeStore((state) => state.phase);
+export const useRuntimePhase = () => useRuntimeStore((state) => state.phase);
 
 export const useCurrentQuestionIndex = () =>
   useRuntimeStore((state) => state.questionState.currentIndex);
 
 export const useCurrentQuestion = () =>
   useRuntimeStore(
-    (state) =>
-      state.questions[state.questionState.currentIndex] ?? null,
+    (state) => state.questions[state.questionState.currentIndex] ?? null,
   );
 
 export const useCurrentQuestionId = () =>
   useRuntimeStore(
-    (state) =>
-      state.questions[state.questionState.currentIndex]?.id ?? null,
+    (state) => state.questions[state.questionState.currentIndex]?.id ?? null,
   );
 
 export const useVisitedQuestionIds = () =>
@@ -154,8 +141,7 @@ export const useIsQuestionLocked = (questionId: string) =>
 export const useIsFirstQuestion = () =>
   useRuntimeStore(
     (state) =>
-      state.questions.length > 0 &&
-      state.questionState.currentIndex === 0,
+      state.questions.length > 0 && state.questionState.currentIndex === 0,
   );
 
 export const useIsLastQuestion = () =>
@@ -170,8 +156,7 @@ export const useHasPreviousQuestion = () =>
 
 export const useHasNextQuestion = () =>
   useRuntimeStore(
-    (state) =>
-      state.questionState.currentIndex < state.questions.length - 1,
+    (state) => state.questionState.currentIndex < state.questions.length - 1,
   );
 
 export const useAnsweredQuestions = () =>

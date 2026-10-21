@@ -15,7 +15,7 @@ type LogoProps = {
   withChevron?: boolean;
   handleClick?:
     { mode: "Link"; href: string } | { mode: "Button"; onClick: () => void };
-  disabled?: boolean
+  disabled?: boolean;
 };
 
 export function Logo({
@@ -26,7 +26,7 @@ export function Logo({
   iconOnly = false,
   withChevron = false,
   handleClick,
-  disabled = false
+  disabled = false,
 }: LogoProps) {
   const router = useRouter();
   return (
@@ -39,7 +39,7 @@ export function Logo({
         className,
       )}
       onClick={() => {
-        if(disabled) return;
+        if (disabled) return;
         if (!handleClick) return router.push("/");
         switch (handleClick?.mode) {
           case "Link":
