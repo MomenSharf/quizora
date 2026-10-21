@@ -34,7 +34,7 @@ export default function GamePlayActions({
 
   return (
     <footer className="border-t border-border/60 bg-background/85 backdrop-blur-xl flex justify-center">
-        <div className="flex h-14 container items-center justify-between gap-2 sm:h-16 sm:gap-4">
+        <div className="flex h-14 container items-center justify-between gap-2 sm:h-16 sm:gap-4 px-2 sm:px-4">
           <Button
             type="button"
             variant="ghost"

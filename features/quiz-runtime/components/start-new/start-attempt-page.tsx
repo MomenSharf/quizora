@@ -84,7 +84,7 @@ export default function StartAttemptPage({
           <Logo
             containerClassName="size-9 rounded-xl"
             iconClassName="size-[18px]"
-            textClassName="text-lg"
+            textClassName="text-lg hidden sm:block"
             handleClick={
               !selectedMode
                 ? { mode: "Link", href: "/" }

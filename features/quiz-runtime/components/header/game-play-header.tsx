@@ -39,7 +39,7 @@ export default function GamePlayHeader({
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-12 container items-center justify-between gap-2 sm:h-14 sm:gap-4 ">
+      <div className="mx-auto flex h-12 container items-center justify-between gap-2 sm:h-14 sm:gap-4 px-2 sm:px-4">
         <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
           <Logo
             containerClassName="size-8 shrink-0 rounded-lg sm:size-9 sm:rounded-xl"

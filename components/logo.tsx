@@ -1,4 +1,4 @@
-import Link from "next/link";
+'use client'
 import { IconChevronLeft } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";

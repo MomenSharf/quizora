@@ -10,9 +10,7 @@ type FillBlankConfigProps = {
   questionIndex: number;
 };
 
-export function FillBlankConfig({
-  questionIndex,
-}: FillBlankConfigProps) {
+export function FillBlankConfig({ questionIndex }: FillBlankConfigProps) {
   const { control } = useQuizForm();
 
   return (
