@@ -1,11 +1,10 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 import { IconCheck } from "@tabler/icons-react";
 
 export default function MultipleSelectPreview() {
-   const color = QUESTION_TYPE_COLORS['MULTIPLE_SELECT'];
- 
+  const color = QUESTION_TYPE_COLORS["MULTIPLE_SELECT"];
 
   const selectedStyle = {
     borderColor: color,

@@ -1,4 +1,3 @@
-
 import { QuestionType as QuestionTypePrisma } from "@/lib/db/generated/prisma/enums";
 import { z } from "zod";
 
@@ -35,10 +34,7 @@ export const BaseQuestionConfigSchema = z.object({
  * Shared fields used by every question.
  */
 export const BaseQuestionSchema = z.object({
-  id: z
-    .string()
-    .trim()
-    .min(1, "Question ID is required"),
+  id: z.string().trim().min(1, "Question ID is required"),
 
   type: QuestionTypeSchema,
 
@@ -46,25 +42,15 @@ export const BaseQuestionSchema = z.object({
     .string()
     .trim()
     .min(1, "Give your question a title")
-    .max(500, "Question title must be at most 500 characters"),
-
-  description: z
-    .string()
-    .trim()
-    .max(1000, "Question description must be at most 1,000 characters")
-   ,
+    .max(5000, "Question title must be at most 5,000 characters"),
 
   explanation: z
     .string()
     .trim()
     .max(5000, "Explanation must be at most 5,000 characters")
-    ,
-
-  hint: z
-    .string()
-    .trim()
-    .max(1000, "Hint must be at most 1,000 characters")
-    ,
+    .optional(),
+  
+  explanationImage: ImageSchema.optional(),
 
   image: ImageSchema.optional(),
 
@@ -88,7 +74,6 @@ export const BaseQuestionSchema = z.object({
             code: "custom",
             path: [index],
             message: "This tag has already been added",
-           
           });
         }
 
@@ -105,10 +90,7 @@ export const BaseQuestionSchema = z.object({
  * Shared answer/choice option.
  */
 export const OptionSchema = z.object({
-  id: z
-    .string()
-    .trim()
-    .min(1, "Option ID is required"),
+  id: z.string().trim().min(1, "Option ID is required"),
 
   text: z
     .string()
@@ -121,8 +103,7 @@ export const OptionSchema = z.object({
   explanation: z
     .string()
     .trim()
-    .max(1000, "Option explanation must be at most 1,000 characters")
-    ,
+    .max(1000, "Option explanation must be at most 1,000 characters"),
 });
 
 /**
@@ -144,10 +125,7 @@ export const ContentSchema = z.object({
  * that can have multiple accepted answers.
  */
 export const AcceptedAnswerSchema = z.object({
-  id: z
-    .string()
-    .trim()
-    .min(1, "Answer ID is required"),
+  id: z.string().trim().min(1, "Answer ID is required"),
 
   value: z
     .string()
@@ -158,9 +136,7 @@ export const AcceptedAnswerSchema = z.object({
 
 export type QuestionType = z.infer<typeof QuestionTypeSchema>;
 
-export type BaseQuestionConfig = z.infer<
-  typeof BaseQuestionConfigSchema
->;
+export type BaseQuestionConfig = z.infer<typeof BaseQuestionConfigSchema>;
 
 export type BaseQuestion = z.infer<typeof BaseQuestionSchema>;
 
@@ -168,6 +144,4 @@ export type Option = z.infer<typeof OptionSchema>;
 
 export type Content = z.infer<typeof ContentSchema>;
 
-export type AcceptedAnswer = z.infer<
-  typeof AcceptedAnswerSchema
->;
+export type AcceptedAnswer = z.infer<typeof AcceptedAnswerSchema>;

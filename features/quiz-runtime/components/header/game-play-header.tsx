@@ -64,7 +64,7 @@ export default function GamePlayHeader({
           <div className="flex w-full max-w-[240px] min-w-0 flex-col items-center gap-1">
             <div className="flex items-center gap-1 text-[11px] font-medium leading-none tabular-nums sm:text-xs">
               <span className="text-foreground">
-                Question {currentQuestionIndex + 1}
+                Question {currentQuestionIndex }
               </span>
               <span className="text-muted-foreground">
                 of {totalQuestions}

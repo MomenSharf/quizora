@@ -2,6 +2,7 @@ import { Prisma } from "@/lib/db/generated/prisma/client";
 
 import type { Answer } from "./answer-types";
 import type { EvaluationResult } from "./evaluation-types";
+import { Question } from "@/features/quiz-editor/validation/question";
 
 // --------------------------------------------------
 // Prisma types
@@ -9,8 +10,16 @@ import type { EvaluationResult } from "./evaluation-types";
 
 export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
   include: {
-    questions: true;
-    image: true;
+    questions: {
+      orderBy: {
+        orderIndex: "asc";
+      };
+    };
+    quiz: {
+      include: {
+        thumbnail: true;
+      };
+    };
   };
 }>;
 
@@ -19,7 +28,6 @@ export type PrismaQuestion = Prisma.QuestionGetPayload<{
     image: true;
   };
 }>;
-
 // --------------------------------------------------
 // Runtime configuration
 // --------------------------------------------------
@@ -93,17 +101,13 @@ export type AttemptSettings = {
 export type RuntimeQuestionStatus = "UNANSWERED" | "ANSWERED" | "SKIPPED";
 
 export type RuntimeQuestion = {
-  // Unique ID of this question in the attempt.
   id: string;
 
-  // Original quiz question ID.
-  // Nullable for generated or snapshot-only questions.
   questionId: string | null;
 
   orderIndex: number;
 
-  // Question data loaded from Prisma.
-  question: PrismaQuestion;
+  question: Question;
 
   status: RuntimeQuestionStatus;
 
@@ -117,6 +121,8 @@ export type RuntimeQuestion = {
 
   maxPoints: number;
 };
+
+
 
 // --------------------------------------------------
 // Runtime progress

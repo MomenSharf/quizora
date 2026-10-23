@@ -151,7 +151,6 @@ export const QuizScalarFieldEnum = {
   questionCount: 'questionCount',
   totalPoints: 'totalPoints',
   publishedAt: 'publishedAt',
-  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -164,18 +163,16 @@ export const QuestionScalarFieldEnum = {
   quizId: 'quizId',
   type: 'type',
   title: 'title',
-  description: 'description',
   explanation: 'explanation',
-  hint: 'hint',
+  explanationImageId: 'explanationImageId',
   points: 'points',
   order: 'order',
-  imageid: 'imageid',
+  imageId: 'imageId',
   tags: 'tags',
   difficulty: 'difficulty',
   content: 'content',
   config: 'config',
   version: 'version',
-  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -1,10 +1,9 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 
 export default function TypeAnswerPreview() {
-  const color = QUESTION_TYPE_COLORS['TYPE_ANSWER'];
-
+  const color = QUESTION_TYPE_COLORS["TYPE_ANSWER"];
 
   return (
     <div className="space-y-4">
@@ -36,9 +35,7 @@ export default function TypeAnswerPreview() {
       >
         <span>Accepts text input</span>
 
-        <kbd className="rounded border bg-muted px-2 py-1 font-mono">
-          Enter
-        </kbd>
+        <kbd className="rounded border bg-muted px-2 py-1 font-mono">Enter</kbd>
       </div>
     </div>
   );

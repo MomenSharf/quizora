@@ -1,11 +1,10 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 import { IconGripVertical } from "@tabler/icons-react";
 
 export default function OrderingPreview() {
-    const color = QUESTION_TYPE_COLORS['ORDERING'];
-  
+  const color = QUESTION_TYPE_COLORS["ORDERING"];
 
   const items = ["Wake up", "Have breakfast", "Go to school", "Study"];
 

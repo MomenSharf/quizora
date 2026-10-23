@@ -1,0 +1,203 @@
+import { QuestionType } from "@/lib/db/generated/prisma/enums";
+import {
+  IconArrowsExchange,
+  IconArrowsLeftRight,
+  IconBinary,
+  IconCards,
+  IconChecks,
+  IconCircleCheck,
+  IconHandClick,
+  IconListNumbers,
+  IconPencil,
+  IconSelector,
+  IconTargetArrow,
+  IconTextPlus,
+  TablerIcon,
+} from "@tabler/icons-react";
+
+import { LucideIcon } from "lucide-react";
+
+export type QuestionTypeUI = {
+  id: QuestionType;
+  label: string;
+  shortLabel: string;
+  description: string;
+  bestFor: string;
+  icon: LucideIcon | TablerIcon;
+  color: string;
+  backgroundColor: string;
+  isPopular?: boolean;
+  isNew?: boolean;
+  badge?: string;
+  notAvailable?: boolean;
+};
+export const QUESTION_TYPES = [
+  {
+    id: "SINGLE_SELECT",
+    label: "Single Select",
+    shortLabel: "Single",
+    description: "Choose one correct answer.",
+    bestFor: "Quick knowledge checks and quizzes with one correct option.",
+    icon: IconCircleCheck,
+    color: "#3B82F6",
+    backgroundColor: "#EFF6FF",
+    isPopular: true,
+  },
+
+  {
+    id: "MULTIPLE_SELECT",
+    label: "Multiple Select",
+    shortLabel: "Multiple",
+    description: "Choose multiple correct answers.",
+    bestFor:
+      "Testing deeper understanding where more than one answer is correct.",
+    icon: IconChecks,
+    color: "#8B5CF6",
+    backgroundColor: "#F5F3FF",
+    isPopular: true,
+  },
+
+  {
+    id: "TRUE_FALSE",
+    label: "True / False",
+    shortLabel: "T/F",
+    description: "Choose whether a statement is true or false.",
+    bestFor: "Fast assessments, revision, and fact checking.",
+    icon: IconBinary,
+    color: "#22C55E",
+    backgroundColor: "#F0FDF4",
+    isPopular: true,
+  },
+
+  {
+    id: "DROPDOWN",
+    label: "Dropdown",
+    shortLabel: "Dropdown",
+    description: "Select the correct answer from a dropdown menu.",
+    bestFor: "Compact quizzes and sentence completion.",
+    icon: IconSelector,
+    color: "#0F766E",
+    backgroundColor: "#F0FDFA",
+  },
+
+  {
+    id: "TYPE_ANSWER",
+    label: "Type Answer",
+    shortLabel: "Text",
+    description: "Answer by typing the correct text.",
+    bestFor: "Recall-based questions requiring exact or near-exact answers.",
+    icon: IconPencil,
+    color: "#10B981",
+    backgroundColor: "#ECFDF5",
+    isPopular: true,
+  },
+
+  {
+    id: "FILL_BLANK",
+    label: "Fill in the Blank",
+    shortLabel: "Blank",
+    description: "Complete the missing words.",
+    bestFor:
+      "Testing vocabulary, grammar, or missing key concepts in a sentence.",
+    icon: IconTextPlus,
+    color: "#14B8A6",
+    backgroundColor: "#F0FDFA",
+    isPopular: true,
+  },
+
+  {
+    id: "ORDERING",
+    label: "Order It",
+    shortLabel: "Order",
+    description: "Arrange items into the correct order.",
+    bestFor: "Process-based learning like steps, timelines, and sequences.",
+    icon: IconListNumbers,
+    color: "#F59E0B",
+    backgroundColor: "#FFFBEB",
+  },
+
+  {
+    id: "MATCH",
+    label: "Match It",
+    shortLabel: "Match",
+    description: "Connect matching pairs together.",
+    bestFor:
+      "Associations like terms, definitions, categories, and translations.",
+    icon: IconArrowsExchange,
+    color: "#06B6D4",
+    backgroundColor: "#ECFEFF",
+  },
+
+  {
+    id: "RANGE",
+    label: "Range",
+    shortLabel: "Range",
+    description: "Select a value or interval within a range.",
+    bestFor: "Estimations, ratings, percentages, and numeric scales.",
+    icon: IconArrowsLeftRight,
+    color: "#F97316",
+    backgroundColor: "#FFF7ED",
+  },
+
+  {
+    id: "TAP_FIND",
+    label: "Tap & Find",
+    shortLabel: "Tap",
+    description: "Tap the correct object or area in an image.",
+    bestFor: "Image hotspots, diagrams, maps, and visual identification.",
+    icon: IconHandClick,
+    color: "#0EA5E9",
+    backgroundColor: "#F0F9FF",
+    isNew: true,
+  },
+
+  {
+  id: "FLASHCARD",
+    label: "flashcard",
+    shortLabel: "Cards",
+    description: "Flip to reveal the answer or explanation.",
+    bestFor: "Memorization, revision, and spaced repetition.",
+    icon: IconCards,
+    color: "#EC4899",
+    backgroundColor: "#FDF2F8",
+  },
+
+  {
+    id: "GUESS",
+    label: "Guess It",
+    shortLabel: "Guess",
+    description: "Find the answer using clues.",
+    bestFor: "Inference-based learning, puzzles, and classroom games.",
+    icon: IconTargetArrow,
+    color: "#EF4444",
+    backgroundColor: "#FEF2F2",
+    badge: "Soon",
+    notAvailable: true,
+  },
+] satisfies readonly QuestionTypeUI[];
+
+/* ---------- Lookups ---------- */
+
+export const QUESTION_TYPE_MAP = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type]),
+) as Record<QuestionType, QuestionTypeUI>;
+
+export const QUESTION_TYPE_LABELS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.label]),
+) as Record<QuestionType, string>;
+
+export const QUESTION_TYPE_SHORT_LABELS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.shortLabel]),
+) as Record<QuestionType, string>;
+
+export const QUESTION_TYPE_ICONS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.icon]),
+) as Record<QuestionType, QuestionTypeUI["icon"]>;
+
+export const QUESTION_TYPE_COLORS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.color]),
+) as Record<QuestionType, string>;
+
+export const QUESTION_TYPE_BACKGROUND_COLORS = Object.fromEntries(
+  QUESTION_TYPES.map((type) => [type.id, type.backgroundColor]),
+) as Record<QuestionType, string>;

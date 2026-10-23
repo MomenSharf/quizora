@@ -1,15 +1,13 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 
 export default function FillBlankPreview() {
-  const color = QUESTION_TYPE_COLORS['FILL_BLANK'];
+  const color = QUESTION_TYPE_COLORS["FILL_BLANK"];
 
   return (
     <div className="space-y-4">
-      <p className="text-sm font-medium">
-        Complete the sentence.
-      </p>
+      <p className="text-sm font-medium">Complete the sentence.</p>
 
       <div className="rounded-xl border bg-background p-4">
         <p className="text-sm leading-8">
@@ -36,9 +34,7 @@ export default function FillBlankPreview() {
       >
         <span>Fill the missing word</span>
 
-        <span className="rounded-md bg-muted px-2 py-1">
-          1 Blank
-        </span>
+        <span className="rounded-md bg-muted px-2 py-1">1 Blank</span>
       </div>
     </div>
   );

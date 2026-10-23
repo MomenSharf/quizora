@@ -1,10 +1,9 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 
 export default function RangePreview() {
-    const color = QUESTION_TYPE_COLORS['RANGE'];
-  
+  const color = QUESTION_TYPE_COLORS["RANGE"];
 
   const min = 0;
   const max = 100;
@@ -56,9 +55,7 @@ export default function RangePreview() {
       >
         <span>Drag to adjust value</span>
 
-        <span className="rounded-md bg-muted px-2 py-1">
-          0 - 100
-        </span>
+        <span className="rounded-md bg-muted px-2 py-1">0 - 100</span>
       </div>
     </div>
   );

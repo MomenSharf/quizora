@@ -5,7 +5,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { QuestionTypeUI } from "@/features/quiz-editor/constants/question-types";
+import { QuestionTypeUI } from "@/constants/question-types";
 import { PREVIEW_MAP } from "./preview-map";
 import QuestionTypeCard from "./question-type-card";
 
@@ -14,13 +14,11 @@ export default function QuestionTypeHoverCard({
 }: {
   type: QuestionTypeUI;
 }) {
-     const Preview = PREVIEW_MAP[type.id]
-  
+  const Preview = PREVIEW_MAP[type.id];
+
   return (
     <HoverCard openDelay={800} closeDelay={10}>
-      <HoverCardTrigger asChild
-       
-      >
+      <HoverCardTrigger asChild>
         <div>
           <QuestionTypeCard type={type} />
         </div>
@@ -31,10 +29,8 @@ export default function QuestionTypeHoverCard({
         align="start"
         sideOffset={14}
         className="w-64 overflow-hidden rounded-2xl"
-        
       >
-
-       <Preview />
+        <Preview />
       </HoverCardContent>
     </HoverCard>
   );

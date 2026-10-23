@@ -108,7 +108,6 @@ model Quiz {
   attempts QuizAttempt[]
 
   publishedAt DateTime?
-  deletedAt   DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -127,17 +126,17 @@ model Question {
   type QuestionType
 
   title       String
-  description String? @db.Text
 
   explanation String? @db.Text
-  hint        String? @db.Text
+  explanationImageId String?
+  explanationImage    Image?  @relation("QuestionExplanationImage", fields: [explanationImageId], references: [id], onDelete: SetNull)
 
   points Float @default(1)
 
   order Int
 
-  imageid String?
-  image   Image?  @relation(fields: [imageid], references: [id])
+  imageId String?
+  image   Image?  @relation(fields: [imageId], references: [id], onDelete: SetNull)
 
   tags String[] @default(["general"])
 
@@ -148,7 +147,6 @@ model Question {
 
   version Int @default(1)
 
-  deletedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -197,7 +195,6 @@ model QuizAttempt {
   settings     Json
 
   currentQuestionIndex Int @default(0)
-
   totalQuestions          Int   @default(0)
   answeredQuestions       Int   @default(0)
   correctAnswers          Int   @default(0)
@@ -271,6 +268,8 @@ model Image {
 
   questions Question[]
   quizzes   Quiz[]
+    explanationQuestions   Question[] @relation("QuestionExplanationImage")
+
 }
 
 enum QuizStatus {

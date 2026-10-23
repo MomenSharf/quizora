@@ -22,6 +22,7 @@ export const quizEditorService = {
         questions: {
           include: {
             image: true,
+            explanationImage: true,
           },
         },
         thumbnail: true,

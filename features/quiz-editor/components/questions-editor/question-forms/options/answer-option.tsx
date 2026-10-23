@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { cn } from "@/lib/utils";

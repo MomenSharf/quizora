@@ -26,7 +26,7 @@ const QuestionContent = () => {
           duration: 0.4,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="flex flex-col gap p-1 sm:p-2"
+        className="flex flex-col gap p-2 sm:p-3"
       >
         <QuestionFormRouter />
       </motion.div>

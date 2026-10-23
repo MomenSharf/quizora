@@ -4,7 +4,7 @@ import { IconPlayerPlay, IconSettings2 } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
 
-import { useEditorActions, useEditorStore } from "../../store";
+import { useEditorActions, useEditorStore, useSaveState } from "../../store";
 import { useEditorValidation } from "../../hooks/use-editor-validation";
 import { IssuesTrigger } from "../issues/issues-trigger";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ import { useQuizForm } from "../../hooks/use-quiz-form";
 
 export function EditorActions() {
   const { setActivePanel } = useEditorActions();
+  const saveState = useSaveState();
 
   const { validate } = useEditorValidation();
 
@@ -34,6 +35,8 @@ export function EditorActions() {
 
     router.push(`/quizzes/${id}/start-new?environment=PREVIEW`);
   };
+
+  const previewDisabled = saveState === "saving" || saveState === "pending" || saveState === "error";
 
   return (
     <div className="flex items-center gap-2">
@@ -70,6 +73,7 @@ export function EditorActions() {
       {/* Preview — Desktop */}
       <Button
         onClick={onPreview}
+        disabled={previewDisabled}
         className="group relative hidden h-10 overflow-hidden rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 px-4 font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98] md:flex"
       >
         <span className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
@@ -87,6 +91,7 @@ export function EditorActions() {
       <Button
         size="icon"
         onClick={onPreview}
+        disabled={previewDisabled}
         aria-label="Preview"
         className="group relative size-8 overflow-hidden rounded-xl border border-primary/20 bg-linear-to-r from-primary to-primary/90 text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[0.98] min-[400px]:size-10 md:hidden"
       >

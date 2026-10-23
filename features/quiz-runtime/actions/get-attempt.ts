@@ -19,6 +19,8 @@ export const getAttempt = async ({ attemptId }: GetAttemptInput) =>
       userId: user.id,
     });
 
+    console.log(attempt.quiz.questions[0].title);
+
     const runttimeAttempt = mapQuizAttempt(attempt);
 
     return runttimeAttempt;

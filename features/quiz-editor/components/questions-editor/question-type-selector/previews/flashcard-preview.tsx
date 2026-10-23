@@ -1,6 +1,6 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 
 export default function FlashcardPreview() {
   const color = QUESTION_TYPE_COLORS["FLASHCARD"];

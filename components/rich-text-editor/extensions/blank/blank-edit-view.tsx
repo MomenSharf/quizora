@@ -3,11 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
-import {
-  IconCheck,
-  IconTrash,
-} from "@tabler/icons-react";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
+import { IconCheck, IconTrash } from "@tabler/icons-react";
 
 interface BlankEditViewProps {
   value: string;
@@ -15,11 +12,7 @@ interface BlankEditViewProps {
   onDelete: () => void;
 }
 
-export function BlankEditView({
-  value,
-  onSave,
-  onDelete,
-}: BlankEditViewProps) {
+export function BlankEditView({ value, onSave, onDelete }: BlankEditViewProps) {
   const [text, setText] = useState(value);
 
   const wrapperRef = useRef<HTMLSpanElement>(null);

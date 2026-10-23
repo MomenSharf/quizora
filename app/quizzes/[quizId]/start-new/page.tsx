@@ -15,16 +15,12 @@ export default async function Page({ params }: PageProps) {
   const quiz = await prisma.quiz.findFirst({
     where: {
       id: quizId,
-      deletedAt: null,
     },
     select: {
       id: true,
       title: true,
       questionCount: true,
       questions: {
-        where: {
-          deletedAt: null,
-        },
         select: {
           id: true,
         },

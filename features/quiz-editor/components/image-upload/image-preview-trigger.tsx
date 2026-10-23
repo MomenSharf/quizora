@@ -53,7 +53,7 @@ export default function ImagePreviewTrigger({
         <div className="mt-2.5">
           <p className="text-xs font-medium">Add image</p>
           <p className="mt-0.5 text-[11px] text-muted-foreground">
-            Upload an image for this question
+          Select an image.
           </p>
         </div>
 

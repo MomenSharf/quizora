@@ -5,6 +5,7 @@ import {
   IconArrowLeft,
   IconArrowRight,
   IconBookmark,
+  IconChevronRight,
   IconLayoutGrid,
 } from "@tabler/icons-react";
 import { useRuntimeActions, useRuntimeQuestions } from "../../store";
@@ -25,7 +26,7 @@ export default function GamePlayActions({
     flaggedQuestionIds,
   } = useRuntimeQuestions();
 
-  const { goToNextQuestion, goToPreviousQuestion, toggleQuestionFlag } =
+  const { goToNextQuestion, goToPreviousQuestion, toggleQuestionFlag  } =
     useRuntimeActions();
 
   const isMarkedForReview =
@@ -34,61 +35,66 @@ export default function GamePlayActions({
 
   return (
     <footer className="border-t border-border/60 bg-background/85 backdrop-blur-xl flex justify-center">
-        <div className="flex h-14 container items-center justify-between gap-2 sm:h-16 sm:gap-4 px-2 sm:px-4">
+      <div className="flex h-14 container items-center justify-between gap-2 sm:h-16 sm:gap-4 px-2 sm:px-4">
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={goToPreviousQuestion}
+          disabled={disabled || isFirstQuestion}
+          className="h-9 gap-1 rounded-lg px-2.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground sm:gap-1.5 sm:px-3"
+        >
+          <IconArrowLeft className="size-4" stroke={1.8} />
+          <span>Previous</span>
+        </Button>
+
+        <div className="flex-1 flex items-center justify-center gap-1 sm:gap-2">
           <Button
             type="button"
             variant="ghost"
-            onClick={goToPreviousQuestion}
-            disabled={disabled || isFirstQuestion}
-            className="h-9 gap-1 rounded-lg px-2.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground sm:gap-1.5 sm:px-3"
+            onClick={() => {
+              if (currentQuestionId) {
+                toggleQuestionFlag(currentQuestionId);
+              }
+            }}
+            disabled={disabled || !currentQuestionId}
+            aria-pressed={isMarkedForReview}
+            className={`h-9 gap-1 rounded-lg px-2 text-xs hover:bg-muted sm:gap-1.5 sm:px-3 ${
+              isMarkedForReview
+                ? "text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
           >
-            <IconArrowLeft className="size-4" stroke={1.8} />
-            <span>Previous</span>
+            <IconBookmark
+              className="size-4"
+              stroke={1.8}
+              fill={isMarkedForReview ? "currentColor" : "none"}
+            />
+            <span className="hidden sm:inline">
+              {isMarkedForReview ? "Marked for review" : "Mark for review"}
+            </span>
+            <span className="sm:hidden">
+              {isMarkedForReview ? "Marked" : "Review"}
+            </span>
           </Button>
 
-          <div className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => {
-                if (currentQuestionId) {
-                  toggleQuestionFlag(currentQuestionId);
-                }
-              }}
-              disabled={disabled || !currentQuestionId}
-              aria-pressed={isMarkedForReview}
-              className={`h-9 gap-1 rounded-lg px-2 text-xs hover:bg-muted sm:gap-1.5 sm:px-3 ${
-                isMarkedForReview
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <IconBookmark
-                className="size-4"
-                stroke={1.8}
-                fill={isMarkedForReview ? "currentColor" : "none"}
-              />
-              <span className="hidden sm:inline">
-                {isMarkedForReview ? "Marked for review" : "Mark for review"}
-              </span>
-              <span className="sm:hidden">
-                {isMarkedForReview ? "Marked" : "Review"}
-              </span>
-            </Button>
+          <div className="hidden h-7 w-px shrink-0 bg-border sm:block" />
 
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onOpenQuestionList}
-              disabled={disabled}
-              aria-label="Open question list"
-              className="h-9 gap-1 rounded-lg px-2 text-xs hover:bg-muted sm:gap-1.5 sm:px-3"
-            >
-              <IconLayoutGrid className="size-4" stroke={1.8} />
-              <span className="hidden sm:inline">Revie qestions</span>
-            </Button>
-          </div>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onOpenQuestionList}
+            disabled={disabled}
+            aria-label="Open question list"
+            className="h-9 gap-1 rounded-lg px-2 text-xs hover:bg-muted sm:gap-1.5 sm:px-3"
+          >
+            <IconLayoutGrid className="size-4" stroke={1.8} />
+            <span className="hidden sm:inline">Revie qestions</span>
+          </Button>
+        </div>
 
+        <div className="flex gap-1 sn:gap-2">
+
+            {/* add here */}
           <Button
             type="button"
             onClick={goToNextQuestion}
@@ -99,6 +105,7 @@ export default function GamePlayActions({
             <IconArrowRight className="size-4" stroke={1.8} />
           </Button>
         </div>
+      </div>
     </footer>
   );
 }

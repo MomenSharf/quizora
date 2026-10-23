@@ -1,11 +1,10 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 import { IconArrowRight, IconGitCompare } from "@tabler/icons-react";
 
 export default function MatchPreview() {
-    const color = QUESTION_TYPE_COLORS['MATCH'];
-  
+  const color = QUESTION_TYPE_COLORS["MATCH"];
 
   const pairs = [
     ["Dog", "Animal"],
@@ -15,9 +14,7 @@ export default function MatchPreview() {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm font-medium">
-        Match each item with its category.
-      </p>
+      <p className="text-sm font-medium">Match each item with its category.</p>
 
       <div className="space-y-3">
         {pairs.map(([left, right]) => (

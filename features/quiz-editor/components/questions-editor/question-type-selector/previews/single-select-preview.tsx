@@ -1,17 +1,14 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 import { IconCircle, IconCircleCheck } from "@tabler/icons-react";
 
 export default function SingleSelectPreview() {
-    const color = QUESTION_TYPE_COLORS['SINGLE_SELECT'];
-  
+  const color = QUESTION_TYPE_COLORS["SINGLE_SELECT"];
 
   return (
     <div className="space-y-4">
-      <p className="text-sm font-medium">
-        What is the capital of France?
-      </p>
+      <p className="text-sm font-medium">What is the capital of France?</p>
 
       <div className="space-y-2">
         <div className="flex items-center gap-3 rounded-xl border bg-background px-3 py-2">

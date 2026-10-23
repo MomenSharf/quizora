@@ -30,13 +30,9 @@ export const quizRuntimeService = {
       const quiz = await tx.quiz.findFirst({
         where: {
           id: quizId,
-          deletedAt: null,
         },
         include: {
           questions: {
-            where: {
-              deletedAt: null,
-            },
             orderBy: {
               order: "asc",
             },
@@ -53,32 +49,6 @@ export const quizRuntimeService = {
 
       if (quiz.questions.length === 0) {
         throw AppErrors.badRequest("This quiz has no questions");
-      }
-
-      const existingAttempt = await tx.quizAttempt.findFirst({
-        where: {
-          userId,
-          quizId,
-          mode,
-          status: {
-            in: [...ACTIVE_STATUSES],
-          },
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-        select: {
-          id: true,
-          status: true,
-        },
-      });
-
-      if (existingAttempt) {
-        return {
-          attemptId: existingAttempt.id,
-          status: existingAttempt.status,
-          created: false,
-        };
       }
 
       const totalPoints = quiz.questions.reduce(
@@ -109,10 +79,10 @@ export const quizRuntimeService = {
               id: question.id,
               type: question.type,
               title: question.title,
-              description: question.description,
               points: question.points,
               content: question.content,
               config: question.config,
+              
             })),
           },
 
@@ -138,8 +108,6 @@ export const quizRuntimeService = {
                 id: question.id,
                 type: question.type,
                 title: question.title,
-                description: question.description,
-                hint: question.hint,
                 points: question.points,
                 content: question.content,
                 config: question.config,
@@ -179,6 +147,11 @@ export const quizRuntimeService = {
         quiz: {
           include: {
             thumbnail: true,
+            questions: {
+              include: {
+                image: true,
+              },
+            },
           }
         }
       },

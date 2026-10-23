@@ -1,33 +1,25 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 import { IconSparkles } from "@tabler/icons-react";
 
 export default function GuessPreview() {
-    const color = QUESTION_TYPE_COLORS['GUESS'];
-  
+  const color = QUESTION_TYPE_COLORS["GUESS"];
 
   return (
     <div className="space-y-4">
-      <p className="text-sm font-medium">
-        Guess the country.
-      </p>
+      <p className="text-sm font-medium">Guess the country.</p>
 
       <div className="rounded-xl border bg-background p-4">
         <div className="space-y-3">
-          <div
-            className="flex items-center gap-2"
-            style={{ color }}
-          >
+          <div className="flex items-center gap-2" style={{ color }}>
             <IconSparkles className="size-4" />
             <span className="text-xs font-medium uppercase tracking-wide">
               Clue #1
             </span>
           </div>
 
-          <p className="text-sm">
-            I am home to the Great Pyramid of Giza.
-          </p>
+          <p className="text-sm">I am home to the Great Pyramid of Giza.</p>
 
           <div
             className="rounded-lg border border-dashed px-3 py-2 text-sm text-muted-foreground"
@@ -50,9 +42,7 @@ export default function GuessPreview() {
               Reveal next clue
             </button>
 
-            <span className="text-xs text-muted-foreground">
-              1 / 3 clues
-            </span>
+            <span className="text-xs text-muted-foreground">1 / 3 clues</span>
           </div>
         </div>
       </div>

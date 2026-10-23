@@ -1,10 +1,9 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 
 export default function TapFindPreview() {
-   const color = QUESTION_TYPE_COLORS['FILL_BLANK'];
- 
+  const color = QUESTION_TYPE_COLORS["FILL_BLANK"];
 
   const hotspots = [
     { x: "30%", y: "40%", active: false },
@@ -14,9 +13,7 @@ export default function TapFindPreview() {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm font-medium">
-        Tap on the Eiffel Tower location.
-      </p>
+      <p className="text-sm font-medium">Tap on the Eiffel Tower location.</p>
 
       <div className="relative overflow-hidden rounded-xl border bg-muted/30">
         {/* mock image */}

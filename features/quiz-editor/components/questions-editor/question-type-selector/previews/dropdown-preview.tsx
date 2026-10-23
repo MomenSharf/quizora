@@ -1,16 +1,14 @@
 "use client";
 
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
 import { IconChevronDown } from "@tabler/icons-react";
 
 export default function DropdownPreview() {
-  const color = QUESTION_TYPE_COLORS['DROPDOWN'];
+  const color = QUESTION_TYPE_COLORS["DROPDOWN"];
 
   return (
     <div className="space-y-4">
-      <p className="text-sm font-medium">
-        Select the capital of France.
-      </p>
+      <p className="text-sm font-medium">Select the capital of France.</p>
 
       <div
         className="flex items-center justify-between rounded-xl border px-3 py-2"
@@ -46,9 +44,7 @@ export default function DropdownPreview() {
           Rome
         </div>
 
-        <div className="px-3 py-2 text-sm text-muted-foreground">
-          Madrid
-        </div>
+        <div className="px-3 py-2 text-sm text-muted-foreground">Madrid</div>
       </div>
     </div>
   );

@@ -5,12 +5,14 @@ import {
 import { QuestionSchema } from "@/features/quiz-editor/validation/question";
 import { Prisma } from "@/lib/db/generated/prisma/client";
 import { EditorState } from "../store";
+import { MediaRatio } from "../validation/image";
 
 type PrismaQuiz = Prisma.QuizGetPayload<{
   include: {
     questions: {
       include: {
         image: true;
+        explanationImage: true;
       };
     };
   };
@@ -61,10 +63,19 @@ function mapQuestion(question: PrismaQuiz["questions"][number]) {
     type: question.type,
 
     title: question.title,
-    description: question.description ?? "",
 
     explanation: question.explanation ?? "",
-    hint: question.hint ?? "",
+
+     explanationImage: question.explanationImage
+          ? {
+              id: question.explanationImage.id,
+              key: question.explanationImage.key,
+              alt: question.explanationImage.alt,
+              caption: question.explanationImage.caption ?? undefined,
+              ratio: question.explanationImage.ratio as MediaRatio,
+              url: question.explanationImage.url,
+            }
+          : undefined,
 
     tags: question.tags ?? [],
 

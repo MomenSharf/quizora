@@ -36,11 +36,13 @@ function serializeQuestion(
 
     title: question.title,
 
-    description: question.description,
-
     explanation: question.explanation,
 
-    hint: question.hint,
+    explanationImage: question.explanationImage?.url
+      ? {
+          create: question.explanationImage,
+        }
+      : undefined,
 
     order,
 

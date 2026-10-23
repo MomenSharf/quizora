@@ -25,6 +25,7 @@ type PrismaQuiz = Prisma.QuizGetPayload<{
     questions: {
       include: {
         image: true;
+        explanationImage: true;
       };
     };
     thumbnail: true;
@@ -98,16 +99,36 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
   const base = {
     id: question.id,
     title: question.title,
-    description: question.description ?? "",
 
     explanation: question.explanation ?? "",
-    hint: question.hint ?? "",
+    
+      explanationImage: question.explanationImage
+      ? {
+          id: question.explanationImage.id,
+          key: question.explanationImage.key,
+          alt: question.explanationImage.alt,
+          caption: question.explanationImage.caption ?? undefined,
+          ratio: question.explanationImage.ratio as MediaRatio,
+          url: question.explanationImage.url,
+        }
+      : undefined,
 
     tags: question.tags ?? [],
 
     difficulty: question.difficulty ?? "MEDIUM",
 
     points: question.points,
+
+    image: question.image
+      ? {
+          id: question.image.id,
+          key: question.image.key,
+          alt: question.image.alt,
+          caption: question.image.caption ?? undefined,
+          ratio: question.image.ratio as MediaRatio,
+          url: question.image.url,
+        }
+      : undefined,
   };
 
   switch (question.type) {
@@ -117,16 +138,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         type: QuestionType.SINGLE_SELECT,
         content: question.content as SingleSelectQuestion["content"],
         config: question.config as SingleSelectQuestion["config"],
-        image: question.image
-          ? {
-              id: question.image.id,
-              key: question.image.key,
-              alt: question.image.alt,
-              caption: question.image.caption ?? undefined,
-              ratio: question.image.ratio as MediaRatio,
-              url: question.image.url,
-            }
-          : undefined,
       };
 
     case QuestionType.MULTIPLE_SELECT:

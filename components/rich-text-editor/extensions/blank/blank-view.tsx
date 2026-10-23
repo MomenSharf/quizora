@@ -7,11 +7,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { QUESTION_TYPE_COLORS } from "@/features/quiz-editor/constants/question-types";
-import {
-  IconPencilBolt,
-  IconTrash,
-} from "@tabler/icons-react";
+import { QUESTION_TYPE_COLORS } from "@/constants/question-types";
+import { IconPencilBolt, IconTrash } from "@tabler/icons-react";
 
 interface BlankViewProps {
   placeholder: string;
@@ -19,11 +16,7 @@ interface BlankViewProps {
   onDelete: () => void;
 }
 
-export function BlankView({
-  placeholder,
-  onEdit,
-  onDelete,
-}: BlankViewProps) {
+export function BlankView({ placeholder, onEdit, onDelete }: BlankViewProps) {
   const color = QUESTION_TYPE_COLORS["FILL_BLANK"];
 
   return (
@@ -40,9 +33,7 @@ export function BlankView({
                 color,
               }}
             >
-              <span className="max-w-44 truncate">
-                {placeholder}
-              </span>
+              <span className="max-w-44 truncate">{placeholder}</span>
 
               <span
                 className="ml-2 flex size-5 shrink-0 items-center justify-center rounded border"

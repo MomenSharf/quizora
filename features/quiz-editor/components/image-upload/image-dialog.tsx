@@ -145,12 +145,10 @@ export function ImageDialog({
           </div>
         ) : (
           <div className="min-h-0 flex-1 px-6 pb-6">
-            <div className="size-full overflow-y-auto rounded-2xl border bg-muted/20 p-5">
               <ImageUploadPlaceholder
                 onImageSelect={handleImageSelect}
                 disabled={disabled}
               />
-            </div>
           </div>
         )}
       </DialogContent>

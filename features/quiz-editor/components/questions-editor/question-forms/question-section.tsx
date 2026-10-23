@@ -25,12 +25,12 @@ const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
           name={`questions.${questionIndex}.title`}
           render={({ field }) => (
             <RichTextEditor
-              content={field.value ?? ""}
-              onChange={field.onChange}
-              className="text-2xl font-semibold"
-              fontSize="24px"
-              placeholder="Start typing..."
-              dataFieldNames={`questions.${questionIndex}.title`}
+            content={field.value ?? ""}
+            onChange={field.onChange}
+            className="text-2xl font-semibold min-h-24"
+            fontSize="24px"
+            placeholder="Start typing..."
+            dataFieldNames={`questions.${questionIndex}.title`}
             />
           )}
         />
@@ -39,50 +39,8 @@ const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
           name={`questions.${questionIndex}.title`}
         />
       </SectionField>
-      <SectionField
-        label="Description"
-        description="Provide a description for this question."
-        optional
-      >
-        <Controller
-          control={control}
-          name={`questions.${questionIndex}.description`}
-          render={({ field }) => (
-            <RichTextEditor
-              content={field.value ?? ""}
-              dataFieldNames={`questions.${questionIndex}.description`}
-              onChange={field.onChange}
-              placeholder="Start typing..."
-            />
-          )}
-        />
-        <FieldError
-          control={control}
-          name={`questions.${questionIndex}.description`}
-        />
-      </SectionField>
-      <SectionField
-        label="Hint"
-        description="Provide a hint for this question."
-        optional
-      >
-        <Controller
-          control={control}
-          name={`questions.${questionIndex}.hint`}
-          render={({ field }) => (
-            <RichTextEditor
-              content={field.value ?? ""}
-              dataFieldNames={`questions.${questionIndex}.hint`}
-              onChange={field.onChange}
-              placeholder="Start typing..."
-            />
-          )}
-        />
-        <FieldError
-          control={control}
-          name={`questions.${questionIndex}.hint`}
-        />
-      </SectionField>
+
+     
     </div>
   );
 };
