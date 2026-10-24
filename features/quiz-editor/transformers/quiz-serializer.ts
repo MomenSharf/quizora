@@ -40,17 +40,23 @@ function serializeQuestion(
 
     explanationImage: question.explanationImage?.url
       ? {
-          create: question.explanationImage,
+          connectOrCreate: {
+            where: { id: question.explanationImage.id },
+            create: question.explanationImage,
+          },
+        }
+      : undefined,
+
+    image: question.image?.url
+      ? {
+          connectOrCreate: {
+            where: { id: question.image.id },
+            create: question.image,
+          },
         }
       : undefined,
 
     order,
-
-    image: question.image?.url
-      ? {
-          create: question.image,
-        }
-      : undefined,
 
     tags: question.tags ?? [],
 
@@ -121,7 +127,14 @@ export function serializeUpdateQuiz(
 
     language: quiz.language,
 
-    thumbnail: quiz.thumbnail?.url ? { create: quiz.thumbnail } : undefined,
+    thumbnail: quiz.thumbnail?.url
+      ? {
+          upsert: {
+            create: quiz.thumbnail,
+            update: quiz.thumbnail,
+          },
+        }
+      : undefined,
 
     questions: {
       deleteMany: {},

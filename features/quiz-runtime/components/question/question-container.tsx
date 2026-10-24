@@ -11,6 +11,8 @@ export default function QuestionContainer() {
 
   const imageSrc = question.image?.url ?? '/assets/images/login-image.jpg';
 
+
+
   return (
     <div
       className={`grid w-full min-w-0 grid-cols-1 gap-4 sm:gap-5 ${

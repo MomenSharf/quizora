@@ -11,10 +11,16 @@ const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
 
   return (
     <div className="space-y-3">
-      <ImageField
-        name={`questions.${questionIndex}.image`}
-        trigger={(props) => <ImagePreviewTrigger {...props} />}
-      />
+      <SectionField
+        label="Question image"
+        description="Provide an image for this question."
+        required
+      >
+        <ImageField
+          name={`questions.${questionIndex}.image`}
+          trigger={(props) => <ImagePreviewTrigger title="Add question image" {...props} />}
+        />
+      </SectionField>
       <SectionField
         label="Title"
         description="Provide a title for this question."
@@ -25,12 +31,12 @@ const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
           name={`questions.${questionIndex}.title`}
           render={({ field }) => (
             <RichTextEditor
-            content={field.value ?? ""}
-            onChange={field.onChange}
-            className="text-2xl font-semibold min-h-24"
-            fontSize="24px"
-            placeholder="Start typing..."
-            dataFieldNames={`questions.${questionIndex}.title`}
+              content={field.value ?? ""}
+              onChange={field.onChange}
+              className="text-2xl font-semibold min-h-24"
+              fontSize="24px"
+              placeholder="Start typing..."
+              dataFieldNames={`questions.${questionIndex}.title`}
             />
           )}
         />
@@ -39,8 +45,6 @@ const QuestionSection = ({ questionIndex }: { questionIndex: number }) => {
           name={`questions.${questionIndex}.title`}
         />
       </SectionField>
-
-     
     </div>
   );
 };

@@ -19,6 +19,7 @@ type ImagePreviewTriggerProps = {
   onPreview: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  title?: string;
 };
 
 export default function ImagePreviewTrigger({
@@ -29,6 +30,7 @@ export default function ImagePreviewTrigger({
   onPreview,
   onEdit,
   onDelete,
+  title = "Add image",
 }: ImagePreviewTriggerProps) {
   if (!image) {
     return (
@@ -49,14 +51,7 @@ export default function ImagePreviewTrigger({
         <span className="flex size-9 items-center justify-center rounded-md border bg-background shadow-sm transition-colors group-hover:border-primary/20">
           <IconPhoto className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
         </span>
-
-        <div className="mt-2.5">
-          <p className="text-xs font-medium">Add image</p>
-          <p className="mt-0.5 text-[11px] text-muted-foreground">
-          Select an image.
-          </p>
-        </div>
-
+        <p className="text-xs font-medium mt-2.5">{title}</p>
         <span className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-medium text-primary">
           <IconPlus className="size-3" />
           Choose image

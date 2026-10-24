@@ -69,7 +69,6 @@ export const quizRuntimeService = {
           userId,
           quizId,
           mode,
-          status: "IN_PROGRESS",
           quizTitle: quiz.title,
 
           quizSnapshot: {

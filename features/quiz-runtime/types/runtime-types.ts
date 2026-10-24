@@ -51,13 +51,10 @@ export type ScoreVisibility =
 export type RuntimePhase =
   | "READY"
   | "QUESTION"
-  | "ANSWERING"
-  | "ANSWER_LOCKED"
+  | "SUBMITTING"
   | "FEEDBACK"
   | "PAUSED"
-  | "SUBMITTING"
-  | "RESULT"
-  | "FINISHED";
+  | "RESULT";
 
 export type RuntimeStatus =
   "IDLE" | "IN_PROGRESS" | "PAUSED" | "COMPLETED" | "ABANDONED" | "EXPIRED";
@@ -165,6 +162,7 @@ export type QuizAttemptRuntime = {
   id: string;
   quizId: string;
   quizTitle: string;
+  quizDescription: string | null;
 
   environment: RuntimeEnvironment;
   settings: AttemptSettings;

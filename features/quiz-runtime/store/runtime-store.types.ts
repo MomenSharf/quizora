@@ -73,6 +73,7 @@ export type RuntimeState = {
   attemptId: string | null;
   quizId: string | null;
   quizTitle: string | null;
+  quizDescription: string | null;
   environment: RuntimeEnvironment;
   mode: SessionMode;
   settings: AttemptSettings | null;
@@ -266,6 +267,7 @@ export const defaultRuntimeState: RuntimeState = {
   attemptId: null,
   quizId: null,
   quizTitle: null,
+  quizDescription: null,
   environment: "PREVIEW",
   mode: "PRACTICE",
   settings: null,

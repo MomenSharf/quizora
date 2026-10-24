@@ -146,7 +146,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   completeAttempt: (completedAt) =>
     set((state) => ({
       status: "COMPLETED",
-      phase: "FINISHED",
+      phase: "RESULT",
       completedAt,
       lastActivityAt: completedAt,
       timer: {
@@ -164,7 +164,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   abandonAttempt: () =>
     set((state) => ({
       status: "ABANDONED",
-      phase: "FINISHED",
+      phase: "RESULT",
       lastActivityAt: Date.now(),
       timer: {
         ...state.timer,

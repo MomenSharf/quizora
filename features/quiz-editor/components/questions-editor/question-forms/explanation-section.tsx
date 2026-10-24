@@ -11,11 +11,18 @@ const ExplanationSection = ({ questionIndex }: { questionIndex: number }) => {
 
   return (
     <div className="space-y-3">
-      <ImageField
-        name={`questions.${questionIndex}.explanationImage`}
-        trigger={(props) => <ImagePreviewTrigger {...props} />}
-
-      />
+      <SectionField
+        label="Explanation image"
+        description="Provide an image for this explanation."
+        optional
+      >
+        <ImageField
+          name={`questions.${questionIndex}.explanationImage`}
+          trigger={(props) => (
+            <ImagePreviewTrigger title="Add explanation image" {...props} />
+          )}
+        />
+      </SectionField>
       <SectionField
         label="Explanation"
         description="Explain why the correct answer is correct or provide additional context."

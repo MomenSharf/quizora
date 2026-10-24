@@ -123,7 +123,7 @@ export function FlashcardEditor({
 
             <ImageField
               name={`questions.${questionIndex}.content.front.image`}
-              trigger={(props) => <ImagePreviewTrigger {...props} />}
+              trigger={(props) => <ImagePreviewTrigger title="Add front image" {...props} />}
             />
           </div>
         </div>
@@ -182,7 +182,7 @@ export function FlashcardEditor({
 
             <ImageField
               name={`questions.${questionIndex}.content.back.image`}
-              trigger={(props) => <ImagePreviewTrigger {...props} />}
+              trigger={(props) => <ImagePreviewTrigger title="Add back image" {...props} />}
             />
           </div>
         </div>

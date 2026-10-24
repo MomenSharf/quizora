@@ -1226,7 +1226,9 @@ export const QuizAttemptScalarFieldEnum = {
   mode: 'mode',
   environment: 'environment',
   status: 'status',
+  phase: 'phase',
   quizTitle: 'quizTitle',
+  quizDescription: 'quizDescription',
   quizSnapshot: 'quizSnapshot',
   settings: 'settings',
   currentQuestionIndex: 'currentQuestionIndex',
@@ -1504,6 +1506,20 @@ export type EnumQuizAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'QuizAttemptStatus[]'
  */
 export type ListEnumQuizAttemptStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizAttemptStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'QuizAttemptPhase'
+ */
+export type EnumQuizAttemptPhaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizAttemptPhase'>
+    
+
+
+/**
+ * Reference to a field of type 'QuizAttemptPhase[]'
+ */
+export type ListEnumQuizAttemptPhaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizAttemptPhase[]'>
     
 
 

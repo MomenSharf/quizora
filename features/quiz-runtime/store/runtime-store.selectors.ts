@@ -10,6 +10,8 @@ export const useRuntime = () =>
       attemptId: state.attemptId,
       quizId: state.quizId,
       quizTitle: state.quizTitle,
+      quizDescription: state.quizDescription,
+      questionsCount: state.questions.length,
       environment: state.environment,
       mode: state.mode,
       settings: state.settings,

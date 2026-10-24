@@ -470,10 +470,11 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
     id: attempt.id,
     quizId: attempt.quizId,
     quizTitle: attempt.quizTitle,
+    quizDescription: attempt.quizDescription,
     environment: attempt.environment,
     settings,
     status: attempt.status,
-    phase: attempt.status === "PAUSED" ? "PAUSED" : "QUESTION",
+    phase: attempt.phase || 'READY',
     questions,
     progress: {
       currentQuestionIndex: attempt.currentQuestionIndex,

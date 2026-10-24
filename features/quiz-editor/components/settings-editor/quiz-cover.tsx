@@ -24,7 +24,7 @@ export default function QuizCover() {
         <div className="p-4">
           <ImageField
             name={`thumbnail`}
-            trigger={(props) => <ImagePreviewTrigger {...props} />}
+            trigger={(props) => <ImagePreviewTrigger title="Add cover image" {...props} />}
           />
         </div>
       </section>

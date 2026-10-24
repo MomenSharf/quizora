@@ -129,14 +129,14 @@ model Question {
 
   explanation String? @db.Text
   explanationImageId String?
-  explanationImage    Image?  @relation("QuestionExplanationImage", fields: [explanationImageId], references: [id], onDelete: SetNull)
+  explanationImage    Image?  @relation("QuestionExplanationImage", fields: [explanationImageId], references: [id])
 
   points Float @default(1)
 
   order Int
 
   imageId String?
-  image   Image?  @relation(fields: [imageId], references: [id], onDelete: SetNull)
+  image   Image?  @relation(fields: [imageId], references: [id])
 
   tags String[] @default(["general"])
 
@@ -167,6 +167,15 @@ enum QuizAttemptMode {
   TEST
 }
 
+enum QuizAttemptPhase {
+  READY
+  QUESTION
+  SUBMITTING
+  FEEDBACK
+  PAUSED
+  RESULT
+}
+
 enum QuizAttemptStatus {
   IN_PROGRESS
   PAUSED
@@ -189,8 +198,10 @@ model QuizAttempt {
   mode        QuizAttemptMode
   environment RuntimeEnvironment @default(PRODUCTION)
   status      QuizAttemptStatus  @default(IN_PROGRESS)
+  phase       QuizAttemptPhase  @default(READY)
 
   quizTitle    String
+  quizDescription String?
   quizSnapshot Json
   settings     Json
 

@@ -59,7 +59,9 @@ export type QuizAttemptMinAggregateOutputType = {
   mode: $Enums.QuizAttemptMode | null
   environment: $Enums.RuntimeEnvironment | null
   status: $Enums.QuizAttemptStatus | null
+  phase: $Enums.QuizAttemptPhase | null
   quizTitle: string | null
+  quizDescription: string | null
   currentQuestionIndex: number | null
   totalQuestions: number | null
   answeredQuestions: number | null
@@ -86,7 +88,9 @@ export type QuizAttemptMaxAggregateOutputType = {
   mode: $Enums.QuizAttemptMode | null
   environment: $Enums.RuntimeEnvironment | null
   status: $Enums.QuizAttemptStatus | null
+  phase: $Enums.QuizAttemptPhase | null
   quizTitle: string | null
+  quizDescription: string | null
   currentQuestionIndex: number | null
   totalQuestions: number | null
   answeredQuestions: number | null
@@ -113,7 +117,9 @@ export type QuizAttemptCountAggregateOutputType = {
   mode: number
   environment: number
   status: number
+  phase: number
   quizTitle: number
+  quizDescription: number
   quizSnapshot: number
   settings: number
   currentQuestionIndex: number
@@ -170,7 +176,9 @@ export type QuizAttemptMinAggregateInputType = {
   mode?: true
   environment?: true
   status?: true
+  phase?: true
   quizTitle?: true
+  quizDescription?: true
   currentQuestionIndex?: true
   totalQuestions?: true
   answeredQuestions?: true
@@ -197,7 +205,9 @@ export type QuizAttemptMaxAggregateInputType = {
   mode?: true
   environment?: true
   status?: true
+  phase?: true
   quizTitle?: true
+  quizDescription?: true
   currentQuestionIndex?: true
   totalQuestions?: true
   answeredQuestions?: true
@@ -224,7 +234,9 @@ export type QuizAttemptCountAggregateInputType = {
   mode?: true
   environment?: true
   status?: true
+  phase?: true
   quizTitle?: true
+  quizDescription?: true
   quizSnapshot?: true
   settings?: true
   currentQuestionIndex?: true
@@ -340,7 +352,9 @@ export type QuizAttemptGroupByOutputType = {
   mode: $Enums.QuizAttemptMode
   environment: $Enums.RuntimeEnvironment
   status: $Enums.QuizAttemptStatus
+  phase: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription: string | null
   quizSnapshot: runtime.JsonValue
   settings: runtime.JsonValue
   currentQuestionIndex: number
@@ -392,7 +406,9 @@ export type QuizAttemptWhereInput = {
   mode?: Prisma.EnumQuizAttemptModeFilter<"QuizAttempt"> | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFilter<"QuizAttempt"> | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFilter<"QuizAttempt"> | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFilter<"QuizAttempt"> | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFilter<"QuizAttempt"> | string
+  quizDescription?: Prisma.StringNullableFilter<"QuizAttempt"> | string | null
   quizSnapshot?: Prisma.JsonFilter<"QuizAttempt">
   settings?: Prisma.JsonFilter<"QuizAttempt">
   currentQuestionIndex?: Prisma.IntFilter<"QuizAttempt"> | number
@@ -424,7 +440,9 @@ export type QuizAttemptOrderByWithRelationInput = {
   mode?: Prisma.SortOrder
   environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
+  quizDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   quizSnapshot?: Prisma.SortOrder
   settings?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
@@ -459,7 +477,9 @@ export type QuizAttemptWhereUniqueInput = Prisma.AtLeast<{
   mode?: Prisma.EnumQuizAttemptModeFilter<"QuizAttempt"> | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFilter<"QuizAttempt"> | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFilter<"QuizAttempt"> | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFilter<"QuizAttempt"> | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFilter<"QuizAttempt"> | string
+  quizDescription?: Prisma.StringNullableFilter<"QuizAttempt"> | string | null
   quizSnapshot?: Prisma.JsonFilter<"QuizAttempt">
   settings?: Prisma.JsonFilter<"QuizAttempt">
   currentQuestionIndex?: Prisma.IntFilter<"QuizAttempt"> | number
@@ -491,7 +511,9 @@ export type QuizAttemptOrderByWithAggregationInput = {
   mode?: Prisma.SortOrder
   environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
+  quizDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   quizSnapshot?: Prisma.SortOrder
   settings?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
@@ -528,7 +550,9 @@ export type QuizAttemptScalarWhereWithAggregatesInput = {
   mode?: Prisma.EnumQuizAttemptModeWithAggregatesFilter<"QuizAttempt"> | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentWithAggregatesFilter<"QuizAttempt"> | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusWithAggregatesFilter<"QuizAttempt"> | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseWithAggregatesFilter<"QuizAttempt"> | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringWithAggregatesFilter<"QuizAttempt"> | string
+  quizDescription?: Prisma.StringNullableWithAggregatesFilter<"QuizAttempt"> | string | null
   quizSnapshot?: Prisma.JsonWithAggregatesFilter<"QuizAttempt">
   settings?: Prisma.JsonWithAggregatesFilter<"QuizAttempt">
   currentQuestionIndex?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
@@ -555,7 +579,9 @@ export type QuizAttemptCreateInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -587,7 +613,9 @@ export type QuizAttemptUncheckedCreateInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -615,7 +643,9 @@ export type QuizAttemptUpdateInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -647,7 +677,9 @@ export type QuizAttemptUncheckedUpdateInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -677,7 +709,9 @@ export type QuizAttemptCreateManyInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -704,7 +738,9 @@ export type QuizAttemptUpdateManyMutationInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -733,7 +769,9 @@ export type QuizAttemptUncheckedUpdateManyInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -772,7 +810,9 @@ export type QuizAttemptCountOrderByAggregateInput = {
   mode?: Prisma.SortOrder
   environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
+  quizDescription?: Prisma.SortOrder
   quizSnapshot?: Prisma.SortOrder
   settings?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
@@ -814,7 +854,9 @@ export type QuizAttemptMaxOrderByAggregateInput = {
   mode?: Prisma.SortOrder
   environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
+  quizDescription?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
@@ -841,7 +883,9 @@ export type QuizAttemptMinOrderByAggregateInput = {
   mode?: Prisma.SortOrder
   environment?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  phase?: Prisma.SortOrder
   quizTitle?: Prisma.SortOrder
+  quizDescription?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   totalQuestions?: Prisma.SortOrder
   answeredQuestions?: Prisma.SortOrder
@@ -975,6 +1019,10 @@ export type EnumQuizAttemptStatusFieldUpdateOperationsInput = {
   set?: $Enums.QuizAttemptStatus
 }
 
+export type EnumQuizAttemptPhaseFieldUpdateOperationsInput = {
+  set?: $Enums.QuizAttemptPhase
+}
+
 export type QuizAttemptCreateNestedOneWithoutQuestionsInput = {
   create?: Prisma.XOR<Prisma.QuizAttemptCreateWithoutQuestionsInput, Prisma.QuizAttemptUncheckedCreateWithoutQuestionsInput>
   connectOrCreate?: Prisma.QuizAttemptCreateOrConnectWithoutQuestionsInput
@@ -994,7 +1042,9 @@ export type QuizAttemptCreateWithoutUserInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -1024,7 +1074,9 @@ export type QuizAttemptUncheckedCreateWithoutUserInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -1083,7 +1135,9 @@ export type QuizAttemptScalarWhereInput = {
   mode?: Prisma.EnumQuizAttemptModeFilter<"QuizAttempt"> | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFilter<"QuizAttempt"> | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFilter<"QuizAttempt"> | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFilter<"QuizAttempt"> | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFilter<"QuizAttempt"> | string
+  quizDescription?: Prisma.StringNullableFilter<"QuizAttempt"> | string | null
   quizSnapshot?: Prisma.JsonFilter<"QuizAttempt">
   settings?: Prisma.JsonFilter<"QuizAttempt">
   currentQuestionIndex?: Prisma.IntFilter<"QuizAttempt"> | number
@@ -1110,7 +1164,9 @@ export type QuizAttemptCreateWithoutQuizInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -1140,7 +1196,9 @@ export type QuizAttemptUncheckedCreateWithoutQuizInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -1194,7 +1252,9 @@ export type QuizAttemptCreateWithoutQuestionsInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -1225,7 +1285,9 @@ export type QuizAttemptUncheckedCreateWithoutQuestionsInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -1268,7 +1330,9 @@ export type QuizAttemptUpdateWithoutQuestionsInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1299,7 +1363,9 @@ export type QuizAttemptUncheckedUpdateWithoutQuestionsInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1327,7 +1393,9 @@ export type QuizAttemptCreateManyUserInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -1354,7 +1422,9 @@ export type QuizAttemptUpdateWithoutUserInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1384,7 +1454,9 @@ export type QuizAttemptUncheckedUpdateWithoutUserInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1413,7 +1485,9 @@ export type QuizAttemptUncheckedUpdateManyWithoutUserInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1441,7 +1515,9 @@ export type QuizAttemptCreateManyQuizInput = {
   mode: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
+  phase?: $Enums.QuizAttemptPhase
   quizTitle: string
+  quizDescription?: string | null
   quizSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: number
@@ -1468,7 +1544,9 @@ export type QuizAttemptUpdateWithoutQuizInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1498,7 +1576,9 @@ export type QuizAttemptUncheckedUpdateWithoutQuizInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1527,7 +1607,9 @@ export type QuizAttemptUncheckedUpdateManyWithoutQuizInput = {
   mode?: Prisma.EnumQuizAttemptModeFieldUpdateOperationsInput | $Enums.QuizAttemptMode
   environment?: Prisma.EnumRuntimeEnvironmentFieldUpdateOperationsInput | $Enums.RuntimeEnvironment
   status?: Prisma.EnumQuizAttemptStatusFieldUpdateOperationsInput | $Enums.QuizAttemptStatus
+  phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   quizTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  quizDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quizSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   settings?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1587,7 +1669,9 @@ export type QuizAttemptSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   mode?: boolean
   environment?: boolean
   status?: boolean
+  phase?: boolean
   quizTitle?: boolean
+  quizDescription?: boolean
   quizSnapshot?: boolean
   settings?: boolean
   currentQuestionIndex?: boolean
@@ -1620,7 +1704,9 @@ export type QuizAttemptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   mode?: boolean
   environment?: boolean
   status?: boolean
+  phase?: boolean
   quizTitle?: boolean
+  quizDescription?: boolean
   quizSnapshot?: boolean
   settings?: boolean
   currentQuestionIndex?: boolean
@@ -1651,7 +1737,9 @@ export type QuizAttemptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   mode?: boolean
   environment?: boolean
   status?: boolean
+  phase?: boolean
   quizTitle?: boolean
+  quizDescription?: boolean
   quizSnapshot?: boolean
   settings?: boolean
   currentQuestionIndex?: boolean
@@ -1682,7 +1770,9 @@ export type QuizAttemptSelectScalar = {
   mode?: boolean
   environment?: boolean
   status?: boolean
+  phase?: boolean
   quizTitle?: boolean
+  quizDescription?: boolean
   quizSnapshot?: boolean
   settings?: boolean
   currentQuestionIndex?: boolean
@@ -1704,7 +1794,7 @@ export type QuizAttemptSelectScalar = {
   updatedAt?: boolean
 }
 
-export type QuizAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "quizId" | "mode" | "environment" | "status" | "quizTitle" | "quizSnapshot" | "settings" | "currentQuestionIndex" | "totalQuestions" | "answeredQuestions" | "correctAnswers" | "skippedQuestions" | "partiallyCorrectAnswers" | "score" | "totalPoints" | "timeLimitSeconds" | "elapsedSeconds" | "startedAt" | "lastActivityAt" | "pausedAt" | "completedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizAttempt"]>
+export type QuizAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "quizId" | "mode" | "environment" | "status" | "phase" | "quizTitle" | "quizDescription" | "quizSnapshot" | "settings" | "currentQuestionIndex" | "totalQuestions" | "answeredQuestions" | "correctAnswers" | "skippedQuestions" | "partiallyCorrectAnswers" | "score" | "totalPoints" | "timeLimitSeconds" | "elapsedSeconds" | "startedAt" | "lastActivityAt" | "pausedAt" | "completedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizAttempt"]>
 export type QuizAttemptInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
@@ -1734,7 +1824,9 @@ export type $QuizAttemptPayload<ExtArgs extends runtime.Types.Extensions.Interna
     mode: $Enums.QuizAttemptMode
     environment: $Enums.RuntimeEnvironment
     status: $Enums.QuizAttemptStatus
+    phase: $Enums.QuizAttemptPhase
     quizTitle: string
+    quizDescription: string | null
     quizSnapshot: runtime.JsonValue
     settings: runtime.JsonValue
     currentQuestionIndex: number
@@ -2186,7 +2278,9 @@ export interface QuizAttemptFieldRefs {
   readonly mode: Prisma.FieldRef<"QuizAttempt", 'QuizAttemptMode'>
   readonly environment: Prisma.FieldRef<"QuizAttempt", 'RuntimeEnvironment'>
   readonly status: Prisma.FieldRef<"QuizAttempt", 'QuizAttemptStatus'>
+  readonly phase: Prisma.FieldRef<"QuizAttempt", 'QuizAttemptPhase'>
   readonly quizTitle: Prisma.FieldRef<"QuizAttempt", 'String'>
+  readonly quizDescription: Prisma.FieldRef<"QuizAttempt", 'String'>
   readonly quizSnapshot: Prisma.FieldRef<"QuizAttempt", 'Json'>
   readonly settings: Prisma.FieldRef<"QuizAttempt", 'Json'>
   readonly currentQuestionIndex: Prisma.FieldRef<"QuizAttempt", 'Int'>
