@@ -195,8 +195,10 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   setAnswer: (questionId: string, answer: Answer) =>
     set((state) => {
       return {
-        questions: state.questions.map((question) =>
-          question.id === questionId
+        questions: state.questions.map((question) => {
+          console.log(questionId);
+
+          return question.id === questionId
             ? {
                 ...question,
                 answer,
@@ -205,8 +207,8 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
                 isDirty: true,
                 lastModifiedAt: Date.now(),
               }
-            : question,
-        ),
+            : question;
+        }),
         persistence: {
           ...state.persistence,
           dirty: true,
@@ -251,6 +253,19 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
         ),
       };
     }),
+
+  submitPracticeAnswer: (questionId, evaluation) =>
+  set((state) => ({
+    questions: state.questions.map((question) =>
+      question.id === questionId
+        ? {
+            ...question,
+            locked: true,
+            evaluation,
+          }
+        : question,
+    ),
+  })),
 
   setQuestionStatus: (questionId: string, status: RuntimeQuestionStatus) =>
     set((state) => ({

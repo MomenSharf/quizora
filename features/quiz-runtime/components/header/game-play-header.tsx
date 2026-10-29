@@ -1,36 +1,58 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
   IconMaximize,
+  IconMinimize,
   IconSettings2,
   IconX,
 } from "@tabler/icons-react";
-import { useRuntimeStore } from "../../store";
-import { useShallow } from "zustand/react/shallow";
+import { useRuntimeHeader } from "../../store";
+import QuizProgress from "./quiz-progress";
 
 type GamePlayHeaderProps = {
   onSettingsClick?: () => void;
-  onFullscreenClick?: () => void;
   onExitClick?: () => void;
 };
 
 export default function GamePlayHeader({
   onSettingsClick,
-  onFullscreenClick,
   onExitClick,
 }: GamePlayHeaderProps) {
-  const { title, mode, currentQuestionIndex, totalQuestions } =
-    useRuntimeStore(
-      useShallow((state) => ({
-        title: state.quizSnapshot.title,
-        mode: state.mode,
-        currentQuestionIndex: state.questionState.currentIndex + 1,
-        totalQuestions: state.questions.length,
-      })),
-    );
+  const { title, mode, currentQuestionIndex, totalQuestions, phase } =
+    useRuntimeHeader();
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener(
+        "fullscreenchange",
+        handleFullscreenChange,
+      );
+    };
+  }, []);
+
+  const handleFullscreenClick = async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch (error) {
+      console.error("Failed to toggle fullscreen:", error);
+    }
+  };
 
   const progress =
     totalQuestions > 0
@@ -39,7 +61,7 @@ export default function GamePlayHeader({
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-12 container items-center justify-between gap-2 sm:h-14 sm:gap-4 px-2 sm:px-4">
+      <div className="container mx-auto flex h-12 items-center justify-between gap-2 px-2 sm:h-14 sm:gap-4 sm:px-4">
         <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
           <Logo
             containerClassName="size-8 shrink-0 rounded-lg sm:size-9 sm:rounded-xl"
@@ -54,38 +76,19 @@ export default function GamePlayHeader({
             <span className="max-w-[160px] truncate text-xs font-semibold lg:max-w-[220px]">
               {title}
             </span>
+
             <span className="text-[11px] text-muted-foreground">
               {mode === "PRACTICE" ? "Practice mode" : "Test mode"}
             </span>
           </div>
         </div>
 
-        <div className="flex min-w-0 flex-[0.8] items-center justify-center sm:flex-1">
-          <div className="flex w-full max-w-[240px] min-w-0 flex-col items-center gap-1">
-            <div className="flex items-center gap-1 text-[11px] font-medium leading-none tabular-nums sm:text-xs">
-              <span className="text-foreground">
-                Question {currentQuestionIndex }
-              </span>
-              <span className="text-muted-foreground">
-                of {totalQuestions}
-              </span>
-            </div>
-
-            <div
-              className="h-1 w-full overflow-hidden rounded-full bg-muted"
-              role="progressbar"
-              aria-label="Quiz progress"
-              aria-valuemin={0}
-              aria-valuemax={totalQuestions}
-              aria-valuenow={Math.min(currentQuestionIndex, totalQuestions)}
-            >
-              <div
-                className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
-        </div>
+        <QuizProgress
+          phase={phase}
+          currentQuestionIndex={currentQuestionIndex}
+          totalQuestions={totalQuestions}
+          progress={progress}
+        />
 
         <div className="flex flex-1 items-center justify-end gap-1 sm:gap-1.5">
           <Button
@@ -94,7 +97,7 @@ export default function GamePlayHeader({
             size="icon"
             onClick={onSettingsClick}
             aria-label="Quiz settings"
-            className="size-8 shrink-0 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground sm:size-8"
+            className="size-8 shrink-0 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
           >
             <IconSettings2 className="size-4" stroke={1.8} />
           </Button>
@@ -103,11 +106,16 @@ export default function GamePlayHeader({
             type="button"
             variant="ghost"
             size="icon"
-            onClick={onFullscreenClick}
-            aria-label="Toggle fullscreen"
+            onClick={handleFullscreenClick}
+            aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+            title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
             className="hidden size-8 shrink-0 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground sm:inline-flex"
           >
-            <IconMaximize className="size-4" stroke={1.8} />
+            {isFullscreen ? (
+              <IconMinimize className="size-4" stroke={1.8} />
+            ) : (
+              <IconMaximize className="size-4" stroke={1.8} />
+            )}
           </Button>
 
           <div className="mx-0.5 hidden h-5 w-px shrink-0 bg-border sm:block" />

@@ -36,8 +36,6 @@ export type QuizAttemptMode = (typeof QuizAttemptMode)[keyof typeof QuizAttemptM
 export const QuizAttemptPhase = {
   READY: 'READY',
   QUESTION: 'QUESTION',
-  SUBMITTING: 'SUBMITTING',
-  FEEDBACK: 'FEEDBACK',
   PAUSED: 'PAUSED',
   RESULT: 'RESULT'
 } as const

@@ -452,6 +452,8 @@ function mapQuestion(
     evaluation: getEvaluation(question.evaluation),
     earnedPoints: question.earnedPoints,
     maxPoints: question.maxPoints,
+    flagged: question.flagged ?? false,
+    locked: question.locked ?? false,
     timeSpentSeconds: question.timeSpentSeconds,
     answeredAt: question.answeredAt?.getTime() ?? null,
   };

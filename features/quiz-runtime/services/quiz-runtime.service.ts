@@ -20,12 +20,7 @@ type GetAttemptInput = {
 const ACTIVE_STATUSES = ["IN_PROGRESS", "PAUSED"] as const;
 
 export const quizRuntimeService = {
-  async createAttempt({
-    quizId,
-    userId,
-    mode,
-    settings,
-  }: StartAttemptInput) {
+  async createAttempt({ quizId, userId, mode, settings }: StartAttemptInput) {
     return prisma.$transaction(async (tx) => {
       const quiz = await tx.quiz.findFirst({
         where: {
@@ -112,8 +107,6 @@ export const quizRuntimeService = {
                 tags: question.tags,
                 difficulty: question.difficulty,
               },
-
-              answerKeySnapshot: question.config as Prisma.InputJsonValue,
             })),
           },
         },
@@ -131,7 +124,7 @@ export const quizRuntimeService = {
     });
   },
 
-    async getAttempt({ attemptId, userId }: GetAttemptInput) {
+  async getAttempt({ attemptId, userId }: GetAttemptInput) {
     const attempt = await prisma.quizAttempt.findFirst({
       where: {
         id: attemptId,
@@ -151,12 +144,11 @@ export const quizRuntimeService = {
                 image: true,
               },
             },
-          }
-        }
+          },
+        },
       },
     });
 
     return attempt;
   },
-
 };

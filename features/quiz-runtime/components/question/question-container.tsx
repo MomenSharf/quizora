@@ -1,39 +1,21 @@
-import {
-  useAnswerByQuestionId,
-  useLockedQuestionIds,
-  useRuntimePhase,
-  useRuntimeQuestions,
-} from "../../store";
-import QuestionImage from "./question-image";
-import QuestionTitle from "./question-title";
-import QuestionMeta from "./question-meta";
+
+import { useRuntimeCurrentQuestion } from "../../store";
 import QuestionContentRouter from "./question-content-router";
+import QuestionFeedback from "./question-feedback";
+import QuestionImage from "./question-image";
+import QuestionMeta from "./question-meta";
+import QuestionTitle from "./question-title";
 
 export default function QuestionContainer() {
-  const { currentQuestion, currentIndex } = useRuntimeQuestions();
-  const phase = useRuntimePhase();
-  const question = currentQuestion?.question;
+  const { runtimeCurrentQuestion, currentQuestionIndex } =
+    useRuntimeCurrentQuestion();
 
-  const answerState = useAnswerByQuestionId(question.id);
-  const lockedQuestionsIds = useLockedQuestionIds();
-
-  
-
-  const isSubmitted =  answerState && answerState?.evaluation !== null;
-  
-
-  const isQuestionLocked = lockedQuestionsIds.includes(question.id);
-
-  const isLocked =
-    isQuestionLocked ||
-    isSubmitted ||
-    phase === "ANSWER_LOCKED" ||
-    phase === "SUBMITTING" ||
-    phase === "RESULT";
+  const { question, evaluation, locked } = runtimeCurrentQuestion;
 
   if (!question) return null;
 
-  const imageSrc = question.image?.url ?? "/assets/images/login-image.jpg";
+  const showFeedback = locked && evaluation != null;
+  const imageSrc = question.image?.url;
 
   return (
     <div
@@ -49,19 +31,22 @@ export default function QuestionContainer() {
         </div>
       )}
 
-      <div className="order-2 flex min-w-0 flex-col gap-3">
+      <div className="order-2 flex min-w-0 flex-col gap-4">
         <QuestionMeta type={question.type} />
 
         <QuestionTitle
-          questionNumber={currentIndex + 1}
+          questionNumber={currentQuestionIndex + 1}
           title={question.title}
         />
 
-        <QuestionContentRouter
-          runtimeQuestion={currentQuestion}
-          isLocked={isLocked}
-          isSubmitted={isSubmitted}
-        />
+        <QuestionContentRouter runtimeQuestion={runtimeCurrentQuestion} />
+
+        {showFeedback && (
+          <QuestionFeedback
+            evaluation={evaluation}
+            explanation={question.explanation ?? 'test'}
+          />
+        )}
       </div>
     </div>
   );

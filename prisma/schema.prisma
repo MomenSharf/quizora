@@ -125,11 +125,11 @@ model Question {
 
   type QuestionType
 
-  title       String
+  title String
 
-  explanation String? @db.Text
+  explanation        String? @db.Text
   explanationImageId String?
-  explanationImage    Image?  @relation("QuestionExplanationImage", fields: [explanationImageId], references: [id])
+  explanationImage   Image?  @relation("QuestionExplanationImage", fields: [explanationImageId], references: [id])
 
   points Float @default(1)
 
@@ -146,7 +146,6 @@ model Question {
   config  Json
 
   version Int @default(1)
-
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -170,8 +169,6 @@ enum QuizAttemptMode {
 enum QuizAttemptPhase {
   READY
   QUESTION
-  SUBMITTING
-  FEEDBACK
   PAUSED
   RESULT
 }
@@ -198,12 +195,12 @@ model QuizAttempt {
   mode        QuizAttemptMode
   environment RuntimeEnvironment @default(PRODUCTION)
   status      QuizAttemptStatus  @default(IN_PROGRESS)
-  phase       QuizAttemptPhase  @default(READY)
+  phase       QuizAttemptPhase   @default(READY)
 
   quizSnapshot Json
   settings     Json
 
-  currentQuestionIndex Int @default(0)
+  currentQuestionIndex    Int   @default(0)
   totalQuestions          Int   @default(0)
   answeredQuestions       Int   @default(0)
   correctAnswers          Int   @default(0)
@@ -242,18 +239,18 @@ model AttemptQuestion {
   orderIndex Int
 
   questionSnapshot  Json
-  answerKeySnapshot Json
 
-  response     Json?
-  isSubmitted  Boolean               @default(false)
-  status       AttemptQuestionStatus @default(UNANSWERED)
-  evaluation   Json?
-  earnedPoints Float                 @default(0)
-  maxPoints    Float                 @default(1)
-
-  timeSpentSeconds Int       @default(0)
+  response         Json?
+  isSubmitted      Boolean               @default(false)
+  status           AttemptQuestionStatus @default(UNANSWERED)
+  evaluation       Json?
+  earnedPoints     Float                 @default(0)
+  maxPoints        Float                 @default(1)
+  flagged          Boolean               @default(false)
+  locked           Boolean                @default(false)
+  timeSpentSeconds Int                   @default(0)
   answeredAt       DateTime?
-  updatedAt        DateTime  @updatedAt
+  updatedAt        DateTime              @updatedAt
 
   attempt QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
 
@@ -275,10 +272,9 @@ model Image {
 
   createdAt DateTime @default(now())
 
-  questions Question[]
-  quizzes   Quiz[]
-    explanationQuestions   Question[] @relation("QuestionExplanationImage")
-
+  questions            Question[]
+  quizzes              Quiz[]
+  explanationQuestions Question[] @relation("QuestionExplanationImage")
 }
 
 enum QuizStatus {

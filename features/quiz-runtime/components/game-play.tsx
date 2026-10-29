@@ -1,18 +1,12 @@
 "use client";
 
-import { QuizAttemptRuntime, QuizSnapshot } from "../types/runtime-types";
-import {
-  useRuntime,
-  useRuntimeActions,
-  useRuntimePhase,
-  useRuntimeStore,
-  useRuntimeTimer,
-} from "../store";
-import { InitializeGameplay } from "./initialize-gameplay";
-import GamePlayHeader from "./header/game-play-header";
+import { useRuntime, useRuntimeActions, useRuntimePhase } from "../store";
+import { QuizAttemptRuntime } from "../types/runtime-types";
 import GamePlayActions from "./actions-bar/game-play-actions";
-import QuestionContainer from "./question/question-container";
 import GameplayPhaseRouter from "./gameplay-phase-router";
+import GamePlayHeader from "./header/game-play-header";
+import { InitializeGameplay } from "./initialize-gameplay";
+import QuestionContainer from "./question/question-container";
 import QuizReadyPage from "./quiz-ready-page";
 
 type GameplayLayoutProps = {
@@ -30,9 +24,7 @@ export default function Gameplay({ attempt }: GameplayLayoutProps) {
 function GameplayContent() {
   const phase = useRuntimePhase();
   const { quizSnapshot, questionCount } = useRuntime();
-  const timer = useRuntimeTimer();
-  const {startAttempt} = useRuntimeActions();
-
+  const { startAttempt } = useRuntimeActions();
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
@@ -49,11 +41,9 @@ function GameplayContent() {
                 <QuizReadyPage
                   quizSnapshot={quizSnapshot}
                   questionCount={questionCount}
-                  duration={
-                    timer.isAttemptTimerRunning ? "10 minutes" : "No time limit"
-                  }
+                  duration={"No time limit"}
                   onStart={() => startAttempt(Date.now())}
-                  sessionMode={'PRACTICE'}
+                  sessionMode={"PRACTICE"}
                 />
               </div>
             }

@@ -1,43 +1,38 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  useAnswerByQuestionId,
-  useRuntimeActions,
-  useRuntimePhase,
-} from "@/features/quiz-runtime/store";
-import type { RuntimeQuestion } from "@/features/quiz-runtime/types/runtime-types";
-import { Check, CheckCircle2, ArrowRight, LockKeyhole } from "lucide-react";
-import { QuestionContentRouterProps } from "../question-content-router";
+import { useRuntimeActions } from "@/features/quiz-runtime/store";
 import { EvaluationResult } from "@/features/quiz-runtime/types/evaluation-types";
+import { ArrowRight, Check, CheckCircle2, LockKeyhole } from "lucide-react";
+import { QuestionContentRouterProps } from "../question-content-router";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 export default function SingleSelectContent({
   runtimeQuestion,
-  isLocked,
-  isSubmitted,
 }: QuestionContentRouterProps) {
-  const { question, maxPoints } = runtimeQuestion;
-  const answerState = useAnswerByQuestionId(question.id);
-  const { setAnswer, lockQuestion, setAnswerEvaluation } = useRuntimeActions();
+  const { question, maxPoints, answer } = runtimeQuestion;
+  const { setAnswer, submitPracticeAnswer } = useRuntimeActions();
 
   if (question.type !== "SINGLE_SELECT") return null;
-
-  const { options, correctOptionId } = question.content;
-  const answer = answerState?.answer ?? null;
 
   const selectedOptionId =
     answer?.type === "SINGLE_SELECT" ? answer.optionId : null;
 
+  const { options, correctOptionId } = question.content;
+
   const isCorrect = selectedOptionId === correctOptionId;
 
-  
+  const isLocked = runtimeQuestion.locked;
+
+  const isSubmitted = runtimeQuestion.evaluation !== null;
 
   const handleSelect = (optionId: string) => {
     if (isLocked || selectedOptionId === optionId) return;
+
     const answeredAt = new Date().getTime();
-    setAnswer(question.id, {
+    setAnswer(runtimeQuestion.id, {
       type: "SINGLE_SELECT",
-      questionId: question.id,
+      questionId: runtimeQuestion.id,
       optionId,
       answeredAt,
       timeSpentSeconds: 0,
@@ -67,8 +62,7 @@ export default function SingleSelectContent({
       explanation: null,
     };
 
-    lockQuestion(question.id);
-    setAnswerEvaluation(question.id, evaluation);
+    submitPracticeAnswer(runtimeQuestion.id, evaluation);
     // showFeedback(question.id, evaluation);
   };
 
@@ -107,16 +101,16 @@ export default function SingleSelectContent({
                   correct
                     ? "bg-emerald-500 text-white"
                     : incorrect
-                      ? "bg-destructive text-destructive-foreground"
+                      ? "bg-destructive text-white"
                       : selected
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted text-muted-foreground group-hover:bg-primary/10",
                 ].join(" ")}
               >
                 {correct ? (
-                  <Check size={16} />
+                  <IconCheck size={16} />
                 ) : incorrect ? (
-                  "×"
+                  <IconX size={16} />
                 ) : (
                   String.fromCharCode(65 + index)
                 )}

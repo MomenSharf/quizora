@@ -138,6 +138,10 @@ export interface RuntimeActions {
     questionId: string,
     evaluation: EvaluationResult,
   ): void;
+  submitPracticeAnswer(
+    questionId: string,
+    evaluation: EvaluationResult,
+  ): void;
 
 
 
