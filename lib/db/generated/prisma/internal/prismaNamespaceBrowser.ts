@@ -188,8 +188,6 @@ export const QuizAttemptScalarFieldEnum = {
   environment: 'environment',
   status: 'status',
   phase: 'phase',
-  quizTitle: 'quizTitle',
-  quizDescription: 'quizDescription',
   quizSnapshot: 'quizSnapshot',
   settings: 'settings',
   currentQuestionIndex: 'currentQuestionIndex',

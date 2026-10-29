@@ -20,11 +20,15 @@ import {
 } from "@/features/quiz-editor/validation/question";
 import type {
   QuizAttemptRuntime,
+  QuizSnapshot,
   RuntimeQuestion,
 } from "../types/runtime-types";
 import type { Answer } from "../types/answer-types";
 import type { EvaluationResult } from "../types/evaluation-types";
-import { ImageData } from "@/features/quiz-editor/validation/image";
+import {
+  ImageData,
+  ImageSchema,
+} from "@/features/quiz-editor/validation/image";
 
 export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
   include: {
@@ -313,8 +317,7 @@ function getQuestionSnapshot(
   }
 
   const questionImage = snapshot.image as ImageData | undefined;
-  console.log("snapp" ,snapshot.title);
-  
+  console.log("snapp", snapshot.title);
 
   const base = {
     id: snapshot.id,
@@ -453,7 +456,32 @@ function mapQuestion(
     answeredAt: question.answeredAt?.getTime() ?? null,
   };
 }
+function getQuizSnapshot(snapshot: Prisma.JsonValue | undefined): QuizSnapshot {
+  if (!snapshot || typeof snapshot !== "object" || Array.isArray(snapshot)) {
+    return {
+      thumbnail: null,
+      tags: [],
+      language: null,
+      category: null,
+      description: null,
+      title: null,
+    };
+  }
 
+  return {
+    title: typeof snapshot.title === "string" ? snapshot.title : null,
+    description:
+      typeof snapshot.description === "string" ? snapshot.description : null,
+    thumbnail: ImageSchema.safeParse(snapshot.thumbnail).success
+      ? ImageSchema.parse(snapshot.thumbnail)
+      : null,
+    tags: Array.isArray(snapshot.tags)
+      ? snapshot.tags.filter((tag): tag is string => typeof tag === "string")
+      : [],
+    language: typeof snapshot.language === "string" ? snapshot.language : null,
+    category: typeof snapshot.category === "string" ? snapshot.category : null,
+  };
+}
 export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
   const settings = getSettings(attempt.settings);
 
@@ -469,12 +497,12 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
   return {
     id: attempt.id,
     quizId: attempt.quizId,
-    quizTitle: attempt.quizTitle,
-    quizDescription: attempt.quizDescription,
+    quizSnapshot: getQuizSnapshot(attempt.quizSnapshot),
+
     environment: attempt.environment,
     settings,
     status: attempt.status,
-    phase: attempt.phase || 'READY',
+    phase: attempt.phase || "READY",
     questions,
     progress: {
       currentQuestionIndex: attempt.currentQuestionIndex,

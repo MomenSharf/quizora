@@ -200,8 +200,6 @@ model QuizAttempt {
   status      QuizAttemptStatus  @default(IN_PROGRESS)
   phase       QuizAttemptPhase  @default(READY)
 
-  quizTitle    String
-  quizDescription String?
   quizSnapshot Json
   settings     Json
 

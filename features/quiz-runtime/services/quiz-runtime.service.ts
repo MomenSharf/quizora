@@ -38,8 +38,10 @@ export const quizRuntimeService = {
             },
             include: {
               image: true,
+              explanationImage: true,
             },
           },
+          thumbnail: true,
         },
       });
 
@@ -69,20 +71,14 @@ export const quizRuntimeService = {
           userId,
           quizId,
           mode,
-          quizTitle: quiz.title,
 
           quizSnapshot: {
             title: quiz.title,
             description: quiz.description,
-            questions: quiz.questions.map((question) => ({
-              id: question.id,
-              type: question.type,
-              title: question.title,
-              points: question.points,
-              content: question.content,
-              config: question.config,
-              
-            })),
+            thumbnail: quiz.thumbnail,
+            tags: quiz.tags,
+            language: quiz.language,
+            category: quiz.category,
           },
 
           settings: attemptSettings as Prisma.InputJsonValue,
@@ -111,6 +107,10 @@ export const quizRuntimeService = {
                 content: question.content,
                 config: question.config,
                 image: question.image,
+                explanation: question.explanation,
+                explanationImage: question.explanationImage,
+                tags: question.tags,
+                difficulty: question.difficulty,
               },
 
               answerKeySnapshot: question.config as Prisma.InputJsonValue,
@@ -155,10 +155,6 @@ export const quizRuntimeService = {
         }
       },
     });
-
-    if (!attempt) {
-      throw AppErrors.notFound("Quiz attempt not found");
-    }
 
     return attempt;
   },

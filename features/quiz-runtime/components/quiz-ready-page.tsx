@@ -1,114 +1,136 @@
-
 "use client";
 
 import { motion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
+  Brain,
+  ClipboardCheck,
   Clock3,
+  Gamepad2,
   Layers3,
-  Sparkles,
+  Target,
 } from "lucide-react";
+import type { QuizSnapshot, SessionMode } from "../types/runtime-types";
 
-type QuizReadyCardProps = {
-  quizTitle: string;
-  description?: string | null;
+type QuizReadyPageProps = {
+  quizSnapshot: QuizSnapshot;
   questionCount: number;
   duration?: string;
+  sessionMode: SessionMode;
   onStart: () => void;
 };
 
-export default function QuizReadyCard({
-  quizTitle,
-  description,
+export default function QuizReadyPage({
+  quizSnapshot,
   questionCount,
   duration = "No time limit",
+  sessionMode,
   onStart,
-}: QuizReadyCardProps) {
+}: QuizReadyPageProps) {
+  const { title, description, tags, category, language } = quizSnapshot;
+  const isPractice = sessionMode === "PRACTICE";
+  const ModeIcon = isPractice ? Gamepad2 : ClipboardCheck;
+
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="w-full max-w-md overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
-    >
-      <div className="p-5 sm:p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <BookOpen size={19} strokeWidth={2} />
-            </div>
-
-            <span className="text-base font-bold tracking-tight">
-              Quizora
-            </span>
+    <div className="relative flex w-full flex-1 items-center justify-center px-3 py-4 sm:px-5">
+      <motion.section
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className="w-full max-w-xl"
+      >
+        <div className="flex flex-col items-center text-center">
+          <div
+            className={`flex size-10 items-center justify-center rounded-xl text-primary bg-primary/10`}
+          >
+            <ModeIcon size={21} strokeWidth={1.8} />
           </div>
 
-          <div className="flex items-center gap-1.5 rounded-full bg-primary/8 px-2.5 py-1 text-xs font-medium text-primary">
-            <Sparkles size={13} />
-            Ready to play
-          </div>
-        </div>
+          <span className={`mt-3 text-xs font-medium text-primary`}>
+            {isPractice ? "Practice mode" : "Test mode"}
+          </span>
 
-        <div className="mt-7">
-          <div className="mb-3 flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            <BookOpen size={22} strokeWidth={1.8} />
-          </div>
-
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Your next challenge
-          </p>
-
-          <h2 className="mt-1.5 text-xl font-semibold leading-snug tracking-tight">
-            {quizTitle}
-          </h2>
+          <h1 className="mt-2 max-w-lg text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+            {title}
+          </h1>
 
           {description?.trim() && (
-            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-2 line-clamp-2 max-w-md text-sm leading-5 text-muted-foreground">
               {description}
             </p>
           )}
+
+          {(category || language || tags.length > 0) && (
+            <div className="mt-3 flex flex-wrap justify-center gap-1.5">
+              {category && (
+                <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-1 text-[11px] text-muted-foreground">
+                  <BookOpen size={12} />
+                  {category}
+                </span>
+              )}
+
+              {language && (
+                <span className="rounded-md bg-muted px-2 py-1 text-[11px] text-muted-foreground">
+                  {language}
+                </span>
+              )}
+
+              {tags.slice(0, 2).map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="mt-5 flex items-center gap-5">
-          <div className="flex items-center gap-2">
-            <Layers3
-              size={16}
-              className="text-muted-foreground"
-            />
-            <span className="text-sm font-medium">
-              {questionCount} questions
-            </span>
+        <div className="mx-auto mt-5 flex max-w-sm divide-x divide-border rounded-xl border border-border/70 bg-card">
+          <div className="flex flex-1 items-center justify-center gap-2.5 px-3 py-3">
+            <Layers3 size={17} className="text-muted-foreground" />
+            <div className="text-left">
+              <p className="text-sm font-semibold tabular-nums">
+                {questionCount}
+              </p>
+              <p className="text-[11px] text-muted-foreground">
+                {questionCount === 1 ? "Question" : "Questions"}
+              </p>
+            </div>
           </div>
 
-          <div className="flex min-w-0 items-center gap-2">
-            <Clock3
-              size={16}
-              className="shrink-0 text-muted-foreground"
-            />
-            <span className="truncate text-sm text-muted-foreground">
-              {duration}
-            </span>
+          <div className="flex min-w-0 flex-1 items-center justify-center gap-2.5 px-3 py-3">
+            <Clock3 size={17} className="text-muted-foreground" />
+            <div className="min-w-0 text-left">
+              <p className="truncate text-sm font-semibold">{duration}</p>
+              <p className="text-[11px] text-muted-foreground">Duration</p>
+            </div>
           </div>
         </div>
 
-        <motion.button
-          type="button"
-          whileTap={{ scale: 0.985 }}
-          onClick={onStart}
-          className="group mt-6 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        >
-          Start quiz
-          <ArrowRight
-            size={17}
-            className="transition-transform duration-200 group-hover:translate-x-1"
-          />
-        </motion.button>
+        <div className="mx-auto mt-4 max-w-sm">
+          <motion.button
+            type="button"
+            whileTap={{ scale: 0.98 }}
+            onClick={onStart}
+            className="group flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            {isPractice ? "Start practicing" : "Start test"}
+            <ArrowRight
+              size={15}
+              className="transition-transform group-hover:translate-x-0.5"
+            />
+          </motion.button>
 
-        <p className="mt-3 text-center text-xs text-muted-foreground">
-          Take your time. You’re ready when you are.
-        </p>
-      </div>
-    </motion.section>
+          <p className="mt-2 text-center text-[11px] text-muted-foreground">
+            {isPractice
+              ? "Learn at your own pace."
+              : "Stay focused. Do your best."}
+          </p>
+        </div>
+      </motion.section>
+    </div>
   );
 }

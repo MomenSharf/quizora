@@ -1,8 +1,11 @@
+
 import type { Answer } from "../types/answer-types";
 import type { EvaluationResult } from "../types/evaluation-types";
+
 import type {
   AttemptSettings,
   QuizAttemptRuntime,
+  QuizSnapshot,
   RuntimeEnvironment,
   RuntimePhase,
   RuntimeProgress,
@@ -15,28 +18,19 @@ import type {
 } from "../types/runtime-types";
 
 
-
-export type RuntimeAnswerState = {
-  questionId: string;
-  answer: Answer | null;
-  evaluation: EvaluationResult | null;
-  status: RuntimeQuestionStatus;
-  isDirty: boolean;
-  lastModifiedAt: number | null;
-};
-
-export type RuntimeQuestionState = {
-  currentIndex: number;
-  visitedQuestionIds: string[];
-  flaggedQuestionIds: string[];
-  lockedQuestionIds: string[];
-};
+// --------------------------------------------------
+// Feedback state
+// --------------------------------------------------
 
 export type RuntimeFeedbackState = {
   questionId: string | null;
   evaluation: EvaluationResult | null;
   visible: boolean;
 };
+
+// --------------------------------------------------
+// Final attempt submission state
+// --------------------------------------------------
 
 export type RuntimeSubmissionState = {
   isSubmitting: boolean;
@@ -45,22 +39,21 @@ export type RuntimeSubmissionState = {
   submittedAt: number | null;
 };
 
+// --------------------------------------------------
+// Persistence state
+// --------------------------------------------------
+
 export type RuntimePersistenceState = {
-  saveState: RuntimeSaveStatus;
   error: string | null;
+  saveStatus: RuntimeSaveStatus 
   dirty: boolean;
   lastSavedAt: number | null;
   lastAttemptAt: number | null;
 };
 
-export type RuntimeLoadingState = {
-  isStarting: boolean;
-  isLoading: boolean;
-  isPausing: boolean;
-  isResuming: boolean;
-  isCompleting: boolean;
-  isLeaving: boolean;
-};
+// --------------------------------------------------
+// Runtime error
+// --------------------------------------------------
 
 export type RuntimeError = {
   code: string;
@@ -68,56 +61,56 @@ export type RuntimeError = {
   questionId?: string;
 };
 
+// --------------------------------------------------
+// Runtime state
+// --------------------------------------------------
+
 export type RuntimeState = {
   // Attempt identity and configuration
   attemptId: string | null;
   quizId: string | null;
-  quizTitle: string | null;
-  quizDescription: string | null;
+  quizSnapshot: QuizSnapshot;
   environment: RuntimeEnvironment;
   mode: SessionMode;
   settings: AttemptSettings | null;
 
-  // Runtime lifecycle
+  // Lifecycle
   status: RuntimeStatus;
   phase: RuntimePhase;
+
   startedAt: number | null;
   lastActivityAt: number | null;
   pausedAt: number | null;
   completedAt: number | null;
   expiresAt: number | null;
 
-  // Quiz content and answers
+  // Quiz content
   questions: RuntimeQuestion[];
-  answers: Record<string, RuntimeAnswerState>;
 
-  // Gameplay progress
+  // Gameplay
   progress: RuntimeProgress;
-  questionState: RuntimeQuestionState;
   timer: RuntimeTimerState;
 
   // Feedback and final submission
   feedback: RuntimeFeedbackState;
   submission: RuntimeSubmissionState;
 
-  // Saving and server synchronization
+  // Server synchronization
   persistence: RuntimePersistenceState;
 
-  // Temporary UI/loading state
-  loading: RuntimeLoadingState;
+  // Temporary UI state
   error: RuntimeError | null;
 };
 
+// --------------------------------------------------
+// Runtime actions
+// --------------------------------------------------
+
 export interface RuntimeActions {
-  // Attempt initialization and hydration
+  // Initialization
   initializeAttempt(attempt: QuizAttemptRuntime): void;
   hydrateAttempt(attempt: QuizAttemptRuntime): void;
   clearAttempt(): void;
-
-  // Attempt configuration
-  setEnvironment(environment: RuntimeEnvironment): void;
-  setMode(mode: SessionMode): void;
-  setSettings(settings: AttemptSettings): void;
 
   // Lifecycle
   setStatus(status: RuntimeStatus): void;
@@ -130,81 +123,44 @@ export interface RuntimeActions {
   updateLastActivity(timestamp: number): void;
 
   // Questions and navigation
-  setQuestions(questions: RuntimeQuestion[]): void;
-  setCurrentQuestion(index: number): void;
+  setCurrentQuestion(index: number) : void
+  goToQuestion(index: number): void;
   goToNextQuestion(): void;
   goToPreviousQuestion(): void;
-  goToQuestion(index: number): void;
-  markQuestionVisited(questionId: string): void;
   toggleQuestionFlag(questionId: string): void;
   lockQuestion(questionId: string): void;
   unlockQuestion(questionId: string): void;
 
-  // Answers
+  // Answers and evaluation
   setAnswer(questionId: string, answer: Answer): void;
-  clearAnswer(questionId: string): void;
+  clearAnswer(questionId: string): void
   setAnswerEvaluation(
     questionId: string,
     evaluation: EvaluationResult,
   ): void;
-  setAnswerState(
-    questionId: string,
-    state: Partial<RuntimeAnswerState>,
-  ): void;
-  markAnswerSaved(questionId: string): void;
 
-  // Question progress and scoring
-  setQuestionStatus(
-    questionId: string,
-    status: RuntimeQuestionStatus,
-  ): void;
-  setQuestionTimeSpent(
-    questionId: string,
-    timeSpentSeconds: number,
-  ): void;
+
+
+  // Progress and scoring
   setProgress(progress: Partial<RuntimeProgress>): void;
   recalculateProgress(): void;
 
-  // Timers
-  setTimer(timer: Partial<RuntimeTimerState>): void;
-  startQuestionTimer(startedAt: number, deadlineAt: number | null): void;
-  stopQuestionTimer(): void;
-  setAttemptDeadline(deadlineAt: number | null): void;
-
-  // Feedback
-  showFeedback(
-    questionId: string,
-    evaluation: EvaluationResult,
-  ): void;
-  hideFeedback(): void;
-  clearFeedback(): void;
-
-  // Submission
-  setSubmitting(isSubmitting: boolean): void;
-  setSubmitConfirmation(isConfirmed: boolean): void;
-  setUnansweredQuestions(questionIds: string[]): void;
-  setSubmittedAt(timestamp: number): void;
-
   // Persistence
-  setSaveState(state: RuntimeSaveStatus): void;
-  setSaveError(error: string | null): void;
-  setDirty(dirty: boolean): void;
-  setLastSavedAt(timestamp: number | null): void;
-  setLastAttemptAt(timestamp: number | null): void;
-  markAllAnswersSaved(): void;
+  // set{ersistence
 
   // Loading and errors
-  setLoadingState(state: Partial<RuntimeLoadingState>): void;
   setError(error: RuntimeError | null): void;
   clearError(): void;
 
   // Reset
-  resetQuestionState(): void;
-  resetSubmission(): void;
   reset(): void;
 }
 
 export type RuntimeStore = RuntimeState & RuntimeActions;
+
+// --------------------------------------------------
+// Default state
+// --------------------------------------------------
 
 export const defaultRuntimeProgress: RuntimeProgress = {
   currentQuestionIndex: 0,
@@ -226,13 +182,6 @@ export const defaultRuntimeTimer: RuntimeTimerState = {
   isAttemptTimerRunning: false,
 };
 
-export const defaultRuntimeQuestionState: RuntimeQuestionState = {
-  currentIndex: 0,
-  visitedQuestionIds: [],
-  flaggedQuestionIds: [],
-  lockedQuestionIds: [],
-};
-
 export const defaultRuntimeFeedback: RuntimeFeedbackState = {
   questionId: null,
   evaluation: null,
@@ -247,33 +196,34 @@ export const defaultRuntimeSubmission: RuntimeSubmissionState = {
 };
 
 export const defaultRuntimePersistence: RuntimePersistenceState = {
-  saveState: "IDLE",
   error: null,
+  saveStatus: 'IDLE',
   dirty: false,
   lastSavedAt: null,
   lastAttemptAt: null,
-};
-
-export const defaultRuntimeLoading: RuntimeLoadingState = {
-  isStarting: false,
-  isLoading: false,
-  isPausing: false,
-  isResuming: false,
-  isCompleting: false,
-  isLeaving: false,
+  
 };
 
 export const defaultRuntimeState: RuntimeState = {
   attemptId: null,
   quizId: null,
-  quizTitle: null,
-  quizDescription: null,
+
+  quizSnapshot: {
+    title: null,
+    description: null,
+    thumbnail: null,
+    tags: [],
+    language: null,
+    category: null,
+  },
+
   environment: "PREVIEW",
   mode: "PRACTICE",
   settings: null,
 
   status: "IDLE",
   phase: "READY",
+
   startedAt: null,
   lastActivityAt: null,
   pausedAt: null,
@@ -281,16 +231,14 @@ export const defaultRuntimeState: RuntimeState = {
   expiresAt: null,
 
   questions: [],
-  answers: {},
 
-  progress: defaultRuntimeProgress,
-  questionState: defaultRuntimeQuestionState,
-  timer: defaultRuntimeTimer,
+  progress: { ...defaultRuntimeProgress },
+  timer: { ...defaultRuntimeTimer },
 
-  feedback: defaultRuntimeFeedback,
-  submission: defaultRuntimeSubmission,
+  feedback: { ...defaultRuntimeFeedback },
+  submission: { ...defaultRuntimeSubmission },
 
-  persistence: defaultRuntimePersistence,
-  loading: defaultRuntimeLoading,
+  persistence: { ...defaultRuntimePersistence },
+
   error: null,
 };

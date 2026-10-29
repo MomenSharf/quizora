@@ -9,9 +9,8 @@ export const useRuntime = () =>
     useShallow((state) => ({
       attemptId: state.attemptId,
       quizId: state.quizId,
-      quizTitle: state.quizTitle,
-      quizDescription: state.quizDescription,
-      questionsCount: state.questions.length,
+      quizSnapshot: state.quizSnapshot,
+      questionCount: state.questions.length,
       environment: state.environment,
       mode: state.mode,
       settings: state.settings,

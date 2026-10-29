@@ -2,13 +2,9 @@ import { create } from "zustand";
 
 import {
   defaultRuntimeFeedback,
-  defaultRuntimeLoading,
   defaultRuntimePersistence,
-  defaultRuntimeQuestionState,
   defaultRuntimeState,
   defaultRuntimeSubmission,
-  type RuntimeAnswerState,
-  type RuntimeLoadingState,
   type RuntimeStore,
 } from "./runtime-store.types";
 
@@ -34,7 +30,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
     set({
       attemptId: attempt.id,
       quizId: attempt.quizId,
-      quizTitle: attempt.quizTitle,
+      quizSnapshot: attempt.quizSnapshot,
       environment: attempt.environment,
       mode: attempt.settings.mode,
       settings: attempt.settings,
@@ -46,29 +42,8 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       completedAt: attempt.completedAt,
       expiresAt: attempt.expiresAt,
       questions: attempt.questions,
-      answers: Object.fromEntries(
-        attempt.questions.map((question) => [
-          question.id,
-          {
-            questionId: question.id,
-            answer: question.answer,
-            evaluation: question.evaluation,
-            status: question.status,
-            isDirty: false,
-            lastModifiedAt: question.answeredAt,
-          },
-        ]),
-      ),
       progress: attempt.progress,
-      questionState: {
-        ...defaultRuntimeQuestionState,
-        currentIndex: attempt.progress.currentQuestionIndex,
-        visitedQuestionIds: attempt.questions[
-          attempt.progress.currentQuestionIndex
-        ]
-          ? [attempt.questions[attempt.progress.currentQuestionIndex].id]
-          : [],
-      },
+
       timer: attempt.timer,
       feedback: defaultRuntimeFeedback,
       submission: {
@@ -77,10 +52,9 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       },
       persistence: {
         ...defaultRuntimePersistence,
-        saveState: attempt.saveStatus ?? "IDLE",
+        saveStatus: attempt.saveStatus ?? "IDLE",
         dirty: false,
       },
-      loading: defaultRuntimeLoading,
       error: null,
     }),
 
@@ -151,7 +125,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       lastActivityAt: completedAt,
       timer: {
         ...state.timer,
-        isQuestionTimerRunning: false,
+        isQuestionTimazaaerRunning: false,
         isAttemptTimerRunning: false,
       },
       submission: {
@@ -175,122 +149,64 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
   updateLastActivity: (timestamp) => set({ lastActivityAt: timestamp }),
 
-  setQuestions: (questions: RuntimeQuestion[]) =>
-    set((state) => ({
-      questions,
-      progress: {
-        ...state.progress,
-        totalQuestions: questions.length,
-        totalPoints: questions.reduce(
-          (total, question) => total + (question.evaluation?.maxPoints ?? 0),
-          0,
-        ),
-      },
-    })),
-
   setCurrentQuestion: (index) => {
-    const { questions } = get();
-
-    if (index < 0 || index >= questions.length) return;
-
-    const question = questions[index];
-
     set((state) => ({
-      questionState: {
-        ...state.questionState,
-        currentIndex: index,
-        visitedQuestionIds: state.questionState.visitedQuestionIds.includes(
-          question.id,
-        )
-          ? state.questionState.visitedQuestionIds
-          : [...state.questionState.visitedQuestionIds, question.id],
-      },
       progress: {
         ...state.progress,
         currentQuestionIndex: index,
       },
-      feedback:
-        state.feedback.questionId === question.id
-          ? state.feedback
-          : defaultRuntimeFeedback,
       phase: "QUESTION",
     }));
   },
 
   goToNextQuestion: () => {
-    const { questionState, questions } = get();
-    get().setCurrentQuestion(questionState.currentIndex + 1);
-    if (questionState.currentIndex >= questions.length - 1) return;
+    get().setCurrentQuestion(get().progress.currentQuestionIndex + 1);
   },
 
   goToPreviousQuestion: () => {
-    get().setCurrentQuestion(get().questionState.currentIndex - 1);
+    get().setCurrentQuestion(get().progress.currentQuestionIndex - 1);
   },
 
   goToQuestion: (index) => get().setCurrentQuestion(index),
 
-  markQuestionVisited: (questionId) =>
-    set((state) => ({
-      questionState: {
-        ...state.questionState,
-        visitedQuestionIds: state.questionState.visitedQuestionIds.includes(
-          questionId,
-        )
-          ? state.questionState.visitedQuestionIds
-          : [...state.questionState.visitedQuestionIds, questionId],
-      },
-    })),
-
   toggleQuestionFlag: (questionId) =>
     set((state) => ({
-      questionState: {
-        ...state.questionState,
-        flaggedQuestionIds: state.questionState.flaggedQuestionIds.includes(
-          questionId,
-        )
-          ? state.questionState.flaggedQuestionIds.filter(
-              (id) => id !== questionId,
-            )
-          : [...state.questionState.flaggedQuestionIds, questionId],
-      },
+      questions: state.questions.map((question) =>
+        question.id === questionId
+          ? { ...question, flagged: !question.flagged }
+          : question,
+      ),
     })),
 
   lockQuestion: (questionId) =>
     set((state) => ({
-      questionState: {
-        ...state.questionState,
-        lockedQuestionIds: state.questionState.lockedQuestionIds.includes(
-          questionId,
-        )
-          ? state.questionState.lockedQuestionIds
-          : [...state.questionState.lockedQuestionIds, questionId],
-      },
+      questions: state.questions.map((question) =>
+        question.id === questionId ? { ...question, locked: true } : question,
+      ),
     })),
 
   unlockQuestion: (questionId) =>
     set((state) => ({
-      questionState: {
-        ...state.questionState,
-        lockedQuestionIds: state.questionState.lockedQuestionIds.filter(
-          (id) => id !== questionId,
-        ),
-      },
+      questions: state.questions.map((question) =>
+        question.id === questionId ? { ...question, locked: false } : question,
+      ),
     })),
 
   setAnswer: (questionId: string, answer: Answer) =>
     set((state) => {
       return {
-        answers: {
-          ...state.answers,
-          [questionId]: {
-            questionId,
-            answer,
-            evaluation: null,
-            status: "ANSWERED",
-            isDirty: true,
-            lastModifiedAt: Date.now(),
-          },
-        },
+        questions: state.questions.map((question) =>
+          question.id === questionId
+            ? {
+                ...question,
+                answer,
+                evaluation: null,
+                status: "ANSWERED",
+                isDirty: true,
+                lastModifiedAt: Date.now(),
+              }
+            : question,
+        ),
         persistence: {
           ...state.persistence,
           dirty: true,
@@ -303,17 +219,18 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
   clearAnswer: (questionId) =>
     set((state) => ({
-      answers: {
-        ...state.answers,
-        [questionId]: {
-          questionId,
-          answer: null,
-          evaluation: null,
-          status: "UNANSWERED",
-          isDirty: true,
-          lastModifiedAt: Date.now(),
-        },
-      },
+      questions: state.questions.map((question) =>
+        question.id === questionId
+          ? {
+              ...question,
+              answer: null,
+              evaluation: null,
+              status: "UNANSWERED",
+              isDirty: true,
+              lastModifiedAt: Date.now(),
+            }
+          : question,
+      ),
       persistence: {
         ...state.persistence,
         dirty: true,
@@ -323,92 +240,22 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
   setAnswerEvaluation: (questionId, evaluation) =>
     set((state) => {
-      const existing = state.answers[questionId];
-
-      if (!existing) return state;
-
       return {
-        answers: {
-          ...state.answers,
-          [questionId]: {
-            ...existing,
-            evaluation,
-          },
-        },
+        questions: state.questions.map((question) =>
+          question.id === questionId
+            ? {
+                ...question,
+                evaluation,
+              }
+            : question,
+        ),
       };
     }),
-
-  setAnswerState: (
-    questionId: string,
-    answerState: Partial<RuntimeAnswerState>,
-  ) =>
-    set((state) => {
-      const existing = state.answers[questionId];
-
-      if (!existing) return state;
-
-      return {
-        answers: {
-          ...state.answers,
-          [questionId]: {
-            ...existing,
-            ...answerState,
-          },
-        },
-      };
-    }),
-
-markAnswerSaved: (questionId) =>
-  set((state) => {
-    const answers = {
-      ...state.answers,
-      [questionId]: {
-        ...state.answers[questionId],
-        isDirty: false,
-      },
-    };
-
-    const dirty = Object.values(answers).some(
-      (answer) => answer.isDirty,
-    );
-
-    return {
-      answers,
-      persistence: {
-        ...state.persistence,
-        dirty,
-        saveState: dirty ? "PENDING" : "SAVED",
-        lastSavedAt: dirty ? state.persistence.lastSavedAt : Date.now(),
-        error: null,
-      },
-    };
-  }),
 
   setQuestionStatus: (questionId: string, status: RuntimeQuestionStatus) =>
     set((state) => ({
       questions: state.questions.map((question) =>
         question.id === questionId ? { ...question, status } : question,
-      ),
-      answers: state.answers[questionId]
-        ? {
-            ...state.answers,
-            [questionId]: {
-              ...state.answers[questionId],
-              status,
-            },
-          }
-        : state.answers,
-    })),
-
-  setQuestionTimeSpent: (questionId, timeSpentSeconds) =>
-    set((state) => ({
-      questions: state.questions.map((question) =>
-        question.id === questionId
-          ? {
-              ...question,
-              timeSpentSeconds: Math.max(0, timeSpentSeconds),
-            }
-          : question,
       ),
     })),
 
@@ -422,20 +269,7 @@ markAnswerSaved: (questionId) =>
 
   recalculateProgress: () =>
     set((state) => {
-      const questions = state.questions.map((question) => {
-        const answerState = state.answers[question.id];
-
-        return answerState
-          ? {
-              ...question,
-              answer: answerState.answer,
-              evaluation: answerState.evaluation,
-              status: answerState.status,
-            }
-          : question;
-      });
-
-      const answers = state.answers;
+      const questions = state.questions;
 
       const answeredQuestions = questions.filter(
         (question) => question.status === "ANSWERED",
@@ -454,8 +288,8 @@ markAnswerSaved: (questionId) =>
         0,
       );
 
-      const score = Object.values(answers).reduce(
-        (sum, answerState) => sum + (answerState.evaluation?.earnedPoints ?? 0),
+      const score = questions.reduce(
+        (sum, question) => sum + (question.evaluation?.earnedPoints ?? 0),
         0,
       );
 
@@ -473,173 +307,9 @@ markAnswerSaved: (questionId) =>
       };
     }),
 
-  setTimer: (timer: Partial<RuntimeTimerState>) =>
-    set((state) => ({
-      timer: {
-        ...state.timer,
-        ...timer,
-      },
-    })),
-
-  startQuestionTimer: (startedAt, deadlineAt) =>
-    set((state) => ({
-      timer: {
-        ...state.timer,
-        questionStartedAt: startedAt,
-        questionDeadlineAt: deadlineAt,
-        isQuestionTimerRunning: deadlineAt !== null,
-      },
-    })),
-
-  stopQuestionTimer: () =>
-    set((state) => ({
-      timer: {
-        ...state.timer,
-        isQuestionTimerRunning: false,
-      },
-    })),
-
-  setAttemptDeadline: (deadlineAt) =>
-    set((state) => ({
-      timer: {
-        ...state.timer,
-        attemptDeadlineAt: deadlineAt,
-        isAttemptTimerRunning: deadlineAt !== null,
-      },
-    })),
-
-  showFeedback: (questionId, evaluation) =>
-    set({
-      feedback: {
-        questionId,
-        evaluation,
-        visible: true,
-      },
-      phase: "FEEDBACK",
-    }),
-
-  hideFeedback: () =>
-    set((state) => ({
-      feedback: {
-        ...state.feedback,
-        visible: false,
-      },
-    })),
-
-  clearFeedback: () => set({ feedback: defaultRuntimeFeedback }),
-
-  setSubmitting: (isSubmitting) =>
-    set((state) => ({
-      submission: {
-        ...state.submission,
-        isSubmitting,
-      },
-      phase: isSubmitting ? "SUBMITTING" : state.phase,
-    })),
-
-  setSubmitConfirmation: (isConfirmed) =>
-    set((state) => ({
-      submission: {
-        ...state.submission,
-        isConfirmed,
-      },
-    })),
-
-  setUnansweredQuestions: (unansweredQuestionIds) =>
-    set((state) => ({
-      submission: {
-        ...state.submission,
-        unansweredQuestionIds,
-      },
-    })),
-
-  setSubmittedAt: (submittedAt) =>
-    set((state) => ({
-      submission: {
-        ...state.submission,
-        submittedAt,
-      },
-    })),
-
-  setSaveState: (saveState: RuntimeSaveStatus) =>
-    set((state) => ({
-      persistence: {
-        ...state.persistence,
-        saveState,
-      },
-    })),
-
-  setSaveError: (error) =>
-    set((state) => ({
-      persistence: {
-        ...state.persistence,
-        error,
-        saveState: error ? "ERROR" : state.persistence.saveState,
-      },
-    })),
-
-  setDirty: (dirty) =>
-    set((state) => ({
-      persistence: {
-        ...state.persistence,
-        dirty,
-        saveState: dirty ? "PENDING" : state.persistence.saveState,
-      },
-    })),
-
-  setLastSavedAt: (lastSavedAt) =>
-    set((state) => ({
-      persistence: {
-        ...state.persistence,
-        lastSavedAt,
-      },
-    })),
-
-  setLastAttemptAt: (lastAttemptAt) =>
-    set((state) => ({
-      persistence: {
-        ...state.persistence,
-        lastAttemptAt,
-      },
-    })),
-
-  markAllAnswersSaved: () =>
-    set((state) => ({
-      answers: Object.fromEntries(
-        Object.entries(state.answers).map(([questionId, answer]) => [
-          questionId,
-          { ...answer, isDirty: false },
-        ]),
-      ),
-      persistence: {
-        ...state.persistence,
-        dirty: false,
-        saveState: "SAVED",
-        error: null,
-      },
-    })),
-
-  setLoadingState: (loading: Partial<RuntimeLoadingState>) =>
-    set((state) => ({
-      loading: {
-        ...state.loading,
-        ...loading,
-      },
-    })),
-
   setError: (error) => set({ error }),
 
   clearError: () => set({ error: null }),
-
-  resetQuestionState: () =>
-    set({
-      questionState: defaultRuntimeQuestionState,
-    }),
-
-  resetSubmission: () =>
-    set({
-      submission: defaultRuntimeSubmission,
-    }),
 
   reset: () => set(defaultRuntimeState),
 }));

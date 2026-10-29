@@ -22,10 +22,10 @@ export default function GamePlayHeader({
   onFullscreenClick,
   onExitClick,
 }: GamePlayHeaderProps) {
-  const { quizTitle, mode, currentQuestionIndex, totalQuestions } =
+  const { title, mode, currentQuestionIndex, totalQuestions } =
     useRuntimeStore(
       useShallow((state) => ({
-        quizTitle: state.quizTitle,
+        title: state.quizSnapshot.title,
         mode: state.mode,
         currentQuestionIndex: state.questionState.currentIndex + 1,
         totalQuestions: state.questions.length,
@@ -52,7 +52,7 @@ export default function GamePlayHeader({
 
           <div className="hidden min-w-0 flex-col gap-0 sm:flex">
             <span className="max-w-[160px] truncate text-xs font-semibold lg:max-w-[220px]">
-              {quizTitle}
+              {title}
             </span>
             <span className="text-[11px] text-muted-foreground">
               {mode === "PRACTICE" ? "Practice mode" : "Test mode"}

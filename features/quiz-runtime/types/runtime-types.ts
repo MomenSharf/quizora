@@ -1,8 +1,10 @@
-import { Prisma } from "@/lib/db/generated/prisma/client";
+
+import type { Prisma } from "@/lib/db/generated/prisma/client";
+import type { Question } from "@/features/quiz-editor/validation/question";
+import type { ImageData } from "@/features/quiz-editor/validation/image";
 
 import type { Answer } from "./answer-types";
 import type { EvaluationResult } from "./evaluation-types";
-import { Question } from "@/features/quiz-editor/validation/question";
 
 // --------------------------------------------------
 // Prisma types
@@ -28,6 +30,7 @@ export type PrismaQuestion = Prisma.QuestionGetPayload<{
     image: true;
   };
 }>;
+
 // --------------------------------------------------
 // Runtime configuration
 // --------------------------------------------------
@@ -39,32 +42,15 @@ export type SessionMode = "PRACTICE" | "TEST";
 export type QuestionNavigation = "SEQUENTIAL" | "FREE";
 
 export type QuestionResultVisibility =
-  "IMMEDIATE" | "AFTER_SUBMISSION" | "HIDDEN";
+  | "IMMEDIATE"
+  | "AFTER_SUBMISSION"
+  | "HIDDEN";
 
 export type ScoreVisibility =
-  "ALWAYS" | "AFTER_QUESTION" | "AFTER_SUBMISSION" | "HIDDEN";
-
-// --------------------------------------------------
-// Runtime lifecycle
-// --------------------------------------------------
-
-export type RuntimePhase =
-  | "READY"
-  | "QUESTION"
-  | "SUBMITTING"
-  | "FEEDBACK"
-  | "PAUSED"
-  | "RESULT";
-
-export type RuntimeStatus =
-  "IDLE" | "IN_PROGRESS" | "PAUSED" | "COMPLETED" | "ABANDONED" | "EXPIRED";
-
-export type RuntimeSaveStatus =
-  "IDLE" | "PENDING" | "SAVING" | "SAVED" | "ERROR" | "OFFLINE";
-
-// --------------------------------------------------
-// Attempt settings
-// --------------------------------------------------
+  | "ALWAYS"
+  | "AFTER_QUESTION"
+  | "AFTER_SUBMISSION"
+  | "HIDDEN";
 
 export type AttemptSettings = {
   version: 1;
@@ -92,16 +78,43 @@ export type AttemptSettings = {
 };
 
 // --------------------------------------------------
+// Runtime lifecycle
+// --------------------------------------------------
+
+export type RuntimePhase =
+  | "READY"
+  | "QUESTION"
+  | "PAUSED"
+  | "RESULT";
+
+export type RuntimeStatus =
+  | "IDLE"
+  | "IN_PROGRESS"
+  | "PAUSED"
+  | "COMPLETED"
+  | "ABANDONED"
+  | "EXPIRED";
+
+export type RuntimeSaveStatus =
+  | "IDLE"
+  | "PENDING"
+  | "SAVING"
+  | "SAVED"
+  | "ERROR"
+  | "OFFLINE";
+
+// --------------------------------------------------
 // Question state
 // --------------------------------------------------
 
-export type RuntimeQuestionStatus = "UNANSWERED" | "ANSWERED" | "SKIPPED";
+export type RuntimeQuestionStatus =
+  | "UNANSWERED"
+  | "ANSWERED"
+  | "SKIPPED";
 
 export type RuntimeQuestion = {
   id: string;
-
   questionId: string | null;
-
   orderIndex: number;
 
   question: Question;
@@ -112,14 +125,27 @@ export type RuntimeQuestion = {
   evaluation: EvaluationResult | null;
 
   earnedPoints: number;
+  maxPoints: number;
+
+  flagged: boolean;
+  locked: boolean;
 
   timeSpentSeconds: number;
   answeredAt: number | null;
-
-  maxPoints: number;
 };
 
+// --------------------------------------------------
+// Quiz snapshot
+// --------------------------------------------------
 
+export type QuizSnapshot = {
+  title: string | null;
+  description: string | null;
+  thumbnail: ImageData | null;
+  tags: string[];
+  language: string | null;
+  category: string | null;
+};
 
 // --------------------------------------------------
 // Runtime progress
@@ -147,7 +173,6 @@ export type RuntimeProgress = {
 export type RuntimeTimerState = {
   questionStartedAt: number | null;
   questionDeadlineAt: number | null;
-
   attemptDeadlineAt: number | null;
 
   isQuestionTimerRunning: boolean;
@@ -161,8 +186,7 @@ export type RuntimeTimerState = {
 export type QuizAttemptRuntime = {
   id: string;
   quizId: string;
-  quizTitle: string;
-  quizDescription: string | null;
+  quizSnapshot: QuizSnapshot;
 
   environment: RuntimeEnvironment;
   settings: AttemptSettings;
@@ -184,48 +208,8 @@ export type QuizAttemptRuntime = {
   saveStatus: RuntimeSaveStatus;
 };
 
-// --------------------------------------------------
-// Action results
-// --------------------------------------------------
 
-export type RuntimeActionResult<T = undefined> =
-  | {
-      success: true;
-      data: T;
-    }
-  | {
-      success: false;
-      error: string;
-      code?: string;
-    };
 
-// --------------------------------------------------
-// Runtime inputs
-// --------------------------------------------------
-
-export type StartAttemptInput = {
-  quizId: string;
-  mode: SessionMode;
-  environment: RuntimeEnvironment;
-
-  settings?: Partial<Omit<AttemptSettings, "version" | "mode">>;
-};
-
-export type SubmitAnswerInput = {
-  attemptId: string;
-  questionId: string;
-  answer: Answer;
-};
-
-export type NavigateQuestionInput = {
-  attemptId: string;
-  targetIndex: number;
-};
-
-export type RetryQuestionInput = {
-  attemptId: string;
-  questionId: string;
-};
 
 // --------------------------------------------------
 // Attempt summary
