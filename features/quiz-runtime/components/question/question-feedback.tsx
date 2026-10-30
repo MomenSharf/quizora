@@ -1,107 +1,128 @@
-
 "use client";
 
 import { motion } from "framer-motion";
 import {
   CheckCircle2,
   CircleX,
-  Lightbulb,
+  MinusCircle,
   Trophy,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { EvaluationResult } from "@/features/quiz-runtime/types/evaluation-types";
 
 type QuestionFeedbackProps = {
-  evaluation: {
-    outcome: "CORRECT" | "PARTIALLY_CORRECT" | "INCORRECT" | "UNANSWERED" | "NOT_APPLICABLE";
-    earnedPoints?: number;
-    maxPoints?: number;
-  };
-  explanation?: string | null;
+  evaluation: EvaluationResult;
 };
+
+const variants = {
+  CORRECT: {
+    title: "Correct answer",
+    icon: CheckCircle2,
+    className:
+      "border-emerald-500/20 bg-emerald-500/[0.06] text-emerald-600",
+    iconClassName: "bg-emerald-500/10",
+  },
+  PARTIALLY_CORRECT: {
+    title: "Partially correct",
+    icon: Trophy,
+    className:
+      "border-amber-500/20 bg-amber-500/[0.06] text-amber-600",
+    iconClassName: "bg-amber-500/10",
+  },
+  INCORRECT: {
+    title: "Incorrect answer",
+    icon: CircleX,
+    className:
+      "border-rose-500/20 bg-rose-500/[0.06] text-rose-600",
+    iconClassName: "bg-rose-500/10",
+  },
+  UNANSWERED: {
+    title: "Not answered",
+    icon: MinusCircle,
+    className: "border-border bg-muted/40 text-muted-foreground",
+    iconClassName: "bg-muted",
+  },
+  NOT_APPLICABLE: {
+    title: "Answer submitted",
+    icon: MinusCircle,
+    className: "border-border bg-muted/40 text-muted-foreground",
+    iconClassName: "bg-muted",
+  },
+} satisfies Record<
+  EvaluationResult["outcome"],
+  {
+    title: string;
+    icon: typeof CheckCircle2;
+    className: string;
+    iconClassName: string;
+  }
+>;
 
 export default function QuestionFeedback({
   evaluation,
-  explanation,
 }: QuestionFeedbackProps) {
-  const isCorrect = evaluation.outcome === "CORRECT";
-  const isPartial = evaluation.outcome === "PARTIALLY_CORRECT";
-  const isUnanswered = evaluation.outcome === "UNANSWERED";
+  if (
+    evaluation.status !== "EVALUATED" ||
+    !evaluation.visibility.showFeedback
+  ) {
+    return null;
+  }
 
-  const title = isCorrect
-    ? "Excellent work!"
-    : isPartial
-      ? "Partially correct"
-      : isUnanswered
-        ? "Not answered"
-        : evaluation.outcome === "NOT_APPLICABLE"
-          ? "Answer submitted"
-          : "Not quite right";
+  const result = variants[evaluation.outcome];
+  const Icon = result.icon;
 
-  const Icon = isCorrect
-    ? CheckCircle2
-    : isPartial
-      ? Trophy
-      : isUnanswered || evaluation.outcome === "NOT_APPLICABLE"
-        ? Lightbulb
-        : CircleX;
+  const hasPoints = evaluation.visibility.showEarnedPoints;
+  const hasAccuracy = evaluation.accuracy !== null;
+  const hasFeedback = Boolean(evaluation.feedback?.trim());
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
       aria-live="polite"
       className={cn(
-        "overflow-hidden rounded-2xl border p-4 sm:p-5",
-        isCorrect
-          ? "border-emerald-500/20 bg-emerald-500/[0.06]"
-          : isPartial
-            ? "border-amber-500/20 bg-amber-500/[0.06]"
-            : isUnanswered
-              ? "border-border bg-muted/40"
-              : "border-rose-500/20 bg-rose-500/[0.06]",
+        "rounded-xl border px-3.5 py-3 sm:px-4",
+        result.className,
       )}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-center gap-3">
         <div
           className={cn(
-            "flex size-10 shrink-0 items-center justify-center rounded-xl",
-            isCorrect
-              ? "bg-emerald-500/10 text-emerald-600"
-              : isPartial
-                ? "bg-amber-500/10 text-amber-600"
-                : isUnanswered
-                  ? "bg-muted text-muted-foreground"
-                  : "bg-rose-500/10 text-rose-600",
+            "flex size-9 shrink-0 items-center justify-center rounded-lg",
+            result.iconClassName,
           )}
         >
-          <Icon className="size-5" />
+          <Icon className="size-[18px]" />
         </div>
 
-        <div className="min-w-0 flex-1 pt-0.5">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className="font-semibold tracking-tight">{title}</h3>
+        <div className="min-w-0 flex-1">
+          <h3 className="text-sm font-semibold leading-tight text-foreground">
+            {result.title}
+          </h3>
 
-            {evaluation.earnedPoints != null &&
-              evaluation.maxPoints != null && (
-                <span className="rounded-full bg-background/80 px-2.5 py-1 text-xs font-semibold tabular-nums">
-                  {evaluation.earnedPoints}/{evaluation.maxPoints} pts
-                </span>
-              )}
-          </div>
-
-          {explanation?.trim() && (
-            <div className="mt-3 border-t border-current/10 pt-3">
-              <div className="mb-1.5 flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                <Lightbulb className="size-4" />
-                Explanation
-              </div>
-              <p className="text-sm leading-6 text-muted-foreground">
-                {explanation}
-              </p>
-            </div>
+          {hasFeedback && (
+            <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+              {evaluation.feedback}
+            </p>
           )}
         </div>
+
+        {hasPoints && (
+          <div className="shrink-0 rounded-lg bg-background/70 px-2.5 py-1.5 text-xs font-semibold tabular-nums text-foreground">
+            {evaluation.earnedPoints}/{evaluation.maxPoints}
+            <span className="ml-1 font-medium text-muted-foreground">
+              pts
+            </span>
+          </div>
+        )}
+
+        {hasAccuracy && (
+          <div className="shrink-0 rounded-lg bg-background/70 px-2.5 py-1.5 text-xs font-semibold tabular-nums text-foreground">
+            {Math.round(evaluation.accuracy!)}%
+          </div>
+        )}
       </div>
     </motion.section>
   );

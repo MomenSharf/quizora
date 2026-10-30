@@ -1,9 +1,7 @@
 import {
-  Difficulty,
-  Prisma,
-  QuestionType,
-  type AttemptQuestion,
-} from "@/lib/db/generated/prisma/client";
+  ImageData,
+  ImageSchema,
+} from "@/features/quiz-editor/validation/image";
 import {
   DropdownQuestion,
   FillBlankQuestion,
@@ -18,17 +16,18 @@ import {
   TrueFalseQuestion,
   TypeAnswerQuestion,
 } from "@/features/quiz-editor/validation/question";
+import {
+  Difficulty,
+  Prisma,
+  QuestionType,
+} from "@/lib/db/generated/prisma/client";
+import type { Answer } from "../types/answer-types";
+import type { EvaluationResult } from "../types/evaluation-types";
 import type {
   QuizAttemptRuntime,
   QuizSnapshot,
   RuntimeQuestion,
 } from "../types/runtime-types";
-import type { Answer } from "../types/answer-types";
-import type { EvaluationResult } from "../types/evaluation-types";
-import {
-  ImageData,
-  ImageSchema,
-} from "@/features/quiz-editor/validation/image";
 
 export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
   include: {
@@ -43,7 +42,6 @@ export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
 
 const DEFAULT_SETTINGS: QuizAttemptRuntime["settings"] = {
   version: 1,
-  mode: "PRACTICE",
   navigation: "SEQUENTIAL",
   allowSkip: true,
   allowQuestionRetry: false,
@@ -68,6 +66,7 @@ const DEFAULT_EVALUATION: EvaluationResult = {
   accuracy: null,
   feedback: null,
   explanation: null,
+  explanationImage: null,
   parts: [],
   evaluatedAt: null,
   visibility: {
@@ -88,7 +87,6 @@ function getSettings(value: Prisma.JsonValue): QuizAttemptRuntime["settings"] {
   return {
     ...DEFAULT_SETTINGS,
     version: 1,
-    mode: settings.mode === "TEST" ? "TEST" : "PRACTICE",
     navigation: settings.navigation === "FREE" ? "FREE" : "SEQUENTIAL",
     allowSkip:
       typeof settings.allowSkip === "boolean"
@@ -454,6 +452,7 @@ function mapQuestion(
     maxPoints: question.maxPoints,
     flagged: question.flagged ?? false,
     locked: question.locked ?? false,
+    hasSeenFeedback: false,
     timeSpentSeconds: question.timeSpentSeconds,
     answeredAt: question.answeredAt?.getTime() ?? null,
   };

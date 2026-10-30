@@ -1,3 +1,5 @@
+import { ImageData } from "@/features/quiz-editor/validation/image";
+
 export type EvaluationStatus =
   | "PENDING"
   | "EVALUATED"
@@ -38,6 +40,7 @@ export type EvaluationResult = {
 
   feedback: string | null;
   explanation: string | null;
+  explanationImage: ImageData | null;
 
   parts: EvaluationPartResult[];
 

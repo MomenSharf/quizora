@@ -161,11 +161,6 @@ enum RuntimeEnvironment {
   PRODUCTION
 }
 
-enum QuizAttemptMode {
-  PRACTICE
-  TEST
-}
-
 enum QuizAttemptPhase {
   READY
   QUESTION
@@ -192,7 +187,6 @@ model QuizAttempt {
   userId String
   quizId String
 
-  mode        QuizAttemptMode
   environment RuntimeEnvironment @default(PRODUCTION)
   status      QuizAttemptStatus  @default(IN_PROGRESS)
   phase       QuizAttemptPhase   @default(READY)
@@ -227,7 +221,6 @@ model QuizAttempt {
 
   @@index([userId, status])
   @@index([quizId, userId, createdAt])
-  @@index([userId, mode, status])
   @@index([lastActivityAt])
 }
 

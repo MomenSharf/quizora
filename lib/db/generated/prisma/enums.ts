@@ -25,14 +25,6 @@ export const RuntimeEnvironment = {
 export type RuntimeEnvironment = (typeof RuntimeEnvironment)[keyof typeof RuntimeEnvironment]
 
 
-export const QuizAttemptMode = {
-  PRACTICE: 'PRACTICE',
-  TEST: 'TEST'
-} as const
-
-export type QuizAttemptMode = (typeof QuizAttemptMode)[keyof typeof QuizAttemptMode]
-
-
 export const QuizAttemptPhase = {
   READY: 'READY',
   QUESTION: 'QUESTION',

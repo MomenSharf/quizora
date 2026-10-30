@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,6 +11,7 @@ import {
 } from "@tabler/icons-react";
 import { useRuntimeHeader } from "../../store";
 import QuizProgress from "./quiz-progress";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 type GamePlayHeaderProps = {
   onSettingsClick?: () => void;
@@ -22,7 +22,7 @@ export default function GamePlayHeader({
   onSettingsClick,
   onExitClick,
 }: GamePlayHeaderProps) {
-  const { title, mode, currentQuestionIndex, totalQuestions, phase } =
+  const { title,  currentQuestionIndex, totalQuestions, phase } =
     useRuntimeHeader();
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -35,10 +35,7 @@ export default function GamePlayHeader({
     document.addEventListener("fullscreenchange", handleFullscreenChange);
 
     return () => {
-      document.removeEventListener(
-        "fullscreenchange",
-        handleFullscreenChange,
-      );
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, []);
 
@@ -72,15 +69,9 @@ export default function GamePlayHeader({
 
           <div className="hidden h-7 w-px shrink-0 bg-border sm:block" />
 
-          <div className="hidden min-w-0 flex-col gap-0 sm:flex">
-            <span className="max-w-[160px] truncate text-xs font-semibold lg:max-w-[220px]">
-              {title}
-            </span>
-
-            <span className="text-[11px] text-muted-foreground">
-              {mode === "PRACTICE" ? "Practice mode" : "Test mode"}
-            </span>
-          </div>
+          <span className="max-w-[160px] truncate text-xs font-semibold lg:max-w-[220px]">
+            {title}
+          </span>
         </div>
 
         <QuizProgress
@@ -91,6 +82,8 @@ export default function GamePlayHeader({
         />
 
         <div className="flex flex-1 items-center justify-end gap-1 sm:gap-1.5">
+          <ThemeToggle />
+
           <Button
             type="button"
             variant="ghost"

@@ -1,17 +1,23 @@
+
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useRuntimeActions } from "@/features/quiz-runtime/store";
-import { EvaluationResult } from "@/features/quiz-runtime/types/evaluation-types";
-import { ArrowRight, Check, CheckCircle2, LockKeyhole } from "lucide-react";
-import { QuestionContentRouterProps } from "../question-content-router";
+import { cn } from "@/lib/utils";
 import { IconCheck, IconX } from "@tabler/icons-react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  CheckCircle2,
+  LockKeyhole,
+  RotateCcw,
+  X,
+} from "lucide-react";
+import { QuestionContentRouterProps } from "../question-content-router";
 
 export default function SingleSelectContent({
   runtimeQuestion,
 }: QuestionContentRouterProps) {
-  const { question, maxPoints, answer } = runtimeQuestion;
-  const { setAnswer, submitPracticeAnswer } = useRuntimeActions();
+  const { question, answer } = runtimeQuestion;
+  const { setAnswer, clearAnswer } = useRuntimeActions();
 
   if (question.type !== "SINGLE_SELECT") return null;
 
@@ -20,16 +26,14 @@ export default function SingleSelectContent({
 
   const { options, correctOptionId } = question.content;
 
-  const isCorrect = selectedOptionId === correctOptionId;
-
   const isLocked = runtimeQuestion.locked;
-
   const isSubmitted = runtimeQuestion.evaluation !== null;
+  const shouldAnimateFeedback = !runtimeQuestion.hasSeenFeedback;
 
   const handleSelect = (optionId: string) => {
     if (isLocked || selectedOptionId === optionId) return;
 
-    const answeredAt = new Date().getTime();
+    const answeredAt = new Date().getTime()
     setAnswer(runtimeQuestion.id, {
       type: "SINGLE_SELECT",
       questionId: runtimeQuestion.id,
@@ -39,35 +43,58 @@ export default function SingleSelectContent({
     });
   };
 
-  const handleSubmit = () => {
-    if (!selectedOptionId || isLocked) return;
-
-    const correct = selectedOptionId === correctOptionId;
-    const evaluation: EvaluationResult = {
-      isCorrect: correct,
-      earnedPoints: correct ? maxPoints : 0,
-      maxPoints,
-      status: "EVALUATED" as const,
-      outcome: correct ? ("CORRECT" as const) : ("INCORRECT" as const),
-      evaluatedAt: new Date().getTime(),
-      parts: [],
-      visibility: {
-        showCorrectAnswer: true,
-        showEarnedPoints: true,
-        showExplanation: true,
-        showFeedback: true,
-      },
-      accuracy: null,
-      feedback: null,
-      explanation: null,
-    };
-
-    submitPracticeAnswer(runtimeQuestion.id, evaluation);
-    // showFeedback(question.id, evaluation);
+  const handleClear = () => {
+    if (isLocked || !selectedOptionId) return;
+    clearAnswer(runtimeQuestion.id);
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
+      {/* Question status */}
+      <div className="flex min-h-7 items-center justify-between gap-3">
+        <AnimatePresence mode="wait">
+          {isLocked ? (
+            <motion.div
+              key="locked"
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground"
+            >
+              <LockKeyhole className="size-3.5" />
+              Answer locked
+            </motion.div>
+          ) : (
+            <motion.div
+              key="select"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-xs text-muted-foreground"
+            >
+              Select one answer
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {!isLocked && selectedOptionId && (
+            <motion.button
+              key="clear"
+              type="button"
+              initial={{ opacity: 0, scale: 0.9, x: 5 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0, scale: 0.9, x: 5 }}
+              onClick={handleClear}
+              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <RotateCcw className="size-3" />
+              Clear answer
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
+
       <div className="grid gap-2.5 sm:grid-cols-2">
         {options.map((option, index) => {
           const selected = selectedOptionId === option.id;
@@ -75,106 +102,154 @@ export default function SingleSelectContent({
           const incorrect = isSubmitted && selected && !correct;
 
           return (
-            <button
+            <motion.button
               key={option.id}
               type="button"
               disabled={isLocked}
               onClick={() => handleSelect(option.id)}
               aria-pressed={selected}
-              className={[
-                "group flex min-h-14 items-center gap-3 rounded-xl border p-3 text-left",
-                "transition-all duration-200",
+              initial={false}
+              animate={{
+                scale: selected ? 1.015 : 1,
+                x:
+                  incorrect && shouldAnimateFeedback
+                    ? [0, -5, 5, -3, 3, 0]
+                    : 0,
+                opacity: isSubmitted && !correct && !incorrect ? 0.55 : 1,
+              }}
+              transition={{
+                scale: { type: "spring", stiffness: 350, damping: 24 },
+                x: { duration: 0.35, ease: "easeOut" },
+                opacity: { duration: 0.3 },
+              }}
+              whileTap={!isLocked ? { scale: 0.985 } : undefined}
+              className={cn(
+                "group relative flex min-h-14 items-center gap-3 overflow-hidden rounded-xl border p-3 text-left",
+                "transition-colors duration-200",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
                 "disabled:cursor-not-allowed",
-                correct
-                  ? "border-emerald-500 bg-emerald-500/10"
-                  : incorrect
-                    ? "border-destructive bg-destructive/5"
-                    : selected
-                      ? "border-primary bg-primary/5 ring-1 ring-primary/20"
-                      : "border-border bg-card hover:border-primary/40 hover:bg-muted/40",
-              ].join(" ")}
+                correct && "border-emerald-500/70 bg-emerald-500/10",
+                incorrect && "border-destructive/70 bg-destructive/5",
+                selected &&
+                  !isSubmitted &&
+                  "border-primary bg-primary/5 ring-1 ring-primary/20",
+                !selected &&
+                  !isSubmitted &&
+                  "border-border bg-card hover:border-primary/40 hover:bg-muted/40",
+                isSubmitted &&
+                  !correct &&
+                  !incorrect &&
+                  "border-border bg-card",
+              )}
             >
-              <span
-                className={[
-                  "flex size-8 shrink-0 items-center justify-center rounded-lg text-xs font-semibold transition-colors",
-                  correct
-                    ? "bg-emerald-500 text-white"
-                    : incorrect
-                      ? "bg-destructive text-white"
-                      : selected
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground group-hover:bg-primary/10",
-                ].join(" ")}
-              >
-                {correct ? (
-                  <IconCheck size={16} />
-                ) : incorrect ? (
-                  <IconX size={16} />
-                ) : (
-                  String.fromCharCode(65 + index)
+              <AnimatePresence>
+                {correct && (
+                  <motion.div
+                    initial={
+                      shouldAnimateFeedback
+                        ? { scaleX: 0, opacity: 0 }
+                        : false
+                    }
+                    animate={{ scaleX: 1, opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className="absolute inset-y-0 left-0 w-full origin-left bg-emerald-500/[0.04]"
+                  />
                 )}
-              </span>
+              </AnimatePresence>
 
-              <span className="flex-1 text-sm font-medium leading-relaxed">
+              <motion.span
+                initial={false}
+                animate={{
+                  scale:
+                    (correct || incorrect) && shouldAnimateFeedback
+                      ? [1, 1.18, 1]
+                      : 1,
+                }}
+                transition={{ duration: 0.35 }}
+                className={cn(
+                  "relative z-10 flex size-8 shrink-0 items-center justify-center rounded-lg text-xs font-semibold transition-colors",
+                  correct && "bg-emerald-500 text-white",
+                  incorrect && "bg-destructive text-white",
+                  selected &&
+                    !isSubmitted &&
+                    "bg-primary text-primary-foreground",
+                  !selected &&
+                    !isSubmitted &&
+                    "bg-muted text-muted-foreground group-hover:bg-primary/10",
+                  !selected &&
+                    isSubmitted &&
+                    !correct &&
+                    "bg-muted text-muted-foreground",
+                )}
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  {correct ? (
+                    <motion.span
+                      key="correct"
+                      initial={
+                        shouldAnimateFeedback
+                          ? { scale: 0, rotate: -45 }
+                          : false
+                      }
+                      animate={{ scale: 1, rotate: 0 }}
+                      exit={{ scale: 0 }}
+                    >
+                      <IconCheck size={17} stroke={2.5} />
+                    </motion.span>
+                  ) : incorrect ? (
+                    <motion.span
+                      key="incorrect"
+                      initial={
+                        shouldAnimateFeedback
+                          ? { scale: 0, rotate: 45 }
+                          : false
+                      }
+                      animate={{ scale: 1, rotate: 0 }}
+                      exit={{ scale: 0 }}
+                    >
+                      <IconX size={17} stroke={2.5} />
+                    </motion.span>
+                  ) : (
+                    <motion.span key="letter">
+                      {String.fromCharCode(65 + index)}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </motion.span>
+
+              <span className="relative z-10 flex-1 text-sm font-medium leading-relaxed">
                 {option.text}
               </span>
 
-              {selected && !isSubmitted && (
-                <span className="size-2 shrink-0 rounded-full bg-primary" />
-              )}
+              <AnimatePresence>
+                {selected && !isSubmitted && (
+                  <motion.span
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    className="relative z-10 size-2 shrink-0 rounded-full bg-primary"
+                  />
+                )}
 
-              {correct && (
-                <CheckCircle2
-                  className="size-4 shrink-0 text-emerald-600"
-                  aria-label="Correct answer"
-                />
-              )}
-            </button>
+                {correct && (
+                  <motion.span
+                    initial={
+                      shouldAnimateFeedback
+                        ? { scale: 0, opacity: 0, rotate: -30 }
+                        : false
+                    }
+                    animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 350 }}
+                    className="relative z-10"
+                  >
+                    <CheckCircle2 className="size-5 text-emerald-600" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
           );
         })}
-      </div>
-
-      <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-3">
-        {isSubmitted ? (
-          <div
-            className={[
-              "flex items-center gap-2 text-sm font-medium",
-              isCorrect ? "text-emerald-600" : "text-destructive",
-            ].join(" ")}
-            role="status"
-          >
-            {isCorrect ? (
-              <CheckCircle2 className="size-4" />
-            ) : (
-              <LockKeyhole className="size-4" />
-            )}
-            {isCorrect ? "Correct answer!" : "Answer revealed"}
-          </div>
-        ) : (
-          <span className="text-xs text-muted-foreground">
-            {selectedOptionId ? "Ready to check" : "Choose an answer"}
-          </span>
-        )}
-
-        <Button
-          size="sm"
-          onClick={handleSubmit}
-          disabled={!selectedOptionId || isLocked}
-          className="h-9 gap-2 rounded-lg px-4 shadow-sm"
-        >
-          {isSubmitted ? (
-            <>
-              Answer checked
-              <Check className="size-4" />
-            </>
-          ) : (
-            <>
-              Check answer
-              <ArrowRight className="size-4" />
-            </>
-          )}
-        </Button>
       </div>
     </div>
   );

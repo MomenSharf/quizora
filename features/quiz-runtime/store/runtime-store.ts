@@ -8,6 +8,7 @@ import {
   type RuntimeStore,
 } from "./runtime-store.types";
 
+import { evaluateQuestion } from "@/lib/utils/evaluate-question";
 import type { Answer } from "../types/answer-types";
 import type {
   AttemptSettings,
@@ -15,12 +16,8 @@ import type {
   RuntimeEnvironment,
   RuntimePhase,
   RuntimeProgress,
-  RuntimeQuestion,
   RuntimeQuestionStatus,
-  RuntimeSaveStatus,
   RuntimeStatus,
-  RuntimeTimerState,
-  SessionMode,
 } from "../types/runtime-types";
 
 export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
@@ -32,7 +29,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       quizId: attempt.quizId,
       quizSnapshot: attempt.quizSnapshot,
       environment: attempt.environment,
-      mode: attempt.settings.mode,
       settings: attempt.settings,
       status: attempt.status,
       phase: attempt.phase,
@@ -65,12 +61,10 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
   setEnvironment: (environment: RuntimeEnvironment) => set({ environment }),
 
-  setMode: (mode: SessionMode) => set({ mode }),
 
   setSettings: (settings: AttemptSettings) =>
     set({
       settings,
-      mode: settings.mode,
     }),
 
   setStatus: (status: RuntimeStatus) => set({ status }),
@@ -254,18 +248,30 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       };
     }),
 
-  submitPracticeAnswer: (questionId, evaluation) =>
-  set((state) => ({
-    questions: state.questions.map((question) =>
-      question.id === questionId
-        ? {
-            ...question,
-            locked: true,
-            evaluation,
-          }
-        : question,
-    ),
-  })),
+  submitPracticeAnswer: (questionId) =>
+    set((state) => ({
+      questions: state.questions.map((question) => {
+        if (question.id !== questionId) return question;
+
+        const evaluation = evaluateQuestion(question);
+
+        return {
+          ...question,
+          locked: true,
+          evaluation,
+          isFeedbackSeen: false,
+        };
+      }),
+    })),
+
+  markFeedbackAsSeen: (questionId: string) =>
+    set((state) => ({
+      questions: state.questions.map((question) =>
+        question.id === questionId
+          ? { ...question, hasSeenFeedback: true }
+          : question,
+      ),
+    })),
 
   setQuestionStatus: (questionId: string, status: RuntimeQuestionStatus) =>
     set((state) => ({

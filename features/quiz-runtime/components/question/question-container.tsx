@@ -1,21 +1,29 @@
-
-import { useRuntimeCurrentQuestion } from "../../store";
+import { useRuntimeActions, useRuntimeCurrentQuestion } from "../../store";
 import QuestionContentRouter from "./question-content-router";
 import QuestionFeedback from "./question-feedback";
 import QuestionImage from "./question-image";
 import QuestionMeta from "./question-meta";
+import QuestionResultFlash from "./question-result-flash";
 import QuestionTitle from "./question-title";
 
 export default function QuestionContainer() {
   const { runtimeCurrentQuestion, currentQuestionIndex } =
     useRuntimeCurrentQuestion();
 
+  const { markFeedbackAsSeen } = useRuntimeActions();
+
   const { question, evaluation, locked } = runtimeCurrentQuestion;
 
   if (!question) return null;
 
   const showFeedback = locked && evaluation != null;
-  const imageSrc = question.image?.url;
+
+  const showResultAnimation =
+    showFeedback && !runtimeCurrentQuestion.hasSeenFeedback;
+
+  const imageSrc = question.image?.url ?? "/assets/images/login-image.jpg";
+  const onAnimationComplete = () =>
+    markFeedbackAsSeen(runtimeCurrentQuestion.id);
 
   return (
     <div
@@ -31,22 +39,26 @@ export default function QuestionContainer() {
         </div>
       )}
 
-      <div className="order-2 flex min-w-0 flex-col gap-4">
-        <QuestionMeta type={question.type} />
-
-        <QuestionTitle
-          questionNumber={currentQuestionIndex + 1}
-          title={question.title}
-        />
-
-        <QuestionContentRouter runtimeQuestion={runtimeCurrentQuestion} />
-
-        {showFeedback && (
-          <QuestionFeedback
-            evaluation={evaluation}
-            explanation={question.explanation ?? 'test'}
+      <div className="relative isolate order-2 flex min-w-0 flex-col gap-4">
+        {showResultAnimation && evaluation && (
+          <QuestionResultFlash
+            outcome={evaluation.outcome}
+            onAnimationComplete={onAnimationComplete}
           />
         )}
+
+        <div className="relative z-10 flex min-w-0 flex-col gap-4">
+          <QuestionMeta type={question.type} />
+
+          <QuestionTitle
+            questionNumber={currentQuestionIndex + 1}
+            title={question.title}
+          />
+
+          <QuestionContentRouter runtimeQuestion={runtimeCurrentQuestion} />
+          
+          {showFeedback && <QuestionFeedback evaluation={evaluation} />}
+        </div>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 import { useShallow } from "zustand/react/shallow";
 
 import { useRuntimeStore } from "./runtime-store";
-import { useMemo } from "react";
+import { GameplayAction } from "../types/runtime-types";
 
 export const useRuntime = () =>
   useRuntimeStore(
@@ -13,7 +13,6 @@ export const useRuntime = () =>
       quizSnapshot: state.quizSnapshot,
       questionCount: state.questions.length,
       environment: state.environment,
-      mode: state.mode,
       settings: state.settings,
       status: state.status,
       phase: state.phase,
@@ -22,6 +21,7 @@ export const useRuntime = () =>
       pausedAt: state.pausedAt,
       completedAt: state.completedAt,
       expiresAt: state.expiresAt,
+      questions: state.questions,
     })),
   );
 
@@ -43,41 +43,76 @@ export function useRuntimeHeader() {
   return useRuntimeStore(
     useShallow((state) => ({
       title: state.quizSnapshot.title,
-      mode: state.mode,
       currentQuestionIndex: state.progress.currentQuestionIndex + 1,
       totalQuestions: state.questions.length,
-      phase: state.phase
+      phase: state.phase,
     })),
   );
 }
-
-
 export function useRuntimeActionBar() {
-  const { currentQuestionIndex, questions } = useRuntimeStore(
+  const { currentQuestionIndex, questions, status } = useRuntimeStore(
     useShallow((state) => ({
       currentQuestionIndex: state.progress.currentQuestionIndex,
       questions: state.questions,
+      status: state.status,
     })),
   );
 
   const currentQuestion = questions[currentQuestionIndex];
+
+  const isCompleted = status === "COMPLETED";
+  const isAnswered = !!currentQuestion?.answer;
   const isEvaluated = currentQuestion?.evaluation?.status === "EVALUATED";
 
-  const nextAction = !isEvaluated
-    ? "Pass"
-    : currentQuestionIndex === questions.length - 1
-      ? "Finish"
-      : "Next";
+  const isFirstQuestion = currentQuestionIndex === 0;
+  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+
+  const actions: GameplayAction[] = isCompleted
+    ? ["RESULTS"]
+    : !isAnswered
+      ? isLastQuestion
+        ? ["FINISH"]
+        : ["PASS"]
+      : !isEvaluated
+        ? isLastQuestion
+          ? ["SUBMIT", "FINISH"]
+          : ["SUBMIT", "NEXT"]
+        : isLastQuestion
+          ? ["FINISH"]
+          : ["NEXT"];
 
   return {
     currentQuestionId: currentQuestion?.id ?? null,
-    isFirstQuestion: currentQuestionIndex === 0,
-    isLastQuestion: currentQuestionIndex === questions.length - 1,
+    isFirstQuestion,
+    isLastQuestion,
+    isAnswered,
+    isEvaluated,
     isFlagged: currentQuestion?.flagged ?? false,
-    nextAction,
+    isLocked: currentQuestion?.locked ?? false,
+    isCompleted,
+    answer: currentQuestion?.answer ?? null,
+    actions,
   };
 }
 
+export const useReviewQuestions = () => {
+  const { questions } = useRuntimeStore(
+    useShallow((state) => ({
+      questions: state.questions,
+    })),
+  );
+
+  const answeredQuestions = questions.filter((q) => Boolean(q.evaluation));
+  const unansweredQuestions = questions.filter((q) => q.evaluation === null);
+  const flaggedQuestions = questions.filter((q) => q.flagged)
+
+  return {
+    questions,
+    answeredQuestions,
+    unansweredQuestions,
+    flaggedQuestions
+  }
+};
 export const useRuntimePhase = () => useRuntimeStore((state) => state.phase);
 
 export const useRuntimeActions = () =>
@@ -108,6 +143,8 @@ export const useRuntimeActions = () =>
       clearAnswer: state.clearAnswer,
       setAnswerEvaluation: state.setAnswerEvaluation,
       submitPracticeAnswer: state.submitPracticeAnswer,
+
+      markFeedbackAsSeen: state.markFeedbackAsSeen,
 
       setProgress: state.setProgress,
       recalculateProgress: state.recalculateProgress,

@@ -1,4 +1,3 @@
-
 import type { Answer } from "../types/answer-types";
 import type { EvaluationResult } from "../types/evaluation-types";
 
@@ -10,13 +9,10 @@ import type {
   RuntimePhase,
   RuntimeProgress,
   RuntimeQuestion,
-  RuntimeQuestionStatus,
   RuntimeSaveStatus,
   RuntimeStatus,
   RuntimeTimerState,
-  SessionMode,
 } from "../types/runtime-types";
-
 
 // --------------------------------------------------
 // Feedback state
@@ -45,7 +41,7 @@ export type RuntimeSubmissionState = {
 
 export type RuntimePersistenceState = {
   error: string | null;
-  saveStatus: RuntimeSaveStatus 
+  saveStatus: RuntimeSaveStatus;
   dirty: boolean;
   lastSavedAt: number | null;
   lastAttemptAt: number | null;
@@ -71,7 +67,6 @@ export type RuntimeState = {
   quizId: string | null;
   quizSnapshot: QuizSnapshot;
   environment: RuntimeEnvironment;
-  mode: SessionMode;
   settings: AttemptSettings | null;
 
   // Lifecycle
@@ -123,7 +118,7 @@ export interface RuntimeActions {
   updateLastActivity(timestamp: number): void;
 
   // Questions and navigation
-  setCurrentQuestion(index: number) : void
+  setCurrentQuestion(index: number): void;
   goToQuestion(index: number): void;
   goToNextQuestion(): void;
   goToPreviousQuestion(): void;
@@ -133,17 +128,11 @@ export interface RuntimeActions {
 
   // Answers and evaluation
   setAnswer(questionId: string, answer: Answer): void;
-  clearAnswer(questionId: string): void
-  setAnswerEvaluation(
-    questionId: string,
-    evaluation: EvaluationResult,
-  ): void;
-  submitPracticeAnswer(
-    questionId: string,
-    evaluation: EvaluationResult,
-  ): void;
+  clearAnswer(questionId: string): void;
+  setAnswerEvaluation(questionId: string, evaluation: EvaluationResult): void;
+  submitPracticeAnswer(questionId: string): void;
 
-
+  markFeedbackAsSeen: (questionId: string) => void;
 
   // Progress and scoring
   setProgress(progress: Partial<RuntimeProgress>): void;
@@ -201,11 +190,10 @@ export const defaultRuntimeSubmission: RuntimeSubmissionState = {
 
 export const defaultRuntimePersistence: RuntimePersistenceState = {
   error: null,
-  saveStatus: 'IDLE',
+  saveStatus: "IDLE",
   dirty: false,
   lastSavedAt: null,
   lastAttemptAt: null,
-  
 };
 
 export const defaultRuntimeState: RuntimeState = {
@@ -222,7 +210,6 @@ export const defaultRuntimeState: RuntimeState = {
   },
 
   environment: "PREVIEW",
-  mode: "PRACTICE",
   settings: null,
 
   status: "IDLE",

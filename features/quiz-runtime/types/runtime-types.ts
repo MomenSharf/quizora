@@ -37,7 +37,6 @@ export type PrismaQuestion = Prisma.QuestionGetPayload<{
 
 export type RuntimeEnvironment = "PREVIEW" | "PRODUCTION";
 
-export type SessionMode = "PRACTICE" | "TEST";
 
 export type QuestionNavigation = "SEQUENTIAL" | "FREE";
 
@@ -54,7 +53,6 @@ export type ScoreVisibility =
 
 export type AttemptSettings = {
   version: 1;
-  mode: SessionMode;
 
   navigation: QuestionNavigation;
 
@@ -132,6 +130,8 @@ export type RuntimeQuestion = {
 
   timeSpentSeconds: number;
   answeredAt: number | null;
+
+  hasSeenFeedback: boolean;
 };
 
 // --------------------------------------------------
@@ -153,7 +153,6 @@ export type QuizSnapshot = {
 
 export type RuntimeProgress = {
   currentQuestionIndex: number;
-
   totalQuestions: number;
   answeredQuestions: number;
   correctAnswers: number;
@@ -220,7 +219,6 @@ export type AttemptSummary = {
   quizId: string;
   quizTitle: string;
 
-  mode: SessionMode;
   status: RuntimeStatus;
 
   totalQuestions: number;
@@ -233,3 +231,11 @@ export type AttemptSummary = {
   lastActivityAt: number;
   completedAt: number | null;
 };
+
+
+ export type GameplayAction =
+  | "PASS"
+  | "SUBMIT"
+  | "NEXT"
+  | "FINISH"
+  | "RESULTS";

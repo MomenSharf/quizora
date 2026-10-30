@@ -2,13 +2,11 @@ import { Prisma } from "@/lib/db/generated/prisma/client";
 import prisma from "@/lib/db/prisma";
 import { AppErrors } from "@/lib/errors/app-errors";
 
-import type { SessionMode } from "../types/runtime-types";
 import { MODE_DEFAULTS } from "../config/mode-defaults";
 
 type StartAttemptInput = {
   quizId: string;
   userId: string;
-  mode: SessionMode;
   settings: unknown;
 };
 
@@ -17,10 +15,9 @@ type GetAttemptInput = {
   userId: string;
 };
 
-const ACTIVE_STATUSES = ["IN_PROGRESS", "PAUSED"] as const;
 
 export const quizRuntimeService = {
-  async createAttempt({ quizId, userId, mode, settings }: StartAttemptInput) {
+  async createAttempt({ quizId, userId, settings }: StartAttemptInput) {
     return prisma.$transaction(async (tx) => {
       const quiz = await tx.quiz.findFirst({
         where: {
@@ -53,19 +50,12 @@ export const quizRuntimeService = {
         0,
       );
 
-      const defaultSettings = MODE_DEFAULTS[mode];
 
-      const attemptSettings = {
-        ...defaultSettings,
-        ...(settings as Partial<typeof defaultSettings>),
-        mode,
-      };
 
       const attempt = await tx.quizAttempt.create({
         data: {
           userId,
           quizId,
-          mode,
 
           quizSnapshot: {
             title: quiz.title,
@@ -76,7 +66,11 @@ export const quizRuntimeService = {
             category: quiz.category,
           },
 
-          settings: attemptSettings as Prisma.InputJsonValue,
+          // !! remove this
+          settings: {
+            timerEnabled: false,
+            timerLimit: null
+          },
 
           currentQuestionIndex: 0,
           totalQuestions: quiz.questions.length,
@@ -85,9 +79,7 @@ export const quizRuntimeService = {
           score: 0,
           totalPoints,
 
-          timeLimitSeconds: attemptSettings.totalTimerEnabled
-            ? attemptSettings.totalTimeLimitSeconds
-            : null,
+          timeLimitSeconds:null,
 
           questions: {
             create: quiz.questions.map((question, index) => ({

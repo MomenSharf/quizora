@@ -184,7 +184,6 @@ export const QuizAttemptScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   quizId: 'quizId',
-  mode: 'mode',
   environment: 'environment',
   status: 'status',
   phase: 'phase',
