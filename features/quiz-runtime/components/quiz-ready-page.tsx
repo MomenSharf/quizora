@@ -4,12 +4,9 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
-  Brain,
-  ClipboardCheck,
   Clock3,
   Gamepad2,
-  Layers3,
-  Target,
+  Layers3
 } from "lucide-react";
 import type { QuizSnapshot, SessionMode } from "../types/runtime-types";
 
@@ -17,7 +14,6 @@ type QuizReadyPageProps = {
   quizSnapshot: QuizSnapshot;
   questionCount: number;
   duration?: string;
-  sessionMode: SessionMode;
   onStart: () => void;
 };
 
@@ -25,12 +21,9 @@ export default function QuizReadyPage({
   quizSnapshot,
   questionCount,
   duration = "No time limit",
-  sessionMode,
   onStart,
 }: QuizReadyPageProps) {
   const { title, description, tags, category, language } = quizSnapshot;
-  const isPractice = sessionMode === "PRACTICE";
-  const ModeIcon = isPractice ? Gamepad2 : ClipboardCheck;
 
   return (
     <div className="relative flex w-full flex-1 items-center justify-center px-3 py-4 sm:px-5">
@@ -44,12 +37,10 @@ export default function QuizReadyPage({
           <div
             className={`flex size-10 items-center justify-center rounded-xl text-primary bg-primary/10`}
           >
-            <ModeIcon size={21} strokeWidth={1.8} />
+            <Gamepad2 size={21} strokeWidth={1.8} />
           </div>
 
-          <span className={`mt-3 text-xs font-medium text-primary`}>
-            {isPractice ? "Practice mode" : "Test mode"}
-          </span>
+         
 
           <h1 className="mt-2 max-w-lg text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
             {title}
@@ -117,7 +108,7 @@ export default function QuizReadyPage({
             onClick={onStart}
             className="group flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            {isPractice ? "Start practicing" : "Start test"}
+    Start practicing
             <ArrowRight
               size={15}
               className="transition-transform group-hover:translate-x-0.5"
@@ -125,9 +116,7 @@ export default function QuizReadyPage({
           </motion.button>
 
           <p className="mt-2 text-center text-[11px] text-muted-foreground">
-            {isPractice
-              ? "Learn at your own pace."
-              : "Stay focused. Do your best."}
+            Stay focused. Do your best.
           </p>
         </div>
       </motion.section>

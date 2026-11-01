@@ -4,6 +4,7 @@ import QuestionFeedback from "./question-feedback";
 import QuestionImage from "./question-image";
 import QuestionMeta from "./question-meta";
 import QuestionResultFlash from "./question-result-flash";
+import QuestionResultToast from "./question-result-toast";
 import QuestionTitle from "./question-title";
 
 export default function QuestionContainer() {
@@ -40,12 +41,16 @@ export default function QuestionContainer() {
       )}
 
       <div className="relative isolate order-2 flex min-w-0 flex-col gap-4">
-        {showResultAnimation && evaluation && (
-          <QuestionResultFlash
-            outcome={evaluation.outcome}
-            onAnimationComplete={onAnimationComplete}
-          />
-        )}
+  {showResultAnimation && evaluation && (
+  <>
+    <QuestionResultFlash
+      outcome={evaluation.outcome}
+      onAnimationComplete={onAnimationComplete}
+    />
+
+    <QuestionResultToast outcome={evaluation.outcome} />
+  </>
+)}
 
         <div className="relative z-10 flex min-w-0 flex-col gap-4">
           <QuestionMeta type={question.type} />
@@ -56,7 +61,7 @@ export default function QuestionContainer() {
           />
 
           <QuestionContentRouter runtimeQuestion={runtimeCurrentQuestion} />
-          
+
           {showFeedback && <QuestionFeedback evaluation={evaluation} />}
         </div>
       </div>

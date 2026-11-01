@@ -1,13 +1,13 @@
-import { Prisma } from "@/lib/db/generated/prisma/client";
 import prisma from "@/lib/db/prisma";
 import { AppErrors } from "@/lib/errors/app-errors";
 
-import { MODE_DEFAULTS } from "../config/mode-defaults";
+import { AttemptSettings, SessionMode } from "../types/runtime-types";
 
 type StartAttemptInput = {
   quizId: string;
   userId: string;
-  settings: unknown;
+  settings: AttemptSettings;
+  mode: SessionMode
 };
 
 type GetAttemptInput = {
@@ -15,9 +15,8 @@ type GetAttemptInput = {
   userId: string;
 };
 
-
 export const quizRuntimeService = {
-  async createAttempt({ quizId, userId, settings }: StartAttemptInput) {
+  async createAttempt({ quizId, userId, settings, mode }: StartAttemptInput) {
     return prisma.$transaction(async (tx) => {
       const quiz = await tx.quiz.findFirst({
         where: {
@@ -50,12 +49,12 @@ export const quizRuntimeService = {
         0,
       );
 
-
-
       const attempt = await tx.quizAttempt.create({
         data: {
           userId,
           quizId,
+          mode,
+          ...settings,
 
           quizSnapshot: {
             title: quiz.title,
@@ -66,20 +65,12 @@ export const quizRuntimeService = {
             category: quiz.category,
           },
 
-          // !! remove this
-          settings: {
-            timerEnabled: false,
-            timerLimit: null
-          },
-
           currentQuestionIndex: 0,
           totalQuestions: quiz.questions.length,
           answeredQuestions: 0,
           correctAnswers: 0,
           score: 0,
           totalPoints,
-
-          timeLimitSeconds:null,
 
           questions: {
             create: quiz.questions.map((question, index) => ({
@@ -140,6 +131,7 @@ export const quizRuntimeService = {
         },
       },
     });
+
 
     return attempt;
   },

@@ -1,20 +1,25 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import {
   IconArrowLeft,
   IconArrowRight,
   IconBookmark,
   IconCheck,
+  IconClipboardCheck,
   IconLayoutGrid,
+  IconPlayerSkipForward,
 } from "@tabler/icons-react";
+
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
 import {
   useRuntimeActionBar,
   useRuntimeActions,
   useRuntimePhase,
 } from "../../store";
+
 import type { GameplayAction } from "../../types/runtime-types";
 
 type GamePlayActionsProps = {
@@ -27,46 +32,46 @@ type GamePlayActionsProps = {
 
 type ActionConfig = {
   label: string;
+  icon: typeof IconArrowRight;
   variant: "default" | "outline" | "secondary";
-  icon?: typeof IconArrowRight;
 };
 
-export const GAMEPLAY_ACTIONS: Record<GameplayAction, ActionConfig> = {
+const GAMEPLAY_ACTIONS: Record<GameplayAction, ActionConfig> = {
   PASS: {
     label: "Pass",
+    icon: IconPlayerSkipForward,
     variant: "outline",
-    icon: IconArrowRight,
   },
   SUBMIT: {
     label: "Submit",
-    variant: "default",
     icon: IconCheck,
+    variant: "default",
   },
   NEXT: {
     label: "Next",
-    variant: "default",
     icon: IconArrowRight,
+    variant: "default",
   },
   FINISH: {
     label: "Finish",
-    variant: "default",
     icon: IconCheck,
+    variant: "default",
   },
   RESULTS: {
-    label: "Go to Results",
+    label: "View results",
+    icon: IconClipboardCheck,
     variant: "default",
-    icon: IconArrowRight,
   },
 };
 
 const footerVariants = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -6 },
+  exit: { opacity: 0, y: 6 },
 };
 
 const footerTransition = {
-  duration: 0.22,
+  duration: 0.2,
   ease: "easeOut" as const,
 };
 
@@ -81,8 +86,15 @@ export default function GamePlayActions({
 }: GamePlayActionsProps) {
   const phase = useRuntimePhase();
 
-  const { currentQuestionId, isFirstQuestion, isFlagged, isLocked, actions } =
-    useRuntimeActionBar();
+  const {
+    mode,
+    currentQuestionId,
+    isFirstQuestion,
+    isFlagged,
+    isLocked,
+    isCompleted,
+    actions,
+  } = useRuntimeActionBar();
 
   const { goToNextQuestion, goToPreviousQuestion, toggleQuestionFlag } =
     useRuntimeActions();
@@ -94,11 +106,7 @@ export default function GamePlayActions({
     phase as (typeof BLOCKED_PHASES)[number],
   );
 
-  const isDisabled = disabled || isPhaseBlocked;
-
-  const canSubmit = !!onSubmitAnswer;
-  const canFinish = !!onFinishAttempt;
-  const canOpenResults = !!onOpenResults;
+  const isDisabled = disabled || isPhaseBlocked || isCompleted;
 
   const handleAction = (action: GameplayAction) => {
     if (isDisabled) return;
@@ -110,21 +118,17 @@ export default function GamePlayActions({
         break;
 
       case "SUBMIT":
-        if (!isLocked && canSubmit) {
-          void onSubmitAnswer();
+        if (!isLocked) {
+          onSubmitAnswer?.();
         }
         break;
 
       case "FINISH":
-        if (canFinish) {
-          void onFinishAttempt();
-        }
+        onFinishAttempt?.();
         break;
 
       case "RESULTS":
-        if (canOpenResults) {
-          onOpenResults();
-        }
+        onOpenResults?.();
         break;
     }
   };
@@ -134,13 +138,13 @@ export default function GamePlayActions({
 
     switch (action) {
       case "SUBMIT":
-        return isLocked || !canSubmit;
+        return isLocked || !onSubmitAnswer;
 
       case "FINISH":
-        return !canFinish;
+        return !onFinishAttempt;
 
       case "RESULTS":
-        return !canOpenResults;
+        return !onOpenResults;
 
       default:
         return false;
@@ -148,7 +152,7 @@ export default function GamePlayActions({
   };
 
   return (
-    <footer className="flex justify-center overflow-hidden border-t border-border/60 bg-background/85 backdrop-blur-xl">
+    <footer className="relative z-20 border-t border-border/60 bg-background/95 backdrop-blur-xl">
       <AnimatePresence mode="wait" initial={false}>
         {isReady ? (
           <motion.div
@@ -158,12 +162,9 @@ export default function GamePlayActions({
             animate="animate"
             exit="exit"
             transition={footerTransition}
-            className="container flex h-14 items-center justify-between px-4 text-sm text-muted-foreground sm:h-16"
+            className="container flex h-14 items-center justify-center px-4 sm:h-16"
           >
-            <span>Ready when you are</span>
-            <span className="text-xs sm:text-sm">
-              Take your time and enjoy learning.
-            </span>
+            <p className="text-sm text-muted-foreground">Ready when you are.</p>
           </motion.div>
         ) : (
           <motion.div
@@ -173,73 +174,85 @@ export default function GamePlayActions({
             animate="animate"
             exit="exit"
             transition={footerTransition}
-            className="container flex h-14 items-center justify-between gap-2 px-2 sm:h-16 sm:gap-4 sm:px-4"
+            className="container flex h-14 items-center justify-between gap-2 px-3 sm:h-[68px] sm:px-5"
           >
-            {/* Previous */}
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={goToPreviousQuestion}
-              disabled={isDisabled || isFirstQuestion || isResult}
-              className={cn(
-                "h-9 gap-1 rounded-lg px-2.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground sm:gap-1.5 sm:px-3",
-                isFirstQuestion && "hidden",
-              )}
-            >
-              <IconArrowLeft className="size-4" stroke={1.8} />
-              <span>Previous</span>
-            </Button>
-
-            {/* Question utilities */}
-            <div className="flex flex-1 items-center justify-center gap-1 sm:gap-2">
+            {/* Previous question */}
+            <div className="flex min-w-0 items-center">
               {!isResult && (
-                <>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={() => {
-                      if (currentQuestionId) {
-                        toggleQuestionFlag(currentQuestionId);
-                      }
-                    }}
-                    disabled={isDisabled || !currentQuestionId}
-                    aria-pressed={isFlagged}
-                    className={cn(
-                      "h-9 gap-1 rounded-lg px-2 text-xs hover:bg-muted sm:gap-1.5 sm:px-3",
-                      isFlagged
-                        ? "text-primary"
-                        : "text-muted-foreground hover:text-foreground",
-                    )}
-                  >
-                    <IconBookmark
-                      className="size-4"
-                      stroke={1.8}
-                      fill={isFlagged ? "currentColor" : "none"}
-                    />
-                    <span className="hidden sm:inline">
-                      {isFlagged ? "Marked for review" : "Mark for review"}
-                    </span>
-                  </Button>
-
-                  <div className="hidden h-7 w-px shrink-0 bg-border sm:block" />
-
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={onOpenQuestionList}
-                    disabled={isDisabled || !onOpenQuestionList}
-                    aria-label="Open question list"
-                    className="h-9 gap-1 rounded-lg px-2 text-xs hover:bg-muted sm:gap-1.5 sm:px-3"
-                  >
-                    <IconLayoutGrid className="size-4" stroke={1.8} />
-                    <span className="hidden sm:inline">Review questions</span>
-                  </Button>
-                </>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={goToPreviousQuestion}
+                  disabled={isDisabled || isFirstQuestion}
+                  className={cn(
+                    "h-10 gap-1.5 rounded-xl px-2.5 text-muted-foreground",
+                    "hover:bg-muted hover:text-foreground",
+                    isFirstQuestion && "invisible",
+                  )}
+                >
+                  <IconArrowLeft className="size-4" />
+                  <span className="hidden sm:inline">Previous</span>
+                </Button>
               )}
             </div>
 
-            {/* Main actions */}
-            <div className="flex shrink-0 items-center gap-1 sm:gap-2">
+            {/* Question tools */}
+            {mode === "REVIEW" && (
+              <div className="flex flex-1 items-center justify-center gap-1 sm:gap-2">
+                {!isResult && (
+                  <>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        if (currentQuestionId) {
+                          toggleQuestionFlag(currentQuestionId);
+                        }
+                      }}
+                      disabled={isDisabled || !currentQuestionId}
+                      aria-label={
+                        isFlagged ? "Remove review mark" : "Mark for review"
+                      }
+                      aria-pressed={isFlagged}
+                      className={cn(
+                        "h-10 gap-1.5 rounded-xl px-2.5 text-muted-foreground",
+                        "hover:bg-muted hover:text-foreground",
+                        isFlagged && "text-primary hover:text-primary",
+                      )}
+                    >
+                      <IconBookmark
+                        className="size-4"
+                        fill={isFlagged ? "currentColor" : "none"}
+                        stroke={1.8}
+                      />
+                      <span className="hidden md:inline">
+                        {isFlagged ? "Marked" : "Mark"}
+                      </span>
+                    </Button>
+
+                    <div className="mx-1 h-6 w-px bg-border/70" />
+
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={onOpenQuestionList}
+                      disabled={isDisabled || !onOpenQuestionList}
+                      aria-label="Open question overview"
+                      className="h-10 gap-1.5 rounded-xl px-2.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+                    >
+                      <IconLayoutGrid className="size-4" />
+                      <span className="hidden md:inline">Questions</span>
+                    </Button>
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* Primary actions */}
+            <div className="flex shrink-0 items-center justify-end gap-1.5">
               <AnimatePresence mode="popLayout" initial={false}>
                 {actions.map((action) => {
                   const config = GAMEPLAY_ACTIONS[action];
@@ -249,9 +262,9 @@ export default function GamePlayActions({
                     <motion.div
                       key={action}
                       layout
-                      initial={{ opacity: 0, scale: 0.95, y: 4 }}
+                      initial={{ opacity: 0, scale: 0.94, y: 4 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                      exit={{ opacity: 0, scale: 0.94, y: 4 }}
                       transition={{ duration: 0.16 }}
                     >
                       <Button
@@ -259,12 +272,15 @@ export default function GamePlayActions({
                         variant={config.variant}
                         onClick={() => handleAction(action)}
                         disabled={isActionDisabled(action)}
-                        className="h-9 gap-1 rounded-lg px-3 text-xs sm:gap-1.5 sm:px-4"
+                        className={cn(
+                          "h-10 gap-2 rounded-xl px-3 font-medium",
+                          "text-xs sm:px-4 sm:text-sm",
+                          action === "SUBMIT" && "min-w-[108px] shadow-sm",
+                          action === "NEXT" && "min-w-[108px] shadow-sm",
+                        )}
                       >
                         <span>{config.label}</span>
-                        {ActionIcon && (
-                          <ActionIcon className="size-4" stroke={1.8} />
-                        )}
+                        <ActionIcon className="size-4" stroke={2} />
                       </Button>
                     </motion.div>
                   );

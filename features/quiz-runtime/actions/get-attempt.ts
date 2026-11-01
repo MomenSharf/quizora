@@ -5,6 +5,7 @@ import { tryCatchAsync } from "@/lib/utils/try-catch";
 
 import { quizRuntimeService } from "../services/quiz-runtime.service";
 import { mapQuizAttempt } from "../transformers/runtime-attempt-mapper";
+import { AppErrors } from "@/lib/errors/app-errors";
 
 type GetAttemptInput = {
   attemptId: string;
@@ -18,8 +19,9 @@ export const getAttempt = async ({ attemptId }: GetAttemptInput) =>
       attemptId,
       userId: user.id,
     });
-
-    console.log(attempt.quiz.questions[0].title);
+    if (!attempt) {
+      return AppErrors.notFound("Quiz attempt not found");
+    }
 
     const runttimeAttempt = mapQuizAttempt(attempt);
 

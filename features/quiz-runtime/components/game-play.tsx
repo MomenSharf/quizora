@@ -44,7 +44,6 @@ function GameplayContent() {
                   questionCount={questionCount}
                   duration={"No time limit"}
                   onStart={() => startAttempt(Date.now())}
-                  sessionMode={"PRACTICE"}
                 />
               </div>
             }

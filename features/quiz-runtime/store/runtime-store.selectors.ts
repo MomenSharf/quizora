@@ -49,12 +49,20 @@ export function useRuntimeHeader() {
     })),
   );
 }
+
+
 export function useRuntimeActionBar() {
-  const { currentQuestionIndex, questions, status } = useRuntimeStore(
+  const {
+    currentQuestionIndex,
+    questions,
+    status,
+    mode,
+  } = useRuntimeStore(
     useShallow((state) => ({
       currentQuestionIndex: state.progress.currentQuestionIndex,
       questions: state.questions,
       status: state.status,
+      mode: state.mode,
     })),
   );
 
@@ -62,38 +70,103 @@ export function useRuntimeActionBar() {
 
   const isCompleted = status === "COMPLETED";
   const isAnswered = !!currentQuestion?.answer;
-  const isEvaluated = currentQuestion?.evaluation?.status === "EVALUATED";
+  const isEvaluated =
+    currentQuestion?.evaluation?.status === "EVALUATED";
+  const isLocked = !!currentQuestion?.locked;
 
   const isFirstQuestion = currentQuestionIndex === 0;
-  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+  const isLastQuestion =
+    currentQuestionIndex === questions.length - 1;
 
-  const actions: GameplayAction[] = isCompleted
-    ? ["RESULTS"]
-    : !isAnswered
-      ? isLastQuestion
-        ? ["FINISH"]
-        : ["PASS"]
-      : !isEvaluated
-        ? isLastQuestion
-          ? ["SUBMIT", "FINISH"]
-          : ["SUBMIT", "NEXT"]
-        : isLastQuestion
-          ? ["FINISH"]
-          : ["NEXT"];
+  const isReviewMode = mode === "REVIEW";
+  const isTimerMode = mode === "TIMED";
+
+  let actions: GameplayAction[] = [];
+
+  if (isCompleted) {
+    actions = ["RESULTS"];
+  } else if (isReviewMode) {
+    if (isEvaluated) {
+      actions = isLastQuestion ? ["FINISH"] : ["NEXT"];
+    } else if (isAnswered) {
+      actions = ["SUBMIT", ...(isLastQuestion ? ["FINISH"] as const : ["NEXT"] as const ) ];
+    } else {
+      actions = isLastQuestion ? ["FINISH"] : ["PASS"];
+    }
+  } else {
+    if (isLocked || isEvaluated) {
+      actions = isLastQuestion ? ["FINISH"] : ["NEXT"];
+    } else if (isAnswered) {
+      actions = ["SUBMIT"];
+    } else {
+      actions = [];
+    }
+  }
 
   return {
+    mode,
     currentQuestionId: currentQuestion?.id ?? null,
     isFirstQuestion,
     isLastQuestion,
     isAnswered,
     isEvaluated,
     isFlagged: currentQuestion?.flagged ?? false,
-    isLocked: currentQuestion?.locked ?? false,
+    isLocked,
     isCompleted,
+    isTimerMode,
+    isReviewMode,
     answer: currentQuestion?.answer ?? null,
     actions,
   };
 }
+
+
+
+// export function useRuntimeActionBar() {
+//   const { currentQuestionIndex, questions, status } = useRuntimeStore(
+//     useShallow((state) => ({
+//       currentQuestionIndex: state.progress.currentQuestionIndex,
+//       questions: state.questions,
+//       status: state.status,
+//     })),
+//   );
+
+//   const currentQuestion = questions[currentQuestionIndex];
+
+//   const isCompleted = status === "COMPLETED";
+//   const isAnswered = !!currentQuestion?.answer;
+//   const isEvaluated = currentQuestion?.evaluation?.status === "EVALUATED";
+
+//   const isFirstQuestion = currentQuestionIndex === 0;
+//   const isLastQuestion = currentQuestionIndex === questions.length - 1;
+
+//   const actions: GameplayAction[] = isCompleted
+//     ? ["RESULTS"]
+//     : !isAnswered
+//       ? isLastQuestion
+//         ? ["FINISH"]
+//         : ["PASS"]
+//       : !isEvaluated
+//         ? isLastQuestion
+//           ? ["SUBMIT", "FINISH"]
+//           : ["SUBMIT", "NEXT"]
+//         : isLastQuestion
+//           ? ["FINISH"]
+//           : ["NEXT"];
+
+//   return {
+//     currentQuestionId: currentQuestion?.id ?? null,
+//     isFirstQuestion,
+//     isLastQuestion,
+//     isAnswered,
+//     isEvaluated,
+//     isFlagged: currentQuestion?.flagged ?? false,
+//     isLocked: currentQuestion?.locked ?? false,
+//     isCompleted,
+//     answer: currentQuestion?.answer ?? null,
+//     actions,
+//   };
+// }
 
 export const useReviewQuestions = () => {
   const { questions } = useRuntimeStore(

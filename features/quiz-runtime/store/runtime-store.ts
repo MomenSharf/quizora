@@ -28,6 +28,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       attemptId: attempt.id,
       quizId: attempt.quizId,
       quizSnapshot: attempt.quizSnapshot,
+      mode: 'STANDARD',
       environment: attempt.environment,
       settings: attempt.settings,
       status: attempt.status,
@@ -39,7 +40,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       expiresAt: attempt.expiresAt,
       questions: attempt.questions,
       progress: attempt.progress,
-
       timer: attempt.timer,
       feedback: defaultRuntimeFeedback,
       submission: {
@@ -61,7 +61,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
   setEnvironment: (environment: RuntimeEnvironment) => set({ environment }),
 
-
   setSettings: (settings: AttemptSettings) =>
     set({
       settings,
@@ -79,10 +78,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       lastActivityAt: startedAt,
       pausedAt: null,
       completedAt: null,
-      timer: {
-        ...state.timer,
-        isAttemptTimerRunning: state.settings?.totalTimerEnabled ?? false,
-      },
+
     })),
 
   pauseAttempt: (pausedAt) =>
@@ -150,6 +146,9 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
         currentQuestionIndex: index,
       },
       phase: "QUESTION",
+      questions: state.questions.map((question, questionIndex) =>
+        questionIndex === index ? { ...question, visited: true } : question,
+      ),
     }));
   },
 

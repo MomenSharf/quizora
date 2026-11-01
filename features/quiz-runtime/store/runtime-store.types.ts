@@ -12,6 +12,7 @@ import type {
   RuntimeSaveStatus,
   RuntimeStatus,
   RuntimeTimerState,
+  SessionMode,
 } from "../types/runtime-types";
 
 // --------------------------------------------------
@@ -66,6 +67,7 @@ export type RuntimeState = {
   attemptId: string | null;
   quizId: string | null;
   quizSnapshot: QuizSnapshot;
+  mode: SessionMode;
   environment: RuntimeEnvironment;
   settings: AttemptSettings | null;
 
@@ -84,7 +86,7 @@ export type RuntimeState = {
 
   // Gameplay
   progress: RuntimeProgress;
-  timer: RuntimeTimerState;
+  timer: RuntimeTimerState ;
 
   // Feedback and final submission
   feedback: RuntimeFeedbackState;
@@ -173,6 +175,7 @@ export const defaultRuntimeTimer: RuntimeTimerState = {
   attemptDeadlineAt: null,
   isQuestionTimerRunning: false,
   isAttemptTimerRunning: false,
+  enable: false
 };
 
 export const defaultRuntimeFeedback: RuntimeFeedbackState = {
@@ -199,6 +202,8 @@ export const defaultRuntimePersistence: RuntimePersistenceState = {
 export const defaultRuntimeState: RuntimeState = {
   attemptId: null,
   quizId: null,
+  
+  mode: 'STANDARD',
 
   quizSnapshot: {
     title: null,

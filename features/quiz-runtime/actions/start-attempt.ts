@@ -5,17 +5,20 @@ import { revalidatePath } from "next/cache";
 import { requireAuth } from "@/features/auth/lib/require-auth";
 import { tryCatchAsync } from "@/lib/utils/try-catch";
 import { quizRuntimeService } from "../services/quiz-runtime.service";
+import { AttemptSettings, SessionMode } from "../types/runtime-types";
 
 
 
 type StartAttemptInput = {
   quizId: string;
-  settings: unknown;
+  settings: AttemptSettings;
+  mode : SessionMode
 };
 
 export const startAttempt = async ({
   quizId,
   settings,
+  mode
 }: StartAttemptInput) =>
   tryCatchAsync(async () => {
     const { user } = await requireAuth();
@@ -24,6 +27,7 @@ export const startAttempt = async ({
       quizId,
       userId: user.id,
       settings,
+      mode
     });
 
     revalidatePath(`/quizzes/${quizId}`);

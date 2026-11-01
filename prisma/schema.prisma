@@ -161,6 +161,12 @@ enum RuntimeEnvironment {
   PRODUCTION
 }
 
+enum QuizAttemptMode {
+  STANDARD
+  REVIEW
+  TIMED
+}
+
 enum QuizAttemptPhase {
   READY
   QUESTION
@@ -187,12 +193,17 @@ model QuizAttempt {
   userId String
   quizId String
 
+  mode        QuizAttemptMode  @default(STANDARD)
   environment RuntimeEnvironment @default(PRODUCTION)
   status      QuizAttemptStatus  @default(IN_PROGRESS)
   phase       QuizAttemptPhase   @default(READY)
 
+  showExplanations Boolean @default(true)
+  shuffleQuestions Boolean @default(false)
+  shuffleAnswers Boolean @default(false)
+
+
   quizSnapshot Json
-  settings     Json
 
   currentQuestionIndex    Int   @default(0)
   totalQuestions          Int   @default(0)
@@ -221,6 +232,7 @@ model QuizAttempt {
 
   @@index([userId, status])
   @@index([quizId, userId, createdAt])
+  @@index([userId, mode, status])
   @@index([lastActivityAt])
 }
 
@@ -230,19 +242,25 @@ model AttemptQuestion {
 
   questionId String?
   orderIndex Int
-
   questionSnapshot  Json
 
-  response         Json?
-  isSubmitted      Boolean               @default(false)
   status           AttemptQuestionStatus @default(UNANSWERED)
+
+  answer         Json?
   evaluation       Json?
+
   earnedPoints     Float                 @default(0)
   maxPoints        Float                 @default(1)
+
   flagged          Boolean               @default(false)
   locked           Boolean                @default(false)
+  visited           Boolean                @default(false)
+
+  hasSeenFeedback Boolean @default(false)
+
   timeSpentSeconds Int                   @default(0)
   answeredAt       DateTime?
+
   updatedAt        DateTime              @updatedAt
 
   attempt QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)

@@ -45,12 +45,13 @@ export type AttemptQuestionMinAggregateOutputType = {
   attemptId: string | null
   questionId: string | null
   orderIndex: number | null
-  isSubmitted: boolean | null
   status: $Enums.AttemptQuestionStatus | null
   earnedPoints: number | null
   maxPoints: number | null
   flagged: boolean | null
   locked: boolean | null
+  visited: boolean | null
+  hasSeenFeedback: boolean | null
   timeSpentSeconds: number | null
   answeredAt: Date | null
   updatedAt: Date | null
@@ -61,12 +62,13 @@ export type AttemptQuestionMaxAggregateOutputType = {
   attemptId: string | null
   questionId: string | null
   orderIndex: number | null
-  isSubmitted: boolean | null
   status: $Enums.AttemptQuestionStatus | null
   earnedPoints: number | null
   maxPoints: number | null
   flagged: boolean | null
   locked: boolean | null
+  visited: boolean | null
+  hasSeenFeedback: boolean | null
   timeSpentSeconds: number | null
   answeredAt: Date | null
   updatedAt: Date | null
@@ -78,14 +80,15 @@ export type AttemptQuestionCountAggregateOutputType = {
   questionId: number
   orderIndex: number
   questionSnapshot: number
-  response: number
-  isSubmitted: number
   status: number
+  answer: number
   evaluation: number
   earnedPoints: number
   maxPoints: number
   flagged: number
   locked: number
+  visited: number
+  hasSeenFeedback: number
   timeSpentSeconds: number
   answeredAt: number
   updatedAt: number
@@ -112,12 +115,13 @@ export type AttemptQuestionMinAggregateInputType = {
   attemptId?: true
   questionId?: true
   orderIndex?: true
-  isSubmitted?: true
   status?: true
   earnedPoints?: true
   maxPoints?: true
   flagged?: true
   locked?: true
+  visited?: true
+  hasSeenFeedback?: true
   timeSpentSeconds?: true
   answeredAt?: true
   updatedAt?: true
@@ -128,12 +132,13 @@ export type AttemptQuestionMaxAggregateInputType = {
   attemptId?: true
   questionId?: true
   orderIndex?: true
-  isSubmitted?: true
   status?: true
   earnedPoints?: true
   maxPoints?: true
   flagged?: true
   locked?: true
+  visited?: true
+  hasSeenFeedback?: true
   timeSpentSeconds?: true
   answeredAt?: true
   updatedAt?: true
@@ -145,14 +150,15 @@ export type AttemptQuestionCountAggregateInputType = {
   questionId?: true
   orderIndex?: true
   questionSnapshot?: true
-  response?: true
-  isSubmitted?: true
   status?: true
+  answer?: true
   evaluation?: true
   earnedPoints?: true
   maxPoints?: true
   flagged?: true
   locked?: true
+  visited?: true
+  hasSeenFeedback?: true
   timeSpentSeconds?: true
   answeredAt?: true
   updatedAt?: true
@@ -251,14 +257,15 @@ export type AttemptQuestionGroupByOutputType = {
   questionId: string | null
   orderIndex: number
   questionSnapshot: runtime.JsonValue
-  response: runtime.JsonValue | null
-  isSubmitted: boolean
   status: $Enums.AttemptQuestionStatus
+  answer: runtime.JsonValue | null
   evaluation: runtime.JsonValue | null
   earnedPoints: number
   maxPoints: number
   flagged: boolean
   locked: boolean
+  visited: boolean
+  hasSeenFeedback: boolean
   timeSpentSeconds: number
   answeredAt: Date | null
   updatedAt: Date
@@ -293,14 +300,15 @@ export type AttemptQuestionWhereInput = {
   questionId?: Prisma.StringNullableFilter<"AttemptQuestion"> | string | null
   orderIndex?: Prisma.IntFilter<"AttemptQuestion"> | number
   questionSnapshot?: Prisma.JsonFilter<"AttemptQuestion">
-  response?: Prisma.JsonNullableFilter<"AttemptQuestion">
-  isSubmitted?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
+  answer?: Prisma.JsonNullableFilter<"AttemptQuestion">
   evaluation?: Prisma.JsonNullableFilter<"AttemptQuestion">
   earnedPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   maxPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   flagged?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   locked?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
+  visited?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
+  hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -313,14 +321,15 @@ export type AttemptQuestionOrderByWithRelationInput = {
   questionId?: Prisma.SortOrderInput | Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   questionSnapshot?: Prisma.SortOrder
-  response?: Prisma.SortOrderInput | Prisma.SortOrder
-  isSubmitted?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  answer?: Prisma.SortOrderInput | Prisma.SortOrder
   evaluation?: Prisma.SortOrderInput | Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
   maxPoints?: Prisma.SortOrder
   flagged?: Prisma.SortOrder
   locked?: Prisma.SortOrder
+  visited?: Prisma.SortOrder
+  hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -337,14 +346,15 @@ export type AttemptQuestionWhereUniqueInput = Prisma.AtLeast<{
   questionId?: Prisma.StringNullableFilter<"AttemptQuestion"> | string | null
   orderIndex?: Prisma.IntFilter<"AttemptQuestion"> | number
   questionSnapshot?: Prisma.JsonFilter<"AttemptQuestion">
-  response?: Prisma.JsonNullableFilter<"AttemptQuestion">
-  isSubmitted?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
+  answer?: Prisma.JsonNullableFilter<"AttemptQuestion">
   evaluation?: Prisma.JsonNullableFilter<"AttemptQuestion">
   earnedPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   maxPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   flagged?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   locked?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
+  visited?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
+  hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -357,14 +367,15 @@ export type AttemptQuestionOrderByWithAggregationInput = {
   questionId?: Prisma.SortOrderInput | Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   questionSnapshot?: Prisma.SortOrder
-  response?: Prisma.SortOrderInput | Prisma.SortOrder
-  isSubmitted?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  answer?: Prisma.SortOrderInput | Prisma.SortOrder
   evaluation?: Prisma.SortOrderInput | Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
   maxPoints?: Prisma.SortOrder
   flagged?: Prisma.SortOrder
   locked?: Prisma.SortOrder
+  visited?: Prisma.SortOrder
+  hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -384,14 +395,15 @@ export type AttemptQuestionScalarWhereWithAggregatesInput = {
   questionId?: Prisma.StringNullableWithAggregatesFilter<"AttemptQuestion"> | string | null
   orderIndex?: Prisma.IntWithAggregatesFilter<"AttemptQuestion"> | number
   questionSnapshot?: Prisma.JsonWithAggregatesFilter<"AttemptQuestion">
-  response?: Prisma.JsonNullableWithAggregatesFilter<"AttemptQuestion">
-  isSubmitted?: Prisma.BoolWithAggregatesFilter<"AttemptQuestion"> | boolean
   status?: Prisma.EnumAttemptQuestionStatusWithAggregatesFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
+  answer?: Prisma.JsonNullableWithAggregatesFilter<"AttemptQuestion">
   evaluation?: Prisma.JsonNullableWithAggregatesFilter<"AttemptQuestion">
   earnedPoints?: Prisma.FloatWithAggregatesFilter<"AttemptQuestion"> | number
   maxPoints?: Prisma.FloatWithAggregatesFilter<"AttemptQuestion"> | number
   flagged?: Prisma.BoolWithAggregatesFilter<"AttemptQuestion"> | boolean
   locked?: Prisma.BoolWithAggregatesFilter<"AttemptQuestion"> | boolean
+  visited?: Prisma.BoolWithAggregatesFilter<"AttemptQuestion"> | boolean
+  hasSeenFeedback?: Prisma.BoolWithAggregatesFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntWithAggregatesFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AttemptQuestion"> | Date | string
@@ -402,14 +414,15 @@ export type AttemptQuestionCreateInput = {
   questionId?: string | null
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: boolean
   status?: $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
   maxPoints?: number
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -422,14 +435,15 @@ export type AttemptQuestionUncheckedCreateInput = {
   questionId?: string | null
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: boolean
   status?: $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
   maxPoints?: number
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -440,14 +454,15 @@ export type AttemptQuestionUpdateInput = {
   questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   flagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  visited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -460,14 +475,15 @@ export type AttemptQuestionUncheckedUpdateInput = {
   questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   flagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  visited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -479,14 +495,15 @@ export type AttemptQuestionCreateManyInput = {
   questionId?: string | null
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: boolean
   status?: $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
   maxPoints?: number
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -497,14 +514,15 @@ export type AttemptQuestionUpdateManyMutationInput = {
   questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   flagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  visited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -516,14 +534,15 @@ export type AttemptQuestionUncheckedUpdateManyInput = {
   questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   flagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  visited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -550,14 +569,15 @@ export type AttemptQuestionCountOrderByAggregateInput = {
   questionId?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   questionSnapshot?: Prisma.SortOrder
-  response?: Prisma.SortOrder
-  isSubmitted?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  answer?: Prisma.SortOrder
   evaluation?: Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
   maxPoints?: Prisma.SortOrder
   flagged?: Prisma.SortOrder
   locked?: Prisma.SortOrder
+  visited?: Prisma.SortOrder
+  hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -575,12 +595,13 @@ export type AttemptQuestionMaxOrderByAggregateInput = {
   attemptId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
-  isSubmitted?: Prisma.SortOrder
   status?: Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
   maxPoints?: Prisma.SortOrder
   flagged?: Prisma.SortOrder
   locked?: Prisma.SortOrder
+  visited?: Prisma.SortOrder
+  hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -591,12 +612,13 @@ export type AttemptQuestionMinOrderByAggregateInput = {
   attemptId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
-  isSubmitted?: Prisma.SortOrder
   status?: Prisma.SortOrder
   earnedPoints?: Prisma.SortOrder
   maxPoints?: Prisma.SortOrder
   flagged?: Prisma.SortOrder
   locked?: Prisma.SortOrder
+  visited?: Prisma.SortOrder
+  hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -651,10 +673,6 @@ export type AttemptQuestionUncheckedUpdateManyWithoutAttemptNestedInput = {
   deleteMany?: Prisma.AttemptQuestionScalarWhereInput | Prisma.AttemptQuestionScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type EnumAttemptQuestionStatusFieldUpdateOperationsInput = {
   set?: $Enums.AttemptQuestionStatus
 }
@@ -664,14 +682,15 @@ export type AttemptQuestionCreateWithoutAttemptInput = {
   questionId?: string | null
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: boolean
   status?: $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
   maxPoints?: number
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -682,14 +701,15 @@ export type AttemptQuestionUncheckedCreateWithoutAttemptInput = {
   questionId?: string | null
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: boolean
   status?: $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
   maxPoints?: number
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -730,14 +750,15 @@ export type AttemptQuestionScalarWhereInput = {
   questionId?: Prisma.StringNullableFilter<"AttemptQuestion"> | string | null
   orderIndex?: Prisma.IntFilter<"AttemptQuestion"> | number
   questionSnapshot?: Prisma.JsonFilter<"AttemptQuestion">
-  response?: Prisma.JsonNullableFilter<"AttemptQuestion">
-  isSubmitted?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
+  answer?: Prisma.JsonNullableFilter<"AttemptQuestion">
   evaluation?: Prisma.JsonNullableFilter<"AttemptQuestion">
   earnedPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   maxPoints?: Prisma.FloatFilter<"AttemptQuestion"> | number
   flagged?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   locked?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
+  visited?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
+  hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -748,14 +769,15 @@ export type AttemptQuestionCreateManyAttemptInput = {
   questionId?: string | null
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: boolean
   status?: $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: number
   maxPoints?: number
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
   updatedAt?: Date | string
@@ -766,14 +788,15 @@ export type AttemptQuestionUpdateWithoutAttemptInput = {
   questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   flagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  visited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -784,14 +807,15 @@ export type AttemptQuestionUncheckedUpdateWithoutAttemptInput = {
   questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   flagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  visited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -802,14 +826,15 @@ export type AttemptQuestionUncheckedUpdateManyWithoutAttemptInput = {
   questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  isSubmitted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
+  answer?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   evaluation?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   earnedPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   maxPoints?: Prisma.FloatFieldUpdateOperationsInput | number
   flagged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  visited?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -823,14 +848,15 @@ export type AttemptQuestionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   questionId?: boolean
   orderIndex?: boolean
   questionSnapshot?: boolean
-  response?: boolean
-  isSubmitted?: boolean
   status?: boolean
+  answer?: boolean
   evaluation?: boolean
   earnedPoints?: boolean
   maxPoints?: boolean
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
   updatedAt?: boolean
@@ -843,14 +869,15 @@ export type AttemptQuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   questionId?: boolean
   orderIndex?: boolean
   questionSnapshot?: boolean
-  response?: boolean
-  isSubmitted?: boolean
   status?: boolean
+  answer?: boolean
   evaluation?: boolean
   earnedPoints?: boolean
   maxPoints?: boolean
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
   updatedAt?: boolean
@@ -863,14 +890,15 @@ export type AttemptQuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   questionId?: boolean
   orderIndex?: boolean
   questionSnapshot?: boolean
-  response?: boolean
-  isSubmitted?: boolean
   status?: boolean
+  answer?: boolean
   evaluation?: boolean
   earnedPoints?: boolean
   maxPoints?: boolean
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
   updatedAt?: boolean
@@ -883,20 +911,21 @@ export type AttemptQuestionSelectScalar = {
   questionId?: boolean
   orderIndex?: boolean
   questionSnapshot?: boolean
-  response?: boolean
-  isSubmitted?: boolean
   status?: boolean
+  answer?: boolean
   evaluation?: boolean
   earnedPoints?: boolean
   maxPoints?: boolean
   flagged?: boolean
   locked?: boolean
+  visited?: boolean
+  hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
   updatedAt?: boolean
 }
 
-export type AttemptQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "orderIndex" | "questionSnapshot" | "response" | "isSubmitted" | "status" | "evaluation" | "earnedPoints" | "maxPoints" | "flagged" | "locked" | "timeSpentSeconds" | "answeredAt" | "updatedAt", ExtArgs["result"]["attemptQuestion"]>
+export type AttemptQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "orderIndex" | "questionSnapshot" | "status" | "answer" | "evaluation" | "earnedPoints" | "maxPoints" | "flagged" | "locked" | "visited" | "hasSeenFeedback" | "timeSpentSeconds" | "answeredAt" | "updatedAt", ExtArgs["result"]["attemptQuestion"]>
 export type AttemptQuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attempt?: boolean | Prisma.QuizAttemptDefaultArgs<ExtArgs>
 }
@@ -918,14 +947,15 @@ export type $AttemptQuestionPayload<ExtArgs extends runtime.Types.Extensions.Int
     questionId: string | null
     orderIndex: number
     questionSnapshot: runtime.JsonValue
-    response: runtime.JsonValue | null
-    isSubmitted: boolean
     status: $Enums.AttemptQuestionStatus
+    answer: runtime.JsonValue | null
     evaluation: runtime.JsonValue | null
     earnedPoints: number
     maxPoints: number
     flagged: boolean
     locked: boolean
+    visited: boolean
+    hasSeenFeedback: boolean
     timeSpentSeconds: number
     answeredAt: Date | null
     updatedAt: Date
@@ -1358,14 +1388,15 @@ export interface AttemptQuestionFieldRefs {
   readonly questionId: Prisma.FieldRef<"AttemptQuestion", 'String'>
   readonly orderIndex: Prisma.FieldRef<"AttemptQuestion", 'Int'>
   readonly questionSnapshot: Prisma.FieldRef<"AttemptQuestion", 'Json'>
-  readonly response: Prisma.FieldRef<"AttemptQuestion", 'Json'>
-  readonly isSubmitted: Prisma.FieldRef<"AttemptQuestion", 'Boolean'>
   readonly status: Prisma.FieldRef<"AttemptQuestion", 'AttemptQuestionStatus'>
+  readonly answer: Prisma.FieldRef<"AttemptQuestion", 'Json'>
   readonly evaluation: Prisma.FieldRef<"AttemptQuestion", 'Json'>
   readonly earnedPoints: Prisma.FieldRef<"AttemptQuestion", 'Float'>
   readonly maxPoints: Prisma.FieldRef<"AttemptQuestion", 'Float'>
   readonly flagged: Prisma.FieldRef<"AttemptQuestion", 'Boolean'>
   readonly locked: Prisma.FieldRef<"AttemptQuestion", 'Boolean'>
+  readonly visited: Prisma.FieldRef<"AttemptQuestion", 'Boolean'>
+  readonly hasSeenFeedback: Prisma.FieldRef<"AttemptQuestion", 'Boolean'>
   readonly timeSpentSeconds: Prisma.FieldRef<"AttemptQuestion", 'Int'>
   readonly answeredAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>
