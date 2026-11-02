@@ -86,11 +86,11 @@ export type RuntimeState = {
 
   // Gameplay
   progress: RuntimeProgress;
-  timer: RuntimeTimerState ;
+  // timer: RuntimeTimerState ;
 
   // Feedback and final submission
-  feedback: RuntimeFeedbackState;
-  submission: RuntimeSubmissionState;
+  // feedback: RuntimeFeedbackState;
+  // submission: RuntimeSubmissionState;
 
   // Server synchronization
   persistence: RuntimePersistenceState;
@@ -140,8 +140,7 @@ export interface RuntimeActions {
   setProgress(progress: Partial<RuntimeProgress>): void;
   recalculateProgress(): void;
 
-  // Persistence
-  // set{ersistence
+ timeoutQuestion: (questionId: string, timedOutAt: number) => void;
 
   // Loading and errors
   setError(error: RuntimeError | null): void;
@@ -159,14 +158,14 @@ export type RuntimeStore = RuntimeState & RuntimeActions;
 
 export const defaultRuntimeProgress: RuntimeProgress = {
   currentQuestionIndex: 0,
-  totalQuestions: 0,
-  answeredQuestions: 0,
-  correctAnswers: 0,
-  skippedQuestions: 0,
-  score: 0,
-  totalPoints: 0,
-  elapsedSeconds: 0,
-  remainingSeconds: null,
+  // totalQuestions: 0,
+  // answeredQuestions: 0,
+  // correctAnswers: 0,
+  // skippedQuestions: 0,
+  // score: 0,
+  // totalPoints: 0,
+  // elapsedSeconds: 0,
+  // remainingSeconds: null,
 };
 
 export const defaultRuntimeTimer: RuntimeTimerState = {
@@ -229,10 +228,10 @@ export const defaultRuntimeState: RuntimeState = {
   questions: [],
 
   progress: { ...defaultRuntimeProgress },
-  timer: { ...defaultRuntimeTimer },
+  // timer: { ...defaultRuntimeTimer },
 
-  feedback: { ...defaultRuntimeFeedback },
-  submission: { ...defaultRuntimeSubmission },
+  // feedback: { ...defaultRuntimeFeedback },
+  // submission: { ...defaultRuntimeSubmission },
 
   persistence: { ...defaultRuntimePersistence },
 

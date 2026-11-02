@@ -53,7 +53,7 @@ export default function QuestionContainer() {
 )}
 
         <div className="relative z-10 flex min-w-0 flex-col gap-4">
-          <QuestionMeta type={question.type} />
+          <QuestionMeta runtimeQuestion={runtimeCurrentQuestion}  />
 
           <QuestionTitle
             questionNumber={currentQuestionIndex + 1}

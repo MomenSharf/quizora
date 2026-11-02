@@ -41,17 +41,7 @@ export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
 }>;
 
 const DEFAULT_SETTINGS: QuizAttemptRuntime["settings"] = {
-  version: 1,
-  navigation: "SEQUENTIAL",
-  allowSkip: true,
-  allowQuestionRetry: false,
-  allowAnswerChange: true,
-  questionTimerEnabled: false,
-  defaultQuestionTimeLimit: null,
-  totalTimerEnabled: false,
-  totalTimeLimitSeconds: null,
-  resultVisibility: "IMMEDIATE",
-  scoreVisibility: "ALWAYS",
+  timeLimitSeconds: 300,
   showExplanations: true,
   shuffleQuestions: false,
   shuffleAnswers: false,
@@ -86,51 +76,12 @@ function getSettings(value: Prisma.JsonValue): QuizAttemptRuntime["settings"] {
 
   return {
     ...DEFAULT_SETTINGS,
-    version: 1,
-    navigation: settings.navigation === "FREE" ? "FREE" : "SEQUENTIAL",
-    allowSkip:
-      typeof settings.allowSkip === "boolean"
-        ? settings.allowSkip
-        : DEFAULT_SETTINGS.allowSkip,
-    allowQuestionRetry:
-      typeof settings.allowQuestionRetry === "boolean"
-        ? settings.allowQuestionRetry
-        : DEFAULT_SETTINGS.allowQuestionRetry,
-    allowAnswerChange:
-      typeof settings.allowAnswerChange === "boolean"
-        ? settings.allowAnswerChange
-        : DEFAULT_SETTINGS.allowAnswerChange,
-    questionTimerEnabled:
-      typeof settings.questionTimerEnabled === "boolean"
-        ? settings.questionTimerEnabled
-        : DEFAULT_SETTINGS.questionTimerEnabled,
-    defaultQuestionTimeLimit:
-      typeof settings.defaultQuestionTimeLimit === "number"
-        ? settings.defaultQuestionTimeLimit
+
+    timeLimitSeconds:
+      typeof settings.timeLimitSeconds === "number"
+        ? settings.timeLimitSeconds
         : null,
-    totalTimerEnabled:
-      typeof settings.totalTimerEnabled === "boolean"
-        ? settings.totalTimerEnabled
-        : DEFAULT_SETTINGS.totalTimerEnabled,
-    totalTimeLimitSeconds:
-      typeof settings.totalTimeLimitSeconds === "number"
-        ? settings.totalTimeLimitSeconds
-        : null,
-    resultVisibility:
-      settings.resultVisibility === "AFTER_SUBMISSION" ||
-      settings.resultVisibility === "HIDDEN"
-        ? settings.resultVisibility
-        : settings.resultVisibility === "IMMEDIATE"
-          ? "IMMEDIATE"
-          : DEFAULT_SETTINGS.resultVisibility,
-    scoreVisibility:
-      settings.scoreVisibility === "AFTER_QUESTION" ||
-      settings.scoreVisibility === "AFTER_SUBMISSION" ||
-      settings.scoreVisibility === "HIDDEN"
-        ? settings.scoreVisibility
-        : settings.scoreVisibility === "ALWAYS"
-          ? "ALWAYS"
-          : DEFAULT_SETTINGS.scoreVisibility,
+
     showExplanations:
       typeof settings.showExplanations === "boolean"
         ? settings.showExplanations
@@ -263,44 +214,6 @@ function getEvaluation(
   };
 }
 
-// function getQuestionSnapshot(
-//   value: Prisma.JsonValue,
-// ): RuntimeQuestion["question"] {
-//   if (!value || typeof value !== "object" || Array.isArray(value)) {
-//     throw new Error("Invalid question snapshot");
-//   }
-
-//   const snapshot = value as Record<string, Prisma.JsonValue>;
-
-//   if (typeof snapshot.id !== "string" || typeof snapshot.title !== "string") {
-//     throw new Error("Question snapshot is missing required fields");
-//   }
-
-//   return {
-//     id: snapshot.id,
-//     quizId: typeof snapshot.quizId === "string" ? snapshot.quizId : "",
-//     type: snapshot.type as RuntimeQuestion["question"]["type"],
-//     title: snapshot.title,
-//     explanation:
-//       typeof snapshot.explanation === "string" ? snapshot.explanation : null,
-//     points: typeof snapshot.points === "number" ? snapshot.points : 1,
-//     order: typeof snapshot.order === "number" ? snapshot.order : 0,
-//     imageId: typeof snapshot.imageid === "string" ? snapshot.imageid : null,
-//     image: null,
-//     tags: Array.isArray(snapshot.tags)
-//       ? snapshot.tags.filter((tag): tag is string => typeof tag === "string")
-//       : ["general"],
-//     difficulty:
-//       snapshot.difficulty === "EASY" || snapshot.difficulty === "HARD"
-//         ? snapshot.difficulty
-//         : "MEDIUM",
-//     content: snapshot.content ?? {},
-//     config: snapshot.config ?? {},
-//     version: typeof snapshot.version === "number" ? snapshot.version : 1,
-//     createdAt: new Date(0),
-//     updatedAt: new Date(0),
-//   };
-// }
 function getQuestionSnapshot(
   value: Prisma.JsonValue,
 ): RuntimeQuestion["question"] {
@@ -446,12 +359,16 @@ function mapQuestion(
     orderIndex: question.orderIndex,
     question: getQuestionSnapshot(question.questionSnapshot),
     status: question.status,
-    answer: getAnswer(question.response),
+    answer: getAnswer(question.answer),
     evaluation: getEvaluation(question.evaluation),
     earnedPoints: question.earnedPoints,
     maxPoints: question.maxPoints,
+    visited: question.visited ?? false,
     flagged: question.flagged ?? false,
     locked: question.locked ?? false,
+    startedAt: question.startedAt?.getTime() ?? null,
+    deadlineAt: question.deadlineAt?.getTime() ?? null,
+    isQuestionTimerRunning: question.isQuestionTimerRunning ?? false,
     hasSeenFeedback: false,
     timeSpentSeconds: question.timeSpentSeconds,
     answeredAt: question.answeredAt?.getTime() ?? null,
@@ -484,15 +401,20 @@ function getQuizSnapshot(snapshot: Prisma.JsonValue | undefined): QuizSnapshot {
   };
 }
 export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
-  const settings = getSettings(attempt.settings);
+  const settings = getSettings({
+    timeLimitSeconds: attempt.timeLimitSeconds,
+    showExplanations: attempt.showExplanations,
+    shuffleQuestions: attempt.shuffleQuestions,
+    shuffleAnswers: attempt.shuffleAnswers,
+  });
 
   const questions = [...attempt.questions]
     .sort((a, b) => a.orderIndex - b.orderIndex)
     .map(mapQuestion);
 
   const remainingSeconds =
-    settings.totalTimerEnabled && settings.totalTimeLimitSeconds !== null
-      ? Math.max(0, settings.totalTimeLimitSeconds - attempt.elapsedSeconds)
+    settings.timeLimitSeconds !== null
+      ? Math.max(0, settings.timeLimitSeconds - attempt.elapsedSeconds)
       : null;
 
   return {
@@ -501,32 +423,26 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
     quizSnapshot: getQuizSnapshot(attempt.quizSnapshot),
 
     environment: attempt.environment,
+    mode: attempt.mode,
     settings,
     status: attempt.status,
     phase: attempt.phase || "READY",
     questions,
     progress: {
       currentQuestionIndex: attempt.currentQuestionIndex,
-      totalQuestions: attempt.totalQuestions,
-      answeredQuestions: attempt.answeredQuestions,
-      correctAnswers: attempt.correctAnswers,
-      skippedQuestions: questions.filter(
-        (question) => question.status === "SKIPPED",
-      ).length,
-      score: attempt.score,
-      totalPoints: attempt.totalPoints,
-      elapsedSeconds: attempt.elapsedSeconds,
-      remainingSeconds,
+      // totalQuestions: attempt.totalQuestions,
+      // answeredQuestions: attempt.answeredQuestions,
+      // correctAnswers: attempt.correctAnswers,
+      // skippedQuestions: questions.filter(
+      //   (question) => question.status === "SKIPPED",
+      // ).length,
+      // score: attempt.score,
+      // totalPoints: attempt.totalPoints,
+      // elapsedSeconds: attempt.elapsedSeconds,
+      // remainingSeconds,
     },
-    timer: {
-      questionStartedAt: null,
-      questionDeadlineAt: null,
-      attemptDeadlineAt: attempt.expiresAt?.getTime() ?? null,
-      isQuestionTimerRunning: false,
-      isAttemptTimerRunning: false,
-    },
-    startedAt: attempt.startedAt.getTime(),
-    lastActivityAt: attempt.lastActivityAt.getTime(),
+    startedAt: attempt.startedAt.getTime() ?? null,
+    lastActivityAt: attempt.lastActivityAt.getTime() ?? null,
     pausedAt: attempt.pausedAt?.getTime() ?? null,
     completedAt: attempt.completedAt?.getTime() ?? null,
     expiresAt: attempt.expiresAt?.getTime() ?? null,

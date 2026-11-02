@@ -580,7 +580,7 @@ export type QuizAttemptScalarWhereWithAggregatesInput = {
 
 export type QuizAttemptCreateInput = {
   id?: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -614,7 +614,7 @@ export type QuizAttemptUncheckedCreateInput = {
   id?: string
   userId: string
   quizId: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -710,7 +710,7 @@ export type QuizAttemptCreateManyInput = {
   id?: string
   userId: string
   quizId: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -1049,7 +1049,7 @@ export type QuizAttemptUpdateOneRequiredWithoutQuestionsNestedInput = {
 
 export type QuizAttemptCreateWithoutUserInput = {
   id?: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -1081,7 +1081,7 @@ export type QuizAttemptCreateWithoutUserInput = {
 export type QuizAttemptUncheckedCreateWithoutUserInput = {
   id?: string
   quizId: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -1171,7 +1171,7 @@ export type QuizAttemptScalarWhereInput = {
 
 export type QuizAttemptCreateWithoutQuizInput = {
   id?: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -1203,7 +1203,7 @@ export type QuizAttemptCreateWithoutQuizInput = {
 export type QuizAttemptUncheckedCreateWithoutQuizInput = {
   id?: string
   userId: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -1259,7 +1259,7 @@ export type QuizAttemptUpdateManyWithWhereWithoutQuizInput = {
 
 export type QuizAttemptCreateWithoutQuestionsInput = {
   id?: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -1292,7 +1292,7 @@ export type QuizAttemptUncheckedCreateWithoutQuestionsInput = {
   id?: string
   userId: string
   quizId: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -1400,7 +1400,7 @@ export type QuizAttemptUncheckedUpdateWithoutQuestionsInput = {
 export type QuizAttemptCreateManyUserInput = {
   id?: string
   quizId: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase
@@ -1522,7 +1522,7 @@ export type QuizAttemptUncheckedUpdateManyWithoutUserInput = {
 export type QuizAttemptCreateManyQuizInput = {
   id?: string
   userId: string
-  mode: $Enums.QuizAttemptMode
+  mode?: $Enums.QuizAttemptMode
   environment?: $Enums.RuntimeEnvironment
   status?: $Enums.QuizAttemptStatus
   phase?: $Enums.QuizAttemptPhase

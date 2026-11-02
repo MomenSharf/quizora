@@ -217,6 +217,8 @@ export const useRuntimeActions = () =>
       setAnswerEvaluation: state.setAnswerEvaluation,
       submitPracticeAnswer: state.submitPracticeAnswer,
 
+      timeoutQuestion: state.timeoutQuestion,
+
       markFeedbackAsSeen: state.markFeedbackAsSeen,
 
       setProgress: state.setProgress,

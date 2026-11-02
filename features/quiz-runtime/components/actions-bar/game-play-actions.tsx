@@ -188,7 +188,6 @@ export default function GamePlayActions({
                   className={cn(
                     "h-10 gap-1.5 rounded-xl px-2.5 text-muted-foreground",
                     "hover:bg-muted hover:text-foreground",
-                    isFirstQuestion && "invisible",
                   )}
                 >
                   <IconArrowLeft className="size-4" />

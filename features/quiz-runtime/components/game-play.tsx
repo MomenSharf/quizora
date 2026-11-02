@@ -1,6 +1,11 @@
 "use client";
 
-import { useRuntime, useRuntimeActions, useRuntimeCurrentQuestion, useRuntimePhase } from "../store";
+import {
+  useRuntime,
+  useRuntimeActions,
+  useRuntimeCurrentQuestion,
+  useRuntimePhase,
+} from "../store";
 import { QuizAttemptRuntime } from "../types/runtime-types";
 import GamePlayActions from "./actions-bar/game-play-actions";
 import GameplayPhaseRouter from "./gameplay-phase-router";
@@ -23,9 +28,10 @@ export default function Gameplay({ attempt }: GameplayLayoutProps) {
 
 function GameplayContent() {
   const phase = useRuntimePhase();
-  const { quizSnapshot, questionCount , } = useRuntime();
-  const { startAttempt , submitPracticeAnswer} = useRuntimeActions();
-  const {runtimeCurrentQuestion} = useRuntimeCurrentQuestion()
+  const { quizSnapshot, questionCount } = useRuntime();
+  const { startAttempt, submitPracticeAnswer, completeAttempt } =
+    useRuntimeActions();
+  const { runtimeCurrentQuestion } = useRuntimeCurrentQuestion();
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
@@ -49,13 +55,18 @@ function GameplayContent() {
             }
             question={<QuestionContainer />}
 
-            result={<div />}
+            result={<div> result </div>}
           />
         </div>
       </main>
 
       <footer className="shrink-0">
-        <GamePlayActions onSubmitAnswer={() => submitPracticeAnswer(runtimeCurrentQuestion.id)} />
+        <GamePlayActions
+          onSubmitAnswer={() => submitPracticeAnswer(runtimeCurrentQuestion.id)}
+          onFinishAttempt={() => {
+            completeAttempt(Date.now());
+          }}
+        />
       </footer>
     </div>
   );

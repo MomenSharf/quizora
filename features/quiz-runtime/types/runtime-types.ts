@@ -60,8 +60,9 @@ export type RuntimeSaveStatus =
 // Question state
 // --------------------------------------------------
 
-export type RuntimeQuestionStatus = "UNANSWERED" | "ANSWERED" | "SKIPPED";
-
+export type RuntimeQuestionStatus =
+  "UNANSWERED" | "ANSWERED" | "SKIPPED" | "TIMED_OUT";
+  
 export type RuntimeQuestion = {
   id: string;
   questionId: string | null;
@@ -80,6 +81,10 @@ export type RuntimeQuestion = {
   flagged: boolean;
   locked: boolean;
   visited: boolean;
+
+  startedAt: number | null;
+  deadlineAt: number | null;
+  isQuestionTimerRunning: boolean;
 
   timeSpentSeconds: number;
   answeredAt: number | null;
@@ -106,16 +111,16 @@ export type QuizSnapshot = {
 
 export type RuntimeProgress = {
   currentQuestionIndex: number;
-  totalQuestions: number;
-  answeredQuestions: number;
-  correctAnswers: number;
-  skippedQuestions: number;
+  // totalQuestions: number;
+  // answeredQuestions: number;
+  // correctAnswers: number;
+  // skippedQuestions: number;
 
-  score: number;
-  totalPoints: number;
+  // score: number;
+  // totalPoints: number;
 
-  elapsedSeconds: number;
-  remainingSeconds: number | null;
+  // elapsedSeconds: number;
+  // remainingSeconds: number | null;
 };
 
 // --------------------------------------------------
@@ -125,10 +130,10 @@ export type RuntimeProgress = {
 export type RuntimeTimerState = {
   questionStartedAt: number | null;
   questionDeadlineAt: number | null;
-  attemptDeadlineAt: number | null
+  attemptDeadlineAt: number | null;
   isQuestionTimerRunning: boolean;
   isAttemptTimerRunning: boolean;
-  enable: boolean
+  enable: boolean;
 };
 
 // --------------------------------------------------
@@ -150,7 +155,6 @@ export type QuizAttemptRuntime = {
   questions: RuntimeQuestion[];
 
   progress: RuntimeProgress;
-  timer: RuntimeTimerState ;
 
   startedAt: number | null;
   lastActivityAt: number | null;

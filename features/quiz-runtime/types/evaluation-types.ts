@@ -10,6 +10,7 @@ export type EvaluationOutcome =
   | "PARTIALLY_CORRECT"
   | "INCORRECT"
   | "UNANSWERED"
+  | "TIMEOUT"
   | "NOT_APPLICABLE";
 
 export type EvaluationVisibility = {
@@ -63,6 +64,7 @@ export type QuestionEvaluationInput = {
   questionId: string;
   answer: import("./answer-types").Answer | null;
   timeSpentSeconds: number;
+  isTimeout: boolean;
 };
 
 export type EvaluationPolicy = {

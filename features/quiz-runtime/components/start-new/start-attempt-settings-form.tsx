@@ -21,6 +21,8 @@ import type {
 } from "../../types/runtime-types";
 
 type StartAttemptSettingsFormProps = {
+  mode: SessionMode;
+  onModeChange: (settings: SessionMode) => void;
   settings: AttemptSettings;
   onSettingsChange: (settings: AttemptSettings) => void;
   onStart: () => void | Promise<void>;
@@ -29,6 +31,8 @@ type StartAttemptSettingsFormProps = {
 };
 
 export function StartAttemptSettingsForm({
+  mode,
+  onModeChange,
   settings,
   onSettingsChange,
   onStart,
@@ -46,10 +50,7 @@ export function StartAttemptSettingsForm({
   };
 
   const selectmode = (mode: SessionMode) => {
-    onSettingsChange({
-      ...settings,
-      mode,
-    });
+    onModeChange(mode);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -97,7 +98,7 @@ export function StartAttemptSettingsForm({
     },
   ];
 
-  const isTimed = settings.mode === "TIMED";
+  const isTimed = mode === "TIMED";
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto w-full max-w-md">
@@ -110,7 +111,7 @@ export function StartAttemptSettingsForm({
 
           <div className="grid grid-cols-3 gap-2">
             {sessionOptions.map((option) => {
-              const active = settings.mode === option.value;
+              const active = mode === option.value;
 
               return (
                 <button
@@ -143,7 +144,7 @@ export function StartAttemptSettingsForm({
           </div>
 
           <motion.div
-            key={settings.mode}
+            key={mode}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-3 flex items-start gap-2 rounded-lg bg-muted/50 px-3 py-2.5"
@@ -151,13 +152,13 @@ export function StartAttemptSettingsForm({
             <Sparkles className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
 
             <p className="text-xs leading-relaxed text-muted-foreground">
-              {settings.mode === "STANDARD" &&
+              {mode === "STANDARD" &&
                 "Standard gameplay. No review or time limit is enabled."}
 
-              {settings.mode === "REVIEW" &&
+              {mode === "REVIEW" &&
                 "Review is enabled. You'll check your answers before submitting."}
 
-              {settings.mode === "TIMED" &&
+              {mode === "TIMED" &&
                 "Timed gameplay. Complete the quiz within your selected time limit."}
             </p>
           </motion.div>

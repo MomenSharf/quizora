@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 
 import { startAttempt } from "../../actions/start-attempt";
-import type { AttemptSettings } from "../../types/runtime-types";
+import type { AttemptSettings, SessionMode } from "../../types/runtime-types";
 import { StartAttemptSettingsForm } from "./start-attempt-settings-form";
 
 type StartNewPageProps = {
@@ -20,7 +20,6 @@ type StartNewPageProps = {
 };
 
 const DEFAULT_SETTINGS: AttemptSettings = {
-  mode: "STANDARD",
   timeLimitSeconds: 300,
   showExplanations: true,
   shuffleQuestions: false,
@@ -35,6 +34,7 @@ export default function StartAttemptPage({
   const router = useRouter();
 
   const [settings, setSettings] = useState<AttemptSettings>(DEFAULT_SETTINGS);
+  const [mode, setMode ] = useState<SessionMode>('STANDARD')
 
   const [isStarting, setIsStarting] = useState(false);
 
@@ -47,6 +47,7 @@ export default function StartAttemptPage({
       const res = await startAttempt({
         quizId,
         settings,
+        mode
       });
 
       if (res.error) {
@@ -114,6 +115,8 @@ export default function StartAttemptPage({
         >
           <StartAttemptSettingsForm
             questionCount={questionCount}
+            mode={mode}
+            onModeChange={setMode}
             settings={settings}
             onSettingsChange={setSettings}
             onStart={handleStart}
