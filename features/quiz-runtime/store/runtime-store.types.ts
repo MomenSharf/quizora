@@ -84,13 +84,9 @@ export type RuntimeState = {
   // Quiz content
   questions: RuntimeQuestion[];
 
-  // Gameplay
-  progress: RuntimeProgress;
-  // timer: RuntimeTimerState ;
+  currentQuestionIndex: number;
 
-  // Feedback and final submission
-  // feedback: RuntimeFeedbackState;
-  // submission: RuntimeSubmissionState;
+  isReviewOpen: boolean;
 
   // Server synchronization
   persistence: RuntimePersistenceState;
@@ -136,11 +132,7 @@ export interface RuntimeActions {
 
   markFeedbackAsSeen: (questionId: string) => void;
 
-  // Progress and scoring
-  setProgress(progress: Partial<RuntimeProgress>): void;
-  recalculateProgress(): void;
-
- timeoutQuestion: (questionId: string, timedOutAt: number) => void;
+  timeoutQuestion: (questionId: string, timedOutAt: number) => void;
 
   // Loading and errors
   setError(error: RuntimeError | null): void;
@@ -156,25 +148,13 @@ export type RuntimeStore = RuntimeState & RuntimeActions;
 // Default state
 // --------------------------------------------------
 
-export const defaultRuntimeProgress: RuntimeProgress = {
-  currentQuestionIndex: 0,
-  // totalQuestions: 0,
-  // answeredQuestions: 0,
-  // correctAnswers: 0,
-  // skippedQuestions: 0,
-  // score: 0,
-  // totalPoints: 0,
-  // elapsedSeconds: 0,
-  // remainingSeconds: null,
-};
-
 export const defaultRuntimeTimer: RuntimeTimerState = {
   questionStartedAt: null,
   questionDeadlineAt: null,
   attemptDeadlineAt: null,
   isQuestionTimerRunning: false,
   isAttemptTimerRunning: false,
-  enable: false
+  enable: false,
 };
 
 export const defaultRuntimeFeedback: RuntimeFeedbackState = {
@@ -201,8 +181,8 @@ export const defaultRuntimePersistence: RuntimePersistenceState = {
 export const defaultRuntimeState: RuntimeState = {
   attemptId: null,
   quizId: null,
-  
-  mode: 'STANDARD',
+
+  mode: "STANDARD",
 
   quizSnapshot: {
     title: null,
@@ -227,11 +207,9 @@ export const defaultRuntimeState: RuntimeState = {
 
   questions: [],
 
-  progress: { ...defaultRuntimeProgress },
-  // timer: { ...defaultRuntimeTimer },
+  currentQuestionIndex: 0,
 
-  // feedback: { ...defaultRuntimeFeedback },
-  // submission: { ...defaultRuntimeSubmission },
+  isReviewOpen: false,
 
   persistence: { ...defaultRuntimePersistence },
 

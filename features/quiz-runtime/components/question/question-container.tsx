@@ -21,6 +21,8 @@ export default function QuestionContainer() {
 
   const showResultAnimation =
     showFeedback && !runtimeCurrentQuestion.hasSeenFeedback;
+  
+    
 
   const imageSrc = question.image?.url ?? "/assets/images/login-image.jpg";
   const onAnimationComplete = () =>
@@ -41,7 +43,7 @@ export default function QuestionContainer() {
       )}
 
       <div className="relative isolate order-2 flex min-w-0 flex-col gap-4">
-  {showResultAnimation && evaluation && (
+  {showResultAnimation && (evaluation) && (
   <>
     <QuestionResultFlash
       outcome={evaluation.outcome}

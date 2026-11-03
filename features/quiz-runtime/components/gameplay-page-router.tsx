@@ -2,58 +2,66 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import type { ReactNode } from "react";
-import type { RuntimePhase } from "../types/runtime-types";
 
-type GameplayPhaseRouterProps = {
-  phase: RuntimePhase;
+type GameplayPageRouterProps = {
+  isReady: boolean;
+  isReviewOpen: boolean;
+  isCompleted: boolean;
+
   ready: ReactNode;
-  question: ReactNode;
+  gameplay: ReactNode;
+  review: ReactNode;
   result: ReactNode;
 };
 
-const phaseVariants = {
+const pageVariants = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -5 },
 };
 
-const phaseTransition = {
+const pageTransition = {
   duration: 0.2,
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
-export default function GameplayPhaseRouter({
-  phase,
+export default function GameplayPageRouter({
+  isReady,
+  isReviewOpen,
+  isCompleted,
   ready,
-  question,
+  gameplay,
+  review,
   result,
-}: GameplayPhaseRouterProps) {
-  const screen =
-    phase === "READY"
-      ? "ready"
-      : phase === "RESULT"
+}: GameplayPageRouterProps) {
+  const page = isReady
+    ? "ready"
+    : isReviewOpen
+      ? "review"
+      : isCompleted
         ? "result"
-        : "question";
+        : "gameplay";
 
-  const content = {
+  const pages = {
     ready,
-    question,
+    gameplay,
+    review,
     result,
-  }[screen];
+  };
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col">
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={screen}
-          variants={phaseVariants}
+          key={page}
+          variants={pageVariants}
           initial="initial"
           animate="animate"
           exit="exit"
-          transition={phaseTransition}
+          transition={pageTransition}
           className="flex h-full min-h-0 flex-1 flex-col"
         >
-          {content}
+          {pages[page]}
         </motion.div>
       </AnimatePresence>
     </div>

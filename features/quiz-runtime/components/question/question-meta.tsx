@@ -84,6 +84,8 @@ export default function QuestionMeta({
     status,
   } = runtimeQuestion;
 
+  
+
   const timerEnabled = startedAt !== null && deadlineAt !== null;
 
   const timerActive =

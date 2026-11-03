@@ -49,6 +49,8 @@ export const quizRuntimeService = {
         0,
       );
 
+      
+
       const attempt = await tx.quizAttempt.create({
         data: {
           userId,

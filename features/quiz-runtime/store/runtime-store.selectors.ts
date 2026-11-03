@@ -13,6 +13,7 @@ export const useRuntime = () =>
       quizSnapshot: state.quizSnapshot,
       questionCount: state.questions.length,
       environment: state.environment,
+      mode: state.mode,
       settings: state.settings,
       status: state.status,
       phase: state.phase,
@@ -28,8 +29,7 @@ export const useRuntime = () =>
 export const useRuntimeCurrentQuestion = () =>
   useRuntimeStore(
     useShallow((state) => {
-      const { questions, progress } = state;
-      const { currentQuestionIndex } = progress;
+      const { questions, currentQuestionIndex } = state;
       const runtimeCurrentQuestion = questions[currentQuestionIndex] ?? null;
 
       return {
@@ -43,23 +43,17 @@ export function useRuntimeHeader() {
   return useRuntimeStore(
     useShallow((state) => ({
       title: state.quizSnapshot.title,
-      currentQuestionIndex: state.progress.currentQuestionIndex + 1,
+      currentQuestionIndex: state.currentQuestionIndex + 1,
       totalQuestions: state.questions.length,
       phase: state.phase,
     })),
   );
 }
 
-
 export function useRuntimeActionBar() {
-  const {
-    currentQuestionIndex,
-    questions,
-    status,
-    mode,
-  } = useRuntimeStore(
+  const { currentQuestionIndex, questions, status, mode } = useRuntimeStore(
     useShallow((state) => ({
-      currentQuestionIndex: state.progress.currentQuestionIndex,
+      currentQuestionIndex: state.currentQuestionIndex,
       questions: state.questions,
       status: state.status,
       mode: state.mode,
@@ -70,13 +64,11 @@ export function useRuntimeActionBar() {
 
   const isCompleted = status === "COMPLETED";
   const isAnswered = !!currentQuestion?.answer;
-  const isEvaluated =
-    currentQuestion?.evaluation?.status === "EVALUATED";
+  const isEvaluated = currentQuestion?.evaluation?.status === "EVALUATED";
   const isLocked = !!currentQuestion?.locked;
 
   const isFirstQuestion = currentQuestionIndex === 0;
-  const isLastQuestion =
-    currentQuestionIndex === questions.length - 1;
+  const isLastQuestion = currentQuestionIndex === questions.length - 1;
 
   const isReviewMode = mode === "REVIEW";
   const isTimerMode = mode === "TIMED";
@@ -89,7 +81,10 @@ export function useRuntimeActionBar() {
     if (isEvaluated) {
       actions = isLastQuestion ? ["FINISH"] : ["NEXT"];
     } else if (isAnswered) {
-      actions = ["SUBMIT", ...(isLastQuestion ? ["FINISH"] as const : ["NEXT"] as const ) ];
+      actions = [
+        "SUBMIT",
+        ...(isLastQuestion ? (["FINISH"] as const) : (["NEXT"] as const)),
+      ];
     } else {
       actions = isLastQuestion ? ["FINISH"] : ["PASS"];
     }
@@ -120,7 +115,32 @@ export function useRuntimeActionBar() {
   };
 }
 
+export function useReviewQuestions() {
+  return useRuntimeStore((state) => {
+    const questions = state.questions;
 
+    const allQuestions = questions;
+    const answeredQuestions = questions.filter(
+      (question) => question.status === "ANSWERED",
+    );
+    const unansweredQuestions = questions.filter(
+      (question) => question.status === "UNANSWERED",
+    );
+    const markedQuestions = questions.filter((question) => question.flagged);
+
+    return {
+      allQuestions,
+      answeredQuestions,
+      unansweredQuestions,
+      markedQuestions,
+
+      totalCount: allQuestions.length,
+      answeredCount: answeredQuestions.length,
+      unansweredCount: unansweredQuestions.length,
+      markedCount: markedQuestions.length,
+    };
+  });
+}
 
 // export function useRuntimeActionBar() {
 //   const { currentQuestionIndex, questions, status } = useRuntimeStore(
@@ -168,24 +188,6 @@ export function useRuntimeActionBar() {
 //   };
 // }
 
-export const useReviewQuestions = () => {
-  const { questions } = useRuntimeStore(
-    useShallow((state) => ({
-      questions: state.questions,
-    })),
-  );
-
-  const answeredQuestions = questions.filter((q) => Boolean(q.evaluation));
-  const unansweredQuestions = questions.filter((q) => q.evaluation === null);
-  const flaggedQuestions = questions.filter((q) => q.flagged)
-
-  return {
-    questions,
-    answeredQuestions,
-    unansweredQuestions,
-    flaggedQuestions
-  }
-};
 export const useRuntimePhase = () => useRuntimeStore((state) => state.phase);
 
 export const useRuntimeActions = () =>
@@ -220,9 +222,6 @@ export const useRuntimeActions = () =>
       timeoutQuestion: state.timeoutQuestion,
 
       markFeedbackAsSeen: state.markFeedbackAsSeen,
-
-      setProgress: state.setProgress,
-      recalculateProgress: state.recalculateProgress,
 
       setError: state.setError,
       clearError: state.clearError,

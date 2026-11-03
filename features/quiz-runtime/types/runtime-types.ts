@@ -62,7 +62,7 @@ export type RuntimeSaveStatus =
 
 export type RuntimeQuestionStatus =
   "UNANSWERED" | "ANSWERED" | "SKIPPED" | "TIMED_OUT";
-  
+
 export type RuntimeQuestion = {
   id: string;
   questionId: string | null;
@@ -111,16 +111,13 @@ export type QuizSnapshot = {
 
 export type RuntimeProgress = {
   currentQuestionIndex: number;
-  // totalQuestions: number;
-  // answeredQuestions: number;
-  // correctAnswers: number;
-  // skippedQuestions: number;
+  totalQuestions: number;
+  answeredQuestions: number;
+  correctAnswers: number;
+  skippedQuestions: number;
 
-  // score: number;
-  // totalPoints: number;
-
-  // elapsedSeconds: number;
-  // remainingSeconds: number | null;
+  score: number;
+  totalPoints: number;
 };
 
 // --------------------------------------------------
@@ -154,7 +151,7 @@ export type QuizAttemptRuntime = {
 
   questions: RuntimeQuestion[];
 
-  progress: RuntimeProgress;
+  currentQuestionIndex: number;
 
   startedAt: number | null;
   lastActivityAt: number | null;
@@ -168,23 +165,5 @@ export type QuizAttemptRuntime = {
 // --------------------------------------------------
 // Attempt summary
 // --------------------------------------------------
-
-export type AttemptSummary = {
-  id: string;
-  quizId: string;
-  quizTitle: string;
-
-  status: RuntimeStatus;
-
-  totalQuestions: number;
-  answeredQuestions: number;
-
-  score: number;
-  totalPoints: number;
-
-  startedAt: number;
-  lastActivityAt: number;
-  completedAt: number | null;
-};
 
 export type GameplayAction = "PASS" | "SUBMIT" | "NEXT" | "FINISH" | "RESULTS";

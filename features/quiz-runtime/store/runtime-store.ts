@@ -3,7 +3,7 @@ import { create } from "zustand";
 import {
   defaultRuntimePersistence,
   defaultRuntimeState,
-  type RuntimeStore
+  type RuntimeStore,
 } from "./runtime-store.types";
 
 import { evaluateQuestion } from "@/lib/utils/evaluate-question";
@@ -26,7 +26,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       attemptId: attempt.id,
       quizId: attempt.quizId,
       quizSnapshot: attempt.quizSnapshot,
-      mode: "STANDARD",
+      mode: attempt.mode,
       environment: attempt.environment,
       settings: attempt.settings,
       status: attempt.status,
@@ -37,7 +37,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       completedAt: attempt.completedAt,
       expiresAt: attempt.expiresAt,
       questions: attempt.questions,
-      progress: attempt.progress,
+      currentQuestionIndex: attempt.currentQuestionIndex,
 
       persistence: {
         ...defaultRuntimePersistence,
@@ -71,15 +71,15 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       lastActivityAt: startedAt,
       pausedAt: null,
       completedAt: null,
-      progress: {
-        ...state.progress,
-        currentQuestionIndex: 0,
-      },
+      currentQuestionIndex: 0,
       questions: state.questions.map((question, index) => {
         if (index !== 0) return question;
 
         const timeLimit = state.settings?.timeLimitSeconds;
-        const isTimed = typeof timeLimit === "number" && timeLimit > 0;
+        const isTimed =
+          state.mode === "TIMED" &&
+          typeof timeLimit === "number" &&
+          timeLimit > 0;
 
         return {
           ...question,
@@ -158,34 +158,36 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       }
 
       const now = Date.now();
+      const timeLimit = state.settings?.timeLimitSeconds;
+
+      const isTimed =
+        state.mode === "TIMED" &&
+        typeof timeLimit === "number" &&
+        timeLimit > 0;
 
       return {
-        progress: {
-          ...state.progress,
-          currentQuestionIndex: index,
-        },
+        currentQuestionIndex: index,
         phase: "QUESTION",
         questions: state.questions.map((question, questionIndex) => {
           if (questionIndex !== index) return question;
 
+          // Already visited: resume using the original deadline.
           if (question.startedAt !== null) {
+            const timerRunning =
+              isTimed &&
+              question.status === "UNANSWERED" &&
+              !question.locked &&
+              question.deadlineAt !== null &&
+              now < question.deadlineAt;
+
             return {
               ...question,
               visited: true,
-              isQuestionTimerRunning:
-                question.status === "UNANSWERED" &&
-                !question.locked &&
-                question.deadlineAt !== null &&
-                now < question.deadlineAt,
+              isQuestionTimerRunning: timerRunning,
             };
           }
 
-          const timeLimit = state.settings?.timeLimitSeconds;
-          const isTimed =
-            state.mode === "TIMED" &&
-            typeof timeLimit === "number" &&
-            timeLimit > 0;
-
+          // First visit: initialize the question timer.
           return {
             ...question,
             visited: true,
@@ -199,8 +201,8 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   },
 
   goToNextQuestion: () => {
-    const { progress, questions } = get();
-    const nextIndex = progress.currentQuestionIndex + 1;
+    const { currentQuestionIndex, questions } = get();
+    const nextIndex = currentQuestionIndex + 1;
 
     if (nextIndex >= questions.length) return;
 
@@ -208,7 +210,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   },
 
   goToPreviousQuestion: () => {
-    get().setCurrentQuestion(get().progress.currentQuestionIndex - 1);
+    get().setCurrentQuestion(get().currentQuestionIndex - 1);
   },
 
   goToQuestion: (index) => get().setCurrentQuestion(index),
@@ -240,8 +242,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
     set((state) => {
       return {
         questions: state.questions.map((question) => {
-          console.log(questionId);
-
           return question.id === questionId
             ? {
                 ...question,
@@ -322,59 +322,59 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
           : question,
       ),
     })),
-timeoutQuestion: (questionId, timedOutAt) =>
-  set((state) => {
-    const question = state.questions.find((item) => item.id === questionId);
+  timeoutQuestion: (questionId, timedOutAt) =>
+    set((state) => {
+      const question = state.questions.find((item) => item.id === questionId);
 
-    if (
-      !question ||
-      question.locked ||
-      question.status !== "UNANSWERED" ||
-      !question.isQuestionTimerRunning ||
-      question.deadlineAt === null ||
-      timedOutAt < question.deadlineAt
-    ) {
-      return state;
-    }
+      if (
+        !question ||
+        question.locked ||
+        question.status !== "UNANSWERED" ||
+        !question.isQuestionTimerRunning ||
+        question.deadlineAt === null ||
+        timedOutAt < question.deadlineAt
+      ) {
+        return state;
+      }
 
-    const timeSpent = question.startedAt
-      ? Math.floor((question.deadlineAt - question.startedAt) / 1000)
-      : question.timeSpentSeconds;
+      const timeSpent = question.startedAt
+        ? Math.floor((question.deadlineAt - question.startedAt) / 1000)
+        : question.timeSpentSeconds;
 
-    return {
-      lastActivityAt: timedOutAt,
-      questions: state.questions.map((item) =>
-        item.id === questionId
-          ? {
-              ...item,
-              status: "TIMED_OUT",
-              locked: true,
-              isQuestionTimerRunning: false,
-              timeSpentSeconds: Math.max(item.timeSpentSeconds, timeSpent),
-              evaluation: {
-                status: "EVALUATED",
-                outcome: "TIMEOUT",
-                isCorrect: false,
-                earnedPoints: 0,
-                maxPoints: item.maxPoints,
-                accuracy: 0,
-                feedback: null,
-                explanation: item.explanation ?? null,
-                explanationImage: item.explanationImage ?? null,
-                parts: [],
-                evaluatedAt: timedOutAt,
-                visibility: {
-                  showCorrectAnswer: true,
-                  showExplanation: true,
-                  showFeedback: false,
-                  showEarnedPoints: true,
+      return {
+        lastActivityAt: timedOutAt,
+        questions: state.questions.map((item) =>
+          item.id === questionId
+            ? {
+                ...item,
+                status: "TIMED_OUT",
+                locked: true,
+                isQuestionTimerRunning: false,
+                timeSpentSeconds: Math.max(item.timeSpentSeconds, timeSpent),
+                evaluation: {
+                  status: "EVALUATED",
+                  outcome: "TIMEOUT",
+                  isCorrect: false,
+                  earnedPoints: 0,
+                  maxPoints: item.maxPoints,
+                  accuracy: 0,
+                  feedback: null,
+                  explanation: item.question.explanation ?? null,
+                  explanationImage: item.question.explanationImage ?? null,
+                  parts: [],
+                  evaluatedAt: timedOutAt,
+                  visibility: {
+                    showCorrectAnswer: true,
+                    showExplanation: true,
+                    showFeedback: false,
+                    showEarnedPoints: true,
+                  },
                 },
-              },
-            }
-          : item,
-      ),
-    };
-  }),
+              }
+            : item,
+        ),
+      };
+    }),
 
   setQuestionStatus: (questionId: string, status: RuntimeQuestionStatus) =>
     set((state) => ({
@@ -382,54 +382,6 @@ timeoutQuestion: (questionId, timedOutAt) =>
         question.id === questionId ? { ...question, status } : question,
       ),
     })),
-
-  setProgress: (progress: Partial<RuntimeProgress>) =>
-    set((state) => ({
-      progress: {
-        ...state.progress,
-        ...progress,
-      },
-    })),
-
-  recalculateProgress: () =>
-    set((state) => {
-      const questions = state.questions;
-
-      const answeredQuestions = questions.filter(
-        (question) => question.status === "ANSWERED",
-      ).length;
-
-      const correctAnswers = questions.filter(
-        (question) => question.evaluation?.isCorrect === true,
-      ).length;
-
-      const skippedQuestions = questions.filter(
-        (question) => question.status === "SKIPPED",
-      ).length;
-
-      const totalPoints = questions.reduce(
-        (sum, question) => sum + question.maxPoints,
-        0,
-      );
-
-      const score = questions.reduce(
-        (sum, question) => sum + (question.evaluation?.earnedPoints ?? 0),
-        0,
-      );
-
-      return {
-        questions,
-        progress: {
-          ...state.progress,
-          answeredQuestions,
-          correctAnswers,
-          skippedQuestions,
-          score,
-          totalPoints,
-          totalQuestions: questions.length,
-        },
-      };
-    }),
 
   setError: (error) => set({ error }),
 

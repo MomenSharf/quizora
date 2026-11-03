@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -6,6 +7,7 @@ import {
   CircleX,
   MinusCircle,
   Trophy,
+  ClockAlert,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EvaluationResult } from "@/features/quiz-runtime/types/evaluation-types";
@@ -42,6 +44,13 @@ const variants = {
     className: "border-border bg-muted/40 text-muted-foreground",
     iconClassName: "bg-muted",
   },
+  TIMEOUT: {
+    title: "Time's up!",
+    icon: ClockAlert,
+    className:
+      "border-orange-500/20 bg-orange-500/[0.06] text-orange-600",
+    iconClassName: "bg-orange-500/10",
+  },
   NOT_APPLICABLE: {
     title: "Answer submitted",
     icon: MinusCircle,
@@ -61,9 +70,11 @@ const variants = {
 export default function QuestionFeedback({
   evaluation,
 }: QuestionFeedbackProps) {
+  const isTimeout = evaluation.outcome === "TIMEOUT";
+  const isEvaluated = evaluation.status === "EVALUATED";
+
   if (
-    evaluation.status !== "EVALUATED" ||
-    !evaluation.visibility.showFeedback
+    (!isEvaluated && !isTimeout) 
   ) {
     return null;
   }

@@ -228,7 +228,6 @@ function getQuestionSnapshot(
   }
 
   const questionImage = snapshot.image as ImageData | undefined;
-  console.log("snapp", snapshot.title);
 
   const base = {
     id: snapshot.id,
@@ -407,6 +406,7 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
     shuffleQuestions: attempt.shuffleQuestions,
     shuffleAnswers: attempt.shuffleAnswers,
   });
+  
 
   const questions = [...attempt.questions]
     .sort((a, b) => a.orderIndex - b.orderIndex)
@@ -428,19 +428,7 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
     status: attempt.status,
     phase: attempt.phase || "READY",
     questions,
-    progress: {
-      currentQuestionIndex: attempt.currentQuestionIndex,
-      // totalQuestions: attempt.totalQuestions,
-      // answeredQuestions: attempt.answeredQuestions,
-      // correctAnswers: attempt.correctAnswers,
-      // skippedQuestions: questions.filter(
-      //   (question) => question.status === "SKIPPED",
-      // ).length,
-      // score: attempt.score,
-      // totalPoints: attempt.totalPoints,
-      // elapsedSeconds: attempt.elapsedSeconds,
-      // remainingSeconds,
-    },
+    currentQuestionIndex: attempt.currentQuestionIndex,
     startedAt: attempt.startedAt.getTime() ?? null,
     lastActivityAt: attempt.lastActivityAt.getTime() ?? null,
     pausedAt: attempt.pausedAt?.getTime() ?? null,
