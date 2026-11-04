@@ -406,16 +406,10 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
     shuffleQuestions: attempt.shuffleQuestions,
     shuffleAnswers: attempt.shuffleAnswers,
   });
-  
 
   const questions = [...attempt.questions]
     .sort((a, b) => a.orderIndex - b.orderIndex)
     .map(mapQuestion);
-
-  const remainingSeconds =
-    settings.timeLimitSeconds !== null
-      ? Math.max(0, settings.timeLimitSeconds - attempt.elapsedSeconds)
-      : null;
 
   return {
     id: attempt.id,
@@ -427,6 +421,7 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
     settings,
     status: attempt.status,
     phase: attempt.phase || "READY",
+    currentView: "READY",
     questions,
     currentQuestionIndex: attempt.currentQuestionIndex,
     startedAt: attempt.startedAt.getTime() ?? null,

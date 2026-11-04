@@ -22,7 +22,7 @@ export default function GamePlayHeader({
   onSettingsClick,
   onExitClick,
 }: GamePlayHeaderProps) {
-  const { title,  currentQuestionIndex, totalQuestions, phase } =
+  const { title, currentQuestionIndex, totalQuestions, phase,currentView  } =
     useRuntimeHeader();
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -74,12 +74,12 @@ export default function GamePlayHeader({
           </span>
         </div>
 
-        <QuizProgress
+        { currentView === "REVIEW" ? <h1 className="font-bold">Review Questions</h1> : <QuizProgress
           phase={phase}
           currentQuestionIndex={currentQuestionIndex}
           totalQuestions={totalQuestions}
           progress={progress}
-        />
+        />}
 
         <div className="flex flex-1 items-center justify-end gap-1 sm:gap-1.5">
           <ThemeToggle />

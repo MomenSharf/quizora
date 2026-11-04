@@ -48,6 +48,9 @@ export type AttemptSettings = {
 // Runtime lifecycle
 // --------------------------------------------------
 
+export type RuntimeView =
+  "READY" | "QUESTION" | "SETTINGS" | "REVIEW" | "RESULTS";
+
 export type RuntimePhase = "READY" | "QUESTION" | "PAUSED" | "RESULT";
 
 export type RuntimeStatus =
@@ -148,6 +151,8 @@ export type QuizAttemptRuntime = {
 
   status: RuntimeStatus;
   phase: RuntimePhase;
+
+  currentView: RuntimeView;
 
   questions: RuntimeQuestion[];
 

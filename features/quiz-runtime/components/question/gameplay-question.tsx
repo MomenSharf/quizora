@@ -7,7 +7,7 @@ import QuestionResultFlash from "./question-result-flash";
 import QuestionResultToast from "./question-result-toast";
 import QuestionTitle from "./question-title";
 
-export default function QuestionContainer() {
+export default function GameplayQuestion() {
   const { runtimeCurrentQuestion, currentQuestionIndex } =
     useRuntimeCurrentQuestion();
 

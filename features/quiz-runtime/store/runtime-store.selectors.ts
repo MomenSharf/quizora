@@ -4,6 +4,7 @@ import { useShallow } from "zustand/react/shallow";
 
 import { useRuntimeStore } from "./runtime-store";
 import { GameplayAction } from "../types/runtime-types";
+import { useMemo } from "react";
 
 export const useRuntime = () =>
   useRuntimeStore(
@@ -17,6 +18,7 @@ export const useRuntime = () =>
       settings: state.settings,
       status: state.status,
       phase: state.phase,
+      currentView: state.currentView,
       startedAt: state.startedAt,
       lastActivityAt: state.lastActivityAt,
       pausedAt: state.pausedAt,
@@ -46,6 +48,7 @@ export function useRuntimeHeader() {
       currentQuestionIndex: state.currentQuestionIndex + 1,
       totalQuestions: state.questions.length,
       phase: state.phase,
+      currentView: state.currentView
     })),
   );
 }
@@ -116,77 +119,33 @@ export function useRuntimeActionBar() {
 }
 
 export function useReviewQuestions() {
-  return useRuntimeStore((state) => {
-    const questions = state.questions;
+  const questions = useRuntimeStore((state) => state.questions);
 
+  return useMemo(() => {
     const allQuestions = questions;
-    const answeredQuestions = questions.filter(
-      (question) => question.status === "ANSWERED",
+
+    const answeredQuestions = allQuestions.filter(
+      (q) => q.status === "ANSWERED",
     );
-    const unansweredQuestions = questions.filter(
-      (question) => question.status === "UNANSWERED",
+
+    const unansweredQuestions = allQuestions.filter(
+      (q) => q.status === "UNANSWERED" || q.status === "TIMED_OUT",
     );
-    const markedQuestions = questions.filter((question) => question.flagged);
+
+    const markedQuestions = allQuestions.filter((q) => q.flagged);
 
     return {
       allQuestions,
       answeredQuestions,
       unansweredQuestions,
       markedQuestions,
-
       totalCount: allQuestions.length,
       answeredCount: answeredQuestions.length,
       unansweredCount: unansweredQuestions.length,
       markedCount: markedQuestions.length,
     };
-  });
+  }, [questions]);
 }
-
-// export function useRuntimeActionBar() {
-//   const { currentQuestionIndex, questions, status } = useRuntimeStore(
-//     useShallow((state) => ({
-//       currentQuestionIndex: state.progress.currentQuestionIndex,
-//       questions: state.questions,
-//       status: state.status,
-//     })),
-//   );
-
-//   const currentQuestion = questions[currentQuestionIndex];
-
-//   const isCompleted = status === "COMPLETED";
-//   const isAnswered = !!currentQuestion?.answer;
-//   const isEvaluated = currentQuestion?.evaluation?.status === "EVALUATED";
-
-//   const isFirstQuestion = currentQuestionIndex === 0;
-//   const isLastQuestion = currentQuestionIndex === questions.length - 1;
-
-//   const actions: GameplayAction[] = isCompleted
-//     ? ["RESULTS"]
-//     : !isAnswered
-//       ? isLastQuestion
-//         ? ["FINISH"]
-//         : ["PASS"]
-//       : !isEvaluated
-//         ? isLastQuestion
-//           ? ["SUBMIT", "FINISH"]
-//           : ["SUBMIT", "NEXT"]
-//         : isLastQuestion
-//           ? ["FINISH"]
-//           : ["NEXT"];
-
-//   return {
-//     currentQuestionId: currentQuestion?.id ?? null,
-//     isFirstQuestion,
-//     isLastQuestion,
-//     isAnswered,
-//     isEvaluated,
-//     isFlagged: currentQuestion?.flagged ?? false,
-//     isLocked: currentQuestion?.locked ?? false,
-//     isCompleted,
-//     answer: currentQuestion?.answer ?? null,
-//     actions,
-//   };
-// }
 
 export const useRuntimePhase = () => useRuntimeStore((state) => state.phase);
 
@@ -199,6 +158,7 @@ export const useRuntimeActions = () =>
 
       setStatus: state.setStatus,
       setPhase: state.setPhase,
+      setCurrentView: state.setCurrentView,
       startAttempt: state.startAttempt,
       pauseAttempt: state.pauseAttempt,
       resumeAttempt: state.resumeAttempt,

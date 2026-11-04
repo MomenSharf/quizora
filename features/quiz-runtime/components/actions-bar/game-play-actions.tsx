@@ -15,20 +15,16 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import {
+  useRuntime,
   useRuntimeActionBar,
   useRuntimeActions,
   useRuntimePhase,
 } from "../../store";
 
-import type { GameplayAction } from "../../types/runtime-types";
-
-type GamePlayActionsProps = {
-  onOpenQuestionList?: () => void;
-  onSubmitAnswer?: () => void;
-  onFinishAttempt?: () => void;
-  onOpenResults?: () => void;
-  disabled?: boolean;
-};
+import type {
+  GameplayAction,
+  RuntimeQuestion,
+} from "../../types/runtime-types";
 
 type ActionConfig = {
   label: string;
@@ -78,13 +74,11 @@ const footerTransition = {
 const BLOCKED_PHASES = ["SUBMITTING", "PAUSED", "FINISHED"] as const;
 
 export default function GamePlayActions({
-  onOpenQuestionList,
-  onSubmitAnswer,
-  onFinishAttempt,
-  onOpenResults,
-  disabled = false,
-}: GamePlayActionsProps) {
-  const phase = useRuntimePhase();
+  runtimeCurrentQuestion,
+}: {
+  runtimeCurrentQuestion: RuntimeQuestion;
+}) {
+  const { phase, currentView } = useRuntime();
 
   const {
     mode,
@@ -99,14 +93,23 @@ export default function GamePlayActions({
   const { goToNextQuestion, goToPreviousQuestion, toggleQuestionFlag } =
     useRuntimeActions();
 
-  const isReady = phase === "READY";
-  const isResult = phase === "RESULT";
+  const isReady = currentView === "READY";
+  const isResult = currentView === "RESULTS";
 
   const isPhaseBlocked = BLOCKED_PHASES.includes(
     phase as (typeof BLOCKED_PHASES)[number],
   );
 
-  const isDisabled = disabled || isPhaseBlocked || isCompleted;
+  const isDisabled = isPhaseBlocked || isCompleted;
+
+  const { submitPracticeAnswer, setCurrentView } = useRuntimeActions();
+
+  const onSubmitAnswer = () => {
+    submitPracticeAnswer(runtimeCurrentQuestion.id);
+  };
+
+  const onFinish = () => {};
+  const onOpenResults = () => {};
 
   const handleAction = (action: GameplayAction) => {
     if (isDisabled) return;
@@ -119,37 +122,20 @@ export default function GamePlayActions({
 
       case "SUBMIT":
         if (!isLocked) {
-          onSubmitAnswer?.();
+          onSubmitAnswer();
         }
         break;
 
       case "FINISH":
-        onFinishAttempt?.();
+        onFinish();
         break;
 
       case "RESULTS":
-        onOpenResults?.();
+        onOpenResults();
         break;
     }
   };
 
-  const isActionDisabled = (action: GameplayAction) => {
-    if (isDisabled) return true;
-
-    switch (action) {
-      case "SUBMIT":
-        return isLocked || !onSubmitAnswer;
-
-      case "FINISH":
-        return !onFinishAttempt;
-
-      case "RESULTS":
-        return !onOpenResults;
-
-      default:
-        return false;
-    }
-  };
 
   return (
     <footer className="relative z-20 border-t border-border/60 bg-background/95 backdrop-blur-xl">
@@ -237,8 +223,8 @@ export default function GamePlayActions({
                       type="button"
                       variant="ghost"
                       size="sm"
-                      onClick={onOpenQuestionList}
-                      disabled={isDisabled || !onOpenQuestionList}
+                      onClick={() => setCurrentView('REVIEW')}
+                      // disabled={isDisabled || !onOpenQuestionList}
                       aria-label="Open question overview"
                       className="h-10 gap-1.5 rounded-xl px-2.5 text-muted-foreground hover:bg-muted hover:text-foreground"
                     >
@@ -270,7 +256,6 @@ export default function GamePlayActions({
                         type="button"
                         variant={config.variant}
                         onClick={() => handleAction(action)}
-                        disabled={isActionDisabled(action)}
                         className={cn(
                           "h-10 gap-2 rounded-xl px-3 font-medium",
                           "text-xs sm:px-4 sm:text-sm",

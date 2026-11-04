@@ -13,9 +13,9 @@ import type {
   QuizAttemptRuntime,
   RuntimeEnvironment,
   RuntimePhase,
-  RuntimeProgress,
   RuntimeQuestionStatus,
   RuntimeStatus,
+  RuntimeView,
 } from "../types/runtime-types";
 
 export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
@@ -31,6 +31,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       settings: attempt.settings,
       status: attempt.status,
       phase: attempt.phase,
+      currentView: attempt.currentView,
       startedAt: attempt.startedAt,
       lastActivityAt: attempt.lastActivityAt,
       pausedAt: attempt.pausedAt,
@@ -63,10 +64,13 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
   setPhase: (phase: RuntimePhase) => set({ phase }),
 
+  setCurrentView: (view: RuntimeView) => set({ currentView: view }),
+
   startAttempt: (startedAt) =>
     set((state) => ({
       status: "IN_PROGRESS",
       phase: "QUESTION",
+      currentView: "QUESTION",
       startedAt,
       lastActivityAt: startedAt,
       pausedAt: null,
@@ -168,6 +172,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       return {
         currentQuestionIndex: index,
         phase: "QUESTION",
+        currentView: 'QUESTION',
         questions: state.questions.map((question, questionIndex) => {
           if (questionIndex !== index) return question;
 

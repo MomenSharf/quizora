@@ -12,6 +12,7 @@ import type {
   RuntimeSaveStatus,
   RuntimeStatus,
   RuntimeTimerState,
+  RuntimeView,
   SessionMode,
 } from "../types/runtime-types";
 
@@ -75,6 +76,8 @@ export type RuntimeState = {
   status: RuntimeStatus;
   phase: RuntimePhase;
 
+  currentView: RuntimeView;
+
   startedAt: number | null;
   lastActivityAt: number | null;
   pausedAt: number | null;
@@ -108,6 +111,7 @@ export interface RuntimeActions {
   // Lifecycle
   setStatus(status: RuntimeStatus): void;
   setPhase(phase: RuntimePhase): void;
+  setCurrentView(view: RuntimeView): void;
   startAttempt(startedAt: number): void;
   pauseAttempt(pausedAt: number): void;
   resumeAttempt(resumedAt: number): void;
@@ -198,6 +202,8 @@ export const defaultRuntimeState: RuntimeState = {
 
   status: "IDLE",
   phase: "READY",
+
+  currentView: "READY",
 
   startedAt: null,
   lastActivityAt: null,
