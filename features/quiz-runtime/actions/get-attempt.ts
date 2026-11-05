@@ -25,5 +25,7 @@ export const getAttempt = async ({ attemptId }: GetAttemptInput) =>
 
     const runttimeAttempt = mapQuizAttempt(attempt);
 
+    
+
     return runttimeAttempt;
   });

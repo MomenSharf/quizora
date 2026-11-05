@@ -18,6 +18,16 @@ import type {
   RuntimeView,
 } from "../types/runtime-types";
 
+const isTimerEnabled = (settings: AttemptSettings | null) =>
+  !!(
+    settings &&
+    settings.timeLimitEnabled &&
+    Number.isFinite(settings.timeLimitSeconds) &&
+    settings.timeLimitSeconds > 0
+  );
+
+const defaulTtimeLimit = 300;
+
 export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   ...defaultRuntimeState,
 
@@ -45,20 +55,10 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
         saveStatus: attempt.saveStatus ?? "IDLE",
         dirty: false,
       },
-      error: null,
     }),
 
   hydrateAttempt: (attempt: QuizAttemptRuntime) =>
     get().initializeAttempt(attempt),
-
-  clearAttempt: () => set(defaultRuntimeState),
-
-  setEnvironment: (environment: RuntimeEnvironment) => set({ environment }),
-
-  setSettings: (settings: AttemptSettings) =>
-    set({
-      settings,
-    }),
 
   setStatus: (status: RuntimeStatus) => set({ status }),
 
@@ -79,11 +79,8 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       questions: state.questions.map((question, index) => {
         if (index !== 0) return question;
 
-        const timeLimit = state.settings?.timeLimitSeconds;
-        const isTimed =
-          state.mode === "TIMED" &&
-          typeof timeLimit === "number" &&
-          timeLimit > 0;
+        const isTimed = isTimerEnabled(state.settings);
+        const timeLimit = state.settings?.timeLimitSeconds ?? defaulTtimeLimit;
 
         return {
           ...question,
@@ -95,45 +92,11 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       }),
     })),
 
-  pauseAttempt: (pausedAt) =>
-    set({
-      status: "PAUSED",
-      phase: "PAUSED",
-      pausedAt,
-      lastActivityAt: pausedAt,
-      questions: get().questions.map((question) => ({
-        ...question,
-        isQuestionTimerRunning: false,
-      })),
-    }),
-
-  resumeAttempt: (resumedAt) =>
-    set((state) => ({
-      status: "IN_PROGRESS",
-      phase: "QUESTION",
-      pausedAt: null,
-      lastActivityAt: resumedAt,
-      questions: state.questions.map((question) => {
-        if (!question.startedAt || question.locked) {
-          return question;
-        }
-
-        const isTimed = state.mode === "TIMED";
-
-        return {
-          ...question,
-          isQuestionTimerRunning:
-            isTimed &&
-            question.deadlineAt !== null &&
-            question.deadlineAt > resumedAt,
-        };
-      }),
-    })),
-
   completeAttempt: (completedAt) =>
     set((state) => ({
       status: "COMPLETED",
       phase: "RESULT",
+      currentView: "RESULTS",
       completedAt,
       lastActivityAt: completedAt,
       questions: state.questions.map((question) => ({
@@ -142,19 +105,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       })),
     })),
 
-  abandonAttempt: () =>
-    set((state) => ({
-      status: "ABANDONED",
-      phase: "RESULT",
-      lastActivityAt: Date.now(),
-      questions: state.questions.map((question) => ({
-        ...question,
-        isQuestionTimerRunning: false,
-      })),
-    })),
-
-  updateLastActivity: (timestamp) => set({ lastActivityAt: timestamp }),
-
   setCurrentQuestion: (index) => {
     set((state) => {
       if (index < 0 || index >= state.questions.length) {
@@ -162,17 +112,13 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       }
 
       const now = Date.now();
-      const timeLimit = state.settings?.timeLimitSeconds;
-
-      const isTimed =
-        state.mode === "TIMED" &&
-        typeof timeLimit === "number" &&
-        timeLimit > 0;
+      const isTimed = isTimerEnabled(state.settings);
+      const timeLimit = state.settings?.timeLimitSeconds ?? defaulTtimeLimit;
 
       return {
         currentQuestionIndex: index,
         phase: "QUESTION",
-        currentView: 'QUESTION',
+        currentView: "QUESTION",
         questions: state.questions.map((question, questionIndex) => {
           if (questionIndex !== index) return question;
 
@@ -217,8 +163,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   goToPreviousQuestion: () => {
     get().setCurrentQuestion(get().currentQuestionIndex - 1);
   },
-
-  goToQuestion: (index) => get().setCurrentQuestion(index),
 
   toggleQuestionFlag: (questionId) =>
     set((state) => ({
@@ -289,20 +233,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       },
     })),
 
-  setAnswerEvaluation: (questionId, evaluation) =>
-    set((state) => {
-      return {
-        questions: state.questions.map((question) =>
-          question.id === questionId
-            ? {
-                ...question,
-                evaluation,
-              }
-            : question,
-        ),
-      };
-    }),
-
   submitPracticeAnswer: (questionId) =>
     set((state) => ({
       questions: state.questions.map((question) => {
@@ -312,9 +242,23 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
         return {
           ...question,
+          status: "ANSWERED",
           locked: true,
           evaluation,
           isFeedbackSeen: false,
+        };
+      }),
+    })),
+
+  submitTestAnswer: (questionId) =>
+    set((state) => ({
+      questions: state.questions.map((question) => {
+        if (question.id !== questionId) return question;
+
+        return {
+          ...question,
+          status: "ANSWERED",
+          locked: true,
         };
       }),
     })),
@@ -387,10 +331,6 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
         question.id === questionId ? { ...question, status } : question,
       ),
     })),
-
-  setError: (error) => set({ error }),
-
-  clearError: () => set({ error: null }),
 
   reset: () => set(defaultRuntimeState),
 }));

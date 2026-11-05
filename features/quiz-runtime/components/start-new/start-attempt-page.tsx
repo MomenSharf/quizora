@@ -13,13 +13,14 @@ import { startAttempt } from "../../actions/start-attempt";
 import type { AttemptSettings, SessionMode } from "../../types/runtime-types";
 import { StartAttemptSettingsForm } from "./start-attempt-settings-form";
 
-type StartNewPageProps = {
+type StartAttemptPageProps = {
   quizId: string;
   quizTitle: string;
   questionCount: number;
 };
 
 const DEFAULT_SETTINGS: AttemptSettings = {
+  timeLimitEnabled: false,
   timeLimitSeconds: 300,
   showExplanations: true,
   shuffleQuestions: false,
@@ -30,12 +31,12 @@ export default function StartAttemptPage({
   quizId,
   quizTitle,
   questionCount,
-}: StartNewPageProps) {
+}: StartAttemptPageProps) {
   const router = useRouter();
 
-  const [settings, setSettings] = useState<AttemptSettings>(DEFAULT_SETTINGS);
-  const [mode, setMode ] = useState<SessionMode>('STANDARD')
-
+  const [mode, setMode] = useState<SessionMode>("CLASSIC");
+  const [settings, setSettings] =
+    useState<AttemptSettings>(DEFAULT_SETTINGS);
   const [isStarting, setIsStarting] = useState(false);
 
   const handleStart = async () => {
@@ -46,8 +47,8 @@ export default function StartAttemptPage({
     try {
       const res = await startAttempt({
         quizId,
+        mode,
         settings,
-        mode
       });
 
       if (res.error) {

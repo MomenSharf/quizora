@@ -162,9 +162,8 @@ enum RuntimeEnvironment {
 }
 
 enum QuizAttemptMode {
-  STANDARD
-  REVIEW
-  TIMED
+  CLASSIC
+  TEST
 }
 
 enum QuizAttemptPhase {
@@ -193,7 +192,7 @@ model QuizAttempt {
   userId String
   quizId String
 
-  mode        QuizAttemptMode    @default(STANDARD)
+  mode        QuizAttemptMode    @default(CLASSIC)
   environment RuntimeEnvironment @default(PRODUCTION)
   status      QuizAttemptStatus  @default(IN_PROGRESS)
   phase       QuizAttemptPhase   @default(READY)
@@ -213,8 +212,9 @@ model QuizAttempt {
   score                   Float @default(0)
   totalPoints             Float @default(0)
 
+  timeLimitEnabled Boolean @default(false)
   timeLimitSeconds Int?
-  elapsedSeconds   Int  @default(0)
+  elapsedSeconds   Int     @default(0)
 
   startedAt      DateTime  @default(now())
   lastActivityAt DateTime  @default(now())

@@ -48,13 +48,19 @@ export function useRuntimeHeader() {
       currentQuestionIndex: state.currentQuestionIndex + 1,
       totalQuestions: state.questions.length,
       phase: state.phase,
-      currentView: state.currentView
+      currentView: state.currentView,
+      mode: state.mode
     })),
   );
 }
 
 export function useRuntimeActionBar() {
-  const { currentQuestionIndex, questions, status, mode } = useRuntimeStore(
+  const {
+    currentQuestionIndex,
+    questions,
+    status,
+    mode,
+  } = useRuntimeStore(
     useShallow((state) => ({
       currentQuestionIndex: state.currentQuestionIndex,
       questions: state.questions,
@@ -66,54 +72,58 @@ export function useRuntimeActionBar() {
   const currentQuestion = questions[currentQuestionIndex];
 
   const isCompleted = status === "COMPLETED";
-  const isAnswered = !!currentQuestion?.answer;
-  const isEvaluated = currentQuestion?.evaluation?.status === "EVALUATED";
-  const isLocked = !!currentQuestion?.locked;
+  const isClassic = mode === "CLASSIC";
+  const isTest = mode === "TEST";
+
+  const isAnswered = currentQuestion?.answer != null;
+  const isEvaluated =
+    currentQuestion?.evaluation?.status === "EVALUATED";
+  const isLocked = currentQuestion?.locked ?? false;
 
   const isFirstQuestion = currentQuestionIndex === 0;
-  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+  const isLastQuestion =
+    currentQuestionIndex === questions.length - 1;
 
-  const isReviewMode = mode === "REVIEW";
-  const isTimerMode = mode === "TIMED";
+  const isFlagged = currentQuestion?.flagged ?? false;
 
   let actions: GameplayAction[] = [];
 
   if (isCompleted) {
     actions = ["RESULTS"];
-  } else if (isReviewMode) {
-    if (isEvaluated) {
-      actions = isLastQuestion ? ["FINISH"] : ["NEXT"];
-    } else if (isAnswered) {
-      actions = [
-        "SUBMIT",
-        ...(isLastQuestion ? (["FINISH"] as const) : (["NEXT"] as const)),
-      ];
-    } else {
-      actions = isLastQuestion ? ["FINISH"] : ["PASS"];
-    }
-  } else {
-    if (isLocked || isEvaluated) {
+  } else if (isClassic) {
+    if (isEvaluated || isLocked) {
       actions = isLastQuestion ? ["FINISH"] : ["NEXT"];
     } else if (isAnswered) {
       actions = ["SUBMIT"];
     } else {
-      actions = [];
+      actions = ["PASS"];
+    }
+  } else if (isTest) {
+    if (isLastQuestion) {
+      actions = ["FINISH"];
+    } else {
+      actions = isAnswered ? ["NEXT"] : ["PASS"];
     }
   }
 
   return {
+    questions,
     mode,
+
     currentQuestionId: currentQuestion?.id ?? null,
+    answer: currentQuestion?.answer ?? null,
+
     isFirstQuestion,
     isLastQuestion,
     isAnswered,
     isEvaluated,
-    isFlagged: currentQuestion?.flagged ?? false,
+    isFlagged,
     isLocked,
     isCompleted,
-    isTimerMode,
-    isReviewMode,
-    answer: currentQuestion?.answer ?? null,
+
+    isClassic,
+    isTest,
+
     actions,
   };
 }
@@ -154,37 +164,28 @@ export const useRuntimeActions = () =>
     useShallow((state) => ({
       initializeAttempt: state.initializeAttempt,
       hydrateAttempt: state.hydrateAttempt,
-      clearAttempt: state.clearAttempt,
 
       setStatus: state.setStatus,
       setPhase: state.setPhase,
       setCurrentView: state.setCurrentView,
       startAttempt: state.startAttempt,
-      pauseAttempt: state.pauseAttempt,
-      resumeAttempt: state.resumeAttempt,
       completeAttempt: state.completeAttempt,
-      abandonAttempt: state.abandonAttempt,
-      updateLastActivity: state.updateLastActivity,
 
       setCurrentQuestion: state.setCurrentQuestion,
       goToNextQuestion: state.goToNextQuestion,
       goToPreviousQuestion: state.goToPreviousQuestion,
-      goToQuestion: state.goToQuestion,
       toggleQuestionFlag: state.toggleQuestionFlag,
       lockQuestion: state.lockQuestion,
       unlockQuestion: state.unlockQuestion,
 
       setAnswer: state.setAnswer,
       clearAnswer: state.clearAnswer,
-      setAnswerEvaluation: state.setAnswerEvaluation,
       submitPracticeAnswer: state.submitPracticeAnswer,
+      submitTestAnswer: state.submitTestAnswer,
 
       timeoutQuestion: state.timeoutQuestion,
 
       markFeedbackAsSeen: state.markFeedbackAsSeen,
-
-      setError: state.setError,
-      clearError: state.clearError,
 
       reset: state.reset,
     })),

@@ -71,6 +71,7 @@ export type QuizAttemptMinAggregateOutputType = {
   partiallyCorrectAnswers: number | null
   score: number | null
   totalPoints: number | null
+  timeLimitEnabled: boolean | null
   timeLimitSeconds: number | null
   elapsedSeconds: number | null
   startedAt: Date | null
@@ -101,6 +102,7 @@ export type QuizAttemptMaxAggregateOutputType = {
   partiallyCorrectAnswers: number | null
   score: number | null
   totalPoints: number | null
+  timeLimitEnabled: boolean | null
   timeLimitSeconds: number | null
   elapsedSeconds: number | null
   startedAt: Date | null
@@ -132,6 +134,7 @@ export type QuizAttemptCountAggregateOutputType = {
   partiallyCorrectAnswers: number
   score: number
   totalPoints: number
+  timeLimitEnabled: number
   timeLimitSeconds: number
   elapsedSeconds: number
   startedAt: number
@@ -190,6 +193,7 @@ export type QuizAttemptMinAggregateInputType = {
   partiallyCorrectAnswers?: true
   score?: true
   totalPoints?: true
+  timeLimitEnabled?: true
   timeLimitSeconds?: true
   elapsedSeconds?: true
   startedAt?: true
@@ -220,6 +224,7 @@ export type QuizAttemptMaxAggregateInputType = {
   partiallyCorrectAnswers?: true
   score?: true
   totalPoints?: true
+  timeLimitEnabled?: true
   timeLimitSeconds?: true
   elapsedSeconds?: true
   startedAt?: true
@@ -251,6 +256,7 @@ export type QuizAttemptCountAggregateInputType = {
   partiallyCorrectAnswers?: true
   score?: true
   totalPoints?: true
+  timeLimitEnabled?: true
   timeLimitSeconds?: true
   elapsedSeconds?: true
   startedAt?: true
@@ -369,6 +375,7 @@ export type QuizAttemptGroupByOutputType = {
   partiallyCorrectAnswers: number
   score: number
   totalPoints: number
+  timeLimitEnabled: boolean
   timeLimitSeconds: number | null
   elapsedSeconds: number
   startedAt: Date
@@ -423,6 +430,7 @@ export type QuizAttemptWhereInput = {
   partiallyCorrectAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
   score?: Prisma.FloatFilter<"QuizAttempt"> | number
   totalPoints?: Prisma.FloatFilter<"QuizAttempt"> | number
+  timeLimitEnabled?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
   elapsedSeconds?: Prisma.IntFilter<"QuizAttempt"> | number
   startedAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
@@ -457,6 +465,7 @@ export type QuizAttemptOrderByWithRelationInput = {
   partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
+  timeLimitEnabled?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   elapsedSeconds?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -494,6 +503,7 @@ export type QuizAttemptWhereUniqueInput = Prisma.AtLeast<{
   partiallyCorrectAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
   score?: Prisma.FloatFilter<"QuizAttempt"> | number
   totalPoints?: Prisma.FloatFilter<"QuizAttempt"> | number
+  timeLimitEnabled?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
   elapsedSeconds?: Prisma.IntFilter<"QuizAttempt"> | number
   startedAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
@@ -528,6 +538,7 @@ export type QuizAttemptOrderByWithAggregationInput = {
   partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
+  timeLimitEnabled?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   elapsedSeconds?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -567,6 +578,7 @@ export type QuizAttemptScalarWhereWithAggregatesInput = {
   partiallyCorrectAnswers?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
   score?: Prisma.FloatWithAggregatesFilter<"QuizAttempt"> | number
   totalPoints?: Prisma.FloatWithAggregatesFilter<"QuizAttempt"> | number
+  timeLimitEnabled?: Prisma.BoolWithAggregatesFilter<"QuizAttempt"> | boolean
   timeLimitSeconds?: Prisma.IntNullableWithAggregatesFilter<"QuizAttempt"> | number | null
   elapsedSeconds?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
   startedAt?: Prisma.DateTimeWithAggregatesFilter<"QuizAttempt"> | Date | string
@@ -596,6 +608,7 @@ export type QuizAttemptCreateInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -630,6 +643,7 @@ export type QuizAttemptUncheckedCreateInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -660,6 +674,7 @@ export type QuizAttemptUpdateInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -694,6 +709,7 @@ export type QuizAttemptUncheckedUpdateInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -726,6 +742,7 @@ export type QuizAttemptCreateManyInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -755,6 +772,7 @@ export type QuizAttemptUpdateManyMutationInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -786,6 +804,7 @@ export type QuizAttemptUncheckedUpdateManyInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -827,6 +846,7 @@ export type QuizAttemptCountOrderByAggregateInput = {
   partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
+  timeLimitEnabled?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrder
   elapsedSeconds?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -870,6 +890,7 @@ export type QuizAttemptMaxOrderByAggregateInput = {
   partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
+  timeLimitEnabled?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrder
   elapsedSeconds?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -900,6 +921,7 @@ export type QuizAttemptMinOrderByAggregateInput = {
   partiallyCorrectAnswers?: Prisma.SortOrder
   score?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
+  timeLimitEnabled?: Prisma.SortOrder
   timeLimitSeconds?: Prisma.SortOrder
   elapsedSeconds?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -1065,6 +1087,7 @@ export type QuizAttemptCreateWithoutUserInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -1097,6 +1120,7 @@ export type QuizAttemptUncheckedCreateWithoutUserInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -1158,6 +1182,7 @@ export type QuizAttemptScalarWhereInput = {
   partiallyCorrectAnswers?: Prisma.IntFilter<"QuizAttempt"> | number
   score?: Prisma.FloatFilter<"QuizAttempt"> | number
   totalPoints?: Prisma.FloatFilter<"QuizAttempt"> | number
+  timeLimitEnabled?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
   elapsedSeconds?: Prisma.IntFilter<"QuizAttempt"> | number
   startedAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
@@ -1187,6 +1212,7 @@ export type QuizAttemptCreateWithoutQuizInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -1219,6 +1245,7 @@ export type QuizAttemptUncheckedCreateWithoutQuizInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -1275,6 +1302,7 @@ export type QuizAttemptCreateWithoutQuestionsInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -1308,6 +1336,7 @@ export type QuizAttemptUncheckedCreateWithoutQuestionsInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -1353,6 +1382,7 @@ export type QuizAttemptUpdateWithoutQuestionsInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1386,6 +1416,7 @@ export type QuizAttemptUncheckedUpdateWithoutQuestionsInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1416,6 +1447,7 @@ export type QuizAttemptCreateManyUserInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -1445,6 +1477,7 @@ export type QuizAttemptUpdateWithoutUserInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1477,6 +1510,7 @@ export type QuizAttemptUncheckedUpdateWithoutUserInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1508,6 +1542,7 @@ export type QuizAttemptUncheckedUpdateManyWithoutUserInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1538,6 +1573,7 @@ export type QuizAttemptCreateManyQuizInput = {
   partiallyCorrectAnswers?: number
   score?: number
   totalPoints?: number
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: number | null
   elapsedSeconds?: number
   startedAt?: Date | string
@@ -1567,6 +1603,7 @@ export type QuizAttemptUpdateWithoutQuizInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1599,6 +1636,7 @@ export type QuizAttemptUncheckedUpdateWithoutQuizInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1630,6 +1668,7 @@ export type QuizAttemptUncheckedUpdateManyWithoutQuizInput = {
   partiallyCorrectAnswers?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elapsedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1692,6 +1731,7 @@ export type QuizAttemptSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   partiallyCorrectAnswers?: boolean
   score?: boolean
   totalPoints?: boolean
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: boolean
   elapsedSeconds?: boolean
   startedAt?: boolean
@@ -1727,6 +1767,7 @@ export type QuizAttemptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   partiallyCorrectAnswers?: boolean
   score?: boolean
   totalPoints?: boolean
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: boolean
   elapsedSeconds?: boolean
   startedAt?: boolean
@@ -1760,6 +1801,7 @@ export type QuizAttemptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   partiallyCorrectAnswers?: boolean
   score?: boolean
   totalPoints?: boolean
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: boolean
   elapsedSeconds?: boolean
   startedAt?: boolean
@@ -1793,6 +1835,7 @@ export type QuizAttemptSelectScalar = {
   partiallyCorrectAnswers?: boolean
   score?: boolean
   totalPoints?: boolean
+  timeLimitEnabled?: boolean
   timeLimitSeconds?: boolean
   elapsedSeconds?: boolean
   startedAt?: boolean
@@ -1804,7 +1847,7 @@ export type QuizAttemptSelectScalar = {
   updatedAt?: boolean
 }
 
-export type QuizAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "quizId" | "mode" | "environment" | "status" | "phase" | "showExplanations" | "shuffleQuestions" | "shuffleAnswers" | "quizSnapshot" | "currentQuestionIndex" | "totalQuestions" | "answeredQuestions" | "correctAnswers" | "skippedQuestions" | "partiallyCorrectAnswers" | "score" | "totalPoints" | "timeLimitSeconds" | "elapsedSeconds" | "startedAt" | "lastActivityAt" | "pausedAt" | "completedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizAttempt"]>
+export type QuizAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "quizId" | "mode" | "environment" | "status" | "phase" | "showExplanations" | "shuffleQuestions" | "shuffleAnswers" | "quizSnapshot" | "currentQuestionIndex" | "totalQuestions" | "answeredQuestions" | "correctAnswers" | "skippedQuestions" | "partiallyCorrectAnswers" | "score" | "totalPoints" | "timeLimitEnabled" | "timeLimitSeconds" | "elapsedSeconds" | "startedAt" | "lastActivityAt" | "pausedAt" | "completedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizAttempt"]>
 export type QuizAttemptInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
@@ -1847,6 +1890,7 @@ export type $QuizAttemptPayload<ExtArgs extends runtime.Types.Extensions.Interna
     partiallyCorrectAnswers: number
     score: number
     totalPoints: number
+    timeLimitEnabled: boolean
     timeLimitSeconds: number | null
     elapsedSeconds: number
     startedAt: Date
@@ -2301,6 +2345,7 @@ export interface QuizAttemptFieldRefs {
   readonly partiallyCorrectAnswers: Prisma.FieldRef<"QuizAttempt", 'Int'>
   readonly score: Prisma.FieldRef<"QuizAttempt", 'Float'>
   readonly totalPoints: Prisma.FieldRef<"QuizAttempt", 'Float'>
+  readonly timeLimitEnabled: Prisma.FieldRef<"QuizAttempt", 'Boolean'>
   readonly timeLimitSeconds: Prisma.FieldRef<"QuizAttempt", 'Int'>
   readonly elapsedSeconds: Prisma.FieldRef<"QuizAttempt", 'Int'>
   readonly startedAt: Prisma.FieldRef<"QuizAttempt", 'DateTime'>

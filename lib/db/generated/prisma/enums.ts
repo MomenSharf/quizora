@@ -26,9 +26,8 @@ export type RuntimeEnvironment = (typeof RuntimeEnvironment)[keyof typeof Runtim
 
 
 export const QuizAttemptMode = {
-  STANDARD: 'STANDARD',
-  REVIEW: 'REVIEW',
-  TIMED: 'TIMED'
+  CLASSIC: 'CLASSIC',
+  TEST: 'TEST'
 } as const
 
 export type QuizAttemptMode = (typeof QuizAttemptMode)[keyof typeof QuizAttemptMode]

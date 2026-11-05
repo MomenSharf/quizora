@@ -200,6 +200,7 @@ export const QuizAttemptScalarFieldEnum = {
   partiallyCorrectAnswers: 'partiallyCorrectAnswers',
   score: 'score',
   totalPoints: 'totalPoints',
+  timeLimitEnabled: 'timeLimitEnabled',
   timeLimitSeconds: 'timeLimitSeconds',
   elapsedSeconds: 'elapsedSeconds',
   startedAt: 'startedAt',

@@ -16,31 +16,6 @@ import type {
   SessionMode,
 } from "../types/runtime-types";
 
-// --------------------------------------------------
-// Feedback state
-// --------------------------------------------------
-
-export type RuntimeFeedbackState = {
-  questionId: string | null;
-  evaluation: EvaluationResult | null;
-  visible: boolean;
-};
-
-// --------------------------------------------------
-// Final attempt submission state
-// --------------------------------------------------
-
-export type RuntimeSubmissionState = {
-  isSubmitting: boolean;
-  isConfirmed: boolean;
-  unansweredQuestionIds: string[];
-  submittedAt: number | null;
-};
-
-// --------------------------------------------------
-// Persistence state
-// --------------------------------------------------
-
 export type RuntimePersistenceState = {
   error: string | null;
   saveStatus: RuntimeSaveStatus;
@@ -52,12 +27,6 @@ export type RuntimePersistenceState = {
 // --------------------------------------------------
 // Runtime error
 // --------------------------------------------------
-
-export type RuntimeError = {
-  code: string;
-  message: string;
-  questionId?: string;
-};
 
 // --------------------------------------------------
 // Runtime state
@@ -95,7 +64,6 @@ export type RuntimeState = {
   persistence: RuntimePersistenceState;
 
   // Temporary UI state
-  error: RuntimeError | null;
 };
 
 // --------------------------------------------------
@@ -106,22 +74,16 @@ export interface RuntimeActions {
   // Initialization
   initializeAttempt(attempt: QuizAttemptRuntime): void;
   hydrateAttempt(attempt: QuizAttemptRuntime): void;
-  clearAttempt(): void;
 
   // Lifecycle
   setStatus(status: RuntimeStatus): void;
   setPhase(phase: RuntimePhase): void;
   setCurrentView(view: RuntimeView): void;
   startAttempt(startedAt: number): void;
-  pauseAttempt(pausedAt: number): void;
-  resumeAttempt(resumedAt: number): void;
   completeAttempt(completedAt: number): void;
-  abandonAttempt(): void;
-  updateLastActivity(timestamp: number): void;
 
   // Questions and navigation
   setCurrentQuestion(index: number): void;
-  goToQuestion(index: number): void;
   goToNextQuestion(): void;
   goToPreviousQuestion(): void;
   toggleQuestionFlag(questionId: string): void;
@@ -131,16 +93,12 @@ export interface RuntimeActions {
   // Answers and evaluation
   setAnswer(questionId: string, answer: Answer): void;
   clearAnswer(questionId: string): void;
-  setAnswerEvaluation(questionId: string, evaluation: EvaluationResult): void;
   submitPracticeAnswer(questionId: string): void;
+  submitTestAnswer(questionId: string): void;
 
   markFeedbackAsSeen: (questionId: string) => void;
 
   timeoutQuestion: (questionId: string, timedOutAt: number) => void;
-
-  // Loading and errors
-  setError(error: RuntimeError | null): void;
-  clearError(): void;
 
   // Reset
   reset(): void;
@@ -161,19 +119,6 @@ export const defaultRuntimeTimer: RuntimeTimerState = {
   enable: false,
 };
 
-export const defaultRuntimeFeedback: RuntimeFeedbackState = {
-  questionId: null,
-  evaluation: null,
-  visible: false,
-};
-
-export const defaultRuntimeSubmission: RuntimeSubmissionState = {
-  isSubmitting: false,
-  isConfirmed: false,
-  unansweredQuestionIds: [],
-  submittedAt: null,
-};
-
 export const defaultRuntimePersistence: RuntimePersistenceState = {
   error: null,
   saveStatus: "IDLE",
@@ -186,7 +131,7 @@ export const defaultRuntimeState: RuntimeState = {
   attemptId: null,
   quizId: null,
 
-  mode: "STANDARD",
+  mode: "CLASSIC",
 
   quizSnapshot: {
     title: null,
@@ -218,6 +163,4 @@ export const defaultRuntimeState: RuntimeState = {
   isReviewOpen: false,
 
   persistence: { ...defaultRuntimePersistence },
-
-  error: null,
 };

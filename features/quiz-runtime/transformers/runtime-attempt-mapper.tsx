@@ -41,6 +41,7 @@ export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
 }>;
 
 const DEFAULT_SETTINGS: QuizAttemptRuntime["settings"] = {
+  timeLimitEnabled: false,
   timeLimitSeconds: 300,
   showExplanations: true,
   shuffleQuestions: false,
@@ -77,10 +78,15 @@ function getSettings(value: Prisma.JsonValue): QuizAttemptRuntime["settings"] {
   return {
     ...DEFAULT_SETTINGS,
 
+    timeLimitEnabled:
+      typeof settings.timeLimitEnabled === "boolean"
+        ? settings.timeLimitEnabled
+        : DEFAULT_SETTINGS.timeLimitEnabled,
+
     timeLimitSeconds:
       typeof settings.timeLimitSeconds === "number"
         ? settings.timeLimitSeconds
-        : null,
+        : DEFAULT_SETTINGS.timeLimitSeconds,
 
     showExplanations:
       typeof settings.showExplanations === "boolean"
@@ -401,6 +407,7 @@ function getQuizSnapshot(snapshot: Prisma.JsonValue | undefined): QuizSnapshot {
 }
 export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
   const settings = getSettings({
+    timeLimitEnabled: attempt.timeLimitEnabled,
     timeLimitSeconds: attempt.timeLimitSeconds,
     showExplanations: attempt.showExplanations,
     shuffleQuestions: attempt.shuffleQuestions,

@@ -36,10 +36,11 @@ export type PrismaQuestion = Prisma.QuestionGetPayload<{
 
 export type RuntimeEnvironment = "PREVIEW" | "PRODUCTION";
 
-export type SessionMode = "STANDARD" | "REVIEW" | "TIMED";
+export type SessionMode = "CLASSIC" | "TEST";
 
 export type AttemptSettings = {
-  timeLimitSeconds: number | null;
+  timeLimitEnabled: boolean;
+  timeLimitSeconds: number;
   showExplanations: boolean;
   shuffleQuestions: boolean;
   shuffleAnswers: boolean;
