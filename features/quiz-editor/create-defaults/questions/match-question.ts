@@ -2,11 +2,11 @@ import { createId } from "@paralleldrive/cuid2";
 
 import type { MatchQuestion } from "../../validation/question/match";
 
-import { createBaseQuestion, createDefaultConfig } from "./create-default-question";
+import { createBaseQuestion } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 export function createMatchQuestion(): MatchQuestion {
   return {
-   ...createBaseQuestion(),
+    ...createBaseQuestion(),
 
     type: QuestionType.MATCH,
 
@@ -36,19 +36,5 @@ export function createMatchQuestion(): MatchQuestion {
         },
       ],
     },
-
-  config: {
-  ...createDefaultConfig(),
-
-  showMedia: true,
-  mediaRatio: "AUTO",
-
-  shuffleLeft: true,
-  shuffleRight: false,
-
-  layout: "LINES",
-
-  showExplanation: true,
-},
   };
 }

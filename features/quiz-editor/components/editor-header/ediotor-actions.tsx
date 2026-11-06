@@ -9,6 +9,7 @@ import { useEditorValidation } from "../../hooks/use-editor-validation";
 import { IssuesTrigger } from "../issues/issues-trigger";
 import { useRouter } from "next/navigation";
 import { useQuizForm } from "../../hooks/use-quiz-form";
+import { toast } from "sonner";
 
 export function EditorActions() {
   const { setActivePanel } = useEditorActions();
@@ -25,16 +26,21 @@ export function EditorActions() {
     setActivePanel("settings");
   };
 
-  const onPreview = async () => {
-    const valid = await validate();
 
-    if (!valid) {
-      setActivePanel("issues");
-      return;
-    }
+const onPreview = async () => {
+  const valid = await validate();
 
-    router.push(`/quizzes/${id}/start-new?environment=PREVIEW`);
-  };
+  if (!valid) {
+    setActivePanel("issues");
+    toast.error("Fix the issues before previewing", {
+      description: "Some questions have validation errors.",
+    });
+    return;
+  }
+
+  toast.success("Opening preview...");
+  router.push(`/quizzes/${id}/start-new?environment=PREVIEW`);
+};
 
   const previewDisabled = saveState === "saving" || saveState === "pending" || saveState === "error";
 

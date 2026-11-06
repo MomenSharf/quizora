@@ -7,7 +7,7 @@ type StartAttemptInput = {
   quizId: string;
   userId: string;
   settings: AttemptSettings;
-  mode: SessionMode
+  mode: SessionMode;
 };
 
 type GetAttemptInput = {
@@ -44,13 +44,6 @@ export const quizRuntimeService = {
         throw AppErrors.badRequest("This quiz has no questions");
       }
 
-      const totalPoints = quiz.questions.reduce(
-        (total, question) => total + question.points,
-        0,
-      );
-
-      
-
       const attempt = await tx.quizAttempt.create({
         data: {
           userId,
@@ -68,11 +61,6 @@ export const quizRuntimeService = {
           },
 
           currentQuestionIndex: 0,
-          totalQuestions: quiz.questions.length,
-          answeredQuestions: 0,
-          correctAnswers: 0,
-          score: 0,
-          totalPoints,
 
           questions: {
             create: quiz.questions.map((question, index) => ({
@@ -85,12 +73,9 @@ export const quizRuntimeService = {
                 title: question.title,
                 points: question.points,
                 content: question.content,
-                config: question.config,
                 image: question.image,
                 explanation: question.explanation,
                 explanationImage: question.explanationImage,
-                tags: question.tags,
-                difficulty: question.difficulty,
               },
             })),
           },
@@ -133,9 +118,6 @@ export const quizRuntimeService = {
         },
       },
     });
-
-    
-
 
     return attempt;
   },

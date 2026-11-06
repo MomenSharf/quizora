@@ -1,6 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 import {
-  BaseQuestionConfig,
+  BaseQuestion,
   Option,
   QuestionType,
 } from "../../validation/question/base";
@@ -61,22 +61,11 @@ export function createDefaultQuestion(type: QuestionType): Question {
   }
 }
 
-export function createDefaultConfig(): BaseQuestionConfig {
-  return {
-    required: true,
-
-    timeLimit: 30,
-
-    points: 1,
-  };
-}
-
 export function createDefaultOption(text: string): Option {
   return {
     id: createId(),
     text,
     image: undefined,
-    explanation: "",
   };
 }
 
@@ -86,22 +75,6 @@ export function createBaseQuestion() {
 
     title: "",
 
-    description: "",
-
-    explanation: "",
-
-    hint: "",
-
-    required: true,
-
-    points: 1,
-
-    imageUrl: undefined,
-
-    difficulty: "MEDIUM" as const,
-
-    tags: ["general"],
-
-    media: {},
+    points: 10,
   };
 }

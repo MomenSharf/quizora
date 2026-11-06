@@ -35,8 +35,6 @@ export const QuestionArraySchema = z
 export type Question = z.infer<typeof QuestionSchema>;
 export type Questions = z.infer<typeof QuestionArraySchema>;
 
-export type QuestionConfig = Question["config"];
-
 export * from "./base";
 export * from "./dropdown";
 export * from "./fill-blank";

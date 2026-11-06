@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
+import {  BaseQuestionSchema } from "./base";
 import { ImageSchema } from "../image";
 
 const RectTargetSchema = z.object({
@@ -157,22 +157,18 @@ export const TapFindDataSchema = z
     });
   });
 
-export const TapFindConfigSchema = BaseQuestionConfigSchema.extend({
-  showExplanation: z.boolean(),
-});
+
 
 export const TapFindQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("TAP_FIND"),
 
   content: TapFindDataSchema,
 
-  config: TapFindConfigSchema,
 });
 
 export type TapFindTarget = z.infer<typeof TapFindTargetSchema>;
 
 export type TapFindData = z.infer<typeof TapFindDataSchema>;
 
-export type TapFindConfig = z.infer<typeof TapFindConfigSchema>;
 
 export type TapFindQuestion = z.infer<typeof TapFindQuestionSchema>;

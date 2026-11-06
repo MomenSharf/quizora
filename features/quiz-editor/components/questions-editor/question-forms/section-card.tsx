@@ -8,7 +8,6 @@ import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { cn } from "@/lib/utils";
 import { IconChevronDown } from "@tabler/icons-react";
 import { QuestionTypeIcon } from "../question-type-selector/question-type-icon";
-import { Settings2 } from "lucide-react";
 
 interface SectionCardProps {
   type: QuestionType;

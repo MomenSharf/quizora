@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import {
   AcceptedAnswerSchema,
-  BaseQuestionConfigSchema,
   BaseQuestionSchema,
 } from "./base";
 import { MediaRatioSchema } from "../image";
@@ -117,29 +116,15 @@ export const FillBlankDataSchema = z
     });
   });
 
-export const FillBlankConfigSchema = BaseQuestionConfigSchema.extend({
-  showMedia: z.boolean(),
-  mediaRatio: MediaRatioSchema,
-
-  caseSensitive: z.boolean(),
-  trimWhitespace: z.boolean(),
-  ignoreExtraSpaces: z.boolean(),
-
-  autoResizeInputs: z.boolean(),
-
-  showExplanation: z.boolean(),
-});
 
 export const FillBlankQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("FILL_BLANK"),
 
   content: FillBlankDataSchema,
 
-  config: FillBlankConfigSchema,
 });
 
 export type FillBlankBlock = z.infer<typeof FillBlankBlockSchema>;
 export type Blank = z.infer<typeof BlankSchema>;
 export type FillBlankData = z.infer<typeof FillBlankDataSchema>;
-export type FillBlankConfig = z.infer<typeof FillBlankConfigSchema>;
 export type FillBlankQuestion = z.infer<typeof FillBlankQuestionSchema>;

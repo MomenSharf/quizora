@@ -1,10 +1,7 @@
 import { createId } from "@paralleldrive/cuid2";
 
 import type { TapFindQuestion } from "../../validation/question/tap-find";
-import {
-  createBaseQuestion,
-  createDefaultConfig,
-} from "./create-default-question";
+import { createBaseQuestion } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 
 export function createTapFindQuestion(): TapFindQuestion {
@@ -28,12 +25,6 @@ export function createTapFindQuestion(): TapFindQuestion {
           height: 0.5,
         },
       ],
-    },
-
-    config: {
-      ...createDefaultConfig(),
-
-      showExplanation: true,
     },
   };
 }

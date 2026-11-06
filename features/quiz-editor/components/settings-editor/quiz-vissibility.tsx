@@ -1,8 +1,8 @@
-import { Controller } from "react-hook-form";
-import VisibilitySelector from "./visibility-selector";
-import { Globe2 } from "lucide-react";
-import { useQuizForm } from "../../hooks/use-quiz-form";
 import { motion } from "framer-motion";
+import { Globe2 } from "lucide-react";
+import { Controller } from "react-hook-form";
+import { useQuizForm } from "../../hooks/use-quiz-form";
+import VisibilitySelector from "./visibility-selector";
 
 export default function QuizVisibility() {
   const { control } = useQuizForm();
@@ -14,20 +14,25 @@ export default function QuizVisibility() {
       transition={{ duration: 0.3 }}
       className="overflow-hidden rounded-2xl border bg-card shadow-sm"
     >
-      <div className="border-b px-5 py-4 md:px-6">
-        <div className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-muted">
-            <Globe2 className="size-4" />
-          </div>
+    <div className="border-b px-5 py-4 md:px-6">
+  <div className="flex items-center gap-3">
+    <div className="flex size-9 items-center justify-center rounded-xl bg-muted">
+      <Globe2 className="size-4" />
+    </div>
 
-          <div>
-            <h2 className="text-sm font-semibold">Visibility</h2>
-            <p className="text-xs text-muted-foreground">
-              Choose who can access your quiz.
-            </p>
-          </div>
-        </div>
-      </div>
+    <div>
+      <h2 className="text-sm font-semibold">Visibility</h2>
+      <p className="text-xs text-muted-foreground">
+        Choose who can access your quiz.
+      </p>
+    </div>
+  </div>
+
+  <p className="mt-3 text-xs text-muted-foreground">
+    If your quiz doesn&apos;t meet the publishing requirements, its visibility
+    will automatically reset to private.
+  </p>
+</div>
 
       <div className="p-5 md:p-6">
         <Controller

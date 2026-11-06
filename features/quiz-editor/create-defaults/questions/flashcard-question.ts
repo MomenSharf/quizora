@@ -1,9 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 
-import {
-  createBaseQuestion,
-  createDefaultConfig,
-} from "./create-default-question";
+import { createBaseQuestion } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import { FlashcardQuestion } from "../../validation/question/flashcard";
 
@@ -27,15 +24,6 @@ export function createflashcardQuestion(): FlashcardQuestion {
         content: "",
         image: undefined,
       },
-    },
-
-    config: {
-      ...createDefaultConfig(),
-      flipDirection: "HORIZONTAL",
-      startSide: "FRONT",
-      allowFlip: true,
-      autoFlip: false,
-      autoFlipDelay: 3000,
     },
   };
 }

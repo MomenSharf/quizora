@@ -2,7 +2,6 @@ import type { OrderingQuestion } from "../../validation/question/ordering";
 
 import {
   createBaseQuestion,
-  createDefaultConfig,
   createDefaultOption,
 } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
@@ -14,23 +13,8 @@ export function createOrderingQuestion(): OrderingQuestion {
 
     type: QuestionType.ORDERING,
 
-
     content: {
       options: [option1, option2],
     },
-
-    config: {
-  ...createDefaultConfig(),
-
-  showMedia: true,
-  mediaRatio: "AUTO",
-
-  shuffleItems: true,
-  showOptionLetters: true,
-
-  layout: "VERTICAL",
-
-  showExplanation: true,
-},
   };
 }

@@ -1,25 +1,21 @@
 "use client";
 
+import { IconSettings2 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { IconArrowLeft, IconSettings2 } from "@tabler/icons-react";
 
-import { Button } from "@/components/ui/button";
 
-import QuizCover from "./quiz-cover";
+import BackToQuestuonsButton from "../back-to-questions-button ";
 import BasicInformation from "./basic-information";
+import QuizCover from "./quiz-cover";
 import QuizTags from "./quiz-tags";
 import QuizVisibility from "./quiz-vissibility";
-import { useEditorActions } from "../../store";
-import BackToQuestuonsButton from "../back-to-questions-button ";
 
 export default function SettingsPanel() {
-  const { setActivePanel } = useEditorActions();
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto w-full max-w-5xl p-4 md:p-6 lg:p-8">
-        <div className="flex flex-col-reverse md:flex-row justify-between nd:items-center">
+      <div className="mx-auto w-full max-w-5xl p-4">
+        <div className="flex flex-col-reverse justify-between nd:items-center">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}

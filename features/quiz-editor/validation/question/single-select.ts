@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  BaseQuestionConfigSchema,
-  BaseQuestionSchema,
-  OptionSchema,
-} from "./base";
+import { BaseQuestionSchema, OptionSchema } from "./base";
 import { MediaRatioSchema } from "../image";
 
 export const SingleSelectDataSchema = z
@@ -14,10 +10,7 @@ export const SingleSelectDataSchema = z
       .min(2, "Add at least 2 options")
       .max(20, "You can add up to 20 options"),
 
-    correctOptionId: z
-      .string()
-      .trim()
-      .min(1, "Select the correct option"),
+    correctOptionId: z.string().trim().min(1, "Select the correct option"),
   })
   .superRefine((data, ctx) => {
     const optionIds = new Set<string>();
@@ -49,36 +42,12 @@ export const SingleSelectDataSchema = z
     }
   });
 
-export const SingleSelectConfigSchema = BaseQuestionConfigSchema.extend({
-  showMedia: z.boolean(),
-
-  mediaRatio: MediaRatioSchema,
-
-  showExplanation: z.boolean(),
-
-  shuffleOptions: z.boolean(),
-
-  showOptionLetters: z.boolean(),
-
-  showOptionMedia: z.boolean(),
-
-  optionMediaRatio: MediaRatioSchema,
-
-  layout: z.enum(["VERTICAL", "HORIZONTAL", "GRID"], {
-    message: "Please select a valid option layout",
-  }),
-});
-
 export const SingleSelectQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("SINGLE_SELECT"),
 
   content: SingleSelectDataSchema,
-
-  config: SingleSelectConfigSchema,
 });
 
 export type SingleSelectData = z.infer<typeof SingleSelectDataSchema>;
-
-export type SingleSelectConfig = z.infer<typeof SingleSelectConfigSchema>;
 
 export type SingleSelectQuestion = z.infer<typeof SingleSelectQuestionSchema>;

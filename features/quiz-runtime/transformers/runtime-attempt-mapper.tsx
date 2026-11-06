@@ -1,26 +1,6 @@
-import {
-  ImageData,
-  ImageSchema,
-} from "@/features/quiz-editor/validation/image";
-import {
-  DropdownQuestion,
-  FillBlankQuestion,
-  FlashcardQuestion,
-  GuessQuestion,
-  MatchQuestion,
-  MultipleSelectQuestion,
-  OrderingQuestion,
-  RangeQuestion,
-  SingleSelectQuestion,
-  TapFindQuestion,
-  TrueFalseQuestion,
-  TypeAnswerQuestion,
-} from "@/features/quiz-editor/validation/question";
-import {
-  Difficulty,
-  Prisma,
-  QuestionType,
-} from "@/lib/db/generated/prisma/client";
+
+import { Prisma } from "@/lib/db/generated/prisma/client";
+
 import type { Answer } from "../types/answer-types";
 import type { EvaluationResult } from "../types/evaluation-types";
 import type {
@@ -48,312 +28,14 @@ const DEFAULT_SETTINGS: QuizAttemptRuntime["settings"] = {
   shuffleAnswers: false,
 };
 
-const DEFAULT_EVALUATION: EvaluationResult = {
-  status: "PENDING",
-  outcome: "UNANSWERED",
-  isCorrect: null,
-  earnedPoints: 0,
-  maxPoints: 0,
-  accuracy: null,
-  feedback: null,
-  explanation: null,
-  explanationImage: null,
-  parts: [],
-  evaluatedAt: null,
-  visibility: {
-    showCorrectAnswer: false,
-    showExplanation: false,
-    showFeedback: false,
-    showEarnedPoints: false,
-  },
+const DEFAULT_QUIZ_SNAPSHOT: QuizSnapshot = {
+  title: null,
+  description: null,
+  thumbnail: null,
+  tags: [],
+  language: null,
+  category: null,
 };
-
-function getSettings(value: Prisma.JsonValue): QuizAttemptRuntime["settings"] {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return DEFAULT_SETTINGS;
-  }
-
-  const settings = value as Record<string, Prisma.JsonValue>;
-
-  return {
-    ...DEFAULT_SETTINGS,
-
-    timeLimitEnabled:
-      typeof settings.timeLimitEnabled === "boolean"
-        ? settings.timeLimitEnabled
-        : DEFAULT_SETTINGS.timeLimitEnabled,
-
-    timeLimitSeconds:
-      typeof settings.timeLimitSeconds === "number"
-        ? settings.timeLimitSeconds
-        : DEFAULT_SETTINGS.timeLimitSeconds,
-
-    showExplanations:
-      typeof settings.showExplanations === "boolean"
-        ? settings.showExplanations
-        : DEFAULT_SETTINGS.showExplanations,
-    shuffleQuestions:
-      typeof settings.shuffleQuestions === "boolean"
-        ? settings.shuffleQuestions
-        : DEFAULT_SETTINGS.shuffleQuestions,
-    shuffleAnswers:
-      typeof settings.shuffleAnswers === "boolean"
-        ? settings.shuffleAnswers
-        : DEFAULT_SETTINGS.shuffleAnswers,
-  };
-}
-
-function getAnswer(value: Prisma.JsonValue | null): Answer | null {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return null;
-  }
-
-  if (
-    typeof value.questionId !== "string" ||
-    typeof value.type !== "string" ||
-    typeof value.answeredAt !== "number" ||
-    typeof value.timeSpentSeconds !== "number"
-  ) {
-    return null;
-  }
-
-  switch (value.type) {
-    case "SINGLE_SELECT":
-      return typeof value.optionId === "string"
-        ? {
-            type: "SINGLE_SELECT",
-            questionId: value.questionId,
-            answeredAt: value.answeredAt,
-            timeSpentSeconds: value.timeSpentSeconds,
-            optionId: value.optionId,
-          }
-        : null;
-
-    case "MULTIPLE_SELECT":
-      return Array.isArray(value.optionIds) &&
-        value.optionIds.every((id) => typeof id === "string")
-        ? {
-            type: "MULTIPLE_SELECT",
-            questionId: value.questionId,
-            answeredAt: value.answeredAt,
-            timeSpentSeconds: value.timeSpentSeconds,
-            optionIds: value.optionIds,
-          }
-        : null;
-
-    case "TRUE_FALSE":
-      return typeof value.value === "boolean"
-        ? {
-            type: "TRUE_FALSE",
-            questionId: value.questionId,
-            answeredAt: value.answeredAt,
-            timeSpentSeconds: value.timeSpentSeconds,
-            value: value.value,
-          }
-        : null;
-
-    case "TYPE_ANSWER":
-      return typeof value.value === "string"
-        ? {
-            type: "TYPE_ANSWER",
-            questionId: value.questionId,
-            answeredAt: value.answeredAt,
-            timeSpentSeconds: value.timeSpentSeconds,
-            value: value.value,
-          }
-        : null;
-
-    case "RANGE":
-    case "GUESS":
-      return typeof value.value === "number"
-        ? {
-            type: value.type,
-            questionId: value.questionId,
-            answeredAt: value.answeredAt,
-            timeSpentSeconds: value.timeSpentSeconds,
-            value: value.value,
-          }
-        : null;
-
-    // !!! TODO: Handle other types
-    default:
-      return null;
-  }
-}
-
-function getEvaluation(
-  value: Prisma.JsonValue | null,
-): EvaluationResult | null {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return null;
-  }
-
-  if (typeof value.status !== "string" || typeof value.outcome !== "string") {
-    return null;
-  }
-
-  return {
-    ...DEFAULT_EVALUATION,
-    status:
-      value.status === "EVALUATED" || value.status === "NOT_GRADED"
-        ? value.status
-        : "PENDING",
-    outcome:
-      value.outcome === "CORRECT" ||
-      value.outcome === "PARTIALLY_CORRECT" ||
-      value.outcome === "INCORRECT" ||
-      value.outcome === "NOT_APPLICABLE"
-        ? value.outcome
-        : "UNANSWERED",
-    isCorrect: typeof value.isCorrect === "boolean" ? value.isCorrect : null,
-    earnedPoints:
-      typeof value.earnedPoints === "number" ? value.earnedPoints : 0,
-    maxPoints: typeof value.maxPoints === "number" ? value.maxPoints : 0,
-    accuracy: typeof value.accuracy === "number" ? value.accuracy : null,
-    feedback: typeof value.feedback === "string" ? value.feedback : null,
-    explanation:
-      typeof value.explanation === "string" ? value.explanation : null,
-    parts: [],
-    evaluatedAt:
-      typeof value.evaluatedAt === "number" ? value.evaluatedAt : null,
-    visibility: DEFAULT_EVALUATION.visibility,
-  };
-}
-
-function getQuestionSnapshot(
-  value: Prisma.JsonValue,
-): RuntimeQuestion["question"] {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    throw new Error("Invalid question snapshot");
-  }
-
-  const snapshot = value as Record<string, Prisma.JsonValue>;
-
-  if (typeof snapshot.id !== "string" || typeof snapshot.title !== "string") {
-    throw new Error("Question snapshot is missing required fields");
-  }
-
-  const questionImage = snapshot.image as ImageData | undefined;
-
-  const base = {
-    id: snapshot.id,
-    title: snapshot.title,
-    explanation:
-      typeof snapshot.explanation === "string"
-        ? snapshot.explanation
-        : undefined,
-    tags: Array.isArray(snapshot.tags)
-      ? snapshot.tags.filter((tag): tag is string => typeof tag === "string")
-      : ["general"],
-    difficulty:
-      snapshot.difficulty === "EASY" || snapshot.difficulty === "HARD"
-        ? (snapshot.difficulty as Difficulty)
-        : ("MEDIUM" as Difficulty),
-
-    image: questionImage?.url ? questionImage : undefined,
-  };
-
-  switch (snapshot.type as QuestionType) {
-    case QuestionType.SINGLE_SELECT:
-      return {
-        ...base,
-        type: QuestionType.SINGLE_SELECT,
-        config: snapshot.config as SingleSelectQuestion["config"],
-        content: snapshot.content as SingleSelectQuestion["content"],
-      };
-
-    case QuestionType.MULTIPLE_SELECT:
-      return {
-        ...base,
-        type: QuestionType.MULTIPLE_SELECT,
-        content: snapshot.content as MultipleSelectQuestion["content"],
-        config: snapshot.config as MultipleSelectQuestion["config"],
-      };
-
-    case QuestionType.TRUE_FALSE:
-      return {
-        ...base,
-        type: QuestionType.TRUE_FALSE,
-        content: snapshot.content as TrueFalseQuestion["content"],
-        config: snapshot.config as TrueFalseQuestion["config"],
-      };
-
-    case QuestionType.ORDERING:
-      return {
-        ...base,
-        type: QuestionType.ORDERING,
-        content: snapshot.content as OrderingQuestion["content"],
-        config: snapshot.config as OrderingQuestion["config"],
-      };
-
-    case QuestionType.MATCH:
-      return {
-        ...base,
-        type: QuestionType.MATCH,
-        content: snapshot.content as MatchQuestion["content"],
-        config: snapshot.config as MatchQuestion["config"],
-      };
-
-    case QuestionType.TYPE_ANSWER:
-      return {
-        ...base,
-        type: QuestionType.TYPE_ANSWER,
-        content: snapshot.content as TypeAnswerQuestion["content"],
-        config: snapshot.config as TypeAnswerQuestion["config"],
-      };
-
-    case QuestionType.FILL_BLANK:
-      return {
-        ...base,
-        type: QuestionType.FILL_BLANK,
-        content: snapshot.content as FillBlankQuestion["content"],
-        config: snapshot.config as FillBlankQuestion["config"],
-      };
-
-    case QuestionType.RANGE:
-      return {
-        ...base,
-        type: QuestionType.RANGE,
-        content: snapshot.content as RangeQuestion["content"],
-        config: snapshot.config as RangeQuestion["config"],
-      };
-
-    case QuestionType.GUESS:
-      return {
-        ...base,
-        type: QuestionType.GUESS,
-        content: snapshot.content as GuessQuestion["content"],
-        config: snapshot.config as GuessQuestion["config"],
-      };
-
-    case QuestionType.FLASHCARD:
-      return {
-        ...base,
-        type: QuestionType.FLASHCARD,
-        content: snapshot.content as FlashcardQuestion["content"],
-        config: snapshot.config as FlashcardQuestion["config"],
-      };
-
-    case QuestionType.TAP_FIND:
-      return {
-        ...base,
-        type: QuestionType.TAP_FIND,
-        content: snapshot.content as TapFindQuestion["content"],
-        config: snapshot.config as TapFindQuestion["config"],
-      };
-
-    case QuestionType.DROPDOWN:
-      return {
-        ...base,
-        type: QuestionType.DROPDOWN,
-        content: snapshot.content as DropdownQuestion["content"],
-        config: snapshot.config as DropdownQuestion["config"],
-      };
-
-    default:
-      throw new Error(`Unsupported question type: ${snapshot.type}`);
-  }
-}
 
 function mapQuestion(
   question: PrismaQuizAttempt["questions"][number],
@@ -362,80 +44,74 @@ function mapQuestion(
     id: question.id,
     questionId: question.questionId,
     orderIndex: question.orderIndex,
-    question: getQuestionSnapshot(question.questionSnapshot),
+
+    question: question.questionSnapshot as unknown as RuntimeQuestion["question"],
+
     status: question.status,
-    answer: getAnswer(question.answer),
-    evaluation: getEvaluation(question.evaluation),
+    answer: question.answer as unknown as Answer | null,
+    evaluation: question.evaluation as unknown as EvaluationResult | null,
+
     earnedPoints: question.earnedPoints,
     maxPoints: question.maxPoints,
-    visited: question.visited ?? false,
-    flagged: question.flagged ?? false,
-    locked: question.locked ?? false,
-    startedAt: question.startedAt?.getTime() ?? null,
-    deadlineAt: question.deadlineAt?.getTime() ?? null,
-    isQuestionTimerRunning: question.isQuestionTimerRunning ?? false,
-    hasSeenFeedback: false,
+
+    visited: question.visited ,
+    flagged: question.flagged ,
+    locked: question.locked ,
+
+    startedAt: question.startedAt,
+    deadlineAt: question.deadlineAt,
+    isQuestionTimerRunning: question.isQuestionTimerRunning,
+
     timeSpentSeconds: question.timeSpentSeconds,
-    answeredAt: question.answeredAt?.getTime() ?? null,
+    answeredAt: question.answeredAt,
+
+    hasSeenFeedback: false,
   };
 }
-function getQuizSnapshot(snapshot: Prisma.JsonValue | undefined): QuizSnapshot {
-  if (!snapshot || typeof snapshot !== "object" || Array.isArray(snapshot)) {
-    return {
-      thumbnail: null,
-      tags: [],
-      language: null,
-      category: null,
-      description: null,
-      title: null,
-    };
-  }
 
-  return {
-    title: typeof snapshot.title === "string" ? snapshot.title : null,
-    description:
-      typeof snapshot.description === "string" ? snapshot.description : null,
-    thumbnail: ImageSchema.safeParse(snapshot.thumbnail).success
-      ? ImageSchema.parse(snapshot.thumbnail)
-      : null,
-    tags: Array.isArray(snapshot.tags)
-      ? snapshot.tags.filter((tag): tag is string => typeof tag === "string")
-      : [],
-    language: typeof snapshot.language === "string" ? snapshot.language : null,
-    category: typeof snapshot.category === "string" ? snapshot.category : null,
-  };
-}
-export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
-  const settings = getSettings({
-    timeLimitEnabled: attempt.timeLimitEnabled,
-    timeLimitSeconds: attempt.timeLimitSeconds,
-    showExplanations: attempt.showExplanations,
-    shuffleQuestions: attempt.shuffleQuestions,
-    shuffleAnswers: attempt.shuffleAnswers,
-  });
-
-  const questions = [...attempt.questions]
-    .sort((a, b) => a.orderIndex - b.orderIndex)
-    .map(mapQuestion);
-
+export function mapQuizAttempt(
+  attempt: PrismaQuizAttempt,
+): QuizAttemptRuntime {
   return {
     id: attempt.id,
     quizId: attempt.quizId,
-    quizSnapshot: getQuizSnapshot(attempt.quizSnapshot),
+
+    quizSnapshot:
+      (attempt.quizSnapshot as unknown as QuizSnapshot | null) ??
+      DEFAULT_QUIZ_SNAPSHOT,
 
     environment: attempt.environment,
     mode: attempt.mode,
-    settings,
+
+    settings: {
+      timeLimitEnabled:
+        attempt.timeLimitEnabled ?? DEFAULT_SETTINGS.timeLimitEnabled,
+      timeLimitSeconds:
+        attempt.timeLimitSeconds ?? DEFAULT_SETTINGS.timeLimitSeconds,
+      showExplanations:
+        attempt.showExplanations ?? DEFAULT_SETTINGS.showExplanations,
+      shuffleQuestions:
+        attempt.shuffleQuestions ?? DEFAULT_SETTINGS.shuffleQuestions,
+      shuffleAnswers:
+        attempt.shuffleAnswers ?? DEFAULT_SETTINGS.shuffleAnswers,
+    },
+
     status: attempt.status,
-    phase: attempt.phase || "READY",
+    phase: attempt.phase ?? "READY",
     currentView: "READY",
-    questions,
+
+    questions: [...attempt.questions]
+      .sort((a, b) => a.orderIndex - b.orderIndex)
+      .map(mapQuestion),
+
     currentQuestionIndex: attempt.currentQuestionIndex,
-    startedAt: attempt.startedAt.getTime() ?? null,
-    lastActivityAt: attempt.lastActivityAt.getTime() ?? null,
+
+    startedAt: attempt.startedAt?.getTime() ?? null,
+    lastActivityAt: attempt.lastActivityAt?.getTime() ?? null,
     pausedAt: attempt.pausedAt?.getTime() ?? null,
     completedAt: attempt.completedAt?.getTime() ?? null,
     expiresAt: attempt.expiresAt?.getTime() ?? null,
+
     saveStatus: "SAVED",
   };
 }

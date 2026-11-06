@@ -13,9 +13,6 @@ export default function PageRouter() {
 
 function renderPanel(activePanel: ReturnType<typeof useActivePanel>) {
   switch (activePanel) {
-    case "questions":
-      return <QuestionLayout />;
-
     case "settings":
       return <SettingsPanel />;
 
@@ -23,6 +20,6 @@ function renderPanel(activePanel: ReturnType<typeof useActivePanel>) {
       return <IssuesPanel />;
 
     default:
-      return null;
+      return <QuestionLayout />;
   }
 }

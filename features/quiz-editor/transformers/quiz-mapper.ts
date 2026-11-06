@@ -101,8 +101,8 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
     title: question.title,
 
     explanation: question.explanation ?? "",
-    
-      explanationImage: question.explanationImage
+
+    explanationImage: question.explanationImage
       ? {
           id: question.explanationImage.id,
           key: question.explanationImage.key,
@@ -112,10 +112,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
           url: question.explanationImage.url,
         }
       : undefined,
-
-    tags: question.tags ?? [],
-
-    difficulty: question.difficulty ?? "MEDIUM",
 
     points: question.points,
 
@@ -137,7 +133,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.SINGLE_SELECT,
         content: question.content as SingleSelectQuestion["content"],
-        config: question.config as SingleSelectQuestion["config"],
       };
 
     case QuestionType.MULTIPLE_SELECT:
@@ -145,7 +140,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.MULTIPLE_SELECT,
         content: question.content as MultipleSelectQuestion["content"],
-        config: question.config as MultipleSelectQuestion["config"],
       };
 
     case QuestionType.TRUE_FALSE:
@@ -153,7 +147,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.TRUE_FALSE,
         content: question.content as TrueFalseQuestion["content"],
-        config: question.config as TrueFalseQuestion["config"],
       };
 
     case QuestionType.ORDERING:
@@ -161,7 +154,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.ORDERING,
         content: question.content as OrderingQuestion["content"],
-        config: question.config as OrderingQuestion["config"],
       };
 
     case QuestionType.MATCH:
@@ -169,7 +161,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.MATCH,
         content: question.content as MatchQuestion["content"],
-        config: question.config as MatchQuestion["config"],
       };
 
     case QuestionType.TYPE_ANSWER:
@@ -177,7 +168,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.TYPE_ANSWER,
         content: question.content as TypeAnswerQuestion["content"],
-        config: question.config as TypeAnswerQuestion["config"],
       };
 
     case QuestionType.FILL_BLANK:
@@ -185,7 +175,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.FILL_BLANK,
         content: question.content as FillBlankQuestion["content"],
-        config: question.config as FillBlankQuestion["config"],
       };
 
     case QuestionType.RANGE:
@@ -193,7 +182,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.RANGE,
         content: question.content as RangeQuestion["content"],
-        config: question.config as RangeQuestion["config"],
       };
 
     case QuestionType.GUESS:
@@ -201,7 +189,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.GUESS,
         content: question.content as GuessQuestion["content"],
-        config: question.config as GuessQuestion["config"],
       };
 
     case QuestionType.FLASHCARD:
@@ -209,7 +196,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.FLASHCARD,
         content: question.content as FlashcardQuestion["content"],
-        config: question.config as FlashcardQuestion["config"],
       };
 
     case QuestionType.TAP_FIND:
@@ -217,7 +203,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.TAP_FIND,
         content: question.content as TapFindQuestion["content"],
-        config: question.config as TapFindQuestion["config"],
       };
 
     case QuestionType.DROPDOWN:
@@ -225,7 +210,6 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
         ...base,
         type: QuestionType.DROPDOWN,
         content: question.content as DropdownQuestion["content"],
-        config: question.config as DropdownQuestion["config"],
       };
   }
 }
@@ -237,7 +221,7 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
     slug: quiz.slug ?? undefined,
 
     title: quiz.title,
-    description: quiz.description ?? "",
+    description: quiz.description ?? undefined ,
 
     thumbnail: quiz.thumbnail
       ? {
@@ -250,13 +234,13 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
         }
       : undefined,
 
-    tags: quiz.tags,
+    language: quiz.language,
 
-    language: quiz.language ?? "en",
-
-    category: undefined,
+    category: quiz.category ?? undefined,
 
     visibility: quiz.visibility,
+
+    tags: quiz.tags,
 
     questions: [...quiz.questions]
       .sort((a, b) => a.order - b.order)

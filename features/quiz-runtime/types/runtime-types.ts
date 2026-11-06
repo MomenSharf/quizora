@@ -5,10 +5,6 @@ import type { ImageData } from "@/features/quiz-editor/validation/image";
 import type { Answer } from "./answer-types";
 import type { EvaluationResult } from "./evaluation-types";
 
-// --------------------------------------------------
-// Prisma types
-// --------------------------------------------------
-
 export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
   include: {
     questions: {
@@ -30,10 +26,6 @@ export type PrismaQuestion = Prisma.QuestionGetPayload<{
   };
 }>;
 
-// --------------------------------------------------
-// Runtime configuration
-// --------------------------------------------------
-
 export type RuntimeEnvironment = "PREVIEW" | "PRODUCTION";
 
 export type SessionMode = "CLASSIC" | "TEST";
@@ -45,31 +37,22 @@ export type AttemptSettings = {
   shuffleQuestions: boolean;
   shuffleAnswers: boolean;
 };
-// --------------------------------------------------
-// Runtime lifecycle
-// --------------------------------------------------
 
 export type RuntimeView =
   "READY" | "QUESTION" | "SETTINGS" | "REVIEW" | "RESULTS";
 
-export type RuntimePhase = "READY" | "QUESTION" | "PAUSED" | "RESULT";
+export type RuntimePhase = "READY" | "QUESTION" | "RESULT";
 
-export type RuntimeStatus =
-  "IDLE" | "IN_PROGRESS" | "PAUSED" | "COMPLETED" | "ABANDONED" | "EXPIRED";
+export type RuntimeStatus = "IDLE" | "IN_PROGRESS" | "COMPLETED" | "EXPIRED";
 
 export type RuntimeSaveStatus =
   "IDLE" | "PENDING" | "SAVING" | "SAVED" | "ERROR" | "OFFLINE";
 
-// --------------------------------------------------
-// Question state
-// --------------------------------------------------
-
-export type RuntimeQuestionStatus =
-  "UNANSWERED" | "ANSWERED" | "SKIPPED" | "TIMED_OUT";
+export type RuntimeQuestionStatus = "UNANSWERED" | "ANSWERED" | "TIMED_OUT";
 
 export type RuntimeQuestion = {
   id: string;
-  questionId: string | null;
+  questionId: string;
   orderIndex: number;
 
   question: Question;
@@ -86,19 +69,16 @@ export type RuntimeQuestion = {
   locked: boolean;
   visited: boolean;
 
-  startedAt: number | null;
-  deadlineAt: number | null;
+  startedAt: Date | null;
+  deadlineAt: Date | null;
   isQuestionTimerRunning: boolean;
 
   timeSpentSeconds: number;
-  answeredAt: number | null;
+  answeredAt: Date | null;
+  evaluatedAt: Date | null;
 
   hasSeenFeedback: boolean;
 };
-
-// --------------------------------------------------
-// Quiz snapshot
-// --------------------------------------------------
 
 export type QuizSnapshot = {
   title: string | null;
@@ -107,34 +87,6 @@ export type QuizSnapshot = {
   tags: string[];
   language: string | null;
   category: string | null;
-};
-
-// --------------------------------------------------
-// Runtime progress
-// --------------------------------------------------
-
-export type RuntimeProgress = {
-  currentQuestionIndex: number;
-  totalQuestions: number;
-  answeredQuestions: number;
-  correctAnswers: number;
-  skippedQuestions: number;
-
-  score: number;
-  totalPoints: number;
-};
-
-// --------------------------------------------------
-// Runtime timers
-// --------------------------------------------------
-
-export type RuntimeTimerState = {
-  questionStartedAt: number | null;
-  questionDeadlineAt: number | null;
-  attemptDeadlineAt: number | null;
-  isQuestionTimerRunning: boolean;
-  isAttemptTimerRunning: boolean;
-  enable: boolean;
 };
 
 // --------------------------------------------------
@@ -167,9 +119,5 @@ export type QuizAttemptRuntime = {
 
   saveStatus: RuntimeSaveStatus;
 };
-
-// --------------------------------------------------
-// Attempt summary
-// --------------------------------------------------
 
 export type GameplayAction = "PASS" | "SUBMIT" | "NEXT" | "FINISH" | "RESULTS";

@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 import {
-  BaseQuestionConfigSchema,
   BaseQuestionSchema,
   ContentSchema,
 } from "./base";
@@ -44,31 +43,13 @@ export const MatchDataSchema = z
     });
   });
 
-export const MatchConfigSchema = BaseQuestionConfigSchema.extend({
-  showMedia: z.boolean(),
-
-  mediaRatio: MediaRatioSchema,
-
-  shuffleLeft: z.boolean(),
-
-  shuffleRight: z.boolean(),
-
-  layout: z.enum(["LINES", "DROPDOWN", "DRAG_DROP"], {
-    message: "Please select a valid matching layout",
-  }),
-
-  showExplanation: z.boolean(),
-});
 
 export const MatchQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("MATCH"),
 
   content: MatchDataSchema,
-
-  config: MatchConfigSchema,
 });
 
 export type MatchPair = z.infer<typeof MatchPairSchema>;
 export type MatchData = z.infer<typeof MatchDataSchema>;
-export type MatchSettings = z.infer<typeof MatchConfigSchema>;
 export type MatchQuestion = z.infer<typeof MatchQuestionSchema>;

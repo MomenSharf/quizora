@@ -58,13 +58,7 @@ function serializeQuestion(
 
     order,
 
-    tags: question.tags ?? [],
-
-    difficulty: question.difficulty ?? "MEDIUM",
-
     content: question.content,
-
-    config: question.config,
   };
 }
 

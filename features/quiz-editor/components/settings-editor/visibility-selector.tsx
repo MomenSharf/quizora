@@ -1,17 +1,12 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion"
-import {
-  Check,
-  Globe2,
-  Link2,
-  Lock,
-  ShieldCheck,
-} from "lucide-react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Check, Globe2, Link2, Lock, ShieldCheck } from "lucide-react";
 import { Visibility } from "@/lib/db/generated/prisma/enums";
-
-
+import { useEditorValidation } from "../../hooks/use-editor-validation";
+import { useEditorActions } from "../../store";
+import { toast } from "sonner";
 
 interface VisibilitySelectorProps {
   value?: Visibility;
@@ -43,6 +38,25 @@ export default function VisibilitySelector({
   value = Visibility.PRIVATE,
   onChange,
 }: VisibilitySelectorProps) {
+  const { validate } = useEditorValidation();
+  const { setActivePanel } = useEditorActions();
+
+  const onChangeVisibility = async (value: Visibility) => {
+    const valid = await validate();
+
+    if (!valid) {
+      setActivePanel("issues");
+      toast.error("Fix the issues before previewing", {
+        description: "Some questions have validation errors.",
+      });
+      return;
+    }
+
+    onChange(value);
+  };
+
+  
+
   return (
     <div className="space-y-3">
       {options.map((option) => {
@@ -53,7 +67,7 @@ export default function VisibilitySelector({
           <motion.button
             key={option.value}
             type="button"
-            onClick={() => onChange(option.value)}
+            onClick={() => onChangeVisibility(option.value)}
             whileTap={{ scale: 0.985 }}
             className={[
               "group relative flex w-full items-center gap-4 overflow-hidden rounded-xl border p-4 text-left transition-all duration-200",
@@ -98,9 +112,7 @@ export default function VisibilitySelector({
             {/* Content */}
             <div className="relative z-10 min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold">
-                  {option.title}
-                </span>
+                <span className="text-sm font-semibold">{option.title}</span>
 
                 {option.value === Visibility.PUBLIC && (
                   <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">

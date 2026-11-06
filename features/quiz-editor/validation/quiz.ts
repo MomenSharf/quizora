@@ -30,7 +30,9 @@ export const QuizEditorSchema = z.object({
   description: z
     .string()
     .trim()
-    .max(1000, "Descriptions can be at most 1,000 characters"),
+    .max(1000, "Descriptions can be at most 1,000 characters")
+    .optional(),
+
   thumbnail: ImageSchema.optional(),
 
   tags: z
@@ -76,7 +78,5 @@ export const QuizEditorSchema = z.object({
     .min(1, "Add at least one question to your quiz"),
 });
 
-
 export type QuizEditor = z.infer<typeof QuizEditorSchema>;
 export type QuizEditorInput = z.input<typeof QuizEditorSchema>;
-

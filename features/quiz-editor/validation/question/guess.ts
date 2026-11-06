@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import {
   AcceptedAnswerSchema,
-  BaseQuestionConfigSchema,
   BaseQuestionSchema,
 } from "./base";
 
@@ -80,36 +79,13 @@ export const GuessDataSchema = z
     }
   });
 
-export const GuessConfigSchema = BaseQuestionConfigSchema.extend({
-  caseSensitive: z.boolean(),
-
-  trimWhitespace: z.boolean(),
-
-  ignoreExtraSpaces: z.boolean(),
-
-  revealAnswerAfterSubmit: z.boolean(),
-
-  maxAttempts: z
-    .number({
-      message: "Maximum attempts must be a number",
-    })
-    .int("Maximum attempts must be a whole number")
-    .nonnegative("Maximum attempts cannot be negative"),
-
-  showHint: z.boolean(),
-
-  zoomable: z.boolean(),
-});
 
 export const GuessQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("GUESS"),
 
   content: GuessDataSchema,
-
-  config: GuessConfigSchema,
 });
 
 export type GuessHint = z.infer<typeof GuessHintSchema>;
 export type GuessData = z.infer<typeof GuessDataSchema>;
-export type GuessConfig = z.infer<typeof GuessConfigSchema>;
 export type GuessQuestion = z.infer<typeof GuessQuestionSchema>;

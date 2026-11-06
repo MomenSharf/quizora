@@ -18,9 +18,9 @@ import {
   QUESTION_TYPE_COLORS,
   QUESTION_TYPE_LABELS,
 } from "../../constants/question-types";
-import { createDefaultQuestion } from "../../create-defaults/questions/create-default-question";
 import { useQuizForm } from "../../hooks/use-quiz-form";
 import { useSelectedQuestion } from "../../hooks/use-selected-question";
+import { hasFieldError } from "../../lib/has-field-error";
 import {
   useEditorActions,
   useIsQuestionSelectorOpen,
@@ -29,14 +29,13 @@ import {
 import { Question } from "../../validation/question";
 import { ActionsDropdown } from "./actions-dropdown";
 import { QuestionTypeIcon } from "./question-type-selector/question-type-icon";
-import { hasFieldError } from "../../lib/has-field-error";
 
-import { AlertCircle } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { AlertCircle } from "lucide-react";
 
 import { motion } from "framer-motion";
 

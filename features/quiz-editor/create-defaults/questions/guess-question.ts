@@ -2,10 +2,7 @@ import { createId } from "@paralleldrive/cuid2";
 
 import type { GuessQuestion } from "../../validation/question/guess";
 
-import {
-  createBaseQuestion,
-  createDefaultConfig,
-} from "./create-default-question";
+import { createBaseQuestion } from "./create-default-question";
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 export function createGuessQuestion(): GuessQuestion {
   return {
@@ -32,17 +29,6 @@ export function createGuessQuestion(): GuessQuestion {
           value: "",
         },
       ],
-    },
-
-    config: {
-      ...createDefaultConfig(),
-      caseSensitive: false,
-      trimWhitespace: true,
-      ignoreExtraSpaces: true,
-      revealAnswerAfterSubmit: true,
-      maxAttempts: 0,
-      showHint: true,
-      zoomable: true,
     },
   };
 }

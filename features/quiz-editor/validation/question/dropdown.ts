@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  BaseQuestionConfigSchema,
-  BaseQuestionSchema,
-  OptionSchema,
-} from "./base";
+import { BaseQuestionSchema, OptionSchema } from "./base";
 import { MediaRatioSchema } from "../image";
 
 export const DropdownDataSchema = z
@@ -28,7 +24,6 @@ export const DropdownDataSchema = z
               code: "custom",
               path: [index, "id"],
               message: "This option ID is already in use",
-             
             });
           }
 
@@ -36,10 +31,7 @@ export const DropdownDataSchema = z
         });
       }),
 
-    correctOptionId: z
-      .string()
-      .trim()
-      .min(1, "Select the correct option"),
+    correctOptionId: z.string().trim().min(1, "Select the correct option"),
   })
   .superRefine((data, ctx) => {
     const exists = data.options.some(
@@ -51,39 +43,15 @@ export const DropdownDataSchema = z
         code: "custom",
         path: ["correctOptionId"],
         message: "The selected correct option no longer exists",
-       
       });
     }
   });
-
-export const DropdownConfigSchema = BaseQuestionConfigSchema.extend({
-  placeholder: z
-    .string()
-    .trim()
-    .max(100, "Placeholder must be at most 100 characters")
-   ,
-
-  shuffleOptions: z.boolean(),
-  searchable: z.boolean(),
-  clearable: z.boolean(),
-  showOptionLetters: z.boolean(),
-
-  showMedia: z.boolean(),
-  mediaRatio: MediaRatioSchema,
-  showOptionMedia: z.boolean(),
-  optionMediaRatio: MediaRatioSchema,
-
-  showExplanation: z.boolean(),
-});
 
 export const DropdownQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("DROPDOWN"),
 
   content: DropdownDataSchema,
-
-  config: DropdownConfigSchema,
 });
 
 export type DropdownData = z.infer<typeof DropdownDataSchema>;
-export type DropdownConfig = z.infer<typeof DropdownConfigSchema>;
 export type DropdownQuestion = z.infer<typeof DropdownQuestionSchema>;

@@ -1207,11 +1207,7 @@ export const QuestionScalarFieldEnum = {
   points: 'points',
   order: 'order',
   imageId: 'imageId',
-  tags: 'tags',
-  difficulty: 'difficulty',
   content: 'content',
-  config: 'config',
-  version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1223,28 +1219,19 @@ export const QuizAttemptScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   quizId: 'quizId',
+  quizSnapshot: 'quizSnapshot',
   mode: 'mode',
   environment: 'environment',
   status: 'status',
   phase: 'phase',
+  currentQuestionIndex: 'currentQuestionIndex',
+  timeLimitEnabled: 'timeLimitEnabled',
+  timeLimitSeconds: 'timeLimitSeconds',
   showExplanations: 'showExplanations',
   shuffleQuestions: 'shuffleQuestions',
   shuffleAnswers: 'shuffleAnswers',
-  quizSnapshot: 'quizSnapshot',
-  currentQuestionIndex: 'currentQuestionIndex',
-  totalQuestions: 'totalQuestions',
-  answeredQuestions: 'answeredQuestions',
-  correctAnswers: 'correctAnswers',
-  skippedQuestions: 'skippedQuestions',
-  partiallyCorrectAnswers: 'partiallyCorrectAnswers',
-  score: 'score',
-  totalPoints: 'totalPoints',
-  timeLimitEnabled: 'timeLimitEnabled',
-  timeLimitSeconds: 'timeLimitSeconds',
-  elapsedSeconds: 'elapsedSeconds',
   startedAt: 'startedAt',
   lastActivityAt: 'lastActivityAt',
-  pausedAt: 'pausedAt',
   completedAt: 'completedAt',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt',
@@ -1456,20 +1443,6 @@ export type EnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'QuestionType[]'
  */
 export type ListEnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionType[]'>
-    
-
-
-/**
- * Reference to a field of type 'Difficulty'
- */
-export type EnumDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Difficulty'>
-    
-
-
-/**
- * Reference to a field of type 'Difficulty[]'
- */
-export type ListEnumDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Difficulty[]'>
     
 
 

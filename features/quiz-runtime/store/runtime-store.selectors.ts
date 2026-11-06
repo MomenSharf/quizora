@@ -94,9 +94,9 @@ export function useRuntimeActionBar() {
     if (isEvaluated || isLocked) {
       actions = isLastQuestion ? ["FINISH"] : ["NEXT"];
     } else if (isAnswered) {
-      actions = ["SUBMIT"];
+      actions = isLastQuestion ? ['SUBMIT', 'FINISH'] :["SUBMIT", 'PASS'];
     } else {
-      actions = ["PASS"];
+      actions = isLastQuestion ? ['FINISH'] :["PASS"];
     }
   } else if (isTest) {
     if (isLastQuestion) {

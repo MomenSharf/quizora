@@ -12,28 +12,22 @@ export type RuntimeQuestionType =
   | "TAP_FIND"
   | "DROPDOWN";
 
-export type BaseAnswer = {
-  questionId: string;
-  answeredAt: number;
-  timeSpentSeconds: number;
-};
-
-export type SingleSelectAnswer = BaseAnswer & {
+export type SingleSelectAnswer = {
   type: "SINGLE_SELECT";
   optionId: string;
 };
 
-export type MultipleSelectAnswer = BaseAnswer & {
+export type MultipleSelectAnswer = {
   type: "MULTIPLE_SELECT";
   optionIds: string[];
 };
 
-export type TrueFalseAnswer = BaseAnswer & {
+export type TrueFalseAnswer = {
   type: "TRUE_FALSE";
   value: boolean;
 };
 
-export type OrderingAnswer = BaseAnswer & {
+export type OrderingAnswer = {
   type: "ORDERING";
   orderedOptionIds: string[];
 };
@@ -43,12 +37,12 @@ export type MatchSelection = {
   rightId: string;
 };
 
-export type MatchAnswer = BaseAnswer & {
+export type MatchAnswer = {
   type: "MATCH";
   selections: MatchSelection[];
 };
 
-export type TypeAnswer = BaseAnswer & {
+export type TypeAnswer = {
   type: "TYPE_ANSWER";
   value: string;
 };
@@ -58,7 +52,7 @@ export type FillBlankEntry = {
   value: string;
 };
 
-export type FillBlankAnswer = BaseAnswer & {
+export type FillBlankAnswer = {
   type: "FILL_BLANK";
   entries: FillBlankEntry[];
 };
@@ -68,17 +62,17 @@ export type FlashcardResponse = {
   rating: "NEED_REVIEW" | "KNOWN";
 };
 
-export type FlashcardsAnswer = BaseAnswer & {
+export type FlashcardsAnswer = {
   type: "FLASHCARDS";
   responses: FlashcardResponse[];
 };
 
-export type RangeAnswer = BaseAnswer & {
+export type RangeAnswer = {
   type: "RANGE";
   value: number;
 };
 
-export type GuessAnswer = BaseAnswer & {
+export type GuessAnswer = {
   type: "GUESS";
   value: number;
 };
@@ -89,7 +83,7 @@ export type TapFindTarget = {
   y: number;
 };
 
-export type TapFindAnswer = BaseAnswer & {
+export type TapFindAnswer = {
   type: "TAP_FIND";
   targets: TapFindTarget[];
 };
@@ -99,7 +93,7 @@ export type DropdownEntry = {
   optionId: string;
 };
 
-export type DropdownAnswer = BaseAnswer & {
+export type DropdownAnswer = {
   type: "DROPDOWN";
   selections: DropdownEntry[];
 };
@@ -117,16 +111,3 @@ export type Answer =
   | GuessAnswer
   | TapFindAnswer
   | DropdownAnswer;
-
-export type AnswerPayload = Answer extends infer T
-  ? T extends BaseAnswer
-    ? Omit<T, keyof BaseAnswer>
-    : never
-  : never;
-
-export type SaveAnswerInput = {
-  attemptId: string;
-  questionId: string;
-  answer: Answer;
-  isFinalSubmission: boolean;
-};

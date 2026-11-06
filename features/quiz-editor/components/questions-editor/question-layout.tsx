@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 
 import QuestionContent from "./question-content";
 import QuestionSelector from "./question-selector";

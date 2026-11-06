@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  BaseQuestionConfigSchema,
-  BaseQuestionSchema,
-  OptionSchema,
-} from "./base";
+import { BaseQuestionSchema, OptionSchema } from "./base";
 import { MediaRatioSchema } from "../image";
 
 export const MultipleSelectDataSchema = z
@@ -15,12 +11,7 @@ export const MultipleSelectDataSchema = z
       .max(20, "You can add up to 20 options"),
 
     correctOptionIds: z
-      .array(
-        z
-          .string()
-          .trim()
-          .min(1, "Correct option ID cannot be empty"),
-      )
+      .array(z.string().trim().min(1, "Correct option ID cannot be empty"))
       .min(1, "Select at least one correct option"),
   })
   .superRefine((data, ctx) => {
@@ -70,37 +61,13 @@ export const MultipleSelectDataSchema = z
     });
   });
 
-export const MultipleSelectConfigSchema = BaseQuestionConfigSchema.extend({
-  shuffleOptions: z.boolean(),
-
-  layout: z.enum(["VERTICAL", "HORIZONTAL", "GRID"], {
-    message: "Please select a valid option layout",
-  }),
-
-  showOptionLetters: z.boolean(),
-
-  showMedia: z.boolean(),
-
-  mediaRatio: MediaRatioSchema,
-
-  showOptionMedia: z.boolean(),
-
-  optionMediaRatio: MediaRatioSchema,
-
-  showExplanation: z.boolean(),
-})
-
 export const MultipleSelectQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("MULTIPLE_SELECT"),
 
   content: MultipleSelectDataSchema,
-
-  config: MultipleSelectConfigSchema,
 });
 
 export type MultipleSelectData = z.infer<typeof MultipleSelectDataSchema>;
-
-export type MultipleSelectConfig = z.infer<typeof MultipleSelectConfigSchema>;
 
 export type MultipleSelectQuestion = z.infer<
   typeof MultipleSelectQuestionSchema

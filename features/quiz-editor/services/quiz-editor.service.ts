@@ -9,7 +9,7 @@ import {
   serializeNewQuiz,
   serializeUpdateQuiz,
 } from "../transformers/quiz-serializer";
-import type { QuizEditor } from "../validation/quiz";
+import { QuizEditorSchema, type QuizEditor } from "../validation/quiz";
 
 export const quizEditorService = {
   async getQuiz(id: string, ownerId: string) {
@@ -83,11 +83,20 @@ export const quizEditorService = {
       throw AppErrors.notFound("Quiz not found");
     }
 
+    const data = serializeUpdateQuiz(quiz, editorState);
+    const parsed = QuizEditorSchema.safeParse(quiz);
+    console.log(parsed.success);
+    
+    const visibility = parsed.success ? quiz.visibility : "PRIVATE";
+
     await prisma.quiz.update({
       where: {
         id: quiz.id,
       },
-      data: serializeUpdateQuiz(quiz, editorState),
+      data: {
+        ...data,
+        visibility,
+      },
     });
 
     return {

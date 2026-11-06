@@ -1,10 +1,7 @@
 import { QuestionType } from "@/lib/db/generated/prisma/enums";
 import type { RangeQuestion } from "../../validation/question/range";
 
-import {
-  createBaseQuestion,
-  createDefaultConfig,
-} from "./create-default-question";
+import { createBaseQuestion } from "./create-default-question";
 export function createRangeQuestion(): RangeQuestion {
   return {
     ...createBaseQuestion(),
@@ -24,17 +21,6 @@ export function createRangeQuestion(): RangeQuestion {
       },
 
       unit: "",
-    },
-
-    config: {
-      ...createDefaultConfig(),
-
-      showMedia: true,
-      mediaRatio: "AUTO",
-
-      snapToStep: true,
-
-      showExplanation: true,
     },
   };
 }

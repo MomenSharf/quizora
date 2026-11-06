@@ -1,10 +1,9 @@
 import RichTextEditor from "@/components/rich-text-editor";
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { Controller } from "react-hook-form";
-import SectionField from "./section-field";
-import { QuestionFormProps } from "./question-form-router";
 import { ImageField } from "../../image-upload/image-field";
 import ImagePreviewTrigger from "../../image-upload/image-preview-trigger";
+import SectionField from "./section-field";
 
 const ExplanationSection = ({ questionIndex }: { questionIndex: number }) => {
   const { control } = useQuizForm();

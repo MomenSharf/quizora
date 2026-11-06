@@ -128,8 +128,8 @@ model Question {
   title String
 
   explanation        String? @db.Text
-  explanationImageId String?
   explanationImage   Image?  @relation("QuestionExplanationImage", fields: [explanationImageId], references: [id])
+  explanationImageId String?
 
   points Float @default(1)
 
@@ -138,14 +138,7 @@ model Question {
   imageId String?
   image   Image?  @relation(fields: [imageId], references: [id])
 
-  tags String[] @default(["general"])
-
-  difficulty Difficulty @default(MEDIUM)
-
   content Json
-  config  Json
-
-  version Int @default(1)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -153,7 +146,6 @@ model Question {
   @@index([quizId])
   @@index([quizId, order])
   @@index([type])
-  @@index([difficulty])
 }
 
 enum RuntimeEnvironment {
@@ -169,22 +161,19 @@ enum QuizAttemptMode {
 enum QuizAttemptPhase {
   READY
   QUESTION
-  PAUSED
   RESULT
 }
 
 enum QuizAttemptStatus {
   IN_PROGRESS
-  PAUSED
   COMPLETED
-  ABANDONED
   EXPIRED
 }
 
 enum AttemptQuestionStatus {
   UNANSWERED
   ANSWERED
-  SKIPPED
+  TIME_OUT
 }
 
 model QuizAttempt {
@@ -192,33 +181,23 @@ model QuizAttempt {
   userId String
   quizId String
 
+  quizSnapshot Json
+
   mode        QuizAttemptMode    @default(CLASSIC)
   environment RuntimeEnvironment @default(PRODUCTION)
   status      QuizAttemptStatus  @default(IN_PROGRESS)
   phase       QuizAttemptPhase   @default(READY)
 
+  currentQuestionIndex Int @default(0)
+
+  timeLimitEnabled Boolean @default(false)
+  timeLimitSeconds Int?
   showExplanations Boolean @default(true)
   shuffleQuestions Boolean @default(false)
   shuffleAnswers   Boolean @default(false)
 
-  quizSnapshot Json
-
-  currentQuestionIndex    Int   @default(0)
-  totalQuestions          Int   @default(0)
-  answeredQuestions       Int   @default(0)
-  correctAnswers          Int   @default(0)
-  skippedQuestions        Int   @default(0)
-  partiallyCorrectAnswers Int   @default(0)
-  score                   Float @default(0)
-  totalPoints             Float @default(0)
-
-  timeLimitEnabled Boolean @default(false)
-  timeLimitSeconds Int?
-  elapsedSeconds   Int     @default(0)
-
   startedAt      DateTime  @default(now())
   lastActivityAt DateTime  @default(now())
-  pausedAt       DateTime?
   completedAt    DateTime?
   expiresAt      DateTime?
 
@@ -241,6 +220,7 @@ model AttemptQuestion {
 
   questionId       String?
   orderIndex       Int
+
   questionSnapshot Json
 
   status AttemptQuestionStatus @default(UNANSWERED)

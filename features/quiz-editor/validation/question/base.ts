@@ -3,40 +3,16 @@ import { z } from "zod";
 
 import { ImageSchema } from "../image";
 
-/**
- * Question type
- */
 export const QuestionTypeSchema = z.enum(QuestionTypePrisma, {
   message: "Please select a valid question type",
 });
 
-/**
- * Shared configuration used by every question.
- */
-export const BaseQuestionConfigSchema = z.object({
-  required: z.boolean(),
-
-  timeLimit: z
-    .number({
-      message: "Time limit must be a number",
-    })
-    .int("Time limit must be a whole number")
-    .nonnegative("Time limit cannot be negative"),
-
-  points: z
-    .number({
-      message: "Points must be a number",
-    })
-    .nonnegative("Points cannot be negative"),
-});
-
-/**
- * Shared fields used by every question.
- */
 export const BaseQuestionSchema = z.object({
   id: z.string().trim().min(1, "Question ID is required"),
 
   type: QuestionTypeSchema,
+
+  image: ImageSchema.optional(),
 
   title: z
     .string()
@@ -44,46 +20,19 @@ export const BaseQuestionSchema = z.object({
     .min(1, "Give your question a title")
     .max(5000, "Question title must be at most 5,000 characters"),
 
+  points: z
+    .number({
+      message: "Points must be a number",
+    })
+    .nonnegative("Points cannot be negative"),
+
   explanation: z
     .string()
     .trim()
     .max(5000, "Explanation must be at most 5,000 characters")
     .optional(),
-  
+
   explanationImage: ImageSchema.optional(),
-
-  image: ImageSchema.optional(),
-
-  tags: z
-    .array(
-      z
-        .string()
-        .trim()
-        .min(1, "Question tags cannot be empty")
-        .max(30, "Each question tag must be at most 30 characters"),
-    )
-    .max(20, "You can add up to 20 tags to a question")
-    .superRefine((tags, ctx) => {
-      const seen = new Set<string>();
-
-      tags.forEach((tag, index) => {
-        const normalizedTag = tag.toLowerCase();
-
-        if (seen.has(normalizedTag)) {
-          ctx.addIssue({
-            code: "custom",
-            path: [index],
-            message: "This tag has already been added",
-          });
-        }
-
-        seen.add(normalizedTag);
-      });
-    }),
-
-  difficulty: z.enum(["EASY", "MEDIUM", "HARD"], {
-    message: "Please select a valid difficulty level",
-  }),
 });
 
 /**
@@ -99,17 +48,8 @@ export const OptionSchema = z.object({
     .max(500, "Option text must be at most 500 characters"),
 
   image: ImageSchema.optional(),
-
-  explanation: z
-    .string()
-    .trim()
-    .max(1000, "Option explanation must be at most 1,000 characters"),
 });
 
-/**
- * Generic content item used by question types
- * that support text and/or an image.
- */
 export const ContentSchema = z.object({
   text: z
     .string()
@@ -120,10 +60,6 @@ export const ContentSchema = z.object({
   image: ImageSchema.optional(),
 });
 
-/**
- * Accepted answer used by question types
- * that can have multiple accepted answers.
- */
 export const AcceptedAnswerSchema = z.object({
   id: z.string().trim().min(1, "Answer ID is required"),
 
@@ -135,8 +71,6 @@ export const AcceptedAnswerSchema = z.object({
 });
 
 export type QuestionType = z.infer<typeof QuestionTypeSchema>;
-
-export type BaseQuestionConfig = z.infer<typeof BaseQuestionConfigSchema>;
 
 export type BaseQuestion = z.infer<typeof BaseQuestionSchema>;
 

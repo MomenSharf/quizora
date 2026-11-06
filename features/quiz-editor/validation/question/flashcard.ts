@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
+import {  BaseQuestionSchema } from "./base";
 import { ImageSchema } from "../image";
 
 export const FlashcardSchema = z.object({
@@ -37,35 +37,11 @@ export const FlashcardSchema = z.object({
   }),
 });
 
-export const FlashcardConfigSchema = BaseQuestionConfigSchema.extend({
-  flipDirection: z.enum(["HORIZONTAL", "VERTICAL"], {
-    message: "Please select a valid flip direction",
-  }),
-
-  startSide: z.enum(["FRONT", "BACK"], {
-    message: "Please select a valid starting side",
-  }),
-
-  allowFlip: z.boolean(),
-
-  autoFlip: z.boolean(),
-
-  autoFlipDelay: z
-    .number({
-      message: "Auto-flip delay must be a number",
-    })
-    .int("Auto-flip delay must be a whole number")
-    .nonnegative("Auto-flip delay cannot be negative"),
-});
-
 export const FlashcardQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("FLASHCARD"),
 
   content: FlashcardSchema,
-
-  config: FlashcardConfigSchema,
 });
 
 export type Flashcard = z.infer<typeof FlashcardSchema>;
-export type FlashcardConfig = z.infer<typeof FlashcardConfigSchema>;
 export type FlashcardQuestion = z.infer<typeof FlashcardQuestionSchema>;

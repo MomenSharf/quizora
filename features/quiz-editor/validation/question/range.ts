@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { BaseQuestionConfigSchema, BaseQuestionSchema } from "./base";
+import { BaseQuestionSchema } from "./base";
 import { MediaRatioSchema } from "../image";
 
 export const RangeDataSchema = z
@@ -29,11 +29,7 @@ export const RangeDataSchema = z
       }),
     }),
 
-    unit: z
-      .string()
-      .trim()
-      .max(30, "Unit must be at most 30 characters")
-,
+    unit: z.string().trim().max(30, "Unit must be at most 30 characters"),
   })
   .superRefine((data, ctx) => {
     if (data.min >= data.max) {
@@ -51,7 +47,8 @@ export const RangeDataSchema = z
       ctx.addIssue({
         code: "custom",
         path: ["answer", "max"],
-        message: "Answer maximum must be greater than or equal to answer minimum",
+        message:
+          "Answer maximum must be greater than or equal to answer minimum",
         params: {
           errorCode: "INVALID_ANSWER_RANGE",
         },
@@ -92,26 +89,12 @@ export const RangeDataSchema = z
     }
   });
 
-export const RangeConfigSchema = BaseQuestionConfigSchema.extend({
-  showMedia: z.boolean(),
-
-  mediaRatio: MediaRatioSchema,
-
-  snapToStep: z.boolean(),
-
-  showExplanation: z.boolean(),
-});
-
 export const RangeQuestionSchema = BaseQuestionSchema.extend({
   type: z.literal("RANGE"),
 
   content: RangeDataSchema,
-
-  config: RangeConfigSchema,
 });
 
 export type RangeData = z.infer<typeof RangeDataSchema>;
-
-export type RangeConfig = z.infer<typeof RangeConfigSchema>;
 
 export type RangeQuestion = z.infer<typeof RangeQuestionSchema>;
