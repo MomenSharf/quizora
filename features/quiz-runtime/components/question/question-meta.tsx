@@ -66,25 +66,15 @@ const TIMER_STYLES: Record<
   },
 };
 
-export default function QuestionMeta({
-  runtimeQuestion,
-}: QuestionMetaProps) {
+export default function QuestionMeta({ runtimeQuestion }: QuestionMetaProps) {
   const { timeoutQuestion } = useRuntimeActions();
 
   const questionType = QUESTION_TYPE_MAP[runtimeQuestion.question.type];
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState(() => new Date());
   const timeoutTriggered = useRef(false);
 
-  const {
-    id,
-    startedAt,
-    deadlineAt,
-    isQuestionTimerRunning,
-    locked,
-    status,
-  } = runtimeQuestion;
-
-  
+  const { id, startedAt, deadlineAt, isQuestionTimerRunning, locked, status } =
+    runtimeQuestion;
 
   const timerEnabled = startedAt !== null && deadlineAt !== null;
 
@@ -97,7 +87,7 @@ export default function QuestionMeta({
   useEffect(() => {
     if (!timerActive) return;
 
-    const update = () => setNow(Date.now());
+    const update = () => setNow(new Date());
 
     update();
 
@@ -106,12 +96,16 @@ export default function QuestionMeta({
     return () => window.clearInterval(interval);
   }, [id, deadlineAt, timerActive]);
 
+
   const timeLeft = timerEnabled
-    ? Math.max(0, Math.ceil((deadlineAt - now) / 1000))
+    ? Math.max(0, Math.ceil((deadlineAt.getTime() - now.getTime()) / 1000))
     : 0;
 
   const totalTime = timerEnabled
-    ? Math.max(1, Math.ceil((deadlineAt - startedAt) / 1000))
+    ? Math.max(
+        1,
+        Math.ceil((deadlineAt.getTime() - startedAt.getTime()) / 1000),
+      )
     : 1;
 
   const timerState = getTimerState(timeLeft, totalTime);
@@ -121,7 +115,7 @@ export default function QuestionMeta({
     if (!timerActive || timeLeft > 0 || timeoutTriggered.current) return;
 
     timeoutTriggered.current = true;
-    timeoutQuestion(id, Date.now());
+    timeoutQuestion(id, new Date());
   }, [id, timerActive, timeLeft, timeoutQuestion]);
 
   useEffect(() => {
@@ -136,10 +130,7 @@ export default function QuestionMeta({
       ? IconAlertTriangle
       : IconClock;
 
-  const progress = Math.min(
-    100,
-    Math.max(0, (timeLeft / totalTime) * 100),
-  );
+  const progress = Math.min(100, Math.max(0, (timeLeft / totalTime) * 100));
 
   const showTimeout = status === "TIMED_OUT";
   const showTimer = timerEnabled && !locked && !showTimeout;
@@ -154,10 +145,8 @@ export default function QuestionMeta({
           borderColor: `color-mix(in srgb, ${questionType.color} 22%, transparent)`,
         }}
       >
-        <QuestionIcon size={15} stroke={'1.8'} />
-        <span className="text-xs font-semibold">
-          {questionType.shortLabel}
-        </span>
+        <QuestionIcon size={15} stroke={"1.8"} />
+        <span className="text-xs font-semibold">{questionType.shortLabel}</span>
       </div>
 
       {showTimeout ? (
@@ -176,11 +165,7 @@ export default function QuestionMeta({
               styles.container,
             )}
           >
-            <TimerIcon
-              size={15}
-              stroke={1.8}
-              className={styles.icon}
-            />
+            <TimerIcon size={15} stroke={1.8} className={styles.icon} />
 
             <span
               className={cn(

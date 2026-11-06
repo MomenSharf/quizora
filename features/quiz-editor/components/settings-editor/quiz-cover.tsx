@@ -1,6 +1,5 @@
-import { Lock } from "lucide-react";
-import { ImageUploadPlaceholder } from "../image-upload/image-upload-placeholder";
 import { motion } from "framer-motion";
+import { Lock } from "lucide-react";
 import { ImageField } from "../image-upload/image-field";
 import ImagePreviewTrigger from "../image-upload/image-preview-trigger";
 
@@ -23,7 +22,7 @@ export default function QuizCover() {
 
         <div className="p-4">
           <ImageField
-            name={`thumbnail`}
+            name="thumbnail"
             trigger={(props) => <ImagePreviewTrigger title="Add cover image" {...props} />}
           />
         </div>

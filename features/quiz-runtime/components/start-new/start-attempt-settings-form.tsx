@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Clock3, Eye, Shuffle, Sparkles } from "lucide-react";
+import { ArrowRight, ClipboardCheck, Clock3, Eye, Shuffle, Sparkles } from "lucide-react";
 import type { FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -48,21 +48,26 @@ export function StartAttemptSettingsForm({
   const sessionOptions: {
     value: SessionMode;
     label: string;
+    title: string;
     description: string;
     icon: typeof Sparkles;
   }[] = [
-    {
-      value: "CLASSIC",
-      label: "Classic",
-      description: "Learn and play at your own pace",
-      icon: Sparkles,
-    },
-    {
-      value: "TEST",
-      label: "Test",
-      description: "Take a test and evaluate your results",
-      icon: Clock3,
-    },
+{
+  value: "CLASSIC",
+  label: "Classic",
+  title: "Learn as you play",
+  description:
+    "Answer questions, get instant feedback, and see how you did along the way. Review each answer and learn from your mistakes.",
+  icon: Sparkles,
+},
+{
+  value: "TEST",
+  label: "Test",
+  title: "Test your knowledge",
+  description:
+    "Answer all questions without seeing feedback along the way. Once finished, review your answers and see your final results.",
+  icon: ClipboardCheck,
+},
   ];
 
   const options = [
@@ -130,7 +135,7 @@ export function StartAttemptSettingsForm({
                   </div>
 
                   <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                    {option.description}
+                    {option.title}
                   </p>
                 </button>
               );
@@ -144,8 +149,8 @@ export function StartAttemptSettingsForm({
             className="mt-3 rounded-lg bg-muted/50 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground"
           >
             {mode === "CLASSIC"
-              ? "Enjoy a flexible quiz experience. Take your time, review your answers, and learn along the way."
-              : "Simulate a real assessment. Complete the questions and evaluate your final performance."}
+              ? sessionOptions[0].description
+              : sessionOptions[1].description}
           </motion.p>
         </section>
 

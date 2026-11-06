@@ -7,11 +7,9 @@ import type {
   QuizSnapshot,
   RuntimeEnvironment,
   RuntimePhase,
-  RuntimeProgress,
   RuntimeQuestion,
   RuntimeSaveStatus,
   RuntimeStatus,
-  RuntimeTimerState,
   RuntimeView,
   SessionMode,
 } from "../types/runtime-types";
@@ -47,11 +45,10 @@ export type RuntimeState = {
 
   currentView: RuntimeView;
 
-  startedAt: number | null;
-  lastActivityAt: number | null;
-  pausedAt: number | null;
-  completedAt: number | null;
-  expiresAt: number | null;
+  startedAt: Date | null;
+  lastActivityAt: Date | null;
+  completedAt: Date | null;
+  expiresAt: Date | null;
 
   // Quiz content
   questions: RuntimeQuestion[];
@@ -79,8 +76,8 @@ export interface RuntimeActions {
   setStatus(status: RuntimeStatus): void;
   setPhase(phase: RuntimePhase): void;
   setCurrentView(view: RuntimeView): void;
-  startAttempt(startedAt: number): void;
-  completeAttempt(completedAt: number): void;
+  startAttempt(startedAt: Date): void;
+  completeAttempt(completedAt: Date): void;
 
   // Questions and navigation
   setCurrentQuestion(index: number): void;
@@ -98,7 +95,7 @@ export interface RuntimeActions {
 
   markFeedbackAsSeen: (questionId: string) => void;
 
-  timeoutQuestion: (questionId: string, timedOutAt: number) => void;
+  timeoutQuestion: (questionId: string, timedOutAt: Date) => void;
 
   // Reset
   reset(): void;
@@ -109,15 +106,6 @@ export type RuntimeStore = RuntimeState & RuntimeActions;
 // --------------------------------------------------
 // Default state
 // --------------------------------------------------
-
-export const defaultRuntimeTimer: RuntimeTimerState = {
-  questionStartedAt: null,
-  questionDeadlineAt: null,
-  attemptDeadlineAt: null,
-  isQuestionTimerRunning: false,
-  isAttemptTimerRunning: false,
-  enable: false,
-};
 
 export const defaultRuntimePersistence: RuntimePersistenceState = {
   error: null,
@@ -152,7 +140,6 @@ export const defaultRuntimeState: RuntimeState = {
 
   startedAt: null,
   lastActivityAt: null,
-  pausedAt: null,
   completedAt: null,
   expiresAt: null,
 

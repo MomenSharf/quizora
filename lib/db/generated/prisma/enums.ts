@@ -54,7 +54,7 @@ export type QuizAttemptStatus = (typeof QuizAttemptStatus)[keyof typeof QuizAtte
 export const AttemptQuestionStatus = {
   UNANSWERED: 'UNANSWERED',
   ANSWERED: 'ANSWERED',
-  TIME_OUT: 'TIME_OUT'
+  TIMED_OUT: 'TIMED_OUT'
 } as const
 
 export type AttemptQuestionStatus = (typeof AttemptQuestionStatus)[keyof typeof AttemptQuestionStatus]

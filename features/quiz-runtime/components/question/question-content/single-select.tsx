@@ -36,11 +36,7 @@ export default function SingleSelectContent({
 
     setAnswer(runtimeQuestion.id, {
       type: "SINGLE_SELECT",
-      questionId: runtimeQuestion.id,
       optionId,
-      // eslint-disable-next-line react-hooks/purity
-      answeredAt: Date.now(),
-      timeSpentSeconds: 0,
     });
   };
 
@@ -50,7 +46,7 @@ export default function SingleSelectContent({
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 px-1">
       {/* Question status */}
       <div className="flex min-h-7 items-center justify-between gap-3">
         <AnimatePresence mode="wait">

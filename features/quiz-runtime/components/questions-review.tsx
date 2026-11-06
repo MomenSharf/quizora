@@ -176,7 +176,8 @@ export default function QuestionsReview() {
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold">Jump to question</p>
           <span className="text-xs text-muted-foreground">
-            {allQuestions.filter((q) => q.visited).length} / {totalCount} visited
+            {allQuestions.filter((q) => q.visited).length} / {totalCount}{" "}
+            visited
           </span>
         </div>
 
@@ -346,7 +347,9 @@ function QuestionCard({
         />
 
         <div className="flex items-center gap-2 text-[11px]">
-          <span className={cn("inline-flex items-center gap-1", status.className)}>
+          <span
+            className={cn("inline-flex items-center gap-1", status.className)}
+          >
             <StatusIcon size={12} />
             {status.label}
           </span>
@@ -359,7 +362,7 @@ function QuestionCard({
           )}
 
           <span className="text-muted-foreground">
-            {question.maxPoints ?? question.question.config.points ?? 0} pts
+            {question.maxPoints ?? 0} pts
           </span>
         </div>
       </div>
@@ -367,13 +370,7 @@ function QuestionCard({
   );
 }
 
-function Legend({
-  color,
-  label,
-}: {
-  color: string;
-  label: string;
-}) {
+function Legend({ color, label }: { color: string; label: string }) {
   return (
     <span className="inline-flex items-center gap-1.5">
       <span className={cn("size-2 rounded-full", color)} />

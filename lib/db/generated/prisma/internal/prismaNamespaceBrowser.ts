@@ -222,6 +222,7 @@ export const AttemptQuestionScalarFieldEnum = {
   hasSeenFeedback: 'hasSeenFeedback',
   timeSpentSeconds: 'timeSpentSeconds',
   answeredAt: 'answeredAt',
+  evaluatedAt: 'evaluatedAt',
   updatedAt: 'updatedAt'
 } as const
 

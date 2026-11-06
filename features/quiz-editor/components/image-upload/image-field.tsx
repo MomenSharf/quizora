@@ -73,15 +73,15 @@ export function ImageField({
 
     try {
       await deleteFile(image.key);
-      field.onChange(undefined);
-      setDialogOpen(false);
-      setFile(null);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Failed to delete image.");
-    } finally {
-      setIsDeleting(false);
-    }
+    } 
+    
+    setFile(null);
+    setDialogOpen(false);
+    field.onChange(undefined);
+    setIsDeleting(false);
   };
 
   const handleEdit = async () => {

@@ -2,9 +2,7 @@
 
 import {
   useRuntime,
-  useRuntimeActions,
-  useRuntimeCurrentQuestion,
-  useRuntimePhase,
+  useRuntimeCurrentQuestion
 } from "../store";
 
 import type { QuizAttemptRuntime } from "../types/runtime-types";

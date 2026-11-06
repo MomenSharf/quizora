@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
+  IconLogout,
   IconMaximize,
   IconMinimize,
   IconSettings2,
@@ -22,7 +23,7 @@ export default function GamePlayHeader({
   onSettingsClick,
   onExitClick,
 }: GamePlayHeaderProps) {
-  const { title, currentQuestionIndex, totalQuestions, phase,currentView  } =
+  const { title, currentQuestionIndex, totalQuestions, phase, currentView } =
     useRuntimeHeader();
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -74,26 +75,19 @@ export default function GamePlayHeader({
           </span>
         </div>
 
-        { currentView === "REVIEW" ? <h1 className="font-bold">Review Questions</h1> : <QuizProgress
-          phase={phase}
-          currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={totalQuestions}
-          progress={progress}
-        />}
+        {currentView === "REVIEW" ? (
+          <h1 className="font-bold">Review Questions</h1>
+        ) : (
+          <QuizProgress
+            phase={phase}
+            currentQuestionIndex={currentQuestionIndex}
+            totalQuestions={totalQuestions}
+            progress={progress}
+          />
+        )}
 
         <div className="flex flex-1 items-center justify-end gap-1 sm:gap-1.5">
           <ThemeToggle />
-
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={onSettingsClick}
-            aria-label="Quiz settings"
-            className="size-8 shrink-0 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
-          >
-            <IconSettings2 className="size-4" stroke={1.8} />
-          </Button>
 
           <Button
             type="button"
@@ -118,10 +112,10 @@ export default function GamePlayHeader({
             variant="outline"
             size="sm"
             onClick={onExitClick}
-            className="h-8 shrink-0 gap-1 rounded-lg border-border/70 px-2 text-xs text-muted-foreground hover:border-destructive/30 hover:bg-destructive/5 hover:text-destructive sm:gap-1.5"
+            className="h-8 shrink-0 gap-1.5 rounded-lg border-border/70 px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
           >
-            <IconX className="size-3.5" stroke={1.8} />
-            <span className="hidden md:inline">Exit Quiz</span>
+            <IconLogout className="size-3.5" stroke={"1.8"} />
+            <span className="hidden md:inline">Save & Exit</span>
           </Button>
         </div>
       </div>

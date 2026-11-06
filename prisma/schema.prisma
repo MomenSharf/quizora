@@ -173,7 +173,7 @@ enum QuizAttemptStatus {
 enum AttemptQuestionStatus {
   UNANSWERED
   ANSWERED
-  TIME_OUT
+  TIMED_OUT
 }
 
 model QuizAttempt {
@@ -218,7 +218,7 @@ model AttemptQuestion {
   id        String @id @default(cuid())
   attemptId String
 
-  questionId       String?
+  questionId       String
   orderIndex       Int
 
   questionSnapshot Json
@@ -243,6 +243,7 @@ model AttemptQuestion {
 
   timeSpentSeconds Int       @default(0)
   answeredAt       DateTime?
+  evaluatedAt DateTime?
 
   updatedAt DateTime @updatedAt
 

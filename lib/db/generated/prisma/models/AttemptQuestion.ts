@@ -57,6 +57,7 @@ export type AttemptQuestionMinAggregateOutputType = {
   hasSeenFeedback: boolean | null
   timeSpentSeconds: number | null
   answeredAt: Date | null
+  evaluatedAt: Date | null
   updatedAt: Date | null
 }
 
@@ -77,6 +78,7 @@ export type AttemptQuestionMaxAggregateOutputType = {
   hasSeenFeedback: boolean | null
   timeSpentSeconds: number | null
   answeredAt: Date | null
+  evaluatedAt: Date | null
   updatedAt: Date | null
 }
 
@@ -100,6 +102,7 @@ export type AttemptQuestionCountAggregateOutputType = {
   hasSeenFeedback: number
   timeSpentSeconds: number
   answeredAt: number
+  evaluatedAt: number
   updatedAt: number
   _all: number
 }
@@ -136,6 +139,7 @@ export type AttemptQuestionMinAggregateInputType = {
   hasSeenFeedback?: true
   timeSpentSeconds?: true
   answeredAt?: true
+  evaluatedAt?: true
   updatedAt?: true
 }
 
@@ -156,6 +160,7 @@ export type AttemptQuestionMaxAggregateInputType = {
   hasSeenFeedback?: true
   timeSpentSeconds?: true
   answeredAt?: true
+  evaluatedAt?: true
   updatedAt?: true
 }
 
@@ -179,6 +184,7 @@ export type AttemptQuestionCountAggregateInputType = {
   hasSeenFeedback?: true
   timeSpentSeconds?: true
   answeredAt?: true
+  evaluatedAt?: true
   updatedAt?: true
   _all?: true
 }
@@ -272,7 +278,7 @@ export type AttemptQuestionGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type AttemptQuestionGroupByOutputType = {
   id: string
   attemptId: string
-  questionId: string | null
+  questionId: string
   orderIndex: number
   questionSnapshot: runtime.JsonValue
   status: $Enums.AttemptQuestionStatus
@@ -289,6 +295,7 @@ export type AttemptQuestionGroupByOutputType = {
   hasSeenFeedback: boolean
   timeSpentSeconds: number
   answeredAt: Date | null
+  evaluatedAt: Date | null
   updatedAt: Date
   _count: AttemptQuestionCountAggregateOutputType | null
   _avg: AttemptQuestionAvgAggregateOutputType | null
@@ -318,7 +325,7 @@ export type AttemptQuestionWhereInput = {
   NOT?: Prisma.AttemptQuestionWhereInput | Prisma.AttemptQuestionWhereInput[]
   id?: Prisma.StringFilter<"AttemptQuestion"> | string
   attemptId?: Prisma.StringFilter<"AttemptQuestion"> | string
-  questionId?: Prisma.StringNullableFilter<"AttemptQuestion"> | string | null
+  questionId?: Prisma.StringFilter<"AttemptQuestion"> | string
   orderIndex?: Prisma.IntFilter<"AttemptQuestion"> | number
   questionSnapshot?: Prisma.JsonFilter<"AttemptQuestion">
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
@@ -335,6 +342,7 @@ export type AttemptQuestionWhereInput = {
   hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
+  evaluatedAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
   attempt?: Prisma.XOR<Prisma.QuizAttemptScalarRelationFilter, Prisma.QuizAttemptWhereInput>
 }
@@ -342,7 +350,7 @@ export type AttemptQuestionWhereInput = {
 export type AttemptQuestionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   attemptId?: Prisma.SortOrder
-  questionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  questionId?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   questionSnapshot?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -359,6 +367,7 @@ export type AttemptQuestionOrderByWithRelationInput = {
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  evaluatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   attempt?: Prisma.QuizAttemptOrderByWithRelationInput
 }
@@ -370,7 +379,7 @@ export type AttemptQuestionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AttemptQuestionWhereInput[]
   NOT?: Prisma.AttemptQuestionWhereInput | Prisma.AttemptQuestionWhereInput[]
   attemptId?: Prisma.StringFilter<"AttemptQuestion"> | string
-  questionId?: Prisma.StringNullableFilter<"AttemptQuestion"> | string | null
+  questionId?: Prisma.StringFilter<"AttemptQuestion"> | string
   orderIndex?: Prisma.IntFilter<"AttemptQuestion"> | number
   questionSnapshot?: Prisma.JsonFilter<"AttemptQuestion">
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
@@ -387,6 +396,7 @@ export type AttemptQuestionWhereUniqueInput = Prisma.AtLeast<{
   hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
+  evaluatedAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
   attempt?: Prisma.XOR<Prisma.QuizAttemptScalarRelationFilter, Prisma.QuizAttemptWhereInput>
 }, "id" | "attemptId_orderIndex">
@@ -394,7 +404,7 @@ export type AttemptQuestionWhereUniqueInput = Prisma.AtLeast<{
 export type AttemptQuestionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   attemptId?: Prisma.SortOrder
-  questionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  questionId?: Prisma.SortOrder
   orderIndex?: Prisma.SortOrder
   questionSnapshot?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -411,6 +421,7 @@ export type AttemptQuestionOrderByWithAggregationInput = {
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  evaluatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.AttemptQuestionCountOrderByAggregateInput
   _avg?: Prisma.AttemptQuestionAvgOrderByAggregateInput
@@ -425,7 +436,7 @@ export type AttemptQuestionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AttemptQuestionScalarWhereWithAggregatesInput | Prisma.AttemptQuestionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"AttemptQuestion"> | string
   attemptId?: Prisma.StringWithAggregatesFilter<"AttemptQuestion"> | string
-  questionId?: Prisma.StringNullableWithAggregatesFilter<"AttemptQuestion"> | string | null
+  questionId?: Prisma.StringWithAggregatesFilter<"AttemptQuestion"> | string
   orderIndex?: Prisma.IntWithAggregatesFilter<"AttemptQuestion"> | number
   questionSnapshot?: Prisma.JsonWithAggregatesFilter<"AttemptQuestion">
   status?: Prisma.EnumAttemptQuestionStatusWithAggregatesFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
@@ -442,12 +453,13 @@ export type AttemptQuestionScalarWhereWithAggregatesInput = {
   hasSeenFeedback?: Prisma.BoolWithAggregatesFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntWithAggregatesFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AttemptQuestion"> | Date | string | null
+  evaluatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AttemptQuestion"> | Date | string
 }
 
 export type AttemptQuestionCreateInput = {
   id?: string
-  questionId?: string | null
+  questionId: string
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.AttemptQuestionStatus
@@ -464,6 +476,7 @@ export type AttemptQuestionCreateInput = {
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
+  evaluatedAt?: Date | string | null
   updatedAt?: Date | string
   attempt: Prisma.QuizAttemptCreateNestedOneWithoutQuestionsInput
 }
@@ -471,7 +484,7 @@ export type AttemptQuestionCreateInput = {
 export type AttemptQuestionUncheckedCreateInput = {
   id?: string
   attemptId: string
-  questionId?: string | null
+  questionId: string
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.AttemptQuestionStatus
@@ -488,12 +501,13 @@ export type AttemptQuestionUncheckedCreateInput = {
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
+  evaluatedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
 export type AttemptQuestionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  questionId?: Prisma.StringFieldUpdateOperationsInput | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
@@ -510,6 +524,7 @@ export type AttemptQuestionUpdateInput = {
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attempt?: Prisma.QuizAttemptUpdateOneRequiredWithoutQuestionsNestedInput
 }
@@ -517,7 +532,7 @@ export type AttemptQuestionUpdateInput = {
 export type AttemptQuestionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  questionId?: Prisma.StringFieldUpdateOperationsInput | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
@@ -534,13 +549,14 @@ export type AttemptQuestionUncheckedUpdateInput = {
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AttemptQuestionCreateManyInput = {
   id?: string
   attemptId: string
-  questionId?: string | null
+  questionId: string
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.AttemptQuestionStatus
@@ -557,12 +573,13 @@ export type AttemptQuestionCreateManyInput = {
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
+  evaluatedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
 export type AttemptQuestionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  questionId?: Prisma.StringFieldUpdateOperationsInput | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
@@ -579,13 +596,14 @@ export type AttemptQuestionUpdateManyMutationInput = {
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AttemptQuestionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   attemptId?: Prisma.StringFieldUpdateOperationsInput | string
-  questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  questionId?: Prisma.StringFieldUpdateOperationsInput | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
@@ -602,6 +620,7 @@ export type AttemptQuestionUncheckedUpdateManyInput = {
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -640,6 +659,7 @@ export type AttemptQuestionCountOrderByAggregateInput = {
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
+  evaluatedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -667,6 +687,7 @@ export type AttemptQuestionMaxOrderByAggregateInput = {
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
+  evaluatedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -687,6 +708,7 @@ export type AttemptQuestionMinOrderByAggregateInput = {
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
+  evaluatedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -745,7 +767,7 @@ export type EnumAttemptQuestionStatusFieldUpdateOperationsInput = {
 
 export type AttemptQuestionCreateWithoutAttemptInput = {
   id?: string
-  questionId?: string | null
+  questionId: string
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.AttemptQuestionStatus
@@ -762,12 +784,13 @@ export type AttemptQuestionCreateWithoutAttemptInput = {
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
+  evaluatedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
 export type AttemptQuestionUncheckedCreateWithoutAttemptInput = {
   id?: string
-  questionId?: string | null
+  questionId: string
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.AttemptQuestionStatus
@@ -784,6 +807,7 @@ export type AttemptQuestionUncheckedCreateWithoutAttemptInput = {
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
+  evaluatedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
@@ -819,7 +843,7 @@ export type AttemptQuestionScalarWhereInput = {
   NOT?: Prisma.AttemptQuestionScalarWhereInput | Prisma.AttemptQuestionScalarWhereInput[]
   id?: Prisma.StringFilter<"AttemptQuestion"> | string
   attemptId?: Prisma.StringFilter<"AttemptQuestion"> | string
-  questionId?: Prisma.StringNullableFilter<"AttemptQuestion"> | string | null
+  questionId?: Prisma.StringFilter<"AttemptQuestion"> | string
   orderIndex?: Prisma.IntFilter<"AttemptQuestion"> | number
   questionSnapshot?: Prisma.JsonFilter<"AttemptQuestion">
   status?: Prisma.EnumAttemptQuestionStatusFilter<"AttemptQuestion"> | $Enums.AttemptQuestionStatus
@@ -836,12 +860,13 @@ export type AttemptQuestionScalarWhereInput = {
   hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
+  evaluatedAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
 }
 
 export type AttemptQuestionCreateManyAttemptInput = {
   id?: string
-  questionId?: string | null
+  questionId: string
   orderIndex: number
   questionSnapshot: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.AttemptQuestionStatus
@@ -858,12 +883,13 @@ export type AttemptQuestionCreateManyAttemptInput = {
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
   answeredAt?: Date | string | null
+  evaluatedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
 export type AttemptQuestionUpdateWithoutAttemptInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  questionId?: Prisma.StringFieldUpdateOperationsInput | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
@@ -880,12 +906,13 @@ export type AttemptQuestionUpdateWithoutAttemptInput = {
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AttemptQuestionUncheckedUpdateWithoutAttemptInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  questionId?: Prisma.StringFieldUpdateOperationsInput | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
@@ -902,12 +929,13 @@ export type AttemptQuestionUncheckedUpdateWithoutAttemptInput = {
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AttemptQuestionUncheckedUpdateManyWithoutAttemptInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  questionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  questionId?: Prisma.StringFieldUpdateOperationsInput | string
   orderIndex?: Prisma.IntFieldUpdateOperationsInput | number
   questionSnapshot?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumAttemptQuestionStatusFieldUpdateOperationsInput | $Enums.AttemptQuestionStatus
@@ -924,6 +952,7 @@ export type AttemptQuestionUncheckedUpdateManyWithoutAttemptInput = {
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -949,6 +978,7 @@ export type AttemptQuestionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
+  evaluatedAt?: boolean
   updatedAt?: boolean
   attempt?: boolean | Prisma.QuizAttemptDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attemptQuestion"]>
@@ -973,6 +1003,7 @@ export type AttemptQuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
+  evaluatedAt?: boolean
   updatedAt?: boolean
   attempt?: boolean | Prisma.QuizAttemptDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attemptQuestion"]>
@@ -997,6 +1028,7 @@ export type AttemptQuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
+  evaluatedAt?: boolean
   updatedAt?: boolean
   attempt?: boolean | Prisma.QuizAttemptDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attemptQuestion"]>
@@ -1021,10 +1053,11 @@ export type AttemptQuestionSelectScalar = {
   hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
   answeredAt?: boolean
+  evaluatedAt?: boolean
   updatedAt?: boolean
 }
 
-export type AttemptQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "orderIndex" | "questionSnapshot" | "status" | "answer" | "evaluation" | "earnedPoints" | "maxPoints" | "flagged" | "locked" | "visited" | "startedAt" | "deadlineAt" | "isQuestionTimerRunning" | "hasSeenFeedback" | "timeSpentSeconds" | "answeredAt" | "updatedAt", ExtArgs["result"]["attemptQuestion"]>
+export type AttemptQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "orderIndex" | "questionSnapshot" | "status" | "answer" | "evaluation" | "earnedPoints" | "maxPoints" | "flagged" | "locked" | "visited" | "startedAt" | "deadlineAt" | "isQuestionTimerRunning" | "hasSeenFeedback" | "timeSpentSeconds" | "answeredAt" | "evaluatedAt" | "updatedAt", ExtArgs["result"]["attemptQuestion"]>
 export type AttemptQuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attempt?: boolean | Prisma.QuizAttemptDefaultArgs<ExtArgs>
 }
@@ -1043,7 +1076,7 @@ export type $AttemptQuestionPayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     attemptId: string
-    questionId: string | null
+    questionId: string
     orderIndex: number
     questionSnapshot: runtime.JsonValue
     status: $Enums.AttemptQuestionStatus
@@ -1060,6 +1093,7 @@ export type $AttemptQuestionPayload<ExtArgs extends runtime.Types.Extensions.Int
     hasSeenFeedback: boolean
     timeSpentSeconds: number
     answeredAt: Date | null
+    evaluatedAt: Date | null
     updatedAt: Date
   }, ExtArgs["result"]["attemptQuestion"]>
   composites: {}
@@ -1504,6 +1538,7 @@ export interface AttemptQuestionFieldRefs {
   readonly hasSeenFeedback: Prisma.FieldRef<"AttemptQuestion", 'Boolean'>
   readonly timeSpentSeconds: Prisma.FieldRef<"AttemptQuestion", 'Int'>
   readonly answeredAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>
+  readonly evaluatedAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>
 }
     

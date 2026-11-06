@@ -1,106 +1,202 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen, Clock3, Gamepad2, Layers3 } from "lucide-react";
-import type { QuizSnapshot, SessionMode } from "../types/runtime-types";
+import {
+  ArrowRight,
+  BookOpen,
+  Clock3,
+  Gamepad2,
+  Layers3,
+  ChevronDown,
+  Sparkles,
+} from "lucide-react";
+
 import { useRuntime, useRuntimeActions } from "../store";
 
 export default function QuizReadyPage() {
   const { quizSnapshot, questionCount } = useRuntime();
+  const { startAttempt } = useRuntimeActions();
 
-  const { title, description, tags, category, language } = quizSnapshot;
+  const { title, description, tags, category, language, thumbnail } =
+    quizSnapshot;
 
-  const {startAttempt} = useRuntimeActions()
+  const [expanded, setExpanded] = useState(false);
+
+  // Replace with your actual attempt-resume condition.
+  const canResume = false;
+
+  const hasMetadata = Boolean(category || language || tags.length > 0);
+
+  const handleStart = () => {
+    if (canResume) {
+      // Add your resume action here.
+      return;
+    }
+
+    startAttempt(new Date());
+  };
+
   return (
-    <div className="relative flex w-full flex-1 items-center justify-center px-3 py-4 sm:px-5">
+    <div className="flex w-full flex-1 items-center justify-center overflow-y-auto px-4 py-5 sm:px-6">
       <motion.section
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.25 }}
-        className="w-full max-w-xl"
+        transition={{ duration: 0.3 }}
+        className="relative w-full max-w-md"
       >
+        {/* Header */}
         <div className="flex flex-col items-center text-center">
-          <div
-            className={`flex size-10 items-center justify-center rounded-xl text-primary bg-primary/10`}
-          >
-            <Gamepad2 size={21} strokeWidth={1.8} />
+          <div className="relative mb-3 flex size-9 items-center justify-center rounded-xl border border-primary/15 bg-primary/10 text-primary">
+            <Gamepad2 size={19} strokeWidth={1.8} />
+
+            <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full border-2 border-background bg-primary text-primary-foreground">
+              <Sparkles size={9} />
+            </span>
           </div>
 
-          <h1 className="mt-2 max-w-lg text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-            {title}
-          </h1>
+          <span className="mb-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-primary">
+            {canResume ? "Welcome back" : "Ready when you are"}
+          </span>
 
-          {description?.trim() && (
-            <p className="mt-2 line-clamp-2 max-w-md text-sm leading-5 text-muted-foreground">
-              {description}
-            </p>
-          )}
+          {/* Thumbnail + Quiz information */}
+          <div className="flex w-full items-center gap-3 rounded-xl border border-border/70 bg-card/60 p-2.5 text-left">
+            {thumbnail?.url ? (
+              <div className="relative size-[76px] shrink-0 overflow-hidden rounded-lg bg-muted">
+                <Image
+                  src={thumbnail.url}
+                  alt={thumbnail.alt ?? title ?? "Quiz image"}
+                  fill
+                  sizes="76px"
+                  unoptimized
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="flex size-[76px] shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <BookOpen size={27} strokeWidth={1.6} />
+              </div>
+            )}
 
-          {(category || language || tags.length > 0) && (
-            <div className="mt-3 flex flex-wrap justify-center gap-1.5">
-              {category && (
-                <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-1 text-[11px] text-muted-foreground">
-                  <BookOpen size={12} />
-                  {category}
-                </span>
+            <div className="min-w-0 flex-1">
+              <h1 className="line-clamp-2 text-base font-bold leading-snug tracking-tight text-foreground sm:text-lg">
+                {title}
+              </h1>
+
+              {description && (
+                <div className="mt-1">
+                  <p
+                    className={`whitespace-pre-line text-[11px] leading-[1.5] text-muted-foreground ${
+                      expanded ? "" : "line-clamp-2"
+                    }`}
+                  >
+                    {description}
+                  </p>
+
+                  {description && description.length > 110 && (
+                    <button
+                      type="button"
+                      onClick={() => setExpanded((value) => !value)}
+                      className="mt-1 inline-flex items-center gap-1 text-[10px] font-medium text-primary hover:text-primary/80"
+                    >
+                      {expanded ? "Show less" : "Read more"}
+                      <ChevronDown
+                        size={11}
+                        className={`transition-transform ${
+                          expanded ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  )}
+                </div>
               )}
-
-              {language && (
-                <span className="rounded-md bg-muted px-2 py-1 text-[11px] text-muted-foreground">
-                  {language}
-                </span>
-              )}
-
-              {tags.slice(0, 2).map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
             </div>
-          )}
+          </div>
         </div>
 
-        <div className="mx-auto mt-5 flex max-w-sm divide-x divide-border rounded-xl border border-border/70 bg-card">
-          <div className="flex flex-1 items-center justify-center gap-2.5 px-3 py-3">
-            <Layers3 size={17} className="text-muted-foreground" />
-            <div className="text-left">
-              <p className="text-sm font-semibold tabular-nums">
+        {/* Metadata */}
+        {hasMetadata && (
+          <div className="mt-3 flex flex-wrap justify-center gap-1.5">
+            {category && (
+              <span className="inline-flex max-w-36 items-center gap-1 rounded-full border border-border/70 px-2 py-1 text-[10px] text-muted-foreground">
+                <BookOpen size={11} className="shrink-0" />
+                <span className="truncate">{category}</span>
+              </span>
+            )}
+
+            {language && (
+              <span className="rounded-full border border-border/70 px-2 py-1 text-[10px] text-muted-foreground">
+                {language}
+              </span>
+            )}
+
+            {tags.slice(0, 2).map((tag) => (
+              <span
+                key={tag}
+                className="max-w-28 truncate rounded-full bg-muted/70 px-2 py-1 text-[10px] text-muted-foreground"
+              >
+                #{tag}
+              </span>
+            ))}
+
+            {tags.length > 2 && (
+              <span className="rounded-full bg-muted/70 px-2 py-1 text-[10px] text-muted-foreground">
+                +{tags.length - 2}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Stats */}
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <div className="flex items-center gap-2.5 rounded-lg border border-border/70 bg-card/70 px-3 py-2.5">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <Layers3 size={16} />
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold leading-none tabular-nums">
                 {questionCount}
               </p>
-              <p className="text-[11px] text-muted-foreground">
-                {questionCount === 1 ? "Question" : "Questions"}
+              <p className="mt-1 text-[10px] text-muted-foreground">
+                Questions
               </p>
             </div>
           </div>
 
-          <div className="flex min-w-0 flex-1 items-center justify-center gap-2.5 px-3 py-3">
-            <Clock3 size={17} className="text-muted-foreground" />
-            <div className="min-w-0 text-left">
-              <p className="truncate text-sm font-semibold">mo limit</p>
-              <p className="text-[11px] text-muted-foreground">Duration</p>
+          <div className="flex items-center gap-2.5 rounded-lg border border-border/70 bg-card/70 px-3 py-2.5">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
+              <Clock3 size={16} />
+            </div>
+
+            <div className="min-w-0">
+              <p className="truncate text-xs font-semibold">No time limit</p>
+              <p className="mt-1 text-[10px] text-muted-foreground">Duration</p>
             </div>
           </div>
         </div>
 
-        <div className="mx-auto mt-4 max-w-sm">
+        {/* Start / Resume */}
+        <div className="mt-4">
           <motion.button
             type="button"
-            whileTap={{ scale: 0.98 }}
-            onClick={() => startAttempt(Date.now())}
-            className="group flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            whileTap={{ scale: 0.985 }}
+            onClick={handleStart}
+            className="group flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/10 transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
-            Start practicing
+            {canResume ? "Resume quiz" : "Start quiz"}
+
             <ArrowRight
               size={15}
-              className="transition-transform group-hover:translate-x-0.5"
+              className="transition-transform group-hover:translate-x-1"
             />
           </motion.button>
 
-          <p className="mt-2 text-center text-[11px] text-muted-foreground">
-            Stay focused. Do your best.
+          <p className="mt-2 text-center text-[10px] text-muted-foreground">
+            {canResume
+              ? "Continue where you left off."
+              : "Take your time. Enjoy the experience."}
           </p>
         </div>
       </motion.section>

@@ -62,7 +62,7 @@ export function QuestionFormRouter() {
 
   return (
     <div className="flex min-h-0 w-full flex-1 justify-center">
-      <div className="w-full max-w-5xl">
+      <div className="w-full max-w-3xl">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={question.id}

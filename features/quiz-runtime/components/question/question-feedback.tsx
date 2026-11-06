@@ -82,7 +82,6 @@ export default function QuestionFeedback({
   const result = variants[evaluation.outcome];
   const Icon = result.icon;
 
-  const hasPoints = evaluation.visibility.showEarnedPoints;
   const hasAccuracy = evaluation.accuracy !== null;
   const hasFeedback = Boolean(evaluation.feedback?.trim());
 
@@ -120,14 +119,12 @@ export default function QuestionFeedback({
           )}
         </div>
 
-        {hasPoints && (
-          <div className="shrink-0 rounded-lg bg-background/70 px-2.5 py-1.5 text-xs font-semibold tabular-nums text-foreground">
+=          <div className="shrink-0 rounded-lg bg-background/70 px-2.5 py-1.5 text-xs font-semibold tabular-nums text-foreground">
             {evaluation.earnedPoints}/{evaluation.maxPoints}
             <span className="ml-1 font-medium text-muted-foreground">
               pts
             </span>
           </div>
-        )}
 
         {hasAccuracy && (
           <div className="shrink-0 rounded-lg bg-background/70 px-2.5 py-1.5 text-xs font-semibold tabular-nums text-foreground">

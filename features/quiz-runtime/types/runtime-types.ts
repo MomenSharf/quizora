@@ -111,11 +111,10 @@ export type QuizAttemptRuntime = {
 
   currentQuestionIndex: number;
 
-  startedAt: number | null;
-  lastActivityAt: number | null;
-  pausedAt: number | null;
-  completedAt: number | null;
-  expiresAt: number | null;
+  startedAt: Date | null;
+  lastActivityAt: Date | null;
+  completedAt: Date | null;
+  expiresAt: Date | null;
 
   saveStatus: RuntimeSaveStatus;
 };

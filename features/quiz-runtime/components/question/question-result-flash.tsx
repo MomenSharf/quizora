@@ -12,6 +12,7 @@ const flashColors: Record<EvaluationOutcome, string | null> = {
   CORRECT: "bg-emerald-500",
   INCORRECT: "bg-rose-500",
   PARTIALLY_CORRECT: "bg-amber-500",
+  TIMEOUT: "bg-orange-500",
   UNANSWERED: null,
   NOT_APPLICABLE: null,
 };
