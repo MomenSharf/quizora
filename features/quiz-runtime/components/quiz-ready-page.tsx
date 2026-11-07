@@ -16,8 +16,14 @@ import {
 import { useRuntime, useRuntimeActions } from "../store";
 
 export default function QuizReadyPage() {
-  const { quizSnapshot, questionCount, startedAt, questions, settings } =
-    useRuntime();
+  const {
+    quizSnapshot,
+    questionCount,
+    startedAt,
+    completedAt,
+    questions,
+    settings,
+  } = useRuntime();
   const { startAttempt, resumeAttempt } = useRuntimeActions();
 
   const { title, description, tags, category, language, thumbnail } =
@@ -25,8 +31,7 @@ export default function QuizReadyPage() {
 
   const [expanded, setExpanded] = useState(false);
 
-  // Replace with your actual attempt-resume condition.
-  const canResume = startedAt !== null;
+const canResume = startedAt !== null && completedAt === null;
 
   const hasMetadata = Boolean(category || language || tags.length > 0);
 

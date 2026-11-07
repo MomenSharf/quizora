@@ -55,12 +55,15 @@ export const quizRuntimeService = {
         throw AppErrors.badRequest("This quiz has no questions");
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { keyboardShortcutsEnabled, ...attemptSettings } = settings;
+
       const attempt = await tx.quizAttempt.create({
         data: {
           userId,
           quizId,
           mode,
-          ...settings,
+          ...attemptSettings,
 
           quizSnapshot: {
             title: quiz.title,

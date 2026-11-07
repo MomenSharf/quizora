@@ -23,6 +23,8 @@ export const startAttempt = async ({
   tryCatchAsync(async () => {
     const { user } = await requireAuth();
 
+    const {keyboardShortcutsEnabled, ...resSettings} = settings
+
     const result = await quizRuntimeService.createAttempt({
       quizId,
       userId: user.id,
