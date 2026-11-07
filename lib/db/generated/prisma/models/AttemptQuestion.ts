@@ -31,6 +31,7 @@ export type AttemptQuestionAvgAggregateOutputType = {
   earnedPoints: number | null
   maxPoints: number | null
   timeSpentSeconds: number | null
+  timeLimitSeconds: number | null
 }
 
 export type AttemptQuestionSumAggregateOutputType = {
@@ -38,6 +39,7 @@ export type AttemptQuestionSumAggregateOutputType = {
   earnedPoints: number | null
   maxPoints: number | null
   timeSpentSeconds: number | null
+  timeLimitSeconds: number | null
 }
 
 export type AttemptQuestionMinAggregateOutputType = {
@@ -56,6 +58,7 @@ export type AttemptQuestionMinAggregateOutputType = {
   isQuestionTimerRunning: boolean | null
   hasSeenFeedback: boolean | null
   timeSpentSeconds: number | null
+  timeLimitSeconds: number | null
   answeredAt: Date | null
   evaluatedAt: Date | null
   updatedAt: Date | null
@@ -77,6 +80,7 @@ export type AttemptQuestionMaxAggregateOutputType = {
   isQuestionTimerRunning: boolean | null
   hasSeenFeedback: boolean | null
   timeSpentSeconds: number | null
+  timeLimitSeconds: number | null
   answeredAt: Date | null
   evaluatedAt: Date | null
   updatedAt: Date | null
@@ -101,6 +105,7 @@ export type AttemptQuestionCountAggregateOutputType = {
   isQuestionTimerRunning: number
   hasSeenFeedback: number
   timeSpentSeconds: number
+  timeLimitSeconds: number
   answeredAt: number
   evaluatedAt: number
   updatedAt: number
@@ -113,6 +118,7 @@ export type AttemptQuestionAvgAggregateInputType = {
   earnedPoints?: true
   maxPoints?: true
   timeSpentSeconds?: true
+  timeLimitSeconds?: true
 }
 
 export type AttemptQuestionSumAggregateInputType = {
@@ -120,6 +126,7 @@ export type AttemptQuestionSumAggregateInputType = {
   earnedPoints?: true
   maxPoints?: true
   timeSpentSeconds?: true
+  timeLimitSeconds?: true
 }
 
 export type AttemptQuestionMinAggregateInputType = {
@@ -138,6 +145,7 @@ export type AttemptQuestionMinAggregateInputType = {
   isQuestionTimerRunning?: true
   hasSeenFeedback?: true
   timeSpentSeconds?: true
+  timeLimitSeconds?: true
   answeredAt?: true
   evaluatedAt?: true
   updatedAt?: true
@@ -159,6 +167,7 @@ export type AttemptQuestionMaxAggregateInputType = {
   isQuestionTimerRunning?: true
   hasSeenFeedback?: true
   timeSpentSeconds?: true
+  timeLimitSeconds?: true
   answeredAt?: true
   evaluatedAt?: true
   updatedAt?: true
@@ -183,6 +192,7 @@ export type AttemptQuestionCountAggregateInputType = {
   isQuestionTimerRunning?: true
   hasSeenFeedback?: true
   timeSpentSeconds?: true
+  timeLimitSeconds?: true
   answeredAt?: true
   evaluatedAt?: true
   updatedAt?: true
@@ -294,6 +304,7 @@ export type AttemptQuestionGroupByOutputType = {
   isQuestionTimerRunning: boolean
   hasSeenFeedback: boolean
   timeSpentSeconds: number
+  timeLimitSeconds: number
   answeredAt: Date | null
   evaluatedAt: Date | null
   updatedAt: Date
@@ -341,6 +352,7 @@ export type AttemptQuestionWhereInput = {
   isQuestionTimerRunning?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
+  timeLimitSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   evaluatedAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -366,6 +378,7 @@ export type AttemptQuestionOrderByWithRelationInput = {
   isQuestionTimerRunning?: Prisma.SortOrder
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   evaluatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -395,6 +408,7 @@ export type AttemptQuestionWhereUniqueInput = Prisma.AtLeast<{
   isQuestionTimerRunning?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
+  timeLimitSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   evaluatedAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -420,6 +434,7 @@ export type AttemptQuestionOrderByWithAggregationInput = {
   isQuestionTimerRunning?: Prisma.SortOrder
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   evaluatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -452,6 +467,7 @@ export type AttemptQuestionScalarWhereWithAggregatesInput = {
   isQuestionTimerRunning?: Prisma.BoolWithAggregatesFilter<"AttemptQuestion"> | boolean
   hasSeenFeedback?: Prisma.BoolWithAggregatesFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntWithAggregatesFilter<"AttemptQuestion"> | number
+  timeLimitSeconds?: Prisma.IntWithAggregatesFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AttemptQuestion"> | Date | string | null
   evaluatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AttemptQuestion"> | Date | string
@@ -475,6 +491,7 @@ export type AttemptQuestionCreateInput = {
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
+  timeLimitSeconds: number
   answeredAt?: Date | string | null
   evaluatedAt?: Date | string | null
   updatedAt?: Date | string
@@ -500,6 +517,7 @@ export type AttemptQuestionUncheckedCreateInput = {
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
+  timeLimitSeconds: number
   answeredAt?: Date | string | null
   evaluatedAt?: Date | string | null
   updatedAt?: Date | string
@@ -523,6 +541,7 @@ export type AttemptQuestionUpdateInput = {
   isQuestionTimerRunning?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -548,6 +567,7 @@ export type AttemptQuestionUncheckedUpdateInput = {
   isQuestionTimerRunning?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -572,6 +592,7 @@ export type AttemptQuestionCreateManyInput = {
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
+  timeLimitSeconds: number
   answeredAt?: Date | string | null
   evaluatedAt?: Date | string | null
   updatedAt?: Date | string
@@ -595,6 +616,7 @@ export type AttemptQuestionUpdateManyMutationInput = {
   isQuestionTimerRunning?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -619,6 +641,7 @@ export type AttemptQuestionUncheckedUpdateManyInput = {
   isQuestionTimerRunning?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -658,6 +681,7 @@ export type AttemptQuestionCountOrderByAggregateInput = {
   isQuestionTimerRunning?: Prisma.SortOrder
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   evaluatedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -668,6 +692,7 @@ export type AttemptQuestionAvgOrderByAggregateInput = {
   earnedPoints?: Prisma.SortOrder
   maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
 }
 
 export type AttemptQuestionMaxOrderByAggregateInput = {
@@ -686,6 +711,7 @@ export type AttemptQuestionMaxOrderByAggregateInput = {
   isQuestionTimerRunning?: Prisma.SortOrder
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   evaluatedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -707,6 +733,7 @@ export type AttemptQuestionMinOrderByAggregateInput = {
   isQuestionTimerRunning?: Prisma.SortOrder
   hasSeenFeedback?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   answeredAt?: Prisma.SortOrder
   evaluatedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -717,6 +744,7 @@ export type AttemptQuestionSumOrderByAggregateInput = {
   earnedPoints?: Prisma.SortOrder
   maxPoints?: Prisma.SortOrder
   timeSpentSeconds?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
 }
 
 export type AttemptQuestionCreateNestedManyWithoutAttemptInput = {
@@ -783,6 +811,7 @@ export type AttemptQuestionCreateWithoutAttemptInput = {
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
+  timeLimitSeconds: number
   answeredAt?: Date | string | null
   evaluatedAt?: Date | string | null
   updatedAt?: Date | string
@@ -806,6 +835,7 @@ export type AttemptQuestionUncheckedCreateWithoutAttemptInput = {
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
+  timeLimitSeconds: number
   answeredAt?: Date | string | null
   evaluatedAt?: Date | string | null
   updatedAt?: Date | string
@@ -859,6 +889,7 @@ export type AttemptQuestionScalarWhereInput = {
   isQuestionTimerRunning?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   hasSeenFeedback?: Prisma.BoolFilter<"AttemptQuestion"> | boolean
   timeSpentSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
+  timeLimitSeconds?: Prisma.IntFilter<"AttemptQuestion"> | number
   answeredAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   evaluatedAt?: Prisma.DateTimeNullableFilter<"AttemptQuestion"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"AttemptQuestion"> | Date | string
@@ -882,6 +913,7 @@ export type AttemptQuestionCreateManyAttemptInput = {
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: number
+  timeLimitSeconds: number
   answeredAt?: Date | string | null
   evaluatedAt?: Date | string | null
   updatedAt?: Date | string
@@ -905,6 +937,7 @@ export type AttemptQuestionUpdateWithoutAttemptInput = {
   isQuestionTimerRunning?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -928,6 +961,7 @@ export type AttemptQuestionUncheckedUpdateWithoutAttemptInput = {
   isQuestionTimerRunning?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -951,6 +985,7 @@ export type AttemptQuestionUncheckedUpdateManyWithoutAttemptInput = {
   isQuestionTimerRunning?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasSeenFeedback?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSpentSeconds?: Prisma.IntFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   answeredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   evaluatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -977,6 +1012,7 @@ export type AttemptQuestionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
+  timeLimitSeconds?: boolean
   answeredAt?: boolean
   evaluatedAt?: boolean
   updatedAt?: boolean
@@ -1002,6 +1038,7 @@ export type AttemptQuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
+  timeLimitSeconds?: boolean
   answeredAt?: boolean
   evaluatedAt?: boolean
   updatedAt?: boolean
@@ -1027,6 +1064,7 @@ export type AttemptQuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
+  timeLimitSeconds?: boolean
   answeredAt?: boolean
   evaluatedAt?: boolean
   updatedAt?: boolean
@@ -1052,12 +1090,13 @@ export type AttemptQuestionSelectScalar = {
   isQuestionTimerRunning?: boolean
   hasSeenFeedback?: boolean
   timeSpentSeconds?: boolean
+  timeLimitSeconds?: boolean
   answeredAt?: boolean
   evaluatedAt?: boolean
   updatedAt?: boolean
 }
 
-export type AttemptQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "orderIndex" | "questionSnapshot" | "status" | "answer" | "evaluation" | "earnedPoints" | "maxPoints" | "flagged" | "locked" | "visited" | "startedAt" | "deadlineAt" | "isQuestionTimerRunning" | "hasSeenFeedback" | "timeSpentSeconds" | "answeredAt" | "evaluatedAt" | "updatedAt", ExtArgs["result"]["attemptQuestion"]>
+export type AttemptQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "attemptId" | "questionId" | "orderIndex" | "questionSnapshot" | "status" | "answer" | "evaluation" | "earnedPoints" | "maxPoints" | "flagged" | "locked" | "visited" | "startedAt" | "deadlineAt" | "isQuestionTimerRunning" | "hasSeenFeedback" | "timeSpentSeconds" | "timeLimitSeconds" | "answeredAt" | "evaluatedAt" | "updatedAt", ExtArgs["result"]["attemptQuestion"]>
 export type AttemptQuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   attempt?: boolean | Prisma.QuizAttemptDefaultArgs<ExtArgs>
 }
@@ -1092,6 +1131,7 @@ export type $AttemptQuestionPayload<ExtArgs extends runtime.Types.Extensions.Int
     isQuestionTimerRunning: boolean
     hasSeenFeedback: boolean
     timeSpentSeconds: number
+    timeLimitSeconds: number
     answeredAt: Date | null
     evaluatedAt: Date | null
     updatedAt: Date
@@ -1537,6 +1577,7 @@ export interface AttemptQuestionFieldRefs {
   readonly isQuestionTimerRunning: Prisma.FieldRef<"AttemptQuestion", 'Boolean'>
   readonly hasSeenFeedback: Prisma.FieldRef<"AttemptQuestion", 'Boolean'>
   readonly timeSpentSeconds: Prisma.FieldRef<"AttemptQuestion", 'Int'>
+  readonly timeLimitSeconds: Prisma.FieldRef<"AttemptQuestion", 'Int'>
   readonly answeredAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>
   readonly evaluatedAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AttemptQuestion", 'DateTime'>

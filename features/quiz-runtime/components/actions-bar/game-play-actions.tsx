@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   IconArrowLeft,
   IconArrowRight,
@@ -51,7 +51,17 @@ const GAMEPLAY_ACTIONS: Record<GameplayAction, ActionConfig> = {
     icon: IconCheck,
     variant: "default",
   },
+  SUBMIT_DISABLED: {
+    label: "Submit",
+    icon: IconCheck,
+    variant: "default",
+  },
   NEXT: {
+    label: "Next",
+    icon: IconArrowRight,
+    variant: "default",
+  },
+  NEXT_DISABLED: {
     label: "Next",
     icon: IconArrowRight,
     variant: "default",
@@ -61,6 +71,7 @@ const GAMEPLAY_ACTIONS: Record<GameplayAction, ActionConfig> = {
     icon: IconFlag,
     variant: "default",
   },
+
   RESULTS: {
     label: "View results",
     icon: IconClipboardCheck,
@@ -91,6 +102,7 @@ export default function GamePlayActions({
   const { phase, currentView } = useRuntime();
 
   const {
+    reviewEnabled,
     questions,
     mode,
     currentQuestionId,
@@ -99,6 +111,7 @@ export default function GamePlayActions({
     isLocked,
     isCompleted,
     actions,
+    keyboardShortcutsEnabled,
   } = useRuntimeActionBar();
 
   const {
@@ -135,16 +148,23 @@ export default function GamePlayActions({
     [questions],
   );
 
-  const onFinish = () => {
-    if (isTest) {
-      // Replace with your final test evaluation action.
-      // eslint-disable-next-line react-hooks/purity
-      completeAttempt(Date.now());
-    } else {
-      // eslint-disable-next-line react-hooks/purity
-      completeAttempt(Date.now());
-    }
+  const incompleteQuestions = useMemo(
+    () =>
+      questions
+        .map((question, index) => ({
+          ...question,
+          questionNumber: index + 1,
+          questionIndex: index,
+        }))
+        .filter(
+          (question) =>
+            question.status === "UNANSWERED" || !question.evaluation,
+        ),
+    [questions],
+  );
 
+  const onFinish = () => {
+    completeAttempt(new Date());
     setOpenFinishDialog(false);
   };
 
@@ -177,7 +197,10 @@ export default function GamePlayActions({
         break;
 
       case "FINISH":
-        if (unansweredQuestions.length > 0) {
+        if (
+          unansweredQuestions.length > 0 ||
+          (incompleteQuestions.length > 0 && isClassic)
+        ) {
           setOpenFinishDialog(true);
         } else {
           onFinish();
@@ -189,6 +212,121 @@ export default function GamePlayActions({
         break;
     }
   };
+
+  useEffect(() => {
+    if (!keyboardShortcutsEnabled) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.repeat ||
+        event.shiftKey ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.metaKey ||
+        openFinishDialog ||
+        isReady ||
+        isResult ||
+        isDisabled
+      ) {
+        return;
+      }
+
+      const target = event.target as HTMLElement;
+
+      if (
+        target.closest(
+          "input, textarea, select, button, [contenteditable='true']",
+        )
+      ) {
+        return;
+      }
+
+      if (!currentQuestionId) return;
+
+      switch (event.key) {
+        case "Enter": {
+          if (event.ctrlKey && actions.includes("FINISH")) {
+            event.preventDefault();
+
+            if (
+              unansweredQuestions.length > 0 ||
+              (incompleteQuestions.length > 0 && isClassic)
+            ) {
+              setOpenFinishDialog(true);
+            } else {
+              onFinish();
+            }
+
+            return;
+          }
+
+          if (isClassic) {
+            if (actions.includes("SUBMIT") && !isLocked) {
+              event.preventDefault();
+              submitPracticeAnswer(currentQuestionId);
+              return;
+            }
+
+            if (actions.includes("NEXT") && isLocked) {
+              event.preventDefault();
+              goToNextQuestion();
+            }
+
+            return;
+          }
+
+          if (
+            isTest &&
+            runtimeCurrentQuestion.status === "ANSWERED" &&
+            actions.includes("NEXT")
+          ) {
+            event.preventDefault();
+            goToNextQuestion();
+          }
+
+          return;
+        }
+
+        case "ArrowRight": {
+          if (actions.includes("NEXT") || actions.includes("PASS")) {
+            event.preventDefault();
+            goToNextQuestion();
+          }
+          return;
+        }
+
+        case "ArrowLeft": {
+          if (!(isDisabled || isFirstQuestion)) {
+            event.preventDefault();
+            goToPreviousQuestion();
+          }
+          return;
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [
+    keyboardShortcutsEnabled,
+    openFinishDialog,
+    isReady,
+    isResult,
+    isDisabled,
+    currentQuestionId,
+    isClassic,
+    isTest,
+    isLocked,
+    actions,
+    runtimeCurrentQuestion.status,
+    submitPracticeAnswer,
+    goToNextQuestion,
+    goToPreviousQuestion,
+    isFirstQuestion,
+  ]);
 
   return (
     <footer className="relative z-20 border-t border-border/60 bg-background/95 backdrop-blur-xl">
@@ -203,9 +341,7 @@ export default function GamePlayActions({
             transition={footerTransition}
             className="container flex h-14 items-center justify-center px-4 sm:h-16"
           >
-            <p className="text-sm text-muted-foreground">
-              Ready when you are.
-            </p>
+            <p className="text-sm text-muted-foreground">Ready when you are.</p>
           </motion.div>
         ) : (
           <motion.div
@@ -237,7 +373,7 @@ export default function GamePlayActions({
             </div>
 
             <div className="flex flex-1 items-center justify-center gap-1 sm:gap-2">
-              {(!isResult && isTest) && (
+              {!isResult && reviewEnabled && (
                 <>
                   <Button
                     type="button"
@@ -306,7 +442,7 @@ export default function GamePlayActions({
                         type="button"
                         variant={config.variant}
                         onClick={() => handleAction(action)}
-                        disabled={isDisabled}
+                        disabled={isDisabled || action.includes("_DISABLED")}
                         className={cn(
                           "h-10 gap-2 rounded-xl px-3 font-medium",
                           "text-xs sm:px-4 sm:text-sm",
@@ -323,10 +459,7 @@ export default function GamePlayActions({
               </AnimatePresence>
             </div>
 
-            <Dialog
-              open={openFinishDialog}
-              onOpenChange={setOpenFinishDialog}
-            >
+            <Dialog open={openFinishDialog} onOpenChange={setOpenFinishDialog}>
               <DialogContent className="max-w-sm gap-0 overflow-hidden p-0">
                 <div className="space-y-5 p-5">
                   <DialogHeader className="space-y-1 text-left">
@@ -335,55 +468,92 @@ export default function GamePlayActions({
                     </DialogTitle>
 
                     <DialogDescription className="text-sm leading-relaxed">
-                      You have{" "}
-                      <span className="font-medium text-foreground">
-                        {unansweredQuestions.length} unanswered{" "}
-                        {unansweredQuestions.length === 1
-                          ? "question"
-                          : "questions"}
-                      </span>
-                      . You can still return to them before finishing.
+                      {incompleteQuestions.length > 0 ? (
+                        <>
+                          You have{" "}
+                          <span className="font-medium text-foreground">
+                            {incompleteQuestions.length} incomplete{" "}
+                            {incompleteQuestions.length === 1
+                              ? "question"
+                              : "questions"}
+                          </span>
+                          . You can still return to them before finishing.
+                        </>
+                      ) : (
+                        "All questions are complete. You're ready to finish!"
+                      )}
                     </DialogDescription>
                   </DialogHeader>
 
-                  <div className="space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-muted-foreground">
-                        Unanswered
-                      </span>
+                  {incompleteQuestions.length > 0 && (
+                    <div className="space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-muted-foreground">
+                          {isTest ? "Unanswered" : "Needs attention"}
+                        </span>
 
-                      <span className="text-xs tabular-nums text-muted-foreground">
-                        {unansweredQuestions.length} remaining
-                      </span>
+                        <span className="text-xs tabular-nums text-muted-foreground">
+                          {incompleteQuestions.length} remaining
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-7 gap-1.5">
+                        {incompleteQuestions.map((question) => {
+                          const unevaluated =
+                            !isTest &&
+                            question.status !== "UNANSWERED" &&
+                            !question.evaluation;
+
+                          return (
+                            <button
+                              key={question.id}
+                              type="button"
+                              onClick={() =>
+                                handleGoToQuestion(question.questionIndex)
+                              }
+                              aria-label={`Go to question ${question.questionNumber}`}
+                              title={
+                                unevaluated ? "Not evaluated" : "Unanswered"
+                              }
+                              className={cn(
+                                "flex size-9 items-center justify-center rounded-lg",
+                                "border text-xs font-medium tabular-nums",
+                                "transition-colors focus-visible:outline-none",
+                                "focus-visible:ring-2 focus-visible:ring-ring",
+                                unevaluated
+                                  ? "border-blue-500/30 bg-blue-500/10 text-blue-600 hover:bg-blue-500/20 dark:text-blue-400"
+                                  : "border-amber-500/30 bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 dark:text-amber-400",
+                              )}
+                            >
+                              {question.questionNumber}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {!isTest && (
+                        <div className="flex flex-wrap gap-x-4 gap-y-2">
+                          <div className="flex items-center gap-1.5">
+                            <span className="size-2 rounded-sm bg-amber-500" />
+                            <span className="text-[11px] text-muted-foreground">
+                              Unanswered
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-1.5">
+                            <span className="size-2 rounded-sm bg-blue-500" />
+                            <span className="text-[11px] text-muted-foreground">
+                              Not evaluated
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      <p className="text-[11px] text-muted-foreground">
+                        Select a number to return to that question.
+                      </p>
                     </div>
-
-                    <div className="grid grid-cols-7 gap-1.5">
-                      {unansweredQuestions.map((question) => (
-                        <button
-                          key={question.id}
-                          type="button"
-                          onClick={() =>
-                            handleGoToQuestion(question.questionIndex)
-                          }
-                          aria-label={`Go to question ${question.questionNumber}`}
-                          className={cn(
-                            "flex size-9 items-center justify-center rounded-lg",
-                            "border border-border bg-muted/40",
-                            "text-xs font-medium tabular-nums text-foreground",
-                            "transition-colors hover:border-amber-500/50",
-                            "hover:bg-amber-500/10 hover:text-amber-600",
-                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                          )}
-                        >
-                          {question.questionNumber}
-                        </button>
-                      ))}
-                    </div>
-
-                    <p className="text-[11px] text-muted-foreground">
-                      Select a number to return to that question.
-                    </p>
-                  </div>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between gap-3 border-t bg-muted/20 px-5 py-3">

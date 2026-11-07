@@ -131,7 +131,8 @@ model Question {
   explanationImage   Image?  @relation("QuestionExplanationImage", fields: [explanationImageId], references: [id])
   explanationImageId String?
 
-  points Float @default(1)
+  points           Float @default(1)
+  timeLimitSeconds Int   @default(300)
 
   order Int
 
@@ -158,6 +159,11 @@ enum QuizAttemptMode {
   TEST
 }
 
+enum SessionMode {
+  CLASSIC
+  TEST
+}
+
 enum QuizAttemptPhase {
   READY
   QUESTION
@@ -165,6 +171,7 @@ enum QuizAttemptPhase {
 }
 
 enum QuizAttemptStatus {
+  IDLE
   IN_PROGRESS
   COMPLETED
   EXPIRED
@@ -185,19 +192,18 @@ model QuizAttempt {
 
   mode        QuizAttemptMode    @default(CLASSIC)
   environment RuntimeEnvironment @default(PRODUCTION)
-  status      QuizAttemptStatus  @default(IN_PROGRESS)
+  status      QuizAttemptStatus  @default(IDLE)
   phase       QuizAttemptPhase   @default(READY)
 
   currentQuestionIndex Int @default(0)
 
   timeLimitEnabled Boolean @default(false)
-  timeLimitSeconds Int?
   showExplanations Boolean @default(true)
   shuffleQuestions Boolean @default(false)
   shuffleAnswers   Boolean @default(false)
 
-  startedAt      DateTime  @default(now())
-  lastActivityAt DateTime  @default(now())
+  startedAt      DateTime?
+  lastActivityAt DateTime?
   completedAt    DateTime?
   expiresAt      DateTime?
 
@@ -218,8 +224,8 @@ model AttemptQuestion {
   id        String @id @default(cuid())
   attemptId String
 
-  questionId       String
-  orderIndex       Int
+  questionId String
+  orderIndex Int
 
   questionSnapshot Json
 
@@ -242,8 +248,9 @@ model AttemptQuestion {
   hasSeenFeedback Boolean @default(false)
 
   timeSpentSeconds Int       @default(0)
+  timeLimitSeconds Int
   answeredAt       DateTime?
-  evaluatedAt DateTime?
+  evaluatedAt      DateTime?
 
   updatedAt DateTime @updatedAt
 

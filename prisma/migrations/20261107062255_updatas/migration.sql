@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "QuizAttempt" ALTER COLUMN "startedAt" DROP NOT NULL,
+ALTER COLUMN "startedAt" DROP DEFAULT,
+ALTER COLUMN "lastActivityAt" DROP NOT NULL,
+ALTER COLUMN "lastActivityAt" DROP DEFAULT;

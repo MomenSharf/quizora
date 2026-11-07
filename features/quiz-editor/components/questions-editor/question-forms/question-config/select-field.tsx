@@ -1,9 +1,12 @@
+"use client";
+
 import {
   Control,
   FieldPath,
   FieldValues,
   useController,
 } from "react-hook-form";
+import { ReactNode } from "react";
 import { CircleHelp } from "lucide-react";
 
 import {
@@ -23,13 +26,13 @@ import {
 
 interface SelectOption {
   label: string;
-  value: string;
+  value: number;
 }
 
 interface SelectFieldProps<T extends FieldValues> {
   control: Control<T>;
   name: FieldPath<T>;
-  label: string;
+  label: ReactNode;
   description?: string;
   options: SelectOption[];
   placeholder?: string;
@@ -45,40 +48,32 @@ export function SelectField<T extends FieldValues>({
   placeholder = "Select...",
   disabled,
 }: SelectFieldProps<T>) {
-  const { field } = useController({
-    control,
-    name,
-  });
-  
-
+  const { field } = useController({ control, name });
+    
   return (
-    <div className="flex min-h-9 items-center justify-between gap-3">
+    <div className="flex w-full min-w-0 flex-col gap-1.5">
       <div
         className={`flex min-w-0 items-center gap-1.5 ${
           disabled ? "opacity-50" : ""
         }`}
       >
-        <span className="truncate text-sm font-medium">{label}</span>
+        <label className="truncate text-xs font-semibold text-foreground">
+          {label}
+        </label>
 
         {description && (
-          <TooltipProvider delayDuration={200}>
+          <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
                   type="button"
-                  aria-label={`About ${label}`}
-                  disabled={disabled}
-                  className="flex size-4 shrink-0 items-center justify-center rounded-full text-muted-foreground/60 transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="shrink-0 text-muted-foreground/60 transition-colors hover:text-foreground"
+                  aria-label={`${label} information`}
                 >
-                  <CircleHelp className="size-3" />
+                  <CircleHelp className="size-3.5" />
                 </button>
               </TooltipTrigger>
-
-              <TooltipContent
-                side="top"
-                align="start"
-                className="max-w-64 text-xs leading-relaxed"
-              >
+              <TooltipContent side="top" className="max-w-52 text-xs">
                 {description}
               </TooltipContent>
             </Tooltip>
@@ -88,17 +83,18 @@ export function SelectField<T extends FieldValues>({
 
       <Select
         value={field.value == null ? undefined : String(field.value)}
-        onValueChange={field.onChange}
+        onValueChange={(value) => field.onChange(Number(value))}
         disabled={disabled}
       >
-        <SelectTrigger className="h-8 w-32 shrink-0 px-2.5 text-xs ">
+        <SelectTrigger className="h-9 w-full min-w-0 rounded-lg border-border/70 bg-background px-3 text-xs shadow-none transition-colors hover:border-border focus:ring-2 focus:ring-ring/20">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent  position="popper">
+
+        <SelectContent position="popper" className="max-h-64">
           {options.map((option) => (
             <SelectItem
               key={option.value}
-              value={option.value}
+              value={String(option.value)}
               className="text-xs"
             >
               {option.label}
@@ -109,4 +105,3 @@ export function SelectField<T extends FieldValues>({
     </div>
   );
 }
-

@@ -21,25 +21,15 @@ export default function EditorHeader() {
           iconClassName="size-4 md:size-5"
         />
 
-        {/* Quiz Info */}
         <div className="min-w-0 flex-1">
           <EditableTitle />
-
-          {/* Desktop Save Status */}
-          <div className="hidden md:block">
-            <SaveStatus />
-          </div>
         </div>
 
-        {/* Mobile Save Status */}
-        <div className="flex shrink-0 items-center md:hidden">
-          <SaveStatus />
-        </div>
+      
 
         {/* Actions */}
         <div className="flex shrink-0 items-center gap-1">
-          {/* History */}
-          {/* <HistoryControls /> */}
+          <SaveStatus />
 
           {/* Theme */}
           <div className="hidden md:block">

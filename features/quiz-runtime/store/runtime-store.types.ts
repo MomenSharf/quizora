@@ -20,6 +20,9 @@ export type RuntimePersistenceState = {
   dirty: boolean;
   lastSavedAt: number | null;
   lastAttemptAt: number | null;
+
+  revision: number;
+  savedRevision: number;
 };
 
 // --------------------------------------------------
@@ -37,7 +40,7 @@ export type RuntimeState = {
   quizSnapshot: QuizSnapshot;
   mode: SessionMode;
   environment: RuntimeEnvironment;
-  settings: AttemptSettings | null;
+  settings: AttemptSettings;
 
   // Lifecycle
   status: RuntimeStatus;
@@ -77,6 +80,7 @@ export interface RuntimeActions {
   setPhase(phase: RuntimePhase): void;
   setCurrentView(view: RuntimeView): void;
   startAttempt(startedAt: Date): void;
+  resumeAttempt(resumeAt: Date): void;
   completeAttempt(completedAt: Date): void;
 
   // Questions and navigation
@@ -99,6 +103,15 @@ export interface RuntimeActions {
 
   // Reset
   reset(): void;
+
+  setKeyboardShortcutsEnabled: (enabled: boolean) => void;
+
+  // Persistence
+  markDirty(): void;
+  setSaveStatus(status: RuntimeSaveStatus): void;
+  setPersistenceError(error: string | null): void;
+  setLastAttemptAt(timestamp?: number): void;
+  markSaved(savedRevision: number): void;
 }
 
 export type RuntimeStore = RuntimeState & RuntimeActions;
@@ -113,6 +126,8 @@ export const defaultRuntimePersistence: RuntimePersistenceState = {
   dirty: false,
   lastSavedAt: null,
   lastAttemptAt: null,
+  revision: 0,
+  savedRevision: 0,
 };
 
 export const defaultRuntimeState: RuntimeState = {
@@ -131,7 +146,13 @@ export const defaultRuntimeState: RuntimeState = {
   },
 
   environment: "PREVIEW",
-  settings: null,
+  settings: {
+    timeLimitEnabled: false,
+    showExplanations: false,
+    shuffleAnswers: false,
+    shuffleQuestions: false,
+    keyboardShortcutsEnabled: false,
+  },
 
   status: "IDLE",
   phase: "READY",

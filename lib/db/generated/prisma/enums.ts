@@ -33,6 +33,14 @@ export const QuizAttemptMode = {
 export type QuizAttemptMode = (typeof QuizAttemptMode)[keyof typeof QuizAttemptMode]
 
 
+export const SessionMode = {
+  CLASSIC: 'CLASSIC',
+  TEST: 'TEST'
+} as const
+
+export type SessionMode = (typeof SessionMode)[keyof typeof SessionMode]
+
+
 export const QuizAttemptPhase = {
   READY: 'READY',
   QUESTION: 'QUESTION',
@@ -43,6 +51,7 @@ export type QuizAttemptPhase = (typeof QuizAttemptPhase)[keyof typeof QuizAttemp
 
 
 export const QuizAttemptStatus = {
+  IDLE: 'IDLE',
   IN_PROGRESS: 'IN_PROGRESS',
   COMPLETED: 'COMPLETED',
   EXPIRED: 'EXPIRED'

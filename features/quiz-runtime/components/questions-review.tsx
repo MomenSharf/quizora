@@ -85,7 +85,7 @@ export default function QuestionsReview() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl space-y-4 px-4 sm:px-6">
+    <div className="mx-auto w-full max-w-3xl space-y-4 px-2 py-3 sm:px-6 sm:py-7 lg:px-8">
       {/* Back to question */}
       <div>
         <Button
@@ -240,14 +240,16 @@ export default function QuestionsReview() {
           transition={{ duration: 0.15 }}
           className="space-y-2"
         >
-          {visibleQuestions.map(({ question, index }) => (
-            <QuestionCard
-              key={question.id}
-              question={question}
-              index={index}
-              onClick={() => handleJump(index)}
-            />
-          ))}
+          {visibleQuestions
+            .filter((e) => e.question.visited)
+            .map(({ question, index }) => (
+              <QuestionCard
+                key={question.id}
+                question={question}
+                index={index}
+                onClick={() => handleJump(index)}
+              />
+            ))}
         </motion.div>
       </AnimatePresence>
 
@@ -279,7 +281,6 @@ function QuestionCard({
 }) {
   const isAnswered = question.status === "ANSWERED";
   const isTimedOut = question.status === "TIMED_OUT";
-  const isVisited = question.visited;
 
   const status = isAnswered
     ? {
@@ -305,18 +306,10 @@ function QuestionCard({
   return (
     <button
       type="button"
-      disabled={!isVisited}
       onClick={onClick}
-      title={
-        !isVisited
-          ? `Question ${index + 1} - Not visited`
-          : `Go to question ${index + 1}`
-      }
+      title={`Go to question ${index + 1}`}
       className={cn(
         "group flex w-full items-center gap-3 rounded-lg border bg-card p-2.5 text-left transition-all",
-        isVisited
-          ? "hover:border-primary/40 hover:bg-muted/40 hover:shadow-sm"
-          : "cursor-not-allowed opacity-45",
       )}
     >
       {/* Question index */}

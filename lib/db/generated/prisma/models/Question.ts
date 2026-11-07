@@ -28,11 +28,13 @@ export type AggregateQuestion = {
 
 export type QuestionAvgAggregateOutputType = {
   points: number | null
+  timeLimitSeconds: number | null
   order: number | null
 }
 
 export type QuestionSumAggregateOutputType = {
   points: number | null
+  timeLimitSeconds: number | null
   order: number | null
 }
 
@@ -44,6 +46,7 @@ export type QuestionMinAggregateOutputType = {
   explanation: string | null
   explanationImageId: string | null
   points: number | null
+  timeLimitSeconds: number | null
   order: number | null
   imageId: string | null
   createdAt: Date | null
@@ -58,6 +61,7 @@ export type QuestionMaxAggregateOutputType = {
   explanation: string | null
   explanationImageId: string | null
   points: number | null
+  timeLimitSeconds: number | null
   order: number | null
   imageId: string | null
   createdAt: Date | null
@@ -72,6 +76,7 @@ export type QuestionCountAggregateOutputType = {
   explanation: number
   explanationImageId: number
   points: number
+  timeLimitSeconds: number
   order: number
   imageId: number
   content: number
@@ -83,11 +88,13 @@ export type QuestionCountAggregateOutputType = {
 
 export type QuestionAvgAggregateInputType = {
   points?: true
+  timeLimitSeconds?: true
   order?: true
 }
 
 export type QuestionSumAggregateInputType = {
   points?: true
+  timeLimitSeconds?: true
   order?: true
 }
 
@@ -99,6 +106,7 @@ export type QuestionMinAggregateInputType = {
   explanation?: true
   explanationImageId?: true
   points?: true
+  timeLimitSeconds?: true
   order?: true
   imageId?: true
   createdAt?: true
@@ -113,6 +121,7 @@ export type QuestionMaxAggregateInputType = {
   explanation?: true
   explanationImageId?: true
   points?: true
+  timeLimitSeconds?: true
   order?: true
   imageId?: true
   createdAt?: true
@@ -127,6 +136,7 @@ export type QuestionCountAggregateInputType = {
   explanation?: true
   explanationImageId?: true
   points?: true
+  timeLimitSeconds?: true
   order?: true
   imageId?: true
   content?: true
@@ -229,6 +239,7 @@ export type QuestionGroupByOutputType = {
   explanation: string | null
   explanationImageId: string | null
   points: number
+  timeLimitSeconds: number
   order: number
   imageId: string | null
   content: runtime.JsonValue
@@ -267,6 +278,7 @@ export type QuestionWhereInput = {
   explanation?: Prisma.StringNullableFilter<"Question"> | string | null
   explanationImageId?: Prisma.StringNullableFilter<"Question"> | string | null
   points?: Prisma.FloatFilter<"Question"> | number
+  timeLimitSeconds?: Prisma.IntFilter<"Question"> | number
   order?: Prisma.IntFilter<"Question"> | number
   imageId?: Prisma.StringNullableFilter<"Question"> | string | null
   content?: Prisma.JsonFilter<"Question">
@@ -285,6 +297,7 @@ export type QuestionOrderByWithRelationInput = {
   explanation?: Prisma.SortOrderInput | Prisma.SortOrder
   explanationImageId?: Prisma.SortOrderInput | Prisma.SortOrder
   points?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   order?: Prisma.SortOrder
   imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
@@ -306,6 +319,7 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<{
   explanation?: Prisma.StringNullableFilter<"Question"> | string | null
   explanationImageId?: Prisma.StringNullableFilter<"Question"> | string | null
   points?: Prisma.FloatFilter<"Question"> | number
+  timeLimitSeconds?: Prisma.IntFilter<"Question"> | number
   order?: Prisma.IntFilter<"Question"> | number
   imageId?: Prisma.StringNullableFilter<"Question"> | string | null
   content?: Prisma.JsonFilter<"Question">
@@ -324,6 +338,7 @@ export type QuestionOrderByWithAggregationInput = {
   explanation?: Prisma.SortOrderInput | Prisma.SortOrder
   explanationImageId?: Prisma.SortOrderInput | Prisma.SortOrder
   points?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   order?: Prisma.SortOrder
   imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
@@ -347,6 +362,7 @@ export type QuestionScalarWhereWithAggregatesInput = {
   explanation?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
   explanationImageId?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
   points?: Prisma.FloatWithAggregatesFilter<"Question"> | number
+  timeLimitSeconds?: Prisma.IntWithAggregatesFilter<"Question"> | number
   order?: Prisma.IntWithAggregatesFilter<"Question"> | number
   imageId?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
   content?: Prisma.JsonWithAggregatesFilter<"Question">
@@ -360,6 +376,7 @@ export type QuestionCreateInput = {
   title: string
   explanation?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -377,6 +394,7 @@ export type QuestionUncheckedCreateInput = {
   explanation?: string | null
   explanationImageId?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   imageId?: string | null
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -390,6 +408,7 @@ export type QuestionUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -407,6 +426,7 @@ export type QuestionUncheckedUpdateInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanationImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -422,6 +442,7 @@ export type QuestionCreateManyInput = {
   explanation?: string | null
   explanationImageId?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   imageId?: string | null
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -435,6 +456,7 @@ export type QuestionUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -449,6 +471,7 @@ export type QuestionUncheckedUpdateManyInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanationImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -474,6 +497,7 @@ export type QuestionCountOrderByAggregateInput = {
   explanation?: Prisma.SortOrder
   explanationImageId?: Prisma.SortOrder
   points?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   order?: Prisma.SortOrder
   imageId?: Prisma.SortOrder
   content?: Prisma.SortOrder
@@ -483,6 +507,7 @@ export type QuestionCountOrderByAggregateInput = {
 
 export type QuestionAvgOrderByAggregateInput = {
   points?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
@@ -494,6 +519,7 @@ export type QuestionMaxOrderByAggregateInput = {
   explanation?: Prisma.SortOrder
   explanationImageId?: Prisma.SortOrder
   points?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   order?: Prisma.SortOrder
   imageId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -508,6 +534,7 @@ export type QuestionMinOrderByAggregateInput = {
   explanation?: Prisma.SortOrder
   explanationImageId?: Prisma.SortOrder
   points?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   order?: Prisma.SortOrder
   imageId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -516,6 +543,7 @@ export type QuestionMinOrderByAggregateInput = {
 
 export type QuestionSumOrderByAggregateInput = {
   points?: Prisma.SortOrder
+  timeLimitSeconds?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
@@ -655,6 +683,7 @@ export type QuestionCreateWithoutQuizInput = {
   title: string
   explanation?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -670,6 +699,7 @@ export type QuestionUncheckedCreateWithoutQuizInput = {
   explanation?: string | null
   explanationImageId?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   imageId?: string | null
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -714,6 +744,7 @@ export type QuestionScalarWhereInput = {
   explanation?: Prisma.StringNullableFilter<"Question"> | string | null
   explanationImageId?: Prisma.StringNullableFilter<"Question"> | string | null
   points?: Prisma.FloatFilter<"Question"> | number
+  timeLimitSeconds?: Prisma.IntFilter<"Question"> | number
   order?: Prisma.IntFilter<"Question"> | number
   imageId?: Prisma.StringNullableFilter<"Question"> | string | null
   content?: Prisma.JsonFilter<"Question">
@@ -727,6 +758,7 @@ export type QuestionCreateWithoutImageInput = {
   title: string
   explanation?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -743,6 +775,7 @@ export type QuestionUncheckedCreateWithoutImageInput = {
   explanation?: string | null
   explanationImageId?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -765,6 +798,7 @@ export type QuestionCreateWithoutExplanationImageInput = {
   title: string
   explanation?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -780,6 +814,7 @@ export type QuestionUncheckedCreateWithoutExplanationImageInput = {
   title: string
   explanation?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   imageId?: string | null
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -836,6 +871,7 @@ export type QuestionCreateManyQuizInput = {
   explanation?: string | null
   explanationImageId?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   imageId?: string | null
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -849,6 +885,7 @@ export type QuestionUpdateWithoutQuizInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -864,6 +901,7 @@ export type QuestionUncheckedUpdateWithoutQuizInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanationImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -878,6 +916,7 @@ export type QuestionUncheckedUpdateManyWithoutQuizInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanationImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -893,6 +932,7 @@ export type QuestionCreateManyImageInput = {
   explanation?: string | null
   explanationImageId?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -906,6 +946,7 @@ export type QuestionCreateManyExplanationImageInput = {
   title: string
   explanation?: string | null
   points?: number
+  timeLimitSeconds?: number
   order: number
   imageId?: string | null
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -919,6 +960,7 @@ export type QuestionUpdateWithoutImageInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -935,6 +977,7 @@ export type QuestionUncheckedUpdateWithoutImageInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanationImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -949,6 +992,7 @@ export type QuestionUncheckedUpdateManyWithoutImageInput = {
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanationImageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -961,6 +1005,7 @@ export type QuestionUpdateWithoutExplanationImageInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -976,6 +1021,7 @@ export type QuestionUncheckedUpdateWithoutExplanationImageInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -990,6 +1036,7 @@ export type QuestionUncheckedUpdateManyWithoutExplanationImageInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   points?: Prisma.FloatFieldUpdateOperationsInput | number
+  timeLimitSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1007,6 +1054,7 @@ export type QuestionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   explanation?: boolean
   explanationImageId?: boolean
   points?: boolean
+  timeLimitSeconds?: boolean
   order?: boolean
   imageId?: boolean
   content?: boolean
@@ -1025,6 +1073,7 @@ export type QuestionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   explanation?: boolean
   explanationImageId?: boolean
   points?: boolean
+  timeLimitSeconds?: boolean
   order?: boolean
   imageId?: boolean
   content?: boolean
@@ -1043,6 +1092,7 @@ export type QuestionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   explanation?: boolean
   explanationImageId?: boolean
   points?: boolean
+  timeLimitSeconds?: boolean
   order?: boolean
   imageId?: boolean
   content?: boolean
@@ -1061,6 +1111,7 @@ export type QuestionSelectScalar = {
   explanation?: boolean
   explanationImageId?: boolean
   points?: boolean
+  timeLimitSeconds?: boolean
   order?: boolean
   imageId?: boolean
   content?: boolean
@@ -1068,7 +1119,7 @@ export type QuestionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quizId" | "type" | "title" | "explanation" | "explanationImageId" | "points" | "order" | "imageId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
+export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "quizId" | "type" | "title" | "explanation" | "explanationImageId" | "points" | "timeLimitSeconds" | "order" | "imageId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
 export type QuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
   explanationImage?: boolean | Prisma.Question$explanationImageArgs<ExtArgs>
@@ -1100,6 +1151,7 @@ export type $QuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     explanation: string | null
     explanationImageId: string | null
     points: number
+    timeLimitSeconds: number
     order: number
     imageId: string | null
     content: runtime.JsonValue
@@ -1538,6 +1590,7 @@ export interface QuestionFieldRefs {
   readonly explanation: Prisma.FieldRef<"Question", 'String'>
   readonly explanationImageId: Prisma.FieldRef<"Question", 'String'>
   readonly points: Prisma.FieldRef<"Question", 'Float'>
+  readonly timeLimitSeconds: Prisma.FieldRef<"Question", 'Int'>
   readonly order: Prisma.FieldRef<"Question", 'Int'>
   readonly imageId: Prisma.FieldRef<"Question", 'String'>
   readonly content: Prisma.FieldRef<"Question", 'Json'>

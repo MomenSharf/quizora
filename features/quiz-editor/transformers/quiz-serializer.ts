@@ -56,6 +56,9 @@ function serializeQuestion(
         }
       : undefined,
 
+    points: question.points,
+    timeLimitSeconds: question.timeLimitSeconds,
+
     order,
 
     content: question.content,

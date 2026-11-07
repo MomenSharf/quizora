@@ -32,21 +32,20 @@ export type SessionMode = "CLASSIC" | "TEST";
 
 export type AttemptSettings = {
   timeLimitEnabled: boolean;
-  timeLimitSeconds: number;
   showExplanations: boolean;
   shuffleQuestions: boolean;
   shuffleAnswers: boolean;
+  keyboardShortcutsEnabled: boolean;
 };
 
-export type RuntimeView =
-  "READY" | "QUESTION" | "SETTINGS" | "REVIEW" | "RESULTS";
+export type RuntimeView = "READY" | "QUESTION" | "REVIEW" | "RESULTS";
 
 export type RuntimePhase = "READY" | "QUESTION" | "RESULT";
 
 export type RuntimeStatus = "IDLE" | "IN_PROGRESS" | "COMPLETED" | "EXPIRED";
 
 export type RuntimeSaveStatus =
-  "IDLE" | "PENDING" | "SAVING" | "SAVED" | "ERROR" | "OFFLINE";
+  "IDLE" | "PENDING" | "SAVING" | "SAVED" | "ERROR";
 
 export type RuntimeQuestionStatus = "UNANSWERED" | "ANSWERED" | "TIMED_OUT";
 
@@ -72,8 +71,9 @@ export type RuntimeQuestion = {
   startedAt: Date | null;
   deadlineAt: Date | null;
   isQuestionTimerRunning: boolean;
+  timeLimitSeconds: number | null;
 
-  timeSpentSeconds: number;
+  timeSpentSeconds: number | null;
   answeredAt: Date | null;
   evaluatedAt: Date | null;
 
@@ -119,4 +119,11 @@ export type QuizAttemptRuntime = {
   saveStatus: RuntimeSaveStatus;
 };
 
-export type GameplayAction = "PASS" | "SUBMIT" | "NEXT" | "FINISH" | "RESULTS";
+export type GameplayAction =
+  | "PASS"
+  | "SUBMIT"
+  | "SUBMIT_DISABLED"
+  | "NEXT"
+  | "NEXT_DISABLED"
+  | "FINISH"
+  | "RESULTS";

@@ -85,8 +85,7 @@ export const quizEditorService = {
 
     const data = serializeUpdateQuiz(quiz, editorState);
     const parsed = QuizEditorSchema.safeParse(quiz);
-    console.log(parsed.success);
-    
+
     const visibility = parsed.success ? quiz.visibility : "PRIVATE";
 
     await prisma.quiz.update({

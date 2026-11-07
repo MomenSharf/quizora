@@ -11,6 +11,8 @@ export const saveQuiz = async (quiz: QuizEditor, editorState: EditorState) =>
   tryCatchAsync(async () => {
     const session = await requireAuth();
 
+
+
     const result = await quizEditorService.saveQuiz(
       quiz,
       editorState,

@@ -1,8 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   useRuntime,
-  useRuntimeCurrentQuestion
+  useRuntimeActions,
+  useRuntimeCurrentQuestion,
 } from "../store";
 
 import type { QuizAttemptRuntime } from "../types/runtime-types";
@@ -14,29 +16,36 @@ import { InitializeGameplay } from "./initialize-gameplay";
 import GameplayQuestion from "./question/gameplay-question";
 import QuestionsReview from "./questions-review";
 import QuizReadyPage from "./quiz-ready-page";
+import ResultsPage from "./results-page";
+import { RuntimeProvider } from "./runtime-provider";
 
 type GameplayLayoutProps = {
   attempt: QuizAttemptRuntime;
+
 };
 
 export default function Gameplay({ attempt }: GameplayLayoutProps) {
   return (
-    <InitializeGameplay attempt={attempt}>
+    <RuntimeProvider
+      attempt={attempt}
+    >
       <GameplayContent />
-    </InitializeGameplay>
+    </RuntimeProvider>
   );
 }
-
 function GameplayContent() {
   const { currentView } = useRuntime();
 
   const { runtimeCurrentQuestion } = useRuntimeCurrentQuestion();
+  const { startAttempt } = useRuntimeActions();
 
   const isReviewOpen = currentView === "REVIEW";
   const isReady = currentView === "READY";
   const isCompleted = currentView === "RESULTS";
 
   const showActions = !isReady && !isReviewOpen && !isCompleted;
+
+  const router = useRouter();
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
@@ -47,13 +56,21 @@ function GameplayContent() {
 
       {/* Main Pages */}
       <main className="flex min-h-0 flex-1 justify-center overflow-y-auto overscroll-contain">
-        <div className="container flex min-h-full min-w-0 flex-col px-2 py-3 sm:px-6 sm:py-7 lg:px-8">
+        <div className="container flex min-h-full min-w-0">
           <GameplayViewRouter
             ready={<QuizReadyPage />}
             question={<GameplayQuestion />}
-            settings={<div />}
             review={<QuestionsReview />}
-            results={<div />}
+            results={
+              <ResultsPage
+                onDashboard={() => {
+                  router.push("/");
+                }}
+                onRetry={() => {
+                  startAttempt(new Date());
+                }}
+              />
+            }
           />
         </div>
       </main>
@@ -61,9 +78,7 @@ function GameplayContent() {
       {/* Gameplay Actions */}
       {showActions && (
         <footer className="shrink-0">
-          <GamePlayActions
-            runtimeCurrentQuestion={runtimeCurrentQuestion}
-          />
+          <GamePlayActions runtimeCurrentQuestion={runtimeCurrentQuestion} />
         </footer>
       )}
     </div>

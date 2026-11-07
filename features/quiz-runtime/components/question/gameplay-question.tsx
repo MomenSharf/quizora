@@ -54,7 +54,7 @@ export default function GameplayQuestion() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
-        className={`grid w-full min-w-0 grid-cols-1 gap-4 sm:gap-5 ${
+        className={`grid w-full min-w-0 grid-cols-1 gap-4 sm:gap-5 px-2 py-3 sm:px-6 sm:py-7 lg:px-8 ${
           imageSrc
             ? "sm:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-6"
             : "mx-auto max-w-4xl"

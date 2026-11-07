@@ -17,15 +17,7 @@ import type {
   RuntimeView,
 } from "../types/runtime-types";
 
-const isTimerEnabled = (settings: AttemptSettings | null) =>
-  !!(
-    settings &&
-    settings.timeLimitEnabled &&
-    Number.isFinite(settings.timeLimitSeconds) &&
-    settings.timeLimitSeconds > 0
-  );
-
-const defaulTtimeLimit = 300;
+const defaultTimeLimit = 300;
 
 export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   ...defaultRuntimeState,
@@ -65,32 +57,88 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
   setCurrentView: (view: RuntimeView) => set({ currentView: view }),
 
   startAttempt: (startedAt) =>
-    set((state) => ({
-      status: "IN_PROGRESS",
-      phase: "QUESTION",
-      currentView: "QUESTION",
-      startedAt,
-      lastActivityAt: startedAt,
-      completedAt: null,
-      currentQuestionIndex: 0,
-      questions: state.questions.map((question, index) => {
-        if (index !== 0) return question;
+    set((state) => {
+      const isTimed = !!state.settings?.timeLimitEnabled;
 
-        const isTimed = isTimerEnabled(state.settings);
-        const timeLimit = state.settings?.timeLimitSeconds ?? defaulTtimeLimit;
-        const deadlineAt = isTimed
-          ? new Date(startedAt.getTime() + timeLimit * 1000)
-          : null;
+      return {
+        status: "IN_PROGRESS",
+        phase: "QUESTION",
+        currentView: "QUESTION",
+        startedAt,
+        lastActivityAt: startedAt,
+        completedAt: null,
+        currentQuestionIndex: 0,
+        persistence: {
+          ...state.persistence,
+          dirty: true,
+        },
 
-        return {
-          ...question,
-          visited: true,
-          startedAt,
-          deadlineAt,
-          isQuestionTimerRunning: isTimed,
-        };
-      }),
-    })),
+        questions: state.questions.map((question, index) => {
+          const isFirst = index === 0;
+
+          return {
+            ...question,
+
+            status: "UNANSWERED",
+            answer: null,
+            evaluation: null,
+            earnedPoints: 0,
+
+            flagged: false,
+            locked: false,
+            visited: isFirst,
+
+            startedAt: isFirst ? startedAt : null,
+            deadlineAt:
+              isFirst && isTimed && question.timeLimitSeconds
+                ? new Date(
+                    startedAt.getTime() + question.timeLimitSeconds * 1000,
+                  )
+                : null,
+
+            isQuestionTimerRunning: isFirst && isTimed,
+            timeSpentSeconds: 0,
+
+            answeredAt: null,
+            evaluatedAt: null,
+
+            hasSeenFeedback: false,
+          };
+        }),
+      };
+    }),
+  resumeAttempt: (resumedAt) =>
+    set((state) => {
+      return {
+        status: "IN_PROGRESS",
+        phase: "QUESTION",
+        currentView: "QUESTION",
+        lastActivityAt: resumedAt,
+        persistence: {
+          ...state.persistence,
+          dirty: true,
+        },
+
+        questions: state.questions.map((question, index) => {
+          if (index !== state.currentQuestionIndex) return question;
+
+          if (
+            !state.settings?.timeLimitEnabled ||
+            question.locked ||
+            !question.deadlineAt
+          ) {
+            return question;
+          }
+
+          const isExpired = resumedAt >= question.deadlineAt;
+
+          return {
+            ...question,
+            isQuestionTimerRunning: !isExpired,
+          };
+        }),
+      };
+    }),
 
   completeAttempt: (completedAt) =>
     set((state) => ({
@@ -112,21 +160,26 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       }
 
       const now = Date.now();
-      const isTimed = isTimerEnabled(state.settings);
-      const timeLimit = state.settings?.timeLimitSeconds ?? defaulTtimeLimit;
-      const deadlineAt = isTimed ? new Date(now + timeLimit * 1000) : null;
+      const isTimed = !!state.settings?.timeLimitEnabled;
 
       return {
         currentQuestionIndex: index,
         phase: "QUESTION",
         currentView: "QUESTION",
+        persistence: {
+          ...state.persistence,
+          dirty: true,
+        },
         questions: state.questions.map((question, questionIndex) => {
           if (questionIndex !== index) return question;
+          const timeLimit = question.timeLimitSeconds
+            ? question.timeLimitSeconds
+            : defaultTimeLimit;
+          const deadlineAt = isTimed ? new Date(now + timeLimit * 1000) : null;
 
           if (question.startedAt !== null) {
             const timerRunning =
               isTimed &&
-              question.status === "UNANSWERED" &&
               !question.locked &&
               question.deadlineAt !== null &&
               now < question.deadlineAt.getTime();
@@ -178,6 +231,10 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       questions: state.questions.map((question) =>
         question.id === questionId ? { ...question, locked: true } : question,
       ),
+      persistence: {
+        ...state.persistence,
+        dirty: true,
+      },
     })),
 
   unlockQuestion: (questionId) =>
@@ -185,11 +242,14 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
       questions: state.questions.map((question) =>
         question.id === questionId ? { ...question, locked: false } : question,
       ),
+      persistence: {
+        ...state.persistence,
+        dirty: true,
+      },
     })),
 
   setAnswer: (questionId: string, answer: Answer) =>
     set((state) => {
-      const isTimed = isTimerEnabled(state.settings);
       return {
         questions: state.questions.map((question) => {
           return question.id === questionId
@@ -204,6 +264,10 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
         }),
 
         lastActivityAt: new Date(),
+        persistence: {
+          ...state.persistence,
+          dirty: true,
+        },
       };
     }),
 
@@ -220,11 +284,15 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
             }
           : question,
       ),
+      persistence: {
+        ...state.persistence,
+        dirty: true,
+      },
     })),
 
   submitPracticeAnswer: (questionId) =>
     set((state) => {
-      const isTimed = isTimerEnabled(state.settings);
+      const isTimed = !!state.settings?.timeLimitEnabled;
       const now = new Date();
 
       return {
@@ -245,6 +313,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
             status: "ANSWERED",
             locked: true,
             evaluation,
+            earnedPoints: evaluation.earnedPoints,
             evaluatedAt: now,
             timeSpentSeconds,
             isQuestionTimerRunning: false,
@@ -252,12 +321,16 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
           };
         }),
         lastActivityAt: now,
+        persistence: {
+          ...state.persistence,
+          dirty: true,
+        },
       };
     }),
 
   submitTestAnswer: (questionId) =>
     set((state) => {
-      const isTimed = isTimerEnabled(state.settings);
+      const isTimed = !!state.settings?.timeLimitEnabled;
       const now = new Date();
 
       return {
@@ -275,12 +348,17 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
             ...question,
             status: "ANSWERED",
             answeredAt: now,
+            earnedPoints: 0,
             timeSpentSeconds,
             locked: true,
             isQuestionTimerRunning: false,
           };
         }),
         lastActivityAt: now,
+        persistence: {
+          ...state.persistence,
+          dirty: true,
+        },
       };
     }),
 
@@ -316,8 +394,14 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
           )
         : question.timeSpentSeconds;
 
+      const isClassic = state.mode === "CLASSIC";
+
       return {
         lastActivityAt: timedOutAt,
+        persistence: {
+          ...state.persistence,
+          dirty: true,
+        },
         questions: state.questions.map((item) =>
           item.id === questionId
             ? {
@@ -325,19 +409,24 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
                 status: "TIMED_OUT",
                 locked: true,
                 isQuestionTimerRunning: false,
-                timeSpentSeconds: Math.max(item.timeSpentSeconds, timeSpent),
-                evaluatedAt: timedOutAt,
-                evaluation: {
-                  status: "EVALUATED",
-                  outcome: "TIMEOUT",
-                  isCorrect: false,
-                  earnedPoints: 0,
-                  maxPoints: item.maxPoints,
-                  accuracy: 0,
-                  feedback: null,
-                  explanation: item.question.explanation ?? null,
-                  explanationImage: item.question.explanationImage ?? null,
-                },
+                timeSpentSeconds:
+                  item.timeSpentSeconds && timeSpent
+                    ? Math.max(item.timeSpentSeconds, timeSpent)
+                    : null,
+                evaluatedAt: isClassic ? timedOutAt : null,
+                evaluation: isClassic
+                  ? {
+                      status: "EVALUATED",
+                      outcome: "TIMEOUT",
+                      isCorrect: false,
+                      earnedPoints: 0,
+                      maxPoints: item.maxPoints,
+                      accuracy: 0,
+                      feedback: null,
+                      explanation: item.question.explanation ?? null,
+                      explanationImage: item.question.explanationImage ?? null,
+                    }
+                  : null,
               }
             : item,
         ),
@@ -352,4 +441,60 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
     })),
 
   reset: () => set(defaultRuntimeState),
+
+  setKeyboardShortcutsEnabled: (enabled: boolean) =>
+    set((state) => ({
+      settings: state.settings
+        ? { ...state.settings, keyboardShortcutsEnabled: enabled }
+        : state.settings,
+    })),
+
+  // --------------------------------------------------
+  // Persistence
+  // --------------------------------------------------
+
+  markDirty: () =>
+    set((state) => ({
+      persistence: {
+        ...state.persistence,
+        dirty: true,
+        revision: state.persistence.revision + 1,
+      },
+    })),
+
+  setSaveStatus: (saveStatus) =>
+    set((state) => ({
+      persistence: {
+        ...state.persistence,
+        saveStatus,
+      },
+    })),
+
+  setPersistenceError: (error) =>
+    set((state) => ({
+      persistence: {
+        ...state.persistence,
+        error,
+      },
+    })),
+
+  setLastAttemptAt: (timestamp = Date.now()) =>
+    set((state) => ({
+      persistence: {
+        ...state.persistence,
+        lastAttemptAt: timestamp,
+      },
+    })),
+
+  markSaved: (savedRevision) =>
+    set((state) => ({
+      persistence: {
+        ...state.persistence,
+        saveStatus: "SAVED",
+        lastSavedAt: Date.now(),
+        savedRevision,
+        dirty: state.persistence.revision > savedRevision,
+        error: null,
+      },
+    })),
 }));

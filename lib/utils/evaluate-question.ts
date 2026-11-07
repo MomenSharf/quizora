@@ -7,10 +7,9 @@ export function evaluateQuestion(
   const {
     question,
     answer,
-    evaluation: runtimeQuestionEvalution,
   } = runtimeQuestion;
 
-  const maxPoints = runtimeQuestionEvalution?.maxPoints ?? 0;
+  const maxPoints = question?.points ?? 0;
 
   let isCorrect: boolean | null = false;
   let outcome: EvaluationResult["outcome"] = "INCORRECT";
@@ -56,14 +55,6 @@ export function evaluateQuestion(
     maxPoints,
     status,
     outcome,
-    evaluatedAt: Date.now(),
-    parts: [],
-    visibility: {
-      showCorrectAnswer: true,
-      showEarnedPoints: true,
-      showExplanation: true,
-      showFeedback: true,
-    },
     accuracy: maxPoints > 0 ? (earnedPoints / maxPoints) * 100 : null,
     feedback,
     explanation: question.explanation ?? null,

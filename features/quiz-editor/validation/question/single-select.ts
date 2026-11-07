@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 import { BaseQuestionSchema, OptionSchema } from "./base";
-import { MediaRatioSchema } from "../image";
 
 export const SingleSelectDataSchema = z
   .object({

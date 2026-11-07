@@ -10,7 +10,7 @@ import {
 } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
-import { useRuntimeActions } from "../../store";
+import { useRuntime, useRuntimeActions } from "../../store";
 
 type QuestionMetaProps = {
   runtimeQuestion: RuntimeQuestion;
@@ -67,7 +67,8 @@ const TIMER_STYLES: Record<
 };
 
 export default function QuestionMeta({ runtimeQuestion }: QuestionMetaProps) {
-  const { timeoutQuestion } = useRuntimeActions();
+  const { mode } = useRuntime();
+  const { timeoutQuestion, submitPracticeAnswer, submitTestAnswer } = useRuntimeActions();
 
   const questionType = QUESTION_TYPE_MAP[runtimeQuestion.question.type];
   const [now, setNow] = useState(() => new Date());
@@ -78,11 +79,7 @@ export default function QuestionMeta({ runtimeQuestion }: QuestionMetaProps) {
 
   const timerEnabled = startedAt !== null && deadlineAt !== null;
 
-  const timerActive =
-    timerEnabled &&
-    isQuestionTimerRunning &&
-    !locked &&
-    status === "UNANSWERED";
+  const timerActive = timerEnabled && isQuestionTimerRunning && !locked;
 
   useEffect(() => {
     if (!timerActive) return;
@@ -95,7 +92,6 @@ export default function QuestionMeta({ runtimeQuestion }: QuestionMetaProps) {
 
     return () => window.clearInterval(interval);
   }, [id, deadlineAt, timerActive]);
-
 
   const timeLeft = timerEnabled
     ? Math.max(0, Math.ceil((deadlineAt.getTime() - now.getTime()) / 1000))
@@ -115,7 +111,15 @@ export default function QuestionMeta({ runtimeQuestion }: QuestionMetaProps) {
     if (!timerActive || timeLeft > 0 || timeoutTriggered.current) return;
 
     timeoutTriggered.current = true;
-    timeoutQuestion(id, new Date());
+    if (runtimeQuestion.answer) {
+      if(mode === 'CLASSIC') {
+        submitPracticeAnswer(id)
+      } else {
+        submitTestAnswer(id)
+      }
+    } else {
+      timeoutQuestion(id, new Date());
+    }
   }, [id, timerActive, timeLeft, timeoutQuestion]);
 
   useEffect(() => {

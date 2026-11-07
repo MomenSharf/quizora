@@ -21,10 +21,10 @@ type StartAttemptPageProps = {
 
 const DEFAULT_SETTINGS: AttemptSettings = {
   timeLimitEnabled: false,
-  timeLimitSeconds: 300,
   showExplanations: true,
   shuffleQuestions: false,
   shuffleAnswers: false,
+  keyboardShortcutsEnabled: false
 };
 
 export default function StartAttemptPage({
@@ -35,8 +35,7 @@ export default function StartAttemptPage({
   const router = useRouter();
 
   const [mode, setMode] = useState<SessionMode>("CLASSIC");
-  const [settings, setSettings] =
-    useState<AttemptSettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<AttemptSettings>(DEFAULT_SETTINGS);
   const [isStarting, setIsStarting] = useState(false);
 
   const handleStart = async () => {

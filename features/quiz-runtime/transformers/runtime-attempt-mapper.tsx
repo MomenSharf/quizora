@@ -43,10 +43,10 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
 
     settings: {
       timeLimitEnabled: attempt.timeLimitEnabled,
-      timeLimitSeconds: attempt.timeLimitSeconds ?? 300,
       showExplanations: attempt.showExplanations,
       shuffleQuestions: attempt.shuffleQuestions,
       shuffleAnswers: attempt.shuffleAnswers,
+      keyboardShortcutsEnabled: false,
     },
 
     currentView: "READY",

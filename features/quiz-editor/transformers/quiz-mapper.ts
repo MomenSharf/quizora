@@ -114,6 +114,7 @@ function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
       : undefined,
 
     points: question.points,
+    timeLimitSeconds: question.timeLimitSeconds,
 
     image: question.image
       ? {
@@ -221,7 +222,7 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
     slug: quiz.slug ?? undefined,
 
     title: quiz.title,
-    description: quiz.description ?? undefined ,
+    description: quiz.description ?? undefined,
 
     thumbnail: quiz.thumbnail
       ? {

@@ -14,7 +14,7 @@ export type EvaluationResult = {
   status: EvaluationStatus;
   outcome: EvaluationOutcome;
 
-  isCorrect: boolean;
+  isCorrect: boolean | null;
 
   earnedPoints: number;
   maxPoints: number;

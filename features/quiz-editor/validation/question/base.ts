@@ -20,12 +20,15 @@ export const BaseQuestionSchema = z.object({
     .min(1, "Give your question a title")
     .max(5000, "Question title must be at most 5,000 characters"),
 
-  points: z
-    .number({
-      message: "Points must be a number",
-    })
-    .nonnegative("Points cannot be negative"),
+points: z
+  .number({ message: "Points must be a number" })
+  .nonnegative("Points cannot be negative"),
 
+timeLimitSeconds: z
+  .number({ message: "Time limit must be a number" })
+  .int("Time limit must be a whole number")
+  .nonnegative("Time limit cannot be negative"),
+  
   explanation: z
     .string()
     .trim()

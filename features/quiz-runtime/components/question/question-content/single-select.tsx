@@ -108,7 +108,6 @@ export default function SingleSelectContent({
           const selected = selectedOptionId === option.id;
           const correct = isSubmitted && option.id === correctOptionId;
 
-          // A timeout is not a normal incorrect submission.
           const incorrect =
             isSubmitted &&
             !isTimeout &&

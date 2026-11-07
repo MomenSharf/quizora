@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -20,22 +19,19 @@ const variants = {
   CORRECT: {
     title: "Correct answer",
     icon: CheckCircle2,
-    className:
-      "border-emerald-500/20 bg-emerald-500/[0.06] text-emerald-600",
+    className: "border-emerald-500/20 bg-emerald-500/[0.06] text-emerald-600",
     iconClassName: "bg-emerald-500/10",
   },
   PARTIALLY_CORRECT: {
     title: "Partially correct",
     icon: Trophy,
-    className:
-      "border-amber-500/20 bg-amber-500/[0.06] text-amber-600",
+    className: "border-amber-500/20 bg-amber-500/[0.06] text-amber-600",
     iconClassName: "bg-amber-500/10",
   },
   INCORRECT: {
     title: "Incorrect answer",
     icon: CircleX,
-    className:
-      "border-rose-500/20 bg-rose-500/[0.06] text-rose-600",
+    className: "border-rose-500/20 bg-rose-500/[0.06] text-rose-600",
     iconClassName: "bg-rose-500/10",
   },
   UNANSWERED: {
@@ -47,8 +43,7 @@ const variants = {
   TIMEOUT: {
     title: "Time's up!",
     icon: ClockAlert,
-    className:
-      "border-orange-500/20 bg-orange-500/[0.06] text-orange-600",
+    className: "border-orange-500/20 bg-orange-500/[0.06] text-orange-600",
     iconClassName: "bg-orange-500/10",
   },
   NOT_APPLICABLE: {
@@ -73,9 +68,7 @@ export default function QuestionFeedback({
   const isTimeout = evaluation.outcome === "TIMEOUT";
   const isEvaluated = evaluation.status === "EVALUATED";
 
-  if (
-    (!isEvaluated && !isTimeout) 
-  ) {
+  if (!isEvaluated && !isTimeout) {
     return null;
   }
 
@@ -92,10 +85,7 @@ export default function QuestionFeedback({
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
       aria-live="polite"
-      className={cn(
-        "rounded-xl border px-3.5 py-3 sm:px-4",
-        result.className,
-      )}
+      className={cn("rounded-xl border px-3.5 py-3 sm:px-4", result.className)}
     >
       <div className="flex items-center gap-3">
         <div
@@ -119,12 +109,10 @@ export default function QuestionFeedback({
           )}
         </div>
 
-=          <div className="shrink-0 rounded-lg bg-background/70 px-2.5 py-1.5 text-xs font-semibold tabular-nums text-foreground">
-            {evaluation.earnedPoints}/{evaluation.maxPoints}
-            <span className="ml-1 font-medium text-muted-foreground">
-              pts
-            </span>
-          </div>
+        <div className="shrink-0 rounded-lg bg-background/70 px-2.5 py-1.5 text-xs font-semibold tabular-nums text-foreground">
+          {evaluation.earnedPoints}/{evaluation.maxPoints}
+          <span className="ml-1 font-medium text-muted-foreground">pts</span>
+        </div>
 
         {hasAccuracy && (
           <div className="shrink-0 rounded-lg bg-background/70 px-2.5 py-1.5 text-xs font-semibold tabular-nums text-foreground">

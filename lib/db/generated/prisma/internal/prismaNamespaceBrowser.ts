@@ -166,6 +166,7 @@ export const QuestionScalarFieldEnum = {
   explanation: 'explanation',
   explanationImageId: 'explanationImageId',
   points: 'points',
+  timeLimitSeconds: 'timeLimitSeconds',
   order: 'order',
   imageId: 'imageId',
   content: 'content',
@@ -187,7 +188,6 @@ export const QuizAttemptScalarFieldEnum = {
   phase: 'phase',
   currentQuestionIndex: 'currentQuestionIndex',
   timeLimitEnabled: 'timeLimitEnabled',
-  timeLimitSeconds: 'timeLimitSeconds',
   showExplanations: 'showExplanations',
   shuffleQuestions: 'shuffleQuestions',
   shuffleAnswers: 'shuffleAnswers',
@@ -221,6 +221,7 @@ export const AttemptQuestionScalarFieldEnum = {
   isQuestionTimerRunning: 'isQuestionTimerRunning',
   hasSeenFeedback: 'hasSeenFeedback',
   timeSpentSeconds: 'timeSpentSeconds',
+  timeLimitSeconds: 'timeLimitSeconds',
   answeredAt: 'answeredAt',
   evaluatedAt: 'evaluatedAt',
   updatedAt: 'updatedAt'

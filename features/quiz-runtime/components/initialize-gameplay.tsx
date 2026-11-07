@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
+import { useRuntimeActions } from "../store";
 import type { QuizAttemptRuntime } from "../types/runtime-types";
-import { useRuntimeStore } from "../store";
 
 type InitializeGameplayProps = {
   attempt: QuizAttemptRuntime;
@@ -14,9 +14,9 @@ export function InitializeGameplay({
   attempt,
   children,
 }: InitializeGameplayProps) {
-  const initializeAttempt = useRuntimeStore(
-    (state) => state.initializeAttempt,
-  );
+  const { initializeAttempt } = useRuntimeActions();
+  console.log(attempt.startedAt);
+  
 
   const initializedAttemptId = useRef<string | null>(null);
 

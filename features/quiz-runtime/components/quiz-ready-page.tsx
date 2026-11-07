@@ -16,8 +16,9 @@ import {
 import { useRuntime, useRuntimeActions } from "../store";
 
 export default function QuizReadyPage() {
-  const { quizSnapshot, questionCount } = useRuntime();
-  const { startAttempt } = useRuntimeActions();
+  const { quizSnapshot, questionCount, startedAt, questions, settings } =
+    useRuntime();
+  const { startAttempt, resumeAttempt } = useRuntimeActions();
 
   const { title, description, tags, category, language, thumbnail } =
     quizSnapshot;
@@ -25,18 +26,30 @@ export default function QuizReadyPage() {
   const [expanded, setExpanded] = useState(false);
 
   // Replace with your actual attempt-resume condition.
-  const canResume = false;
+  const canResume = startedAt !== null;
 
   const hasMetadata = Boolean(category || language || tags.length > 0);
 
-  const handleStart = () => {
-    if (canResume) {
-      // Add your resume action here.
-      return;
-    }
+  const totalDurationSeconds = settings?.timeLimitEnabled
+    ? questions.reduce(
+        (total, question) => total + (question.timeLimitSeconds ?? 0),
+        0,
+      )
+    : 0;
 
-    startAttempt(new Date());
+  const formatDuration = (seconds: number) => {
+    if (seconds <= 0) return "No time limit";
+
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    if (minutes === 0) return `${remainingSeconds}s`;
+    if (remainingSeconds === 0) return `${minutes} min`;
+
+    return `${minutes}m ${remainingSeconds}s`;
   };
+
+  const quizDuration = formatDuration(totalDurationSeconds);
 
   return (
     <div className="flex w-full flex-1 items-center justify-center overflow-y-auto px-4 py-5 sm:px-6">
@@ -171,33 +184,65 @@ export default function QuizReadyPage() {
             </div>
 
             <div className="min-w-0">
-              <p className="truncate text-xs font-semibold">No time limit</p>
-              <p className="mt-1 text-[10px] text-muted-foreground">Duration</p>
+              <p className="truncate text-xs font-semibold">{quizDuration}</p>
+              <p className="mt-1 text-[10px] text-muted-foreground">
+                Total duration
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Start / Resume */}
-        <div className="mt-4">
-          <motion.button
-            type="button"
-            whileTap={{ scale: 0.985 }}
-            onClick={handleStart}
-            className="group flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/10 transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
-            {canResume ? "Resume quiz" : "Start quiz"}
+        {/* Start / Resume / Restart */}
+        <div className="mt-4 space-y-2">
+          {canResume ? (
+            <>
+              <motion.button
+                type="button"
+                whileTap={{ scale: 0.985 }}
+                onClick={() => resumeAttempt(new Date())}
+                className="group flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/10 transition-colors hover:bg-primary/90"
+              >
+                Resume quiz
+                <ArrowRight
+                  size={15}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </motion.button>
 
-            <ArrowRight
-              size={15}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </motion.button>
+              <motion.button
+                type="button"
+                whileTap={{ scale: 0.985 }}
+                onClick={() => startAttempt(new Date())}
+                className="flex h-9 w-full items-center justify-center gap-2 rounded-lg border border-border bg-card/60 px-4 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                <Sparkles size={13} />
+                Restart quiz
+              </motion.button>
 
-          <p className="mt-2 text-center text-[10px] text-muted-foreground">
-            {canResume
-              ? "Continue where you left off."
-              : "Take your time. Enjoy the experience."}
-          </p>
+              <p className="text-center text-[10px] text-muted-foreground">
+                Continue your progress or start fresh.
+              </p>
+            </>
+          ) : (
+            <>
+              <motion.button
+                type="button"
+                whileTap={{ scale: 0.985 }}
+                onClick={() => startAttempt(new Date())}
+                className="group flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/10 transition-colors hover:bg-primary/90"
+              >
+                Start quiz
+                <ArrowRight
+                  size={15}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </motion.button>
+
+              <p className="text-center text-[10px] text-muted-foreground">
+                Take your time. Enjoy the experience.
+              </p>
+            </>
+          )}
         </div>
       </motion.section>
     </div>

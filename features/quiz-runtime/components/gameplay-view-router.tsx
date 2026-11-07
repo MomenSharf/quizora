@@ -8,7 +8,6 @@ import { useRuntime } from "../store";
 type GameplayPageRouterProps = {
   ready: ReactNode;
   question: ReactNode;
-  settings: ReactNode;
   review: ReactNode;
   results: ReactNode;
 };
@@ -36,7 +35,6 @@ const pageTransition = {
 export default function GameplayViewRouter({
   ready,
   question,
-  settings,
   review,
   results,
 }: GameplayPageRouterProps) {
@@ -45,7 +43,6 @@ export default function GameplayViewRouter({
   const views: Record<RuntimeView, ReactNode> = {
     READY: ready,
     QUESTION: question,
-    SETTINGS: settings,
     REVIEW: review,
     RESULTS: results,
   };

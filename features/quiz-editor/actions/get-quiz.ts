@@ -6,9 +6,9 @@ import { quizEditorService } from "../services/quiz-editor.service";
 
 export const getQuiz = async (id: string) =>
   tryCatchAsync(async () => {
-    const session = await requireAuth();
+    const {user} = await requireAuth();
 
-    const result = await quizEditorService.getQuiz(id, session.user.id);
+    const result = await quizEditorService.getQuiz(id, user.id);
 
     return {
      ...result,

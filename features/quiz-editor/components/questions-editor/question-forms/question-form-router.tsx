@@ -1,4 +1,3 @@
-
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -21,6 +20,7 @@ import { TapFindForm } from "./forms/tap-find-form";
 import { TrueFalseForm } from "./forms/true-false-form";
 import { TypeAnswerForm } from "./forms/type-answer-form";
 import { FlashcardForm } from "./forms/flashcard-from";
+import { ConfigSection } from "./question-config/config-section";
 
 export interface QuestionFormProps {
   questionIndex: number;
@@ -62,7 +62,8 @@ export function QuestionFormRouter() {
 
   return (
     <div className="flex min-h-0 w-full flex-1 justify-center">
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-3xl space-y-4">
+        {/* Question form */}
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={question.id}
@@ -74,7 +75,10 @@ export function QuestionFormRouter() {
               ease: "easeOut",
             }}
           >
-            <Form questionIndex={questionIndex} />
+            <div className="flex flex-col gap-3">
+              <ConfigSection questionIndex={questionIndex} />
+              <Form questionIndex={questionIndex} />
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>

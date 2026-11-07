@@ -1,7 +1,14 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ClipboardCheck, Clock3, Eye, Shuffle, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  ClipboardCheck,
+  Clock3,
+  Eye,
+  Shuffle,
+  Sparkles,
+} from "lucide-react";
 import type { FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -52,22 +59,22 @@ export function StartAttemptSettingsForm({
     description: string;
     icon: typeof Sparkles;
   }[] = [
-{
-  value: "CLASSIC",
-  label: "Classic",
-  title: "Learn as you play",
-  description:
-    "Answer questions, get instant feedback, and see how you did along the way. Review each answer and learn from your mistakes.",
-  icon: Sparkles,
-},
-{
-  value: "TEST",
-  label: "Test",
-  title: "Test your knowledge",
-  description:
-    "Answer all questions without seeing feedback along the way. Once finished, review your answers and see your final results.",
-  icon: ClipboardCheck,
-},
+    {
+      value: "CLASSIC",
+      label: "Classic",
+      title: "Learn as you play",
+      description:
+        "Answer questions, get instant feedback, and see how you did along the way. Review each answer and learn from your mistakes.",
+      icon: Sparkles,
+    },
+    {
+      value: "TEST",
+      label: "Test",
+      title: "Test your knowledge",
+      description:
+        "Answer all questions without seeing feedback along the way. Once finished, review your answers and see your final results.",
+      icon: ClipboardCheck,
+    },
   ];
 
   const options = [
@@ -88,8 +95,23 @@ export function StartAttemptSettingsForm({
     },
   ];
 
+  const testOptions = [
+    {
+      value: false,
+      label: "Review & Submit",
+      title: "Review your answers before submitting.",
+      icon: ClipboardCheck,
+    },
+    {
+      value: true,
+      label: "Timer",
+      title: "Get a time limit for each question.",
+      icon: Clock3,
+    },
+  ];
+
   return (
-    <form onSubmit={handleSubmit} className="mx-auto w-full max-w-md">
+    <form onSubmit={handleSubmit} className="mx-auto w-full max-w-xl">
       <div className="space-y-5">
         {/* Session mode */}
         <section>
@@ -156,67 +178,67 @@ export function StartAttemptSettingsForm({
 
         {/* Timer settings */}
         <section className="space-y-3">
-          <div className="flex min-h-12 items-center gap-3">
-            <Clock3 className="size-4 shrink-0 text-muted-foreground" />
+          {mode === "CLASSIC" ? (
+            <div className="flex min-h-12 items-center gap-3">
+              <Clock3 className="size-4 text-muted-foreground" />
 
-            <div className="flex-1">
-              <p className="text-sm font-medium">Time limit</p>
-              <p className="text-xs text-muted-foreground">
-                Set a duration for your quiz
-              </p>
+              <div className="flex-1">
+                <p className="text-sm font-medium">Timer</p>
+                <p className="text-xs text-muted-foreground">
+                  Turn on a timer for each question.
+                </p>
+              </div>
+
+              <Switch
+                checked={settings.timeLimitEnabled}
+                onCheckedChange={(value) => update("timeLimitEnabled", value)}
+              />
             </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
+              {testOptions.map((option) => {
+                const active = settings.timeLimitEnabled === option.value;
+                const Icon = option.icon;
 
-            <Switch
-              checked={settings.timeLimitEnabled}
-              onCheckedChange={(value) => update("timeLimitEnabled", value)}
-            />
-          </div>
+                return (
+                  <button
+                    key={option.label}
+                    type="button"
+                    onClick={() => update("timeLimitEnabled", option.value)}
+                    aria-pressed={active}
+                    className={cn(
+                      "rounded-xl border p-3 text-left transition-all",
+                      active
+                        ? "border-primary bg-primary/5"
+                        : "border-border bg-background hover:bg-muted/50",
+                    )}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Icon
+                        className={cn(
+                          "size-4",
+                          active ? "text-primary" : "text-muted-foreground",
+                        )}
+                      />
 
-          <AnimatePresence initial={false}>
-            {settings.timeLimitEnabled && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="flex items-center justify-between gap-3 rounded-lg bg-muted/50 p-3">
-                  <span className="text-xs text-muted-foreground">
-                    Duration
-                  </span>
+                      <span
+                        className={cn(
+                          "text-sm font-semibold",
+                          active && "text-primary",
+                        )}
+                      >
+                        {option.label}
+                      </span>
+                    </div>
 
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      min={1}
-                      max={1440}
-                      value={Math.floor(
-                        settings.timeLimitSeconds
-                          ? settings.timeLimitSeconds / 60
-                          : 300,
-                      )}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        const minutes = Number(value);
-
-                        if (!value || !Number.isFinite(minutes)) return;
-
-                        update(
-                          "timeLimitSeconds",
-                          Math.min(1440, Math.max(1, minutes)) * 60,
-                        );
-                      }}
-                      className="h-8 w-20 text-right"
-                    />
-
-                    <span className="text-xs text-muted-foreground">
-                      minutes
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                      {option.title}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         {/* Additional settings */}

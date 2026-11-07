@@ -15,17 +15,10 @@ export const getAttempt = async ({ attemptId }: GetAttemptInput) =>
   tryCatchAsync(async () => {
     const { user } = await requireAuth();
 
-    const attempt = await quizRuntimeService.getAttempt({
+    const runttimeAttempt = await quizRuntimeService.getAttempt({
       attemptId,
       userId: user.id,
     });
-    if (!attempt) {
-      return AppErrors.notFound("Quiz attempt not found");
-    }
 
-    const runttimeAttempt = mapQuizAttempt(attempt);
-
-    
-
-    return runttimeAttempt;
+    return { runttimeAttempt };
   });

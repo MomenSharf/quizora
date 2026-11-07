@@ -76,5 +76,6 @@ export function createBaseQuestion() {
     title: "",
 
     points: 10,
+    timeLimitSeconds: 300,
   };
 }

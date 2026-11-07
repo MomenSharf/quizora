@@ -28,12 +28,10 @@ export type AggregateQuizAttempt = {
 
 export type QuizAttemptAvgAggregateOutputType = {
   currentQuestionIndex: number | null
-  timeLimitSeconds: number | null
 }
 
 export type QuizAttemptSumAggregateOutputType = {
   currentQuestionIndex: number | null
-  timeLimitSeconds: number | null
 }
 
 export type QuizAttemptMinAggregateOutputType = {
@@ -46,7 +44,6 @@ export type QuizAttemptMinAggregateOutputType = {
   phase: $Enums.QuizAttemptPhase | null
   currentQuestionIndex: number | null
   timeLimitEnabled: boolean | null
-  timeLimitSeconds: number | null
   showExplanations: boolean | null
   shuffleQuestions: boolean | null
   shuffleAnswers: boolean | null
@@ -68,7 +65,6 @@ export type QuizAttemptMaxAggregateOutputType = {
   phase: $Enums.QuizAttemptPhase | null
   currentQuestionIndex: number | null
   timeLimitEnabled: boolean | null
-  timeLimitSeconds: number | null
   showExplanations: boolean | null
   shuffleQuestions: boolean | null
   shuffleAnswers: boolean | null
@@ -91,7 +87,6 @@ export type QuizAttemptCountAggregateOutputType = {
   phase: number
   currentQuestionIndex: number
   timeLimitEnabled: number
-  timeLimitSeconds: number
   showExplanations: number
   shuffleQuestions: number
   shuffleAnswers: number
@@ -107,12 +102,10 @@ export type QuizAttemptCountAggregateOutputType = {
 
 export type QuizAttemptAvgAggregateInputType = {
   currentQuestionIndex?: true
-  timeLimitSeconds?: true
 }
 
 export type QuizAttemptSumAggregateInputType = {
   currentQuestionIndex?: true
-  timeLimitSeconds?: true
 }
 
 export type QuizAttemptMinAggregateInputType = {
@@ -125,7 +118,6 @@ export type QuizAttemptMinAggregateInputType = {
   phase?: true
   currentQuestionIndex?: true
   timeLimitEnabled?: true
-  timeLimitSeconds?: true
   showExplanations?: true
   shuffleQuestions?: true
   shuffleAnswers?: true
@@ -147,7 +139,6 @@ export type QuizAttemptMaxAggregateInputType = {
   phase?: true
   currentQuestionIndex?: true
   timeLimitEnabled?: true
-  timeLimitSeconds?: true
   showExplanations?: true
   shuffleQuestions?: true
   shuffleAnswers?: true
@@ -170,7 +161,6 @@ export type QuizAttemptCountAggregateInputType = {
   phase?: true
   currentQuestionIndex?: true
   timeLimitEnabled?: true
-  timeLimitSeconds?: true
   showExplanations?: true
   shuffleQuestions?: true
   shuffleAnswers?: true
@@ -280,12 +270,11 @@ export type QuizAttemptGroupByOutputType = {
   phase: $Enums.QuizAttemptPhase
   currentQuestionIndex: number
   timeLimitEnabled: boolean
-  timeLimitSeconds: number | null
   showExplanations: boolean
   shuffleQuestions: boolean
   shuffleAnswers: boolean
-  startedAt: Date
-  lastActivityAt: Date
+  startedAt: Date | null
+  lastActivityAt: Date | null
   completedAt: Date | null
   expiresAt: Date | null
   createdAt: Date
@@ -326,12 +315,11 @@ export type QuizAttemptWhereInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFilter<"QuizAttempt"> | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFilter<"QuizAttempt"> | number
   timeLimitEnabled?: Prisma.BoolFilter<"QuizAttempt"> | boolean
-  timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
   showExplanations?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   shuffleQuestions?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   shuffleAnswers?: Prisma.BoolFilter<"QuizAttempt"> | boolean
-  startedAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
-  lastActivityAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
+  startedAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
+  lastActivityAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
@@ -352,12 +340,11 @@ export type QuizAttemptOrderByWithRelationInput = {
   phase?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   timeLimitEnabled?: Prisma.SortOrder
-  timeLimitSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   showExplanations?: Prisma.SortOrder
   shuffleQuestions?: Prisma.SortOrder
   shuffleAnswers?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrder
-  lastActivityAt?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastActivityAt?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -381,12 +368,11 @@ export type QuizAttemptWhereUniqueInput = Prisma.AtLeast<{
   phase?: Prisma.EnumQuizAttemptPhaseFilter<"QuizAttempt"> | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFilter<"QuizAttempt"> | number
   timeLimitEnabled?: Prisma.BoolFilter<"QuizAttempt"> | boolean
-  timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
   showExplanations?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   shuffleQuestions?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   shuffleAnswers?: Prisma.BoolFilter<"QuizAttempt"> | boolean
-  startedAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
-  lastActivityAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
+  startedAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
+  lastActivityAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
@@ -407,12 +393,11 @@ export type QuizAttemptOrderByWithAggregationInput = {
   phase?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   timeLimitEnabled?: Prisma.SortOrder
-  timeLimitSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   showExplanations?: Prisma.SortOrder
   shuffleQuestions?: Prisma.SortOrder
   shuffleAnswers?: Prisma.SortOrder
-  startedAt?: Prisma.SortOrder
-  lastActivityAt?: Prisma.SortOrder
+  startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastActivityAt?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -438,12 +423,11 @@ export type QuizAttemptScalarWhereWithAggregatesInput = {
   phase?: Prisma.EnumQuizAttemptPhaseWithAggregatesFilter<"QuizAttempt"> | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntWithAggregatesFilter<"QuizAttempt"> | number
   timeLimitEnabled?: Prisma.BoolWithAggregatesFilter<"QuizAttempt"> | boolean
-  timeLimitSeconds?: Prisma.IntNullableWithAggregatesFilter<"QuizAttempt"> | number | null
   showExplanations?: Prisma.BoolWithAggregatesFilter<"QuizAttempt"> | boolean
   shuffleQuestions?: Prisma.BoolWithAggregatesFilter<"QuizAttempt"> | boolean
   shuffleAnswers?: Prisma.BoolWithAggregatesFilter<"QuizAttempt"> | boolean
-  startedAt?: Prisma.DateTimeWithAggregatesFilter<"QuizAttempt"> | Date | string
-  lastActivityAt?: Prisma.DateTimeWithAggregatesFilter<"QuizAttempt"> | Date | string
+  startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"QuizAttempt"> | Date | string | null
+  lastActivityAt?: Prisma.DateTimeNullableWithAggregatesFilter<"QuizAttempt"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"QuizAttempt"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"QuizAttempt"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"QuizAttempt"> | Date | string
@@ -459,12 +443,11 @@ export type QuizAttemptCreateInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -485,12 +468,11 @@ export type QuizAttemptUncheckedCreateInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -507,12 +489,11 @@ export type QuizAttemptUpdateInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -533,12 +514,11 @@ export type QuizAttemptUncheckedUpdateInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -557,12 +537,11 @@ export type QuizAttemptCreateManyInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -578,12 +557,11 @@ export type QuizAttemptUpdateManyMutationInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -601,12 +579,11 @@ export type QuizAttemptUncheckedUpdateManyInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -634,7 +611,6 @@ export type QuizAttemptCountOrderByAggregateInput = {
   phase?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   timeLimitEnabled?: Prisma.SortOrder
-  timeLimitSeconds?: Prisma.SortOrder
   showExplanations?: Prisma.SortOrder
   shuffleQuestions?: Prisma.SortOrder
   shuffleAnswers?: Prisma.SortOrder
@@ -648,7 +624,6 @@ export type QuizAttemptCountOrderByAggregateInput = {
 
 export type QuizAttemptAvgOrderByAggregateInput = {
   currentQuestionIndex?: Prisma.SortOrder
-  timeLimitSeconds?: Prisma.SortOrder
 }
 
 export type QuizAttemptMaxOrderByAggregateInput = {
@@ -661,7 +636,6 @@ export type QuizAttemptMaxOrderByAggregateInput = {
   phase?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   timeLimitEnabled?: Prisma.SortOrder
-  timeLimitSeconds?: Prisma.SortOrder
   showExplanations?: Prisma.SortOrder
   shuffleQuestions?: Prisma.SortOrder
   shuffleAnswers?: Prisma.SortOrder
@@ -683,7 +657,6 @@ export type QuizAttemptMinOrderByAggregateInput = {
   phase?: Prisma.SortOrder
   currentQuestionIndex?: Prisma.SortOrder
   timeLimitEnabled?: Prisma.SortOrder
-  timeLimitSeconds?: Prisma.SortOrder
   showExplanations?: Prisma.SortOrder
   shuffleQuestions?: Prisma.SortOrder
   shuffleAnswers?: Prisma.SortOrder
@@ -697,7 +670,6 @@ export type QuizAttemptMinOrderByAggregateInput = {
 
 export type QuizAttemptSumOrderByAggregateInput = {
   currentQuestionIndex?: Prisma.SortOrder
-  timeLimitSeconds?: Prisma.SortOrder
 }
 
 export type QuizAttemptScalarRelationFilter = {
@@ -832,12 +804,11 @@ export type QuizAttemptCreateWithoutUserInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -856,12 +827,11 @@ export type QuizAttemptUncheckedCreateWithoutUserInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -909,12 +879,11 @@ export type QuizAttemptScalarWhereInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFilter<"QuizAttempt"> | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFilter<"QuizAttempt"> | number
   timeLimitEnabled?: Prisma.BoolFilter<"QuizAttempt"> | boolean
-  timeLimitSeconds?: Prisma.IntNullableFilter<"QuizAttempt"> | number | null
   showExplanations?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   shuffleQuestions?: Prisma.BoolFilter<"QuizAttempt"> | boolean
   shuffleAnswers?: Prisma.BoolFilter<"QuizAttempt"> | boolean
-  startedAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
-  lastActivityAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
+  startedAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
+  lastActivityAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableFilter<"QuizAttempt"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"QuizAttempt"> | Date | string
@@ -930,12 +899,11 @@ export type QuizAttemptCreateWithoutQuizInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -954,12 +922,11 @@ export type QuizAttemptUncheckedCreateWithoutQuizInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -1002,12 +969,11 @@ export type QuizAttemptCreateWithoutQuestionsInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -1027,12 +993,11 @@ export type QuizAttemptUncheckedCreateWithoutQuestionsInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -1064,12 +1029,11 @@ export type QuizAttemptUpdateWithoutQuestionsInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1089,12 +1053,11 @@ export type QuizAttemptUncheckedUpdateWithoutQuestionsInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1111,12 +1074,11 @@ export type QuizAttemptCreateManyUserInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -1132,12 +1094,11 @@ export type QuizAttemptUpdateWithoutUserInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1156,12 +1117,11 @@ export type QuizAttemptUncheckedUpdateWithoutUserInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1179,12 +1139,11 @@ export type QuizAttemptUncheckedUpdateManyWithoutUserInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1201,12 +1160,11 @@ export type QuizAttemptCreateManyQuizInput = {
   phase?: $Enums.QuizAttemptPhase
   currentQuestionIndex?: number
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: number | null
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
-  startedAt?: Date | string
-  lastActivityAt?: Date | string
+  startedAt?: Date | string | null
+  lastActivityAt?: Date | string | null
   completedAt?: Date | string | null
   expiresAt?: Date | string | null
   createdAt?: Date | string
@@ -1222,12 +1180,11 @@ export type QuizAttemptUpdateWithoutQuizInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1246,12 +1203,11 @@ export type QuizAttemptUncheckedUpdateWithoutQuizInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1269,12 +1225,11 @@ export type QuizAttemptUncheckedUpdateManyWithoutQuizInput = {
   phase?: Prisma.EnumQuizAttemptPhaseFieldUpdateOperationsInput | $Enums.QuizAttemptPhase
   currentQuestionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   timeLimitEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  timeLimitSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showExplanations?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleQuestions?: Prisma.BoolFieldUpdateOperationsInput | boolean
   shuffleAnswers?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastActivityAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActivityAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1323,7 +1278,6 @@ export type QuizAttemptSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   phase?: boolean
   currentQuestionIndex?: boolean
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: boolean
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
@@ -1350,7 +1304,6 @@ export type QuizAttemptSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   phase?: boolean
   currentQuestionIndex?: boolean
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: boolean
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
@@ -1375,7 +1328,6 @@ export type QuizAttemptSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   phase?: boolean
   currentQuestionIndex?: boolean
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: boolean
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
@@ -1400,7 +1352,6 @@ export type QuizAttemptSelectScalar = {
   phase?: boolean
   currentQuestionIndex?: boolean
   timeLimitEnabled?: boolean
-  timeLimitSeconds?: boolean
   showExplanations?: boolean
   shuffleQuestions?: boolean
   shuffleAnswers?: boolean
@@ -1412,7 +1363,7 @@ export type QuizAttemptSelectScalar = {
   updatedAt?: boolean
 }
 
-export type QuizAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "quizId" | "quizSnapshot" | "mode" | "environment" | "status" | "phase" | "currentQuestionIndex" | "timeLimitEnabled" | "timeLimitSeconds" | "showExplanations" | "shuffleQuestions" | "shuffleAnswers" | "startedAt" | "lastActivityAt" | "completedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizAttempt"]>
+export type QuizAttemptOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "quizId" | "quizSnapshot" | "mode" | "environment" | "status" | "phase" | "currentQuestionIndex" | "timeLimitEnabled" | "showExplanations" | "shuffleQuestions" | "shuffleAnswers" | "startedAt" | "lastActivityAt" | "completedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quizAttempt"]>
 export type QuizAttemptInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   quiz?: boolean | Prisma.QuizDefaultArgs<ExtArgs>
@@ -1446,12 +1397,11 @@ export type $QuizAttemptPayload<ExtArgs extends runtime.Types.Extensions.Interna
     phase: $Enums.QuizAttemptPhase
     currentQuestionIndex: number
     timeLimitEnabled: boolean
-    timeLimitSeconds: number | null
     showExplanations: boolean
     shuffleQuestions: boolean
     shuffleAnswers: boolean
-    startedAt: Date
-    lastActivityAt: Date
+    startedAt: Date | null
+    lastActivityAt: Date | null
     completedAt: Date | null
     expiresAt: Date | null
     createdAt: Date
@@ -1892,7 +1842,6 @@ export interface QuizAttemptFieldRefs {
   readonly phase: Prisma.FieldRef<"QuizAttempt", 'QuizAttemptPhase'>
   readonly currentQuestionIndex: Prisma.FieldRef<"QuizAttempt", 'Int'>
   readonly timeLimitEnabled: Prisma.FieldRef<"QuizAttempt", 'Boolean'>
-  readonly timeLimitSeconds: Prisma.FieldRef<"QuizAttempt", 'Int'>
   readonly showExplanations: Prisma.FieldRef<"QuizAttempt", 'Boolean'>
   readonly shuffleQuestions: Prisma.FieldRef<"QuizAttempt", 'Boolean'>
   readonly shuffleAnswers: Prisma.FieldRef<"QuizAttempt", 'Boolean'>
