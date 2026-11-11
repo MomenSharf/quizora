@@ -10,6 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { TablerIcon } from "@tabler/icons-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export function NavMain({
   items,
@@ -21,6 +22,7 @@ export function NavMain({
     isActive?: boolean;
   }[];
 }) {
+  const router = useRouter()
   return (
     <SidebarMenu className="mt-1">
       {items.map((item) => (
@@ -29,6 +31,7 @@ export function NavMain({
             size="lg"
             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground relative overflow-visible"
             isActive={item.isActive}
+            onClick={() => router.push(item.url)}
           >
             <div className="flex aspect-square size-8 items-center justify-center">
               <item.icon

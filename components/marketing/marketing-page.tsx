@@ -14,7 +14,7 @@ export function MarketingPage({
   userName,
 }: MarketingPageProps) {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-gradient-to-br from-primary/[0.06] via-background to-violet-500/[0.08]">
+    <main className="relative min-h-screen overflow-hidden">
       <HeroSection
         isAuthenticated={isAuthenticated}
         userName={userName}

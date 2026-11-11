@@ -15,7 +15,7 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export default function NavCreateNew({
+export default function CreateNewButton({
   isAuthenticated,
 }: {
   isAuthenticated: boolean;

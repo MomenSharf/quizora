@@ -25,10 +25,10 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { FrameIcon, MapIcon, PieChartIcon, Sparkles } from "lucide-react";
 import { Separator } from "../ui/separator";
-import NavCreateNew from "./nav-create-new";
 import { NavMain } from "./nav-main";
 import { SidebarLogo } from "./sidebar-logo";
 import { useSession } from "next-auth/react";
+import CreateNewButton from "./create-new-button";
 
 // This is sample data.
 const data = {
@@ -102,24 +102,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent className="px-2">
         <NavMain items={data.navMain} />
-        <NavCreateNew isAuthenticated={isAuthenticated} />
+        <CreateNewButton isAuthenticated={isAuthenticated} />
       </SidebarContent>
 
-     {!collapsed &&  <SidebarFooter className="p-3">
-        <div className="rounded-xl border bg-primary/5 p-3">
-          <div className="flex items-center gap-2">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <IconFlame className="size-4" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-sm font-semibold">Keep learning!</p>
-              <p className="text-xs text-muted-foreground">
-                Discover something new today.
-              </p>
+      {!collapsed && (
+        <SidebarFooter className="p-3">
+          <div className="rounded-xl border bg-primary/5 p-3">
+            <div className="flex items-center gap-2">
+              <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                <IconFlame className="size-4" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold">Keep learning!</p>
+                <p className="text-xs text-muted-foreground">
+                  Discover something new today.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </SidebarFooter>}
+        </SidebarFooter>
+      )}
       <SidebarRail />
     </Sidebar>
   );

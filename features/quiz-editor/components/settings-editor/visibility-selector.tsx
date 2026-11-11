@@ -55,8 +55,6 @@ export default function VisibilitySelector({
     onChange(value);
   };
 
-  
-
   return (
     <div className="space-y-3">
       {options.map((option) => {
@@ -114,6 +112,11 @@ export default function VisibilitySelector({
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold">{option.title}</span>
 
+                {option.value === Visibility.PRIVATE && (
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+                    Draft
+                  </span>
+                )}
                 {option.value === Visibility.PUBLIC && (
                   <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
                     Recommended
