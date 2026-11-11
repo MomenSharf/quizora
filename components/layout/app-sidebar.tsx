@@ -13,15 +13,17 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
+  IconAward,
   IconBooks,
   IconCompass,
+  IconFlame,
   IconKey,
   IconSchool,
   IconSmartHome,
   IconUsers,
 } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FrameIcon, MapIcon, PieChartIcon } from "lucide-react";
+import { FrameIcon, MapIcon, PieChartIcon, Sparkles } from "lucide-react";
 import { Separator } from "../ui/separator";
 import NavCreateNew from "./nav-create-new";
 import { NavMain } from "./nav-main";
@@ -58,15 +60,13 @@ const data = {
       url: "/library",
       icon: IconBooks,
     },
-  
+
     {
       title: "Groups",
       url: "/groups",
       icon: IconUsers,
     },
-  
   ],
-
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { status } = useSession();
@@ -105,10 +105,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavCreateNew isAuthenticated={isAuthenticated} />
       </SidebarContent>
 
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
-
+     {!collapsed &&  <SidebarFooter className="p-3">
+        <div className="rounded-xl border bg-primary/5 p-3">
+          <div className="flex items-center gap-2">
+            <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <IconFlame className="size-4" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold">Keep learning!</p>
+              <p className="text-xs text-muted-foreground">
+                Discover something new today.
+              </p>
+            </div>
+          </div>
+        </div>
+      </SidebarFooter>}
       <SidebarRail />
     </Sidebar>
   );
