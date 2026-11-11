@@ -9,22 +9,9 @@ import QuestionImage from "./question-image";
 import QuestionMeta from "./question-meta";
 import QuestionResultFlash from "./question-result-flash";
 import QuestionResultToast from "./question-result-toast";
+import { QuestionStatusBar } from "./question-status-bar";
 import QuestionTitle from "./question-title";
 
-const questionVariants = {
-  initial: {
-    opacity: 0,
-    x: 20,
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-  },
-  exit: {
-    opacity: 0,
-    x: -20,
-  },
-};
 
 export default function GameplayQuestion() {
   const { runtimeCurrentQuestion, currentQuestionIndex } =
@@ -32,11 +19,22 @@ export default function GameplayQuestion() {
 
   const { markFeedbackAsSeen } = useRuntimeActions();
 
-  const { question, evaluation, locked } = runtimeCurrentQuestion;
+  const {
+    question,
+    evaluation,
+    locked: isLocked,
+    hasSeenFeedback,
+  } = runtimeCurrentQuestion;
+
+  const {  clearAnswer } = useRuntimeActions();
+
+  const isSubmitted = evaluation !== null;
+  const isTimeout = evaluation?.outcome === "TIMEOUT";
+  const shouldAnimateFeedback = !hasSeenFeedback;
 
   if (!question) return null;
 
-  const showFeedback = locked && evaluation != null;
+  const showFeedback = isLocked && evaluation != null;
 
   const showResultAnimation =
     showFeedback && !runtimeCurrentQuestion.hasSeenFeedback;
@@ -45,6 +43,11 @@ export default function GameplayQuestion() {
 
   const onAnimationComplete = () =>
     markFeedbackAsSeen(runtimeCurrentQuestion.id);
+
+  const handleClear = () => {
+    if (isLocked) return;
+    clearAnswer(runtimeCurrentQuestion.id);
+  };
 
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -85,8 +88,21 @@ export default function GameplayQuestion() {
               questionNumber={currentQuestionIndex + 1}
               title={question.title}
             />
-
-            <QuestionContentRouter runtimeQuestion={runtimeCurrentQuestion} />
+            <div className="flex flex-col gap-3 px-1">
+              <QuestionStatusBar
+                runtimeQuestion={runtimeCurrentQuestion}
+                isLocked={isLocked}
+                isTimeout={isTimeout}
+                handleClear={handleClear}
+              />
+              <QuestionContentRouter
+                runtimeQuestion={runtimeCurrentQuestion}
+                isLocked={isLocked}
+                isSubmitted={isSubmitted}
+                isTimeout={isTimeout}
+                shouldAnimateFeedback={shouldAnimateFeedback}
+              />
+            </div>
 
             {showFeedback && <QuestionFeedback evaluation={evaluation} />}
           </div>

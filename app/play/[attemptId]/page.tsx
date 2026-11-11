@@ -23,9 +23,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     notFound();
   }
 
-  const { runttimeAttempt } = result.data;
-  console.log(runttimeAttempt.startedAt);
-  
+  const { runtimeAttempt } = result.data;
 
-  return <Gameplay attempt={runttimeAttempt}  />;
+  return <Gameplay attempt={runtimeAttempt}  environment="PRODUCTION"/>;
 }

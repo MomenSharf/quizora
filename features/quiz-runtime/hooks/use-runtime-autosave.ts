@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { saveAttempt } from "../actions/save-attempt";
 import { useRuntimeStore } from "../store";
 import type { QuizAttemptRuntime } from "../types/runtime-types";
+import { useShallow } from "zustand/react/shallow";
 
 type UseRuntimeAutosaveOptions = {
   debounceMs?: number;
@@ -13,15 +14,26 @@ type UseRuntimeAutosaveOptions = {
 
 export function useRuntimeAutosave({
   debounceMs = 2000,
-  enabled = true,
 }: UseRuntimeAutosaveOptions = {}) {
+
+const {
+    enabled,
+    attemptId,
+    dirty,
+    revision
+  } = useRuntimeStore(
+    useShallow((state) => ({
+      attemptId: state.attemptId,
+      enabled: state.persistence.enabled,
+      dirty: state.persistence.dirty,
+      revision: state.persistence.revision,
+    })),
+  );
+
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const savingRef = useRef(false);
 
-  const dirty = useRuntimeStore((state) => state.persistence.dirty);
-  const attemptId = useRuntimeStore((state) => state.attemptId);
-  const revision = useRuntimeStore((state) => state.persistence.revision);
-
+  
   useEffect(() => {
     if (!enabled || !dirty || !attemptId) return;
 
@@ -58,7 +70,6 @@ export function useRuntimeAutosave({
             expiresAt: current.expiresAt,
             questions: current.questions,
             currentQuestionIndex: current.currentQuestionIndex,
-            saveStatus: 'SAVED'
           };
 
           store.setSaveStatus("SAVING");

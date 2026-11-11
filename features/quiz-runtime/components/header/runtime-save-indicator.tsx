@@ -59,7 +59,7 @@ const statusOrder: RuntimeSaveStatus[] = [
 ];
 
 export function RuntimeSaveIndicator() {
-  const { saveStatus, dirty, error, lastSavedAt } =
+  const { saveStatus, dirty, error, lastSavedAt, enabled } =
     useRuntimePersistence();
 
   const effectiveStatus: RuntimeSaveStatus =
@@ -70,6 +70,8 @@ export function RuntimeSaveIndicator() {
         : saveStatus;
 
   const currentStatus = statusConfig[effectiveStatus];
+
+  if (!enabled) return null;
 
   return (
     <HoverCard openDelay={200} closeDelay={100}>
@@ -99,11 +101,7 @@ export function RuntimeSaveIndicator() {
         </button>
       </HoverCardTrigger>
 
-      <HoverCardContent
-        align="end"
-        side="bottom"
-        className="w-52 md:w-64 p-3"
-      >
+      <HoverCardContent align="end" side="bottom" className="w-52 md:w-64 p-3">
         <div className="space-y-3">
           {/* Current status */}
           <div className="space-y-1">
@@ -115,9 +113,7 @@ export function RuntimeSaveIndicator() {
                   currentStatus.animate && "animate-pulse",
                 )}
               />
-              <p className="text-sm font-semibold">
-                {currentStatus.label}
-              </p>
+              <p className="text-sm font-semibold">{currentStatus.label}</p>
             </div>
 
             <p className="text-xs leading-relaxed text-muted-foreground">

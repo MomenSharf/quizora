@@ -22,10 +22,10 @@ export default function EditorHeader() {
         />
 
         <div className="min-w-0 flex-1">
-          <EditableTitle />
+          <div className="w-fit">
+            <EditableTitle />
+          </div>
         </div>
-
-      
 
         {/* Actions */}
         <div className="flex shrink-0 items-center gap-1">

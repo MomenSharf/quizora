@@ -12,7 +12,7 @@ export default function DashboardLayout({
       <AppSidebar />
       <SidebarInset className="bg-muted/20 dark:bg-muted/30">
         <Header />
-        <div className="flex-1 bg-muted/20 dark:bg-muted/30">{children}</div>
+        <div className="flex-1">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

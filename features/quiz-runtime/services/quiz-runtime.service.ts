@@ -1,13 +1,15 @@
 import prisma from "@/lib/db/prisma";
 import { AppErrors } from "@/lib/errors/app-errors";
 
+import { ImageData } from "@/features/quiz-editor/validation/image";
+import { Prisma } from "@/lib/db/generated/prisma/client";
+import { createId } from "@paralleldrive/cuid2";
 import {
   AttemptSettings,
   QuizAttemptRuntime,
   SessionMode,
 } from "../types/runtime-types";
-import { mapQuizAttempt } from "../transformers/runtime-attempt-mapper";
-import { Prisma } from "@/lib/db/generated/prisma/client";
+import { mapPreviewAttemptQuestions } from "../transformers/runtime-attempt-mapper";
 
 type StartAttemptInput = {
   quizId: string;
@@ -19,6 +21,13 @@ type StartAttemptInput = {
 type GetAttemptInput = {
   attemptId: string;
   userId: string;
+};
+
+type PreviewAttemptInput = {
+  quizId: string;
+  userId: string;
+  settings: AttemptSettings;
+  mode: SessionMode;
 };
 
 type SaveAttemptInput = {
@@ -140,11 +149,75 @@ export const quizRuntimeService = {
       throw AppErrors.notFound("Quiz attempt not found");
     }
 
-    const runttimeAttempt = mapQuizAttempt(attempt);
-
-    return runttimeAttempt;
+    return attempt;
   },
 
+  async getPreviewAttempt({
+    quizId,
+    userId,
+    settings,
+    mode,
+  }: PreviewAttemptInput) {
+    const quiz = await prisma.quiz.findFirst({
+      where: {
+        id: quizId,
+        ownerId: userId,
+      },
+      include: {
+        questions: {
+          orderBy: {
+            order: "asc",
+          },
+          include: {
+            image: true,
+            explanationImage: true,
+          },
+        },
+        thumbnail: true,
+      },
+    });
+
+    if (!quiz) {
+      throw AppErrors.notFound("Quiz not found");
+    }
+
+    if (quiz.questions.length === 0) {
+      throw AppErrors.badRequest("This quiz has no questions");
+    }
+
+    const previewAttempt: QuizAttemptRuntime = {
+      id: createId(),
+      quizId: quiz.id,
+
+      mode,
+      environment: "PREVIEW",
+      status: "IDLE",
+      phase: "READY",
+      currentView: "READY",
+
+      quizSnapshot: {
+        title: quiz.title,
+        description: quiz.description,
+        thumbnail: quiz.thumbnail as ImageData,
+        tags: quiz.tags,
+        language: quiz.language,
+        category: quiz.category,
+      },
+
+      currentQuestionIndex: 0,
+
+      settings,
+
+      startedAt: null,
+      lastActivityAt: null,
+      completedAt: null,
+      expiresAt: null,
+
+      questions: quiz.questions.map((q, i) => mapPreviewAttemptQuestions(q, i)),
+    };
+
+    return previewAttempt;
+  },
   async saveAttempt({ attempt, userId }: SaveAttemptInput) {
     return prisma.$transaction(async (tx) => {
       const existingAttempt = await tx.quizAttempt.findFirst({

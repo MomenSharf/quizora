@@ -38,7 +38,6 @@ const onPreview = async () => {
     return;
   }
 
-  toast.success("Opening preview...");
   router.push(`/quizzes/${id}/start-new?environment=PREVIEW`);
 };
 

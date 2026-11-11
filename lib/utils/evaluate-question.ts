@@ -4,10 +4,7 @@ import { RuntimeQuestion } from "@/features/quiz-runtime/types/runtime-types";
 export function evaluateQuestion(
   runtimeQuestion: RuntimeQuestion,
 ): EvaluationResult {
-  const {
-    question,
-    answer,
-  } = runtimeQuestion;
+  const { question, answer } = runtimeQuestion;
 
   const maxPoints = question?.points ?? 0;
 
@@ -35,6 +32,76 @@ export function evaluateQuestion(
         runtimeQuestion.evaluation?.feedback ??
         (isCorrect
           ? "Excellent! You got the correct answer."
+          : "Not quite! Keep practicing and try again.");
+
+      break;
+    }
+
+    case "MULTIPLE_SELECT": {
+      if (
+        !answer ||
+        answer.type !== "MULTIPLE_SELECT" ||
+        answer.optionIds.length === 0
+      ) {
+        outcome = "UNANSWERED";
+        feedback = "No answer submitted.";
+        break;
+      }
+
+      const correctOptionIds = question.content.correctOptionIds;
+
+      const correctIds = new Set(correctOptionIds);
+      const selectedIds = new Set(answer.optionIds);
+
+      const correctSelections = [...selectedIds].filter((id) =>
+        correctIds.has(id),
+      ).length;
+
+      const incorrectSelections = [...selectedIds].filter(
+        (id) => !correctIds.has(id),
+      ).length;
+
+      const score = Math.max(0, correctSelections - incorrectSelections);
+
+      earnedPoints = Math.round((score / correctIds.size) * maxPoints);
+
+      isCorrect =
+        correctSelections === correctIds.size && incorrectSelections === 0;
+
+      outcome = isCorrect
+        ? "CORRECT"
+        : earnedPoints > 0
+          ? "PARTIALLY_CORRECT"
+          : "INCORRECT";
+
+      feedback =
+        runtimeQuestion.evaluation?.feedback ??
+        (isCorrect
+          ? "Excellent! You selected all the correct answers."
+          : earnedPoints > 0
+            ? "Good effort! You got some of the answers correct."
+            : "Not quite! Keep practicing and try again.");
+
+      break;
+    }
+
+    case "TRUE_FALSE": {
+      if (!answer || answer.type !== "TRUE_FALSE") {
+        outcome = "UNANSWERED";
+        feedback = "No answer submitted.";
+        break;
+      }
+
+      isCorrect = answer.value === question.content.correctAnswer;
+
+      earnedPoints = isCorrect ? maxPoints : 0;
+
+      outcome = isCorrect ? "CORRECT" : "INCORRECT";
+
+      feedback =
+        runtimeQuestion.evaluation?.feedback ??
+        (isCorrect
+          ? "Correct! Well done."
           : "Not quite! Keep practicing and try again.");
 
       break;

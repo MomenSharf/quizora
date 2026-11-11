@@ -51,6 +51,8 @@ export function useRuntimeHeader() {
       mode: state.mode,
       keyboardShortcutsEnabled: state.settings.keyboardShortcutsEnabled,
       setKeyboardShortcutsEnabled: state.setKeyboardShortcutsEnabled,
+      environment: state.environment,
+      quizId: state.quizId
     })),
   );
 }
@@ -334,6 +336,7 @@ export const useRuntimePersistenceActions = () =>
     setPersistenceError: state.setPersistenceError,
     setLastAttemptAt: state.setLastAttemptAt,
     markSaved: state.markSaved,
+    enabled: state.persistence.enabled
   }));
 
 export const useRuntimePhase = () => useRuntimeStore((state) => state.phase);

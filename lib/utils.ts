@@ -13,3 +13,11 @@ export function capitalize(str: string) {
 }
 
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+
+export function parseBoolean(value: string | undefined, fallback: boolean): boolean {
+  if (value === "true") return true;
+  if (value === "false") return false;
+
+  return fallback;
+}

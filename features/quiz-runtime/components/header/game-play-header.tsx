@@ -14,8 +14,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { RuntimeSaveIndicator } from "./runtime-save-indicator";
+import { useRouter } from "next/navigation";
 
 export default function GamePlayHeader() {
+  const router = useRouter();
   const {
     title,
     currentQuestionIndex,
@@ -24,6 +26,8 @@ export default function GamePlayHeader() {
     keyboardShortcutsEnabled,
     setKeyboardShortcutsEnabled,
     mode,
+    environment,
+    quizId,
   } = useRuntimeHeader();
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -57,6 +61,8 @@ export default function GamePlayHeader() {
       ? Math.min(100, (currentQuestionIndex / totalQuestions) * 100)
       : 0;
 
+  const isProduction = environment === "PRODUCTION";
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
       <div className="container mx-auto flex h-12 items-center justify-between gap-2 px-2 sm:h-14 sm:gap-4 sm:px-4">
@@ -65,7 +71,13 @@ export default function GamePlayHeader() {
             containerClassName="size-8 shrink-0 rounded-lg sm:size-9 sm:rounded-xl"
             iconClassName="size-4 sm:size-[18px]"
             textClassName="hidden text-sm font-bold tracking-tight sm:block"
-            disabled
+            disabled={isProduction}
+            withChevron={!isProduction}
+            handleClick={
+              !isProduction
+                ? { mode: "Link", href: `/quizzes/${quizId}/editor` }
+                : undefined
+            }
           />
 
           <div className="hidden h-7 w-px shrink-0 bg-border sm:block" />
@@ -91,7 +103,9 @@ export default function GamePlayHeader() {
         <div className="flex min-w-0 flex-1 items-center justify-center px-2">
           {currentView === "REVIEW" && (
             <>
-            <h1 className="truncate text-sm font-bold hidden sm:block">Review Questions</h1>
+              <h1 className="truncate text-sm font-bold hidden sm:block">
+                Review Questions
+              </h1>
             </>
           )}
         </div>
@@ -138,10 +152,20 @@ export default function GamePlayHeader() {
             type="button"
             variant="outline"
             size="sm"
+            onClick={() => {
+              if (environment === "PREVIEW") {
+                router.push(`/quizzes/${quizId}/editor`);
+                return;
+              }
+
+              router.push("/");
+            }}
             className="h-8 shrink-0 gap-1.5 rounded-lg border-border/70 px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-foreground"
           >
             <IconLogout className="size-3.5" stroke={1.8} />
-            <span className="hidden md:inline">Save & Exit</span>
+            <span className="hidden md:inline">
+              {environment === "PREVIEW" ? "Back to Editor" : "Exit Quiz"}
+            </span>
           </Button>
         </div>
       </div>

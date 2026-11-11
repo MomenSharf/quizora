@@ -95,7 +95,7 @@ export function mapEditorState(state: Prisma.JsonValue): EditorState {
   };
 }
 
-function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
+export function mapQuestion(question: PrismaQuiz["questions"][number]): Question {
   const base = {
     id: question.id,
     title: question.title,

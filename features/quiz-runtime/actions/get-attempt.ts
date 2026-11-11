@@ -15,10 +15,12 @@ export const getAttempt = async ({ attemptId }: GetAttemptInput) =>
   tryCatchAsync(async () => {
     const { user } = await requireAuth();
 
-    const runttimeAttempt = await quizRuntimeService.getAttempt({
+    const attempt = await quizRuntimeService.getAttempt({
       attemptId,
       userId: user.id,
     });
 
-    return { runttimeAttempt };
+    const runtimeAttempt = mapQuizAttempt(attempt);
+
+    return { runtimeAttempt };
   });

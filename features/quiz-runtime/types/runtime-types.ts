@@ -115,8 +115,6 @@ export type QuizAttemptRuntime = {
   lastActivityAt: Date | null;
   completedAt: Date | null;
   expiresAt: Date | null;
-
-  saveStatus: RuntimeSaveStatus;
 };
 
 export type GameplayAction =

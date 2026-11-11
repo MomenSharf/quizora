@@ -10,38 +10,49 @@ import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 
 import { startAttempt } from "../../actions/start-attempt";
-import type { AttemptSettings, SessionMode } from "../../types/runtime-types";
+import type {
+  AttemptSettings,
+  RuntimeEnvironment,
+  SessionMode,
+} from "../../types/runtime-types";
 import { StartAttemptSettingsForm } from "./start-attempt-settings-form";
+import { defaultSettings } from "../../store";
 
 type StartAttemptPageProps = {
   quizId: string;
   quizTitle: string;
   questionCount: number;
-};
-
-const DEFAULT_SETTINGS: AttemptSettings = {
-  timeLimitEnabled: false,
-  showExplanations: true,
-  shuffleQuestions: false,
-  shuffleAnswers: false,
-  keyboardShortcutsEnabled: false
+  environment: RuntimeEnvironment;
 };
 
 export default function StartAttemptPage({
   quizId,
   quizTitle,
   questionCount,
+  environment,
 }: StartAttemptPageProps) {
   const router = useRouter();
 
   const [mode, setMode] = useState<SessionMode>("CLASSIC");
-  const [settings, setSettings] = useState<AttemptSettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<AttemptSettings>(defaultSettings);
   const [isStarting, setIsStarting] = useState(false);
 
   const handleStart = async () => {
     if (isStarting || questionCount === 0) return;
 
     setIsStarting(true);
+
+    if (environment === "PREVIEW") {
+      const searchParams = new URLSearchParams({
+        mode,
+        ...Object.fromEntries(
+          Object.entries(settings).map(([key, value]) => [key, String(value)]),
+        ),
+      });
+
+      router.push(`/quizzes/${quizId}/preview?${searchParams.toString()}`);
+      return;
+    }
 
     try {
       const res = await startAttempt({
@@ -55,7 +66,7 @@ export default function StartAttemptPage({
         return;
       }
 
-      router.push(`/play/${res.data.attemptId}?environment=PREVIEW`);
+      router.push(`/play/${res.data.attemptId}?environment=PRODUCTION`);
     } catch {
       toast.error("Something went wrong. Please try again.");
     } finally {

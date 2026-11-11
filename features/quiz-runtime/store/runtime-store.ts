@@ -9,7 +9,6 @@ import {
 import { evaluateQuestion } from "@/lib/utils/evaluate-question";
 import type { Answer } from "../types/answer-types";
 import type {
-  AttemptSettings,
   QuizAttemptRuntime,
   RuntimePhase,
   RuntimeQuestionStatus,
@@ -42,8 +41,7 @@ export const useRuntimeStore = create<RuntimeStore>()((set, get) => ({
 
       persistence: {
         ...defaultRuntimePersistence,
-        saveStatus: attempt.saveStatus ?? "IDLE",
-        dirty: false,
+        enabled: attempt.environment === "PRODUCTION",
       },
     }),
 

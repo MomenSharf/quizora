@@ -1,5 +1,4 @@
 import type { Answer } from "../types/answer-types";
-import type { EvaluationResult } from "../types/evaluation-types";
 
 import type {
   AttemptSettings,
@@ -15,6 +14,7 @@ import type {
 } from "../types/runtime-types";
 
 export type RuntimePersistenceState = {
+  enabled: boolean;
   error: string | null;
   saveStatus: RuntimeSaveStatus;
   dirty: boolean;
@@ -121,6 +121,7 @@ export type RuntimeStore = RuntimeState & RuntimeActions;
 // --------------------------------------------------
 
 export const defaultRuntimePersistence: RuntimePersistenceState = {
+  enabled: false,
   error: null,
   saveStatus: "IDLE",
   dirty: false,
@@ -171,4 +172,12 @@ export const defaultRuntimeState: RuntimeState = {
   isReviewOpen: false,
 
   persistence: { ...defaultRuntimePersistence },
+};
+
+export const defaultSettings: AttemptSettings = {
+  timeLimitEnabled: false,
+  showExplanations: true,
+  shuffleQuestions: false,
+  shuffleAnswers: false,
+  keyboardShortcutsEnabled: false,
 };

@@ -7,12 +7,14 @@ import {
   useRuntimeCurrentQuestion,
 } from "../store";
 
-import type { QuizAttemptRuntime } from "../types/runtime-types";
+import type {
+  QuizAttemptRuntime,
+  RuntimeEnvironment,
+} from "../types/runtime-types";
 
 import GamePlayActions from "./actions-bar/game-play-actions";
 import GameplayViewRouter from "./gameplay-view-router";
 import GamePlayHeader from "./header/game-play-header";
-import { InitializeGameplay } from "./initialize-gameplay";
 import GameplayQuestion from "./question/gameplay-question";
 import QuestionsReview from "./questions-review";
 import QuizReadyPage from "./quiz-ready-page";
@@ -21,14 +23,11 @@ import { RuntimeProvider } from "./runtime-provider";
 
 type GameplayLayoutProps = {
   attempt: QuizAttemptRuntime;
-
 };
 
-export default function Gameplay({ attempt }: GameplayLayoutProps) {
+export default function Gameplay({ attempt}: GameplayLayoutProps) {
   return (
-    <RuntimeProvider
-      attempt={attempt}
-    >
+    <RuntimeProvider attempt={attempt}>
       <GameplayContent />
     </RuntimeProvider>
   );

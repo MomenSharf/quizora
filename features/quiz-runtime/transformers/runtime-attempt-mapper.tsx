@@ -1,5 +1,8 @@
-import { Prisma } from "@/lib/db/generated/prisma/client";
+import {
+  Prisma
+} from "@/lib/db/generated/prisma/client";
 
+import { mapQuestion as mapPrismaQuestion } from "@/features/quiz-editor/transformers/quiz-mapper";
 import type { Answer } from "../types/answer-types";
 import type { EvaluationResult } from "../types/evaluation-types";
 import type {
@@ -7,7 +10,6 @@ import type {
   QuizSnapshot,
   RuntimeQuestion,
 } from "../types/runtime-types";
-
 export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
   include: {
     questions: true;
@@ -16,6 +18,18 @@ export type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
         thumbnail: true;
       };
     };
+  };
+}>;
+
+export type PrismaPreviewQuiz = Prisma.QuizGetPayload<{
+  include: {
+    questions: {
+      include: {
+        image: true;
+        explanationImage: true;
+      };
+    };
+    thumbnail: true;
   };
 }>;
 
@@ -54,7 +68,41 @@ export function mapQuizAttempt(attempt: PrismaQuizAttempt): QuizAttemptRuntime {
     questions: [...attempt.questions]
       .sort((a, b) => a.orderIndex - b.orderIndex)
       .map(mapQuestion),
+  };
+}
 
-    saveStatus: "SAVED",
+export function mapPreviewAttemptQuestions(
+  question: PrismaPreviewQuiz["questions"][number],
+  index: number,
+): RuntimeQuestion {
+  return {
+    id: crypto.randomUUID(),
+    questionId: question.id,
+    orderIndex: index,
+
+    question: mapPrismaQuestion(question),
+
+    status: "UNANSWERED",
+
+    answer: null,
+    evaluation: null,
+
+    earnedPoints: 0,
+    maxPoints: question.points,
+
+    flagged: false,
+    locked: false,
+    visited: false,
+
+    startedAt: null,
+    deadlineAt: null,
+    isQuestionTimerRunning: false,
+    timeLimitSeconds: question.timeLimitSeconds,
+
+    timeSpentSeconds: null,
+    answeredAt: null,
+    evaluatedAt: null,
+
+    hasSeenFeedback: false,
   };
 }
