@@ -12,19 +12,21 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { IconBooks, IconCompass, IconKey, IconKeyboard, IconSmartHome } from "@tabler/icons-react";
-import { AnimatePresence, motion } from "framer-motion";
 import {
-  FrameIcon,
-  Inbox,
-  MapIcon,
-  PieChartIcon,
-  Sparkles,
-} from "lucide-react";
+  IconBooks,
+  IconCompass,
+  IconKey,
+  IconSchool,
+  IconSmartHome,
+  IconUsers,
+} from "@tabler/icons-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { FrameIcon, MapIcon, PieChartIcon } from "lucide-react";
 import { Separator } from "../ui/separator";
 import NavCreateNew from "./nav-create-new";
 import { NavMain } from "./nav-main";
 import { SidebarLogo } from "./sidebar-logo";
+import { useSession } from "next-auth/react";
 
 // This is sample data.
 const data = {
@@ -42,6 +44,11 @@ const data = {
       isActive: true,
     },
     {
+      title: "Your learning",
+      url: "/your-learning",
+      icon: IconSchool,
+    },
+    {
       title: "Discover",
       url: "/discover",
       icon: IconCompass,
@@ -51,31 +58,20 @@ const data = {
       url: "/library",
       icon: IconBooks,
     },
+  
     {
-      title: "Join by Code",
-      url: "/join",
-      icon: IconKey,
+      title: "Groups",
+      url: "/groups",
+      icon: IconUsers,
     },
+  
   ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: <FrameIcon />,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: <PieChartIcon />,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: <MapIcon />,
-    },
-  ],
+
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { status } = useSession();
+
+  const isAuthenticated = status === "authenticated";
   const { open, isMobile } = useSidebar();
 
   const collapsed = !isMobile && !open;
@@ -106,7 +102,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent className="px-2">
         <NavMain items={data.navMain} />
-        <NavCreateNew />
+        <NavCreateNew isAuthenticated={isAuthenticated} />
       </SidebarContent>
 
       <SidebarFooter>

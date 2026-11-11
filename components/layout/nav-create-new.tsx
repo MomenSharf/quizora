@@ -15,19 +15,29 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export default function NavCreateNew() {
+export default function NavCreateNew({
+  isAuthenticated,
+}: {
+  isAuthenticated: boolean;
+}) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const handleCreate = () => {
     startTransition(async () => {
+      if (!isAuthenticated) {
+        toast.info("Please sign in to continue.");
+        router.push("/login");
+        return;
+      }
+      
       const res = await createNewQuiz();
 
       if (res.error) {
         toast.error(res.error.message);
         return;
       }
- 
+
       toast.success(res.data.message);
       router.push(`/quizzes/${res.data.quizId}/editor`);
     });
