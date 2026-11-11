@@ -229,7 +229,7 @@ export const authService = {
       },
     });
 
-    const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${hashedToken}&email=${encodeURIComponent(email)}`;
+    const resetUrl = `${process.env.BASE_URL}/reset-password?token=${hashedToken}&email=${encodeURIComponent(email)}`;
 
     const template = resetPasswwordTemplate(resetUrl);
 
