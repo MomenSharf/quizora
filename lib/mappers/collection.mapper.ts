@@ -15,6 +15,7 @@ export function mapQuizToCollectionItem(
     description: quiz.description,
     thumbnail: quiz.thumbnail,
 
+
     language: quiz.language,
     category: quiz.category,
     tags: quiz.tags,
@@ -46,6 +47,8 @@ export function mapAttemptToCollectionItem(
     title: attempt.quiz.title,
     description: attempt.quiz.description,
     thumbnail: attempt.quiz.thumbnail,
+
+    status: attempt.status,
 
     language: attempt.quiz.language,
     category: attempt.quiz.category,

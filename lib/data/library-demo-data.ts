@@ -1,10 +1,57 @@
-
-import type { QuizLibraryItem } from "@/lib/services/quiz-library.service";
+import { QuizLibraryItem } from "../services/quiz-library.service";
 
 const owner = {
   email: "alex@example.com",
   image: null,
   name: "Alex Morgan",
+};
+
+const thumbnails = {
+  javascript: {
+    id: "thumb_01",
+    key: "demo/javascript.jpg",
+    url: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1200",
+    alt: "JavaScript code displayed on a computer screen",
+    caption: "JavaScript Fundamentals",
+    ratio: "16:9",
+    createdAt: new Date("2026-10-10"),
+  },
+  geography: {
+    id: "thumb_02",
+    key: "demo/geography.jpg",
+    url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop",
+    alt: "Earth viewed from space",
+    caption: "Explore the world",
+    ratio: "16:9",
+    createdAt: new Date("2026-10-18"),
+  },
+  biology: {
+    id: "thumb_03",
+    key: "demo/biology.jpg",
+    url: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=1200",
+    alt: "Human anatomy and biological illustration",
+    caption: "Human Biology",
+    ratio: "16:9",
+    createdAt: new Date("2026-11-01"),
+  },
+  english: {
+    id: "thumb_04",
+    key: "demo/english.jpg",
+    url: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200",
+    alt: "Notebook and pen on a desk",
+    caption: "English Grammar",
+    ratio: "16:9",
+    createdAt: new Date("2026-10-22"),
+  },
+  computerScience: {
+    id: "thumb_05",
+    key: "demo/computer-science.jpg",
+    url: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200",
+    alt: "Computer circuit board",
+    caption: "Computer Science",
+    ratio: "16:9",
+    createdAt: new Date("2026-10-25"),
+  },
 };
 
 export const demoQuizzes: QuizLibraryItem[] = [
@@ -14,8 +61,8 @@ export const demoQuizzes: QuizLibraryItem[] = [
     title: "JavaScript Fundamentals",
     description:
       "Master JavaScript essentials, including variables, data types, functions, arrays, objects, scope, closures, and modern ES6+ features.",
-    imageId: null,
-    thumbnail: null,
+    imageId: thumbnails.javascript.id,
+    thumbnail: thumbnails.javascript,
     language: "English",
     category: "Programming",
     ownerId: "user_01",
@@ -36,8 +83,8 @@ export const demoQuizzes: QuizLibraryItem[] = [
     title: "World Geography Challenge",
     description:
       "Test your knowledge of countries, capital cities, continents, oceans, mountain ranges, and famous landmarks.",
-    imageId: null,
-    thumbnail: null,
+    imageId: thumbnails.geography.id,
+    thumbnail: thumbnails.geography,
     language: "English",
     category: "Geography",
     ownerId: "user_01",
@@ -58,8 +105,8 @@ export const demoQuizzes: QuizLibraryItem[] = [
     title: "Human Biology: The Basics",
     description:
       "Explore the human body's major organ systems, cell structure, genetics, circulation, digestion, and essential biological processes.",
-    imageId: null,
-    thumbnail: null,
+    imageId: thumbnails.biology.id,
+    thumbnail: thumbnails.biology,
     language: "English",
     category: "Science",
     ownerId: "user_01",
@@ -80,8 +127,8 @@ export const demoQuizzes: QuizLibraryItem[] = [
     title: "English Grammar Mastery",
     description:
       "Improve your English grammar through questions covering verb tenses, conditionals, articles, prepositions, sentence structure, and punctuation.",
-    imageId: null,
-    thumbnail: null,
+    imageId: thumbnails.english.id,
+    thumbnail: thumbnails.english,
     language: "English",
     category: "Languages",
     ownerId: "user_01",
@@ -102,8 +149,8 @@ export const demoQuizzes: QuizLibraryItem[] = [
     title: "Computer Science Fundamentals",
     description:
       "Build a strong foundation in algorithms, data structures, databases, operating systems, networking, and computational thinking.",
-    imageId: null,
-    thumbnail: null,
+    imageId: thumbnails.computerScience.id,
+    thumbnail: thumbnails.computerScience,
     language: "English",
     category: "Computer Science",
     ownerId: "user_01",

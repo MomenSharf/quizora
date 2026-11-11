@@ -5,10 +5,14 @@ import Link from "next/link";
 
 import {
   IconCards,
+  IconCheck,
+  IconClock,
   IconDots,
+  IconEdit,
   IconLanguage,
   IconListNumbers,
   IconPlayerPlay,
+  IconTrash,
 } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
@@ -19,10 +23,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import type { CollectionItem } from "@/types/collection";
+import { QuizAttemptStatus } from "@/lib/db/generated/prisma/enums";
 
 type QuizCardProps = {
   item: CollectionItem;
@@ -45,6 +52,31 @@ const visibilityConfig = {
   },
 };
 
+type AttemptStatusConfig = {
+  label: string;
+  icon: typeof IconPlayerPlay;
+  className: string;
+};
+
+const attemptStatusConfig = {
+  IDLE: null,
+  IN_PROGRESS: {
+    label: "In Progress",
+    icon: IconPlayerPlay,
+    className: "bg-blue-600 text-white hover:bg-blue-600",
+  },
+  COMPLETED: {
+    label: "Completed",
+    icon: IconCheck,
+    className: "bg-emerald-600 text-white hover:bg-emerald-600",
+  },
+  EXPIRED: {
+    label: "Expired",
+    icon: IconClock,
+    className: "bg-orange-500 text-white hover:bg-orange-500",
+  },
+} satisfies Record<QuizAttemptStatus, AttemptStatusConfig | null>;
+
 export function QuizCard({ item }: QuizCardProps) {
   const isAttempt = item.kind === "ATTEMPT";
   const isDraft = !isAttempt && item.publishedAt === null;
@@ -58,10 +90,10 @@ export function QuizCard({ item }: QuizCardProps) {
   const progress = total > 0 ? Math.min((answered / total) * 100, 100) : 0;
 
   const visibility =
-    !isAttempt && item.visibility
-      ? visibilityConfig[item.visibility]
-      : null;
+    !isAttempt && item.visibility ? visibilityConfig[item.visibility] : null;
 
+  const attemptStatus =
+    isAttempt && item.status ? attemptStatusConfig[item.status] : null;
   return (
     <Card className="group overflow-hidden rounded-xl border-border/70 bg-card py-0 shadow-none transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-md">
       <Link
@@ -81,10 +113,7 @@ export function QuizCard({ item }: QuizCardProps) {
             <div className="absolute -right-6 -top-8 size-28 rounded-full bg-primary/[0.05] blur-2xl" />
 
             <div className="relative flex size-14 items-center justify-center rounded-2xl border border-border/60 bg-background/80 shadow-sm">
-              <IconCards
-                stroke={1.5}
-                className="size-7 text-primary"
-              />
+              <IconCards stroke={1.5} className="size-7 text-primary" />
             </div>
           </div>
         )}
@@ -98,13 +127,15 @@ export function QuizCard({ item }: QuizCardProps) {
           </Badge>
         )}
 
-        {isAttempt && (
+        {attemptStatus && (
           <Badge
-            variant="secondary"
-            className="absolute left-2.5 top-2.5 gap-1 border border-border/60 bg-background/90 text-foreground shadow-sm backdrop-blur"
+            className={cn(
+              "absolute left-3 top-3 gap-1.5 rounded-md border-0 px-2.5 py-1 text-[11px] font-semibold shadow-sm",
+              attemptStatus.className,
+            )}
           >
-            <IconPlayerPlay className="size-3" />
-            In progress
+            <attemptStatus.icon className="size-3.5" strokeWidth={2.2} />
+            {attemptStatus.label}
           </Badge>
         )}
       </Link>
@@ -127,14 +158,56 @@ export function QuizCard({ item }: QuizCardProps) {
                 variant="ghost"
                 size="icon"
                 aria-label="Collection item actions"
-                className="size-8 shrink-0 text-muted-foreground"
+                className="size-8 shrink-0 rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               >
                 <IconDots className="size-4" />
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end" className="w-44">
-              {/* Add item-specific actions here */}
+            <DropdownMenuContent className="w-48 p-1.5">
+              {isAttempt ? (
+                <>
+                  <DropdownMenuItem asChild className="gap-2.5 rounded-md">
+                    <Link href={href}>
+                      <IconPlayerPlay className="size-4 text-muted-foreground" />
+                      <span>Continue Attempt</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator className="my-1" />
+
+                  <DropdownMenuItem
+                    className="gap-2.5 rounded-md text-destructive focus:bg-destructive/10 focus:text-destructive"
+                    onSelect={() => {
+                      // Handle delete attempt
+                    }}
+                  >
+                    <IconTrash className="size-4" />
+                    <span>Delete Attempt</span>
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem asChild className="gap-2.5 rounded-md">
+                    <Link href={href}>
+                      <IconEdit className="size-4 text-muted-foreground" />
+                      <span>Edit Quiz</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator className="my-1" />
+
+                  <DropdownMenuItem
+                    className="gap-2.5 rounded-md text-destructive focus:bg-destructive/10 focus:text-destructive"
+                    onSelect={() => {
+                      // Handle delete quiz
+                    }}
+                  >
+                    <IconTrash className="size-4" />
+                    <span>Delete Quiz</span>
+                  </DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

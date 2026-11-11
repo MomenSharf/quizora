@@ -253,7 +253,6 @@ export function QuizTable({ items }: QuizTableProps) {
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent align="end" className="w-44">
-                      {/* Add item-specific actions here */}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

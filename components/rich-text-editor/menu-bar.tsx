@@ -2,6 +2,7 @@
 
 import type { Editor } from "@tiptap/react";
 
+import { useSlider } from "@/hooks/use-slider";
 import { cn } from "@/lib/utils";
 import {
   IconAlignCenter,
@@ -26,15 +27,13 @@ import {
 import { Heading1, Heading2, Heading3, LucideIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { AddLink } from "./menu-bar-items/add-link";
 import FontSizeSelect from "./menu-bar-items/font-size-select ";
+import { HtmlEditorDialog } from "./menu-bar-items/html-editor";
+import { InsertBlank } from "./menu-bar-items/insert-blank";
 import TextColorPicker from "./menu-bar-items/text-color-picker";
 import ToolbarGroup from "./toolbar-gruop";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { useSlider } from "@/hooks/use-slider";
-import { HtmlEditorDialog } from "./menu-bar-items/html-editor";
-import { createId } from "@paralleldrive/cuid2";
-import { InsertBlank } from "./menu-bar-items/insert-blank";
 
 export type ToolbarItem = {
   key: string;

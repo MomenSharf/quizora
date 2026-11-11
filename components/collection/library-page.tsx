@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useMemo } from "react";
@@ -95,8 +94,7 @@ function LibraryEmptyState({
     : activeTab === "drafts"
       ? {
           title: "No drafts yet",
-          description:
-            "Quizzes you're still working on will appear here.",
+          description: "Quizzes you're still working on will appear here.",
         }
       : {
           title: "No quizzes yet",
@@ -154,12 +152,7 @@ export function LibraryPage({ quizzes }: LibraryPageProps) {
         });
 
         if (filteredQuizzes.length === 0) {
-          return (
-            <LibraryEmptyState
-              activeTab={activeTab}
-              search={search}
-            />
-          );
+          return <LibraryEmptyState activeTab={activeTab} search={search} />;
         }
 
         const items = filteredQuizzes.map(mapQuizToCollectionItem);

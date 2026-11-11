@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -13,22 +12,18 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
-  IconAward,
   IconBooks,
   IconCompass,
   IconFlame,
-  IconKey,
   IconSchool,
   IconSmartHome,
-  IconUsers,
 } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FrameIcon, MapIcon, PieChartIcon, Sparkles } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { Separator } from "../ui/separator";
+import CreateNewButton from "./create-new-button";
 import { NavMain } from "./nav-main";
 import { SidebarLogo } from "./sidebar-logo";
-import { useSession } from "next-auth/react";
-import CreateNewButton from "./create-new-button";
 
 // This is sample data.
 const data = {
@@ -46,25 +41,19 @@ const data = {
       isActive: true,
     },
     {
-      title: "Your learning",
-      url: "/your-learning",
-      icon: IconSchool,
-    },
-    {
       title: "Discover",
       url: "/discover",
       icon: IconCompass,
     },
     {
+      title: "Your learning",
+      url: "/your-learning",
+      icon: IconSchool,
+    },
+    {
       title: "Library",
       url: "/library",
       icon: IconBooks,
-    },
-
-    {
-      title: "Groups",
-      url: "/groups",
-      icon: IconUsers,
     },
   ],
 };
@@ -102,7 +91,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent className="px-2">
         <NavMain items={data.navMain} />
-        <CreateNewButton isAuthenticated={isAuthenticated} />
+        <div className="mt-2">
+          <CreateNewButton isAuthenticated={isAuthenticated} />
+        </div>
       </SidebarContent>
 
       {!collapsed && (
