@@ -94,7 +94,6 @@ export function CollectionPage({
                 <CreateNewButton isAuthenticated />
               </div>
             )}
-        e
       </div>
 
       {showTabs && tabs.length > 0 && (
