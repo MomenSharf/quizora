@@ -93,7 +93,7 @@ export function CategorySlider() {
             return (
               <Link
                 key={category.value}
-                href={`/discover?category=${encodeURIComponent(category.value)}`}
+                href={`/discover/search?category=${encodeURIComponent(category.value)}`}
                 className={cn(
                   "group relative flex min-h-32 w-40 shrink-0 flex-col justify-between",
                   "overflow-hidden rounded-2xl border border-border/70",
