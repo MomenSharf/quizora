@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -24,6 +22,8 @@ import { Separator } from "../ui/separator";
 import CreateNewButton from "./create-new-button";
 import { NavMain } from "./nav-main";
 import { SidebarLogo } from "./sidebar-logo";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 // This is sample data.
 const data = {
@@ -64,6 +64,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { open, isMobile } = useSidebar();
 
   const collapsed = !isMobile && !open;
+
+  const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
+
+  useEffect(() => {
+    setOpenMobile(false);
+  }, [pathname, setOpenMobile]);
 
   return (
     <Sidebar collapsible="icon" className="bg-white dark:bg-sidebar" {...props}>

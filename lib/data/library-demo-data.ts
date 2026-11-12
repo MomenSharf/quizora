@@ -1,4 +1,4 @@
-import { QuizLibraryItem } from "../services/quiz-library.service";
+import { QuizLibraryItem } from "../services/quiz-service";
 
 const owner = {
   email: "alex@example.com",

@@ -1,11 +1,10 @@
-
-
 import type { CollectionItem } from "@/types/collection";
-import { QuizAttemptLibraryItem, QuizLibraryItem } from "../services/quiz-library.service";
+import {
+  QuizAttemptLibraryItem,
+  QuizLibraryItem,
+} from "../services/quiz-service";
 
-export function mapQuizToCollectionItem(
-  quiz: QuizLibraryItem,
-): CollectionItem {
+export function mapQuizToCollectionItem(quiz: QuizLibraryItem): CollectionItem {
   return {
     id: quiz.id,
     quizId: quiz.id,
@@ -14,7 +13,6 @@ export function mapQuizToCollectionItem(
     title: quiz.title,
     description: quiz.description,
     thumbnail: quiz.thumbnail,
-
 
     language: quiz.language,
     category: quiz.category,
@@ -45,15 +43,15 @@ export function mapAttemptToCollectionItem(
     kind: "ATTEMPT",
 
     title: attempt.quiz.title,
-    description: attempt.quiz.description,
     thumbnail: attempt.quiz.thumbnail,
-
+    
     status: attempt.status,
-
+    
     language: attempt.quiz.language,
     category: attempt.quiz.category,
     tags: attempt.quiz.tags,
-
+    description: attempt.quiz.description,
+    
     questionCount: total,
 
     progress: {

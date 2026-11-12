@@ -7,7 +7,10 @@ export type CollectionItem = {
 
   title: string;
   description: string | null;
-  thumbnail: Prisma.ImageGetPayload<object> | null;
+  thumbnail: {
+    id: string,
+    url: string
+  } | null;
 
   language: string;
   category: string | null;

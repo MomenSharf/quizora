@@ -7,7 +7,7 @@ import { CollectionPage } from "@/components/collection/collection-page";
 import { QuizGrid } from "./quiz-grid";
 import { QuizTable } from "./quiz-table";
 
-import type { QuizLibraryItem } from "@/lib/services/quiz-library.service";
+import type { QuizLibraryItem } from "@/lib/services/quiz-service";
 import { mapQuizToCollectionItem } from "@/lib/mappers/collection.mapper";
 
 type LibraryPageProps = {

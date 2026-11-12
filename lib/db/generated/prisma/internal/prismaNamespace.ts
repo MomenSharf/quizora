@@ -1183,12 +1183,24 @@ export const QuizScalarFieldEnum = {
   imageId: 'imageId',
   language: 'language',
   category: 'category',
+  tags: 'tags',
+  difficulty: 'difficulty',
+  estimatedDurationSeconds: 'estimatedDurationSeconds',
   ownerId: 'ownerId',
   visibility: 'visibility',
   editorState: 'editorState',
-  tags: 'tags',
   questionCount: 'questionCount',
   totalPoints: 'totalPoints',
+  playCount: 'playCount',
+  viewCount: 'viewCount',
+  completionCount: 'completionCount',
+  likeCount: 'likeCount',
+  averageRating: 'averageRating',
+  ratingCount: 'ratingCount',
+  trendingScore: 'trendingScore',
+  isFeatured: 'isFeatured',
+  featuredAt: 'featuredAt',
+  lastPlayedAt: 'lastPlayedAt',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1393,6 +1405,20 @@ export type ListEnumVerificationTokenTypeFieldRefInput<$PrismaModel> = FieldRefI
 
 
 /**
+ * Reference to a field of type 'QuizDifficulty'
+ */
+export type EnumQuizDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizDifficulty'>
+    
+
+
+/**
+ * Reference to a field of type 'QuizDifficulty[]'
+ */
+export type ListEnumQuizDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizDifficulty[]'>
+    
+
+
+/**
  * Reference to a field of type 'Visibility'
  */
 export type EnumVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Visibility'>
@@ -1431,6 +1457,13 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1501,13 +1534,6 @@ export type EnumQuizAttemptPhaseFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'QuizAttemptPhase[]'
  */
 export type ListEnumQuizAttemptPhaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuizAttemptPhase[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

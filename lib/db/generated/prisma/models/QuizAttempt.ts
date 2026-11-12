@@ -777,10 +777,6 @@ export type EnumQuizAttemptPhaseFieldUpdateOperationsInput = {
   set?: $Enums.QuizAttemptPhase
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type QuizAttemptCreateNestedOneWithoutQuestionsInput = {
   create?: Prisma.XOR<Prisma.QuizAttemptCreateWithoutQuestionsInput, Prisma.QuizAttemptUncheckedCreateWithoutQuestionsInput>
   connectOrCreate?: Prisma.QuizAttemptCreateOrConnectWithoutQuestionsInput

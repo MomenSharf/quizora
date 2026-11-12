@@ -13,7 +13,7 @@ import { Controller } from "react-hook-form";
 
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { QUIZ_LANGUAGES } from "@/lib/config/languages";
-import { QUIZ_CATEGORIES } from "@/lib/config/quiz-categories";
+import { QUIZ_CATEGORIES, QUIZ_CATEGORY_OPTIONS } from "@/lib/config/quiz-categories";
 
 
 function FieldLabel({
@@ -141,7 +141,7 @@ export default function BasicInformation() {
                   </SelectTrigger>
 
                   <SelectContent className="rounded-xl" position="popper">
-                    {QUIZ_CATEGORIES.map((category) => (
+                    {QUIZ_CATEGORY_OPTIONS.map((category) => (
                       <SelectItem
                         key={category.value}
                         value={category.value}

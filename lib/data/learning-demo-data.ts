@@ -1,6 +1,5 @@
-
 import { AttemptQuestionStatus } from "../db/generated/prisma/enums";
-import { QuizAttemptLibraryItem } from "../services/quiz-library.service";
+import { QuizAttemptLibraryItem } from "../services/quiz-service";
 const demoThumbnails = {
   quiz_01: {
     id: "thumb_01",
@@ -11,15 +10,15 @@ const demoThumbnails = {
     ratio: "16:9",
     createdAt: new Date("2026-10-10"),
   },
-quiz_02: {
-  id: "thumb_02",
-  key: "demo/geography.jpg",
-  url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop",
-  alt: "Earth viewed from space",
-  caption: "Explore the world",
-  ratio: "16:9",
-  createdAt: new Date("2026-10-18"),
-},
+  quiz_02: {
+    id: "thumb_02",
+    key: "demo/geography.jpg",
+    url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop",
+    alt: "Earth viewed from space",
+    caption: "Explore the world",
+    ratio: "16:9",
+    createdAt: new Date("2026-10-18"),
+  },
   quiz_03: {
     id: "thumb_03",
     key: "demo/biology.jpg",
@@ -162,11 +161,14 @@ export const demoAttempts: QuizAttemptLibraryItem[] = [
     expiresAt: null,
     createdAt: new Date("2026-11-02T12:00:00.000Z"),
     updatedAt: new Date("2026-11-02T13:00:00.000Z"),
-    quiz: demoQuizMetadata("quiz_05", "Computer Science Fundamentals", "Computer Science"),
+    quiz: demoQuizMetadata(
+      "quiz_05",
+      "Computer Science Fundamentals",
+      "Computer Science",
+    ),
     questions: createQuestions(25, 25),
   },
 ];
-
 
 function demoQuizMetadata(
   id: keyof typeof demoThumbnails,

@@ -17,6 +17,15 @@ export const VerificationTokenType = {
 export type VerificationTokenType = (typeof VerificationTokenType)[keyof typeof VerificationTokenType]
 
 
+export const QuizDifficulty = {
+  BEGINNER: 'BEGINNER',
+  INTERMEDIATE: 'INTERMEDIATE',
+  ADVANCED: 'ADVANCED'
+} as const
+
+export type QuizDifficulty = (typeof QuizDifficulty)[keyof typeof QuizDifficulty]
+
+
 export const RuntimeEnvironment = {
   PREVIEW: 'PREVIEW',
   PRODUCTION: 'PRODUCTION'

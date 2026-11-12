@@ -10,9 +10,13 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-muted/20 dark:bg-muted/30">
+
+      <SidebarInset className="min-w-0 overflow-x-hidden bg-muted/20 dark:bg-muted/30">
         <Header />
-        <div className="flex-1 bg-gradient-to-br from-primary/[0.06] via-background to-violet-500/[0.08]">{children}</div>
+
+        <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden bg-linear-to-br from-primary/6 via-background to-violet-500/8">
+          {children}
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );

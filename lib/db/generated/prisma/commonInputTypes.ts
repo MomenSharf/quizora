@@ -206,6 +206,13 @@ export type IntWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntFilter<$PrismaModel>
 }
 
+export type EnumQuizDifficultyFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuizDifficulty | Prisma.EnumQuizDifficultyFieldRefInput<$PrismaModel>
+  in?: $Enums.QuizDifficulty[] | Prisma.ListEnumQuizDifficultyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuizDifficulty[] | Prisma.ListEnumQuizDifficultyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuizDifficultyFilter<$PrismaModel> | $Enums.QuizDifficulty
+}
+
 export type EnumVisibilityFilter<$PrismaModel = never> = {
   equals?: $Enums.Visibility | Prisma.EnumVisibilityFieldRefInput<$PrismaModel>
   in?: $Enums.Visibility[] | Prisma.ListEnumVisibilityFieldRefInput<$PrismaModel>
@@ -246,6 +253,21 @@ export type FloatFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
+}
+
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
+export type EnumQuizDifficultyWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuizDifficulty | Prisma.EnumQuizDifficultyFieldRefInput<$PrismaModel>
+  in?: $Enums.QuizDifficulty[] | Prisma.ListEnumQuizDifficultyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuizDifficulty[] | Prisma.ListEnumQuizDifficultyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuizDifficultyWithAggregatesFilter<$PrismaModel> | $Enums.QuizDifficulty
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumQuizDifficultyFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumQuizDifficultyFilter<$PrismaModel>
 }
 
 export type EnumVisibilityWithAggregatesFilter<$PrismaModel = never> = {
@@ -301,6 +323,14 @@ export type FloatWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
 }
 
+export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
 export type EnumQuestionTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.QuestionType | Prisma.EnumQuestionTypeFieldRefInput<$PrismaModel>
   in?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
@@ -346,11 +376,6 @@ export type EnumQuizAttemptPhaseFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumQuizAttemptPhaseFilter<$PrismaModel> | $Enums.QuizAttemptPhase
 }
 
-export type BoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type EnumQuizAttemptModeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.QuizAttemptMode | Prisma.EnumQuizAttemptModeFieldRefInput<$PrismaModel>
   in?: $Enums.QuizAttemptMode[] | Prisma.ListEnumQuizAttemptModeFieldRefInput<$PrismaModel>
@@ -389,14 +414,6 @@ export type EnumQuizAttemptPhaseWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumQuizAttemptPhaseFilter<$PrismaModel>
   _max?: Prisma.NestedEnumQuizAttemptPhaseFilter<$PrismaModel>
-}
-
-export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type EnumAttemptQuestionStatusFilter<$PrismaModel = never> = {
@@ -672,11 +689,33 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
 }
 
+export type NestedEnumQuizDifficultyFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuizDifficulty | Prisma.EnumQuizDifficultyFieldRefInput<$PrismaModel>
+  in?: $Enums.QuizDifficulty[] | Prisma.ListEnumQuizDifficultyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuizDifficulty[] | Prisma.ListEnumQuizDifficultyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuizDifficultyFilter<$PrismaModel> | $Enums.QuizDifficulty
+}
+
 export type NestedEnumVisibilityFilter<$PrismaModel = never> = {
   equals?: $Enums.Visibility | Prisma.EnumVisibilityFieldRefInput<$PrismaModel>
   in?: $Enums.Visibility[] | Prisma.ListEnumVisibilityFieldRefInput<$PrismaModel>
   notIn?: $Enums.Visibility[] | Prisma.ListEnumVisibilityFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumVisibilityFilter<$PrismaModel> | $Enums.Visibility
+}
+
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
+export type NestedEnumQuizDifficultyWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuizDifficulty | Prisma.EnumQuizDifficultyFieldRefInput<$PrismaModel>
+  in?: $Enums.QuizDifficulty[] | Prisma.ListEnumQuizDifficultyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuizDifficulty[] | Prisma.ListEnumQuizDifficultyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuizDifficultyWithAggregatesFilter<$PrismaModel> | $Enums.QuizDifficulty
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumQuizDifficultyFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumQuizDifficultyFilter<$PrismaModel>
 }
 
 export type NestedEnumVisibilityWithAggregatesFilter<$PrismaModel = never> = {
@@ -729,6 +768,14 @@ export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
 }
 
+export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
 export type NestedEnumQuestionTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.QuestionType | Prisma.EnumQuestionTypeFieldRefInput<$PrismaModel>
   in?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
@@ -774,11 +821,6 @@ export type NestedEnumQuizAttemptPhaseFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumQuizAttemptPhaseFilter<$PrismaModel> | $Enums.QuizAttemptPhase
 }
 
-export type NestedBoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type NestedEnumQuizAttemptModeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.QuizAttemptMode | Prisma.EnumQuizAttemptModeFieldRefInput<$PrismaModel>
   in?: $Enums.QuizAttemptMode[] | Prisma.ListEnumQuizAttemptModeFieldRefInput<$PrismaModel>
@@ -817,14 +859,6 @@ export type NestedEnumQuizAttemptPhaseWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumQuizAttemptPhaseFilter<$PrismaModel>
   _max?: Prisma.NestedEnumQuizAttemptPhaseFilter<$PrismaModel>
-}
-
-export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type NestedEnumAttemptQuestionStatusFilter<$PrismaModel = never> = {

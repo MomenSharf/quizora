@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import { IconSparkles } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { IconArrowRight, IconSearch, IconSparkles } from "@tabler/icons-react";
+import Image from "next/image";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
 interface DiscoverHeroProps {

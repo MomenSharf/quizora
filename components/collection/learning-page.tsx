@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useMemo } from "react";
@@ -8,7 +7,7 @@ import { QuizGrid } from "./quiz-grid";
 import { QuizTable } from "./quiz-table";
 
 import { mapAttemptToCollectionItem } from "@/lib/mappers/collection.mapper";
-import { QuizAttemptLibraryItem } from "@/lib/services/quiz-library.service";
+import { QuizAttemptLibraryItem } from "@/lib/services/quiz-service";
 import { IconBook, IconBook2 } from "@tabler/icons-react";
 
 type LearningPageProps = {
@@ -108,13 +107,11 @@ function LearningEmptyState({
       : activeTab === "completed"
         ? {
             title: "No completed quizzes yet",
-            description:
-              "Your completed quizzes will appear here.",
+            description: "Your completed quizzes will appear here.",
           }
         : {
             title: "Your learning journey starts here",
-            description:
-              "Explore quizzes and start learning at your own pace.",
+            description: "Explore quizzes and start learning at your own pace.",
           };
 
   return (
@@ -151,9 +148,8 @@ export function LearningPage({ attempts }: LearningPageProps) {
       {
         value: "completed",
         label: "Completed",
-        count: attempts.filter(
-          (attempt) => attempt.status === "COMPLETED",
-        ).length,
+        count: attempts.filter((attempt) => attempt.status === "COMPLETED")
+          .length,
       },
     ],
     [attempts],
@@ -177,21 +173,13 @@ export function LearningPage({ attempts }: LearningPageProps) {
         });
 
         if (filteredAttempts.length === 0) {
-          return (
-            <LearningEmptyState
-              activeTab={activeTab}
-              search={search}
-            />
-          );
+          return <LearningEmptyState activeTab={activeTab} search={search} />;
         }
 
         const items = filteredAttempts.map(mapAttemptToCollectionItem);
 
         return view === "grid" ? (
-          <QuizGrid
-            items={items}
-            emptyTitle="No learning activity"
-          />
+          <QuizGrid items={items} emptyTitle="No learning activity" />
         ) : (
           <QuizTable items={items} />
         );

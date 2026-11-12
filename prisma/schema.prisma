@@ -77,6 +77,11 @@ enum VerificationTokenType {
   PASSWORD_RESET
   EMAIL_VERIFICATION
 }
+enum QuizDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
 
 model Quiz {
   id   String  @id @default(cuid())
@@ -90,6 +95,10 @@ model Quiz {
 
   language String  @default("en")
   category String?
+  tags     String[]
+
+  difficulty                QuizDifficulty @default(INTERMEDIATE)
+  estimatedDurationSeconds  Int?
 
   ownerId String
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
@@ -98,14 +107,29 @@ model Quiz {
 
   editorState Json
 
-  tags String[]
-
   questionCount Int   @default(0)
   totalPoints   Float @default(0)
 
   questions Question[]
+  attempts  QuizAttempt[]
 
-  attempts QuizAttempt[]
+  // Engagement
+  playCount       Int      @default(0)
+  viewCount       Int      @default(0)
+  completionCount Int      @default(0)
+  likeCount       Int      @default(0)
+
+  // Ratings
+  averageRating Float @default(0)
+  ratingCount   Int   @default(0)
+
+  // Discovery
+  trendingScore Float @default(0)
+
+  isFeatured Boolean  @default(false)
+  featuredAt DateTime?
+
+  lastPlayedAt DateTime?
 
   publishedAt DateTime?
 
@@ -113,9 +137,17 @@ model Quiz {
   updatedAt DateTime @updatedAt
 
   @@index([ownerId])
-  @@index([visibility])
+  @@index([visibility, publishedAt])
+  @@index([visibility, playCount])
+  @@index([visibility, trendingScore])
+  @@index([visibility, averageRating])
+  @@index([visibility, isFeatured, featuredAt])
+  @@index([category, visibility, publishedAt])
+  @@index([language, visibility, publishedAt])
+  @@index([difficulty, visibility, publishedAt])
   @@index([updatedAt])
 }
+
 
 model Question {
   id String @id @default(cuid())
