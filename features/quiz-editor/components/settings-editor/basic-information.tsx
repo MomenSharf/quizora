@@ -7,14 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BookOpen, Languages, PenLine, Tag } from "lucide-react";
+import { BookOpen, ChartNoAxesColumnIncreasing, Gauge, Languages, PenLine, Tag } from "lucide-react";
 import React from "react";
 import { Controller } from "react-hook-form";
 
 import { useQuizForm } from "@/features/quiz-editor/hooks/use-quiz-form";
 import { QUIZ_LANGUAGES } from "@/lib/config/languages";
-import { QUIZ_CATEGORIES, QUIZ_CATEGORY_OPTIONS } from "@/lib/config/quiz-categories";
-
+import {
+  QUIZ_CATEGORY_OPTIONS
+} from "@/lib/config/quiz-categories";
+import { cn } from "@/lib/utils";
+import { QUIZ_DIFFICULTIES, QUIZ_DIFFICULTY_OPTIONS } from "@/lib/config/quiz-difficulty";
 
 function FieldLabel({
   icon: Icon,
@@ -112,14 +115,14 @@ export default function BasicInformation() {
           )}
         />
 
-        {/* Category + Language */}
-        <div className="grid gap-5 sm:grid-cols-2">
+        {/* Category, Difficulty & Language */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {/* Category */}
           <Controller
             name="category"
             control={control}
             render={({ field, fieldState }) => (
-              <div>
+              <div className="min-w-0 space-y-2">
                 <FieldLabel icon={Tag}>Category</FieldLabel>
 
                 <Select
@@ -127,20 +130,19 @@ export default function BasicInformation() {
                   onValueChange={field.onChange}
                 >
                   <SelectTrigger
-                    className={[
+                    className={cn(
                       "quiz-editor-input",
-                      fieldState.error
-                        ? "border-destructive focus:ring-destructive/10"
-                        : "focus:border-primary/50",
-                    ].join(" ")}
+                      fieldState.error &&
+                        "border-destructive focus:ring-destructive/10",
+                    )}
                   >
                     <div className="flex items-center gap-2">
                       <Tag className="size-4 text-muted-foreground" />
-                      <SelectValue placeholder="Select a category" />
+                      <SelectValue placeholder="Select category" />
                     </div>
                   </SelectTrigger>
 
-                  <SelectContent className="rounded-xl" position="popper">
+                  <SelectContent className="rounded-xl p-1" position="popper">
                     {QUIZ_CATEGORY_OPTIONS.map((category) => (
                       <SelectItem
                         key={category.value}
@@ -154,7 +156,7 @@ export default function BasicInformation() {
                 </Select>
 
                 {fieldState.error && (
-                  <p className="mt-1.5 text-xs text-destructive">
+                  <p className="text-xs text-destructive">
                     {fieldState.error.message}
                   </p>
                 )}
@@ -162,12 +164,77 @@ export default function BasicInformation() {
             )}
           />
 
+          {/* Difficulty */}
+  
+
+<Controller
+  name="difficulty"
+  control={control}
+  render={({ field, fieldState }) => {
+    const selectedDifficulty = QUIZ_DIFFICULTIES.find(
+      ({ value }) => value === field.value,
+    );
+
+    return (
+      <div className="min-w-0 space-y-2">
+        <FieldLabel icon={ChartNoAxesColumnIncreasing}>
+          Difficulty
+        </FieldLabel>
+
+        <Select
+          value={field.value ?? ""}
+          onValueChange={field.onChange}
+        >
+          <SelectTrigger
+            className={cn(
+              "quiz-editor-input",
+              fieldState.error &&
+                "border-destructive focus:ring-destructive/10",
+            )}
+          >
+            <div className="flex min-w-0 items-center gap-2">
+           
+              <SelectValue placeholder="Select difficulty" />
+            </div>
+          </SelectTrigger>
+
+          <SelectContent className="rounded-xl p-1" position="popper">
+            {QUIZ_DIFFICULTIES.map((difficulty) => (
+              <SelectItem
+                key={difficulty.value}
+                value={difficulty.value}
+                className="rounded-lg"
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="size-2 shrink-0 rounded-full"
+                    style={{ backgroundColor: difficulty.color }}
+                  />
+                  <span>{difficulty.label}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {fieldState.error && (
+          <p className="text-xs text-destructive">
+            {fieldState.error.message}
+          </p>
+        )}
+      </div>
+    );
+  }}
+/>
+
+
+
           {/* Language */}
           <Controller
             name="language"
             control={control}
             render={({ field, fieldState }) => (
-              <div>
+              <div className="min-w-0 space-y-2">
                 <FieldLabel icon={Languages}>Language</FieldLabel>
 
                 <Select
@@ -175,20 +242,19 @@ export default function BasicInformation() {
                   onValueChange={field.onChange}
                 >
                   <SelectTrigger
-                    className={[
+                    className={cn(
                       "quiz-editor-input",
-                      fieldState.error
-                        ? "border-destructive focus:ring-destructive/10"
-                        : "focus:border-primary/50",
-                    ].join(" ")}
+                      fieldState.error &&
+                        "border-destructive focus:ring-destructive/10",
+                    )}
                   >
                     <div className="flex items-center gap-2">
                       <Languages className="size-4 text-muted-foreground" />
-                      <SelectValue placeholder="Select a language" />
+                      <SelectValue placeholder="Select language" />
                     </div>
                   </SelectTrigger>
 
-                  <SelectContent className="rounded-xl" position="popper">
+                  <SelectContent className="rounded-xl p-1" position="popper">
                     {QUIZ_LANGUAGES.map((language) => (
                       <SelectItem
                         key={language.value}
@@ -197,7 +263,6 @@ export default function BasicInformation() {
                       >
                         <div className="flex items-center gap-2">
                           <span>{language.label}</span>
-
                           <span className="text-xs text-muted-foreground">
                             {language.nativeLabel}
                           </span>
@@ -208,7 +273,7 @@ export default function BasicInformation() {
                 </Select>
 
                 {fieldState.error && (
-                  <p className="mt-1.5 text-xs text-destructive">
+                  <p className="text-xs text-destructive">
                     {fieldState.error.message}
                   </p>
                 )}

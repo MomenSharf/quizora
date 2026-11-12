@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Globe2 } from "lucide-react";
 import { Controller } from "react-hook-form";
+
 import { useQuizForm } from "../../hooks/use-quiz-form";
 import VisibilitySelector from "./visibility-selector";
 
@@ -28,9 +29,10 @@ export default function QuizVisibility() {
           </div>
         </div>
 
-        <p className="mt-3 text-xs text-muted-foreground">
-          If your quiz doesn&apos;t meet the publishing requirements, its
-          visibility will automatically reset to private.
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          If your quiz is missing required information, it will remain a
+          draft until everything is ready to publish. Your visibility
+          preference will be saved.
         </p>
       </div>
 
@@ -39,7 +41,10 @@ export default function QuizVisibility() {
           name="visibility"
           control={control}
           render={({ field }) => (
-            <VisibilitySelector value={field.value} onChange={field.onChange} />
+            <VisibilitySelector
+              value={field.value}
+              onChange={field.onChange}
+            />
           )}
         />
       </div>

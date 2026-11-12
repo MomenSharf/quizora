@@ -34,8 +34,6 @@ export type QuizAvgAggregateOutputType = {
   viewCount: number | null
   completionCount: number | null
   likeCount: number | null
-  averageRating: number | null
-  ratingCount: number | null
   trendingScore: number | null
 }
 
@@ -47,8 +45,6 @@ export type QuizSumAggregateOutputType = {
   viewCount: number | null
   completionCount: number | null
   likeCount: number | null
-  averageRating: number | null
-  ratingCount: number | null
   trendingScore: number | null
 }
 
@@ -64,14 +60,13 @@ export type QuizMinAggregateOutputType = {
   estimatedDurationSeconds: number | null
   ownerId: string | null
   visibility: $Enums.Visibility | null
+  preferredVisibility: $Enums.Visibility | null
   questionCount: number | null
   totalPoints: number | null
   playCount: number | null
   viewCount: number | null
   completionCount: number | null
   likeCount: number | null
-  averageRating: number | null
-  ratingCount: number | null
   trendingScore: number | null
   isFeatured: boolean | null
   featuredAt: Date | null
@@ -93,14 +88,13 @@ export type QuizMaxAggregateOutputType = {
   estimatedDurationSeconds: number | null
   ownerId: string | null
   visibility: $Enums.Visibility | null
+  preferredVisibility: $Enums.Visibility | null
   questionCount: number | null
   totalPoints: number | null
   playCount: number | null
   viewCount: number | null
   completionCount: number | null
   likeCount: number | null
-  averageRating: number | null
-  ratingCount: number | null
   trendingScore: number | null
   isFeatured: boolean | null
   featuredAt: Date | null
@@ -123,6 +117,7 @@ export type QuizCountAggregateOutputType = {
   estimatedDurationSeconds: number
   ownerId: number
   visibility: number
+  preferredVisibility: number
   editorState: number
   questionCount: number
   totalPoints: number
@@ -130,8 +125,6 @@ export type QuizCountAggregateOutputType = {
   viewCount: number
   completionCount: number
   likeCount: number
-  averageRating: number
-  ratingCount: number
   trendingScore: number
   isFeatured: number
   featuredAt: number
@@ -151,8 +144,6 @@ export type QuizAvgAggregateInputType = {
   viewCount?: true
   completionCount?: true
   likeCount?: true
-  averageRating?: true
-  ratingCount?: true
   trendingScore?: true
 }
 
@@ -164,8 +155,6 @@ export type QuizSumAggregateInputType = {
   viewCount?: true
   completionCount?: true
   likeCount?: true
-  averageRating?: true
-  ratingCount?: true
   trendingScore?: true
 }
 
@@ -181,14 +170,13 @@ export type QuizMinAggregateInputType = {
   estimatedDurationSeconds?: true
   ownerId?: true
   visibility?: true
+  preferredVisibility?: true
   questionCount?: true
   totalPoints?: true
   playCount?: true
   viewCount?: true
   completionCount?: true
   likeCount?: true
-  averageRating?: true
-  ratingCount?: true
   trendingScore?: true
   isFeatured?: true
   featuredAt?: true
@@ -210,14 +198,13 @@ export type QuizMaxAggregateInputType = {
   estimatedDurationSeconds?: true
   ownerId?: true
   visibility?: true
+  preferredVisibility?: true
   questionCount?: true
   totalPoints?: true
   playCount?: true
   viewCount?: true
   completionCount?: true
   likeCount?: true
-  averageRating?: true
-  ratingCount?: true
   trendingScore?: true
   isFeatured?: true
   featuredAt?: true
@@ -240,6 +227,7 @@ export type QuizCountAggregateInputType = {
   estimatedDurationSeconds?: true
   ownerId?: true
   visibility?: true
+  preferredVisibility?: true
   editorState?: true
   questionCount?: true
   totalPoints?: true
@@ -247,8 +235,6 @@ export type QuizCountAggregateInputType = {
   viewCount?: true
   completionCount?: true
   likeCount?: true
-  averageRating?: true
-  ratingCount?: true
   trendingScore?: true
   isFeatured?: true
   featuredAt?: true
@@ -358,6 +344,7 @@ export type QuizGroupByOutputType = {
   estimatedDurationSeconds: number | null
   ownerId: string
   visibility: $Enums.Visibility
+  preferredVisibility: $Enums.Visibility
   editorState: runtime.JsonValue
   questionCount: number
   totalPoints: number
@@ -365,8 +352,6 @@ export type QuizGroupByOutputType = {
   viewCount: number
   completionCount: number
   likeCount: number
-  averageRating: number
-  ratingCount: number
   trendingScore: number
   isFeatured: boolean
   featuredAt: Date | null
@@ -412,6 +397,7 @@ export type QuizWhereInput = {
   estimatedDurationSeconds?: Prisma.IntNullableFilter<"Quiz"> | number | null
   ownerId?: Prisma.StringFilter<"Quiz"> | string
   visibility?: Prisma.EnumVisibilityFilter<"Quiz"> | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFilter<"Quiz"> | $Enums.Visibility
   editorState?: Prisma.JsonFilter<"Quiz">
   questionCount?: Prisma.IntFilter<"Quiz"> | number
   totalPoints?: Prisma.FloatFilter<"Quiz"> | number
@@ -419,8 +405,6 @@ export type QuizWhereInput = {
   viewCount?: Prisma.IntFilter<"Quiz"> | number
   completionCount?: Prisma.IntFilter<"Quiz"> | number
   likeCount?: Prisma.IntFilter<"Quiz"> | number
-  averageRating?: Prisma.FloatFilter<"Quiz"> | number
-  ratingCount?: Prisma.IntFilter<"Quiz"> | number
   trendingScore?: Prisma.FloatFilter<"Quiz"> | number
   isFeatured?: Prisma.BoolFilter<"Quiz"> | boolean
   featuredAt?: Prisma.DateTimeNullableFilter<"Quiz"> | Date | string | null
@@ -447,6 +431,7 @@ export type QuizOrderByWithRelationInput = {
   estimatedDurationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  preferredVisibility?: Prisma.SortOrder
   editorState?: Prisma.SortOrder
   questionCount?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
@@ -454,8 +439,6 @@ export type QuizOrderByWithRelationInput = {
   viewCount?: Prisma.SortOrder
   completionCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
-  averageRating?: Prisma.SortOrder
-  ratingCount?: Prisma.SortOrder
   trendingScore?: Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   featuredAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -485,6 +468,7 @@ export type QuizWhereUniqueInput = Prisma.AtLeast<{
   estimatedDurationSeconds?: Prisma.IntNullableFilter<"Quiz"> | number | null
   ownerId?: Prisma.StringFilter<"Quiz"> | string
   visibility?: Prisma.EnumVisibilityFilter<"Quiz"> | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFilter<"Quiz"> | $Enums.Visibility
   editorState?: Prisma.JsonFilter<"Quiz">
   questionCount?: Prisma.IntFilter<"Quiz"> | number
   totalPoints?: Prisma.FloatFilter<"Quiz"> | number
@@ -492,8 +476,6 @@ export type QuizWhereUniqueInput = Prisma.AtLeast<{
   viewCount?: Prisma.IntFilter<"Quiz"> | number
   completionCount?: Prisma.IntFilter<"Quiz"> | number
   likeCount?: Prisma.IntFilter<"Quiz"> | number
-  averageRating?: Prisma.FloatFilter<"Quiz"> | number
-  ratingCount?: Prisma.IntFilter<"Quiz"> | number
   trendingScore?: Prisma.FloatFilter<"Quiz"> | number
   isFeatured?: Prisma.BoolFilter<"Quiz"> | boolean
   featuredAt?: Prisma.DateTimeNullableFilter<"Quiz"> | Date | string | null
@@ -520,6 +502,7 @@ export type QuizOrderByWithAggregationInput = {
   estimatedDurationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  preferredVisibility?: Prisma.SortOrder
   editorState?: Prisma.SortOrder
   questionCount?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
@@ -527,8 +510,6 @@ export type QuizOrderByWithAggregationInput = {
   viewCount?: Prisma.SortOrder
   completionCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
-  averageRating?: Prisma.SortOrder
-  ratingCount?: Prisma.SortOrder
   trendingScore?: Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   featuredAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -559,6 +540,7 @@ export type QuizScalarWhereWithAggregatesInput = {
   estimatedDurationSeconds?: Prisma.IntNullableWithAggregatesFilter<"Quiz"> | number | null
   ownerId?: Prisma.StringWithAggregatesFilter<"Quiz"> | string
   visibility?: Prisma.EnumVisibilityWithAggregatesFilter<"Quiz"> | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityWithAggregatesFilter<"Quiz"> | $Enums.Visibility
   editorState?: Prisma.JsonWithAggregatesFilter<"Quiz">
   questionCount?: Prisma.IntWithAggregatesFilter<"Quiz"> | number
   totalPoints?: Prisma.FloatWithAggregatesFilter<"Quiz"> | number
@@ -566,8 +548,6 @@ export type QuizScalarWhereWithAggregatesInput = {
   viewCount?: Prisma.IntWithAggregatesFilter<"Quiz"> | number
   completionCount?: Prisma.IntWithAggregatesFilter<"Quiz"> | number
   likeCount?: Prisma.IntWithAggregatesFilter<"Quiz"> | number
-  averageRating?: Prisma.FloatWithAggregatesFilter<"Quiz"> | number
-  ratingCount?: Prisma.IntWithAggregatesFilter<"Quiz"> | number
   trendingScore?: Prisma.FloatWithAggregatesFilter<"Quiz"> | number
   isFeatured?: Prisma.BoolWithAggregatesFilter<"Quiz"> | boolean
   featuredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Quiz"> | Date | string | null
@@ -588,6 +568,7 @@ export type QuizCreateInput = {
   difficulty?: $Enums.QuizDifficulty
   estimatedDurationSeconds?: number | null
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -595,8 +576,6 @@ export type QuizCreateInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -623,6 +602,7 @@ export type QuizUncheckedCreateInput = {
   estimatedDurationSeconds?: number | null
   ownerId: string
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -630,8 +610,6 @@ export type QuizUncheckedCreateInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -654,6 +632,7 @@ export type QuizUpdateInput = {
   difficulty?: Prisma.EnumQuizDifficultyFieldUpdateOperationsInput | $Enums.QuizDifficulty
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -661,8 +640,6 @@ export type QuizUpdateInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -689,6 +666,7 @@ export type QuizUncheckedUpdateInput = {
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -696,8 +674,6 @@ export type QuizUncheckedUpdateInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -722,6 +698,7 @@ export type QuizCreateManyInput = {
   estimatedDurationSeconds?: number | null
   ownerId: string
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -729,8 +706,6 @@ export type QuizCreateManyInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -751,6 +726,7 @@ export type QuizUpdateManyMutationInput = {
   difficulty?: Prisma.EnumQuizDifficultyFieldUpdateOperationsInput | $Enums.QuizDifficulty
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -758,8 +734,6 @@ export type QuizUpdateManyMutationInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -782,6 +756,7 @@ export type QuizUncheckedUpdateManyInput = {
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -789,8 +764,6 @@ export type QuizUncheckedUpdateManyInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -831,6 +804,7 @@ export type QuizCountOrderByAggregateInput = {
   estimatedDurationSeconds?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  preferredVisibility?: Prisma.SortOrder
   editorState?: Prisma.SortOrder
   questionCount?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
@@ -838,8 +812,6 @@ export type QuizCountOrderByAggregateInput = {
   viewCount?: Prisma.SortOrder
   completionCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
-  averageRating?: Prisma.SortOrder
-  ratingCount?: Prisma.SortOrder
   trendingScore?: Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   featuredAt?: Prisma.SortOrder
@@ -857,8 +829,6 @@ export type QuizAvgOrderByAggregateInput = {
   viewCount?: Prisma.SortOrder
   completionCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
-  averageRating?: Prisma.SortOrder
-  ratingCount?: Prisma.SortOrder
   trendingScore?: Prisma.SortOrder
 }
 
@@ -874,14 +844,13 @@ export type QuizMaxOrderByAggregateInput = {
   estimatedDurationSeconds?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  preferredVisibility?: Prisma.SortOrder
   questionCount?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   playCount?: Prisma.SortOrder
   viewCount?: Prisma.SortOrder
   completionCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
-  averageRating?: Prisma.SortOrder
-  ratingCount?: Prisma.SortOrder
   trendingScore?: Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   featuredAt?: Prisma.SortOrder
@@ -903,14 +872,13 @@ export type QuizMinOrderByAggregateInput = {
   estimatedDurationSeconds?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   visibility?: Prisma.SortOrder
+  preferredVisibility?: Prisma.SortOrder
   questionCount?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   playCount?: Prisma.SortOrder
   viewCount?: Prisma.SortOrder
   completionCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
-  averageRating?: Prisma.SortOrder
-  ratingCount?: Prisma.SortOrder
   trendingScore?: Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   featuredAt?: Prisma.SortOrder
@@ -928,8 +896,6 @@ export type QuizSumOrderByAggregateInput = {
   viewCount?: Prisma.SortOrder
   completionCount?: Prisma.SortOrder
   likeCount?: Prisma.SortOrder
-  averageRating?: Prisma.SortOrder
-  ratingCount?: Prisma.SortOrder
   trendingScore?: Prisma.SortOrder
 }
 
@@ -1090,6 +1056,7 @@ export type QuizCreateWithoutOwnerInput = {
   difficulty?: $Enums.QuizDifficulty
   estimatedDurationSeconds?: number | null
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1097,8 +1064,6 @@ export type QuizCreateWithoutOwnerInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1123,6 +1088,7 @@ export type QuizUncheckedCreateWithoutOwnerInput = {
   difficulty?: $Enums.QuizDifficulty
   estimatedDurationSeconds?: number | null
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1130,8 +1096,6 @@ export type QuizUncheckedCreateWithoutOwnerInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1185,6 +1149,7 @@ export type QuizScalarWhereInput = {
   estimatedDurationSeconds?: Prisma.IntNullableFilter<"Quiz"> | number | null
   ownerId?: Prisma.StringFilter<"Quiz"> | string
   visibility?: Prisma.EnumVisibilityFilter<"Quiz"> | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFilter<"Quiz"> | $Enums.Visibility
   editorState?: Prisma.JsonFilter<"Quiz">
   questionCount?: Prisma.IntFilter<"Quiz"> | number
   totalPoints?: Prisma.FloatFilter<"Quiz"> | number
@@ -1192,8 +1157,6 @@ export type QuizScalarWhereInput = {
   viewCount?: Prisma.IntFilter<"Quiz"> | number
   completionCount?: Prisma.IntFilter<"Quiz"> | number
   likeCount?: Prisma.IntFilter<"Quiz"> | number
-  averageRating?: Prisma.FloatFilter<"Quiz"> | number
-  ratingCount?: Prisma.IntFilter<"Quiz"> | number
   trendingScore?: Prisma.FloatFilter<"Quiz"> | number
   isFeatured?: Prisma.BoolFilter<"Quiz"> | boolean
   featuredAt?: Prisma.DateTimeNullableFilter<"Quiz"> | Date | string | null
@@ -1214,6 +1177,7 @@ export type QuizCreateWithoutQuestionsInput = {
   difficulty?: $Enums.QuizDifficulty
   estimatedDurationSeconds?: number | null
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1221,8 +1185,6 @@ export type QuizCreateWithoutQuestionsInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1248,6 +1210,7 @@ export type QuizUncheckedCreateWithoutQuestionsInput = {
   estimatedDurationSeconds?: number | null
   ownerId: string
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1255,8 +1218,6 @@ export type QuizUncheckedCreateWithoutQuestionsInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1294,6 +1255,7 @@ export type QuizUpdateWithoutQuestionsInput = {
   difficulty?: Prisma.EnumQuizDifficultyFieldUpdateOperationsInput | $Enums.QuizDifficulty
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1301,8 +1263,6 @@ export type QuizUpdateWithoutQuestionsInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1328,6 +1288,7 @@ export type QuizUncheckedUpdateWithoutQuestionsInput = {
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1335,8 +1296,6 @@ export type QuizUncheckedUpdateWithoutQuestionsInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1358,6 +1317,7 @@ export type QuizCreateWithoutAttemptsInput = {
   difficulty?: $Enums.QuizDifficulty
   estimatedDurationSeconds?: number | null
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1365,8 +1325,6 @@ export type QuizCreateWithoutAttemptsInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1392,6 +1350,7 @@ export type QuizUncheckedCreateWithoutAttemptsInput = {
   estimatedDurationSeconds?: number | null
   ownerId: string
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1399,8 +1358,6 @@ export type QuizUncheckedCreateWithoutAttemptsInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1438,6 +1395,7 @@ export type QuizUpdateWithoutAttemptsInput = {
   difficulty?: Prisma.EnumQuizDifficultyFieldUpdateOperationsInput | $Enums.QuizDifficulty
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1445,8 +1403,6 @@ export type QuizUpdateWithoutAttemptsInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1472,6 +1428,7 @@ export type QuizUncheckedUpdateWithoutAttemptsInput = {
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1479,8 +1436,6 @@ export type QuizUncheckedUpdateWithoutAttemptsInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1502,6 +1457,7 @@ export type QuizCreateWithoutThumbnailInput = {
   difficulty?: $Enums.QuizDifficulty
   estimatedDurationSeconds?: number | null
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1509,8 +1465,6 @@ export type QuizCreateWithoutThumbnailInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1535,6 +1489,7 @@ export type QuizUncheckedCreateWithoutThumbnailInput = {
   estimatedDurationSeconds?: number | null
   ownerId: string
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1542,8 +1497,6 @@ export type QuizUncheckedCreateWithoutThumbnailInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1593,6 +1546,7 @@ export type QuizCreateManyOwnerInput = {
   difficulty?: $Enums.QuizDifficulty
   estimatedDurationSeconds?: number | null
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1600,8 +1554,6 @@ export type QuizCreateManyOwnerInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1622,6 +1574,7 @@ export type QuizUpdateWithoutOwnerInput = {
   difficulty?: Prisma.EnumQuizDifficultyFieldUpdateOperationsInput | $Enums.QuizDifficulty
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1629,8 +1582,6 @@ export type QuizUpdateWithoutOwnerInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1655,6 +1606,7 @@ export type QuizUncheckedUpdateWithoutOwnerInput = {
   difficulty?: Prisma.EnumQuizDifficultyFieldUpdateOperationsInput | $Enums.QuizDifficulty
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1662,8 +1614,6 @@ export type QuizUncheckedUpdateWithoutOwnerInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1687,6 +1637,7 @@ export type QuizUncheckedUpdateManyWithoutOwnerInput = {
   difficulty?: Prisma.EnumQuizDifficultyFieldUpdateOperationsInput | $Enums.QuizDifficulty
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1694,8 +1645,6 @@ export type QuizUncheckedUpdateManyWithoutOwnerInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1717,6 +1666,7 @@ export type QuizCreateManyThumbnailInput = {
   estimatedDurationSeconds?: number | null
   ownerId: string
   visibility?: $Enums.Visibility
+  preferredVisibility?: $Enums.Visibility
   editorState: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: number
   totalPoints?: number
@@ -1724,8 +1674,6 @@ export type QuizCreateManyThumbnailInput = {
   viewCount?: number
   completionCount?: number
   likeCount?: number
-  averageRating?: number
-  ratingCount?: number
   trendingScore?: number
   isFeatured?: boolean
   featuredAt?: Date | string | null
@@ -1746,6 +1694,7 @@ export type QuizUpdateWithoutThumbnailInput = {
   difficulty?: Prisma.EnumQuizDifficultyFieldUpdateOperationsInput | $Enums.QuizDifficulty
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1753,8 +1702,6 @@ export type QuizUpdateWithoutThumbnailInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1779,6 +1726,7 @@ export type QuizUncheckedUpdateWithoutThumbnailInput = {
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1786,8 +1734,6 @@ export type QuizUncheckedUpdateWithoutThumbnailInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1811,6 +1757,7 @@ export type QuizUncheckedUpdateManyWithoutThumbnailInput = {
   estimatedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   visibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+  preferredVisibility?: Prisma.EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
   editorState?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   questionCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPoints?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1818,8 +1765,6 @@ export type QuizUncheckedUpdateManyWithoutThumbnailInput = {
   viewCount?: Prisma.IntFieldUpdateOperationsInput | number
   completionCount?: Prisma.IntFieldUpdateOperationsInput | number
   likeCount?: Prisma.IntFieldUpdateOperationsInput | number
-  averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
-  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   trendingScore?: Prisma.FloatFieldUpdateOperationsInput | number
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   featuredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1882,6 +1827,7 @@ export type QuizSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   estimatedDurationSeconds?: boolean
   ownerId?: boolean
   visibility?: boolean
+  preferredVisibility?: boolean
   editorState?: boolean
   questionCount?: boolean
   totalPoints?: boolean
@@ -1889,8 +1835,6 @@ export type QuizSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   viewCount?: boolean
   completionCount?: boolean
   likeCount?: boolean
-  averageRating?: boolean
-  ratingCount?: boolean
   trendingScore?: boolean
   isFeatured?: boolean
   featuredAt?: boolean
@@ -1918,6 +1862,7 @@ export type QuizSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   estimatedDurationSeconds?: boolean
   ownerId?: boolean
   visibility?: boolean
+  preferredVisibility?: boolean
   editorState?: boolean
   questionCount?: boolean
   totalPoints?: boolean
@@ -1925,8 +1870,6 @@ export type QuizSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   viewCount?: boolean
   completionCount?: boolean
   likeCount?: boolean
-  averageRating?: boolean
-  ratingCount?: boolean
   trendingScore?: boolean
   isFeatured?: boolean
   featuredAt?: boolean
@@ -1951,6 +1894,7 @@ export type QuizSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   estimatedDurationSeconds?: boolean
   ownerId?: boolean
   visibility?: boolean
+  preferredVisibility?: boolean
   editorState?: boolean
   questionCount?: boolean
   totalPoints?: boolean
@@ -1958,8 +1902,6 @@ export type QuizSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   viewCount?: boolean
   completionCount?: boolean
   likeCount?: boolean
-  averageRating?: boolean
-  ratingCount?: boolean
   trendingScore?: boolean
   isFeatured?: boolean
   featuredAt?: boolean
@@ -1984,6 +1926,7 @@ export type QuizSelectScalar = {
   estimatedDurationSeconds?: boolean
   ownerId?: boolean
   visibility?: boolean
+  preferredVisibility?: boolean
   editorState?: boolean
   questionCount?: boolean
   totalPoints?: boolean
@@ -1991,8 +1934,6 @@ export type QuizSelectScalar = {
   viewCount?: boolean
   completionCount?: boolean
   likeCount?: boolean
-  averageRating?: boolean
-  ratingCount?: boolean
   trendingScore?: boolean
   isFeatured?: boolean
   featuredAt?: boolean
@@ -2002,7 +1943,7 @@ export type QuizSelectScalar = {
   updatedAt?: boolean
 }
 
-export type QuizOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "imageId" | "language" | "category" | "tags" | "difficulty" | "estimatedDurationSeconds" | "ownerId" | "visibility" | "editorState" | "questionCount" | "totalPoints" | "playCount" | "viewCount" | "completionCount" | "likeCount" | "averageRating" | "ratingCount" | "trendingScore" | "isFeatured" | "featuredAt" | "lastPlayedAt" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quiz"]>
+export type QuizOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "imageId" | "language" | "category" | "tags" | "difficulty" | "estimatedDurationSeconds" | "ownerId" | "visibility" | "preferredVisibility" | "editorState" | "questionCount" | "totalPoints" | "playCount" | "viewCount" | "completionCount" | "likeCount" | "trendingScore" | "isFeatured" | "featuredAt" | "lastPlayedAt" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["quiz"]>
 export type QuizInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   thumbnail?: boolean | Prisma.Quiz$thumbnailArgs<ExtArgs>
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -2040,6 +1981,7 @@ export type $QuizPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     estimatedDurationSeconds: number | null
     ownerId: string
     visibility: $Enums.Visibility
+    preferredVisibility: $Enums.Visibility
     editorState: runtime.JsonValue
     questionCount: number
     totalPoints: number
@@ -2047,8 +1989,6 @@ export type $QuizPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     viewCount: number
     completionCount: number
     likeCount: number
-    averageRating: number
-    ratingCount: number
     trendingScore: number
     isFeatured: boolean
     featuredAt: Date | null
@@ -2495,6 +2435,7 @@ export interface QuizFieldRefs {
   readonly estimatedDurationSeconds: Prisma.FieldRef<"Quiz", 'Int'>
   readonly ownerId: Prisma.FieldRef<"Quiz", 'String'>
   readonly visibility: Prisma.FieldRef<"Quiz", 'Visibility'>
+  readonly preferredVisibility: Prisma.FieldRef<"Quiz", 'Visibility'>
   readonly editorState: Prisma.FieldRef<"Quiz", 'Json'>
   readonly questionCount: Prisma.FieldRef<"Quiz", 'Int'>
   readonly totalPoints: Prisma.FieldRef<"Quiz", 'Float'>
@@ -2502,8 +2443,6 @@ export interface QuizFieldRefs {
   readonly viewCount: Prisma.FieldRef<"Quiz", 'Int'>
   readonly completionCount: Prisma.FieldRef<"Quiz", 'Int'>
   readonly likeCount: Prisma.FieldRef<"Quiz", 'Int'>
-  readonly averageRating: Prisma.FieldRef<"Quiz", 'Float'>
-  readonly ratingCount: Prisma.FieldRef<"Quiz", 'Int'>
   readonly trendingScore: Prisma.FieldRef<"Quiz", 'Float'>
   readonly isFeatured: Prisma.FieldRef<"Quiz", 'Boolean'>
   readonly featuredAt: Prisma.FieldRef<"Quiz", 'DateTime'>

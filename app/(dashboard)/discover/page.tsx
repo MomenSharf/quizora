@@ -1,5 +1,7 @@
 import { CategorySlider } from "@/features/discover/components/category-slider";
+import { mockQuizzes } from "@/features/discover/components/constants/discover.mock";
 import { DiscoverHero } from "@/features/discover/components/discover-hero";
+import { DiscoverSections } from "@/features/discover/components/discover-sections";
 
 export default function DiscoverPage() {
   return (
@@ -7,6 +9,9 @@ export default function DiscoverPage() {
       <DiscoverHero />
 
       <CategorySlider />
+      
+
+      <DiscoverSections  />
 
       {/* Popular quizzes section */}
 

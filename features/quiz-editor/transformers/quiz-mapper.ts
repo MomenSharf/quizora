@@ -239,7 +239,9 @@ export function mapQuiz(quiz: PrismaQuiz): QuizEditor {
 
     category: quiz.category ?? undefined,
 
-    visibility: quiz.visibility,
+    visibility: quiz.preferredVisibility,
+
+    difficulty: quiz.difficulty,
 
     tags: quiz.tags,
 

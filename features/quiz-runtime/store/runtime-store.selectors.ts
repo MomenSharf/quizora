@@ -65,6 +65,7 @@ export function useRuntimeActionBar() {
     mode,
     keyboardShortcutsEnabled,
     settings,
+    quizId
   } = useRuntimeStore(
     useShallow((state) => ({
       currentQuestionIndex: state.currentQuestionIndex,
@@ -73,6 +74,7 @@ export function useRuntimeActionBar() {
       mode: state.mode,
       keyboardShortcutsEnabled: state.settings.keyboardShortcutsEnabled,
       settings: state.settings,
+      quizId: state.quizId
     })),
   );
 
@@ -141,6 +143,7 @@ export function useRuntimeActionBar() {
     actions,
 
     keyboardShortcutsEnabled,
+    quizId
   };
 }
 

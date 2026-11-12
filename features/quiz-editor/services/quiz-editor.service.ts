@@ -88,6 +88,19 @@ export const quizEditorService = {
 
     const visibility = parsed.success ? quiz.visibility : "PRIVATE";
 
+    const questions = quiz.questions;
+
+    const questionCount = questions.length;
+
+    const totalPoints = questions.reduce(
+      (total, question) => total + (question.points ?? 0),
+      0,
+    );
+    const estimatedDurationSeconds = questions.reduce(
+      (total, question) => total + (question.timeLimitSeconds ?? 0),
+      0,
+    );
+
     await prisma.quiz.update({
       where: {
         id: quiz.id,
@@ -95,11 +108,76 @@ export const quizEditorService = {
       data: {
         ...data,
         visibility,
+        preferredVisibility: quiz.visibility,
+        questionCount,
+        totalPoints,
+        estimatedDurationSeconds,
       },
     });
 
     return {
       savedAt: new Date(),
+    };
+  },
+
+  async publishQuiz(
+    quiz: QuizEditor,
+    editorState: EditorState,
+    ownerId: string,
+  ) {
+    const exists = await prisma.quiz.findFirst({
+      where: {
+        id: quiz.id,
+        ownerId,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!exists) {
+      throw AppErrors.notFound("Quiz not found");
+    }
+
+    const parsed = QuizEditorSchema.safeParse(quiz);
+
+    if (!parsed.success) {
+      throw AppErrors.badRequest("Quiz has validation errors");
+    }
+
+    const data = serializeUpdateQuiz(quiz, editorState);
+    const questions = quiz.questions;
+
+    const questionCount = questions.length;
+
+    const totalPoints = questions.reduce(
+      (total, question) => total + (question.points ?? 0),
+      0,
+    );
+
+    const estimatedDurationSeconds = questions.reduce(
+      (total, question) => total + (question.timeLimitSeconds ?? 0),
+      0,
+    );
+
+    const publishedAt = new Date();
+
+    await prisma.quiz.update({
+      where: {
+        id: quiz.id,
+      },
+      data: {
+        ...data,
+        visibility: "PUBLIC",
+        publishedAt,
+        questionCount,
+        totalPoints,
+        estimatedDurationSeconds,
+      },
+    });
+
+    return {
+      publishedAt,
     };
   },
 };

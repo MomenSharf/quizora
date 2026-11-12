@@ -1,15 +1,12 @@
+
 "use client";
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import {
-  IconChartBar,
   IconChevronDown,
-  IconLayoutDashboard,
   IconLogout,
-  IconPlus,
   IconSettings,
-  IconClipboardText,
 } from "@tabler/icons-react";
 
 import {
@@ -21,7 +18,6 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -29,113 +25,102 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Session } from "next-auth";
 
-export function UserButton({ user }: {
+export function UserButton({
+  user,
+}: {
   user: Session["user"] | null | undefined;
 }) {
   if (!user) {
     return (
-      <Link href="/login">
-        <Button className="h-10 rounded-xl px-5">
-          Login
-        </Button>
-      </Link>
+      <Button asChild className="h-10 rounded-xl px-5">
+        <Link href="/login">Login</Link>
+      </Button>
     );
   }
+
+  const initials =
+    user.name
+      ?.trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase() || "U";
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="h-11 rounded-2xl px-2.5 hover:bg-muted"
+          className="group h-11 gap-2 rounded-xl px-2 hover:bg-muted/80 data-[state=open]:bg-muted"
         >
-          <Avatar className="h-9 w-9 border">
-            <AvatarImage src={user.image ?? ""} />
-            <AvatarFallback>
-              {user.name?.charAt(0).toUpperCase() ?? "U"}
+          <Avatar className="size-8 border border-border/70">
+            <AvatarImage src={user.image ?? ""} alt={user.name ?? "User"} />
+            <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+              {initials}
             </AvatarFallback>
           </Avatar>
 
-          <span className="hidden max-w-32 truncate text-sm font-medium md:block">
-            {user.name}
+          <span className="hidden max-w-32 truncate text-sm font-medium sm:block">
+            {user.name?.split(" ")[0] ?? "Account"}
           </span>
 
           <IconChevronDown
-            size={16}
-            className="hidden text-muted-foreground md:block"
+            size={15}
+            className="text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180"
           />
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
         align="end"
-        className="w-64 rounded-2xl p-2"
+        sideOffset={10}
+        className="w-64 rounded-2xl border-border/70 bg-popover p-2 shadow-xl"
       >
-        <DropdownMenuLabel className="flex items-center gap-3 rounded-xl p-2">
-          <Avatar className="h-11 w-11">
-            <AvatarImage src={user.image ?? ""} />
-            <AvatarFallback>
-              {user.name?.charAt(0).toUpperCase() ?? "U"}
-            </AvatarFallback>
-          </Avatar>
+        <DropdownMenuLabel className="p-2 font-normal">
+          <div className="flex items-center gap-3">
+            <Avatar className="size-10 border border-border/70">
+              <AvatarImage src={user.image ?? ""} alt={user.name ?? "User"} />
+              <AvatarFallback className="bg-primary/10 text-sm font-semibold text-primary">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
 
-          <div className="">
-            <p className="font-semibold">{user.name}d</p>
-            <p className="text-xs text-muted-foreground truncate max-w-full">
-              {user.email}
-            </p>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold">
+                {user.name ?? "User"}
+              </p>
+              <p className="truncate text-xs text-muted-foreground">
+                {user.email}
+              </p>
+            </div>
           </div>
         </DropdownMenuLabel>
 
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="my-2" />
 
-        <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link href="/dashboard">
-              <IconLayoutDashboard size={18} />
-              Dashboard
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <Link href="/dashboard/quizzes">
-              <IconClipboardText size={18} />
-              My Quizzes
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <Link href="/dashboard/new">
-              <IconPlus size={18} />
-              Create Quiz
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem asChild>
-            <Link href="/dashboard/analytics">
-              <IconChartBar size={18} />
-              Analytics
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem
+          asChild
+          className="h-10 cursor-pointer gap-3 rounded-lg px-3"
+        >
           <Link href="/settings">
-            <IconSettings size={18} />
-            Account Settings
+            <IconSettings
+              size={18}
+              stroke={1.8}
+              className="text-muted-foreground"
+            />
+            <span>Settings</span>
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="my-2" />
 
         <DropdownMenuItem
-          onClick={() => signOut()}
-          className="cursor-pointer text-destructive focus:text-destructive"
+          onSelect={() => signOut({ callbackUrl: "/" })}
+          className="h-10 cursor-pointer gap-3 rounded-lg px-3 text-destructive focus:bg-destructive/10 focus:text-destructive"
         >
-          <IconLogout size={18} />
-          Sign Out
+          <IconLogout size={18} stroke={1.8} />
+          <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

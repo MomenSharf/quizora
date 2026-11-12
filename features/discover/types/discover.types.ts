@@ -9,7 +9,6 @@ import {
 export type DiscoverSort =
   | "POPULAR"
   | "TRENDING"
-  | "TOP_RATED"
   | "NEWEST"
   | "MOST_COMPLETED"
   | "MOST_VIEWED"
@@ -26,7 +25,6 @@ export type DiscoverQuizOptions<TSelect extends Prisma.QuizSelect> = {
   difficulty?: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
   tags?: string[];
   search?: string;
-  minRatingCount?: number;
 };
 
 export type DiscoverQuizItem = Prisma.QuizGetPayload<{

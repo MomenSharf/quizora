@@ -39,7 +39,7 @@ export function DiscoverHero({ onSearch }: DiscoverHeroProps) {
 
                     <div className="mt-7 w-full max-w-xl">
               <form
-                action="/explore"
+                action="/discover/search"
                 method="GET"
                 className="flex h-12 w-full items-center gap-3 rounded-xl border bg-background px-4 shadow-sm transition-colors focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10"
               >

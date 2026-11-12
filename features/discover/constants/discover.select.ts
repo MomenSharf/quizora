@@ -15,8 +15,7 @@ export const discoverQuizSelect = {
   playCount: true,
   completionCount: true,
 
-  averageRating: true,
-  ratingCount: true,
+ 
 
   publishedAt: true,
 
@@ -47,3 +46,12 @@ export const discoverQuizDetailedSelect = {
   createdAt: true,
   updatedAt: true,
 } satisfies Prisma.QuizSelect;
+
+
+export type DiscoverQuiz = Prisma.QuizGetPayload<{
+  select: typeof discoverQuizSelect;
+}>;
+
+export type DiscoverQuizDetailed = Prisma.QuizGetPayload<{
+  select: typeof discoverQuizDetailedSelect;
+}>;

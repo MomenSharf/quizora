@@ -104,6 +104,7 @@ model Quiz {
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
   visibility Visibility @default(PRIVATE)
+  preferredVisibility Visibility @default(PRIVATE)
 
   editorState Json
 
@@ -119,9 +120,6 @@ model Quiz {
   completionCount Int      @default(0)
   likeCount       Int      @default(0)
 
-  // Ratings
-  averageRating Float @default(0)
-  ratingCount   Int   @default(0)
 
   // Discovery
   trendingScore Float @default(0)
@@ -140,7 +138,6 @@ model Quiz {
   @@index([visibility, publishedAt])
   @@index([visibility, playCount])
   @@index([visibility, trendingScore])
-  @@index([visibility, averageRating])
   @@index([visibility, isFeatured, featuredAt])
   @@index([category, visibility, publishedAt])
   @@index([language, visibility, publishedAt])

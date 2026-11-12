@@ -112,11 +112,54 @@ export const quizRuntimeService = {
         },
       });
 
+      await tx.quiz.update({
+        where: {
+          id: quizId,
+        },
+        data: {
+          playCount: {
+            increment: 1,
+          },
+        },
+      });
+
       return {
         attemptId: attempt.id,
         status: attempt.status,
         created: true,
       };
+    });
+  },
+
+  async incrementPlayCount(quizId: string) {
+    return prisma.quiz.update({
+      where: {
+        id: quizId,
+      },
+      data: {
+        playCount: {
+          increment: 1,
+        },
+      },
+      select: {
+        playCount: true,
+      },
+    });
+  },
+
+  async incrementCompletionCount(quizId: string) {
+    return prisma.quiz.update({
+      where: {
+        id: quizId,
+      },
+      data: {
+        completionCount: {
+          increment: 1,
+        },
+      },
+      select: {
+        completionCount: true,
+      },
     });
   },
 
@@ -227,12 +270,20 @@ export const quizRuntimeService = {
         },
         select: {
           id: true,
+          quizId: true,
+          startedAt: true,
+          completedAt: true,
         },
       });
 
       if (!existingAttempt) {
         throw AppErrors.notFound("Quiz attempt not found");
       }
+
+      const startedNow = !existingAttempt.startedAt && !!attempt.startedAt;
+
+      const completedNow =
+        !existingAttempt.completedAt && !!attempt.completedAt;
 
       await tx.quizAttempt.update({
         where: {
@@ -245,6 +296,17 @@ export const quizRuntimeService = {
           lastActivityAt: attempt.lastActivityAt,
           completedAt: attempt.completedAt,
           expiresAt: attempt.expiresAt,
+
+          ...(startedNow && {
+            playCount: {
+              increment: 1,
+            },
+          }),
+          ...(completedNow && {
+            completionCount: {
+              increment: 1,
+            },
+          }),
 
           questions: {
             update: attempt.questions.map((question) => ({

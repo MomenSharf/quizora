@@ -15,6 +15,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { QUIZ_CATEGORIES } from "@/lib/config/quiz-categories";
 
+
+
 export function CategorySlider() {
   const {
     ref,
@@ -91,7 +93,7 @@ export function CategorySlider() {
             return (
               <Link
                 key={category.value}
-                href={`/explore?category=${encodeURIComponent(category.value)}`}
+                href={`/discover?category=${encodeURIComponent(category.value)}`}
                 className={cn(
                   "group relative flex min-h-32 w-40 shrink-0 flex-col justify-between",
                   "overflow-hidden rounded-2xl border border-border/70",

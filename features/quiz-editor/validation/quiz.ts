@@ -20,6 +20,9 @@ export const QuizEditorSchema = z.object({
   visibility: z.enum(["PRIVATE", "UNLISTED", "PUBLIC"], {
     message: "Please select a valid visibility option",
   }),
+  difficulty: z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"], {
+    message: "Please select a valid visibility option",
+  }),
 
   title: z
     .string()

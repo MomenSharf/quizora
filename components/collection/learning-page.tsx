@@ -75,10 +75,7 @@ function getFilteredAttempts(
 
         case "updated":
         default:
-          return (
-            (b.updatedAt.getTime()) -
-            (  a.updatedAt.getTime())
-          );
+          return b.updatedAt.getTime() - a.updatedAt.getTime();
       }
     });
 }
