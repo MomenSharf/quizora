@@ -8,7 +8,7 @@ import { QuizTable } from "./quiz-table";
 
 import { mapAttemptToCollectionItem } from "@/lib/mappers/collection.mapper";
 import { QuizAttemptLibraryItem } from "@/lib/services/quiz-service";
-import { IconBook, IconBook2 } from "@tabler/icons-react";
+import { IconBook } from "@tabler/icons-react";
 
 type LearningPageProps = {
   attempts: QuizAttemptLibraryItem[];
@@ -76,8 +76,8 @@ function getFilteredAttempts(
         case "updated":
         default:
           return (
-            (b.lastActivityAt?.getTime() ?? b.updatedAt.getTime()) -
-            (a.lastActivityAt?.getTime() ?? a.updatedAt.getTime())
+            (b.updatedAt.getTime()) -
+            (  a.updatedAt.getTime())
           );
       }
     });
