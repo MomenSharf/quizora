@@ -15,7 +15,7 @@ export function createDefaultQuiz(): QuizEditor {
     tags: ["general"],
     language: "en",
     category: undefined,
-
+    difficulty: 'BEGINNER',
     visibility: "PRIVATE",
 
     questions: [createSingleSelectQuestion()],
