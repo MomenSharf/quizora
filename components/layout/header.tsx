@@ -13,6 +13,12 @@ const Header = async () => {
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur-xl">
       <div className="flex h-16 items-center gap-4 px-4 lg:px-6">
+
+        {/* Mobile Sidebar Trigger */}
+        <div className="md:hidden">
+          <SidebarTrigger />
+        </div>
+
         {/* Search */}
         <div className="flex flex-1 items-center">
           <div className="group relative w-full max-w-xl">
