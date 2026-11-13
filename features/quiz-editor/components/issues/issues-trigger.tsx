@@ -1,4 +1,3 @@
-
 "use client";
 
 import { AlertCircle, ListChecks, X } from "lucide-react";
@@ -17,11 +16,8 @@ import { useEditorValidation } from "../../hooks/use-editor-validation";
 export function IssuesTrigger() {
   const { setActivePanel } = useEditorActions();
 
-  const {
-    errorCount,
-    attempted,
-    stopValidation,
-  } = useEditorValidation();
+  const { errorCount, attempted, stopValidation, validate } =
+    useEditorValidation();
 
   const hasIssues = errorCount > 0;
 
@@ -37,31 +33,40 @@ export function IssuesTrigger() {
     setActivePanel("questions");
   };
 
+  const onCheckIssues = async () => {
+    const valid = await validate();
+
+    if (!valid) {
+      setActivePanel("issues");
+    }
+  };
+
   if (!attempted) {
     return (
-<>
-{/* Check Issues — Desktop */}
-<Button
-  type="button"
-  variant="outline"
-  onClick={() => setActivePanel("issues")}
-  className="group relative hidden h-10 items-center gap-2 overflow-hidden rounded-xl border-border/70 bg-background/60 px-3.5 font-medium shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-md active:translate-y-0 active:scale-[0.98] md:flex"
->
-  <ListChecks  className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
-  <span>Check issues</span>
-</Button>
+      <>
+        {/* Check Issues — Desktop */}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onCheckIssues}
+          className="group relative hidden h-10 items-center gap-2 overflow-hidden rounded-xl border-border/70 bg-background/60 px-3.5 font-medium shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-md active:translate-y-0 active:scale-[0.98] md:flex"
+        >
+          <ListChecks className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
+          <span>Check issues</span>
+        </Button>
 
-{/* Check Issues — Mobile */}
-<Button
-  type="button"
-  variant="outline"
-  size="icon"
-  onClick={() => setActivePanel("issues")}
-  aria-label="Check issues"
-  className="group size-8 rounded-xl border-border/70 bg-background/60 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-md active:translate-y-0 active:scale-[0.98] min-[400px]:size-10 md:hidden"
->
-  <ListChecks  className="size-4 text-muted-foreground transition-colors group-hover:text-primary min-[400px]:size-5" />
-</Button></>
+        {/* Check Issues — Mobile */}
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          onClick={onCheckIssues}
+          aria-label="Check issues"
+          className="group size-8 rounded-xl border-border/70 bg-background/60 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-md active:translate-y-0 active:scale-[0.98] min-[400px]:size-10 md:hidden"
+        >
+          <ListChecks className="size-4 text-muted-foreground transition-colors group-hover:text-primary min-[400px]:size-5" />
+        </Button>
+      </>
     );
   }
 
@@ -121,10 +126,12 @@ export function IssuesTrigger() {
               aria-label={label}
               className={`size-8 min-[400px]:size-10 ${buttonClass}`}
             >
-              <AlertCircle className={iconClass.replace(
-                "size-4",
-                "size-4 min-[400px]:size-5",
-              )} />
+              <AlertCircle
+                className={iconClass.replace(
+                  "size-4",
+                  "size-4 min-[400px]:size-5",
+                )}
+              />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
