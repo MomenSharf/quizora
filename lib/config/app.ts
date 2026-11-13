@@ -1,33 +1,83 @@
+const baseUrl =
+  process.env.BASE_URL ||
+  (process.env.NODE_ENV === "development" ? "http://localhost:3000" : "")
+
 export const appConfig = {
-  name: "Quizora",
-  description: "Create, share, and play interactive quizzes.",
-  url: process.env.NEXT_PUBLIC_APP_URL!,
+  name: "QuizFlow",
+  description:
+    "Create, discover, share, and play interactive quizzes. Make learning engaging with QuizFlow.",
+  url: baseUrl,
   version: "1.0.0",
 
   company: {
-    name: "Quizora",
-    email: 'mwmnshrfaldinps3@gmail.com',
+    name: "QuizFlow",
+    email: "mwmnshrfaldinps3@gmail.com",
+  },
+
+  branding: {
+    name: "QuizFlow",
+    tagline: "Learn, Play, and Challenge Yourself.",
+    logo: "/logo.png",
+    icon: "/favicon.ico",
+    ogImage: "/images/og-image.png",
   },
 
   social: {
-    github: "https://github.com/MomenSharf/quizora",
-    twitter: "",
-    discord: "",
+    github: "https://github.com/MomenSharf/quizflow",
+    twitter: null,
+    discord: null,
   },
 
-  auth: {
-    loginPath: "/login",
-    registerPath: "/sign-up",
-    dashboardPath: "/dashboard",
+  routes: {
+    home: "/",
+
+    // Discovery
+    discover: "/discover",
+    search: "/discover/search",
+
+    // Authentication
+    login: "/login",
+    register: "/sign-up",
+
+    // User workspace
+    dashboard: "/",
+    settings: "/settings",
+
+  
   },
 
   seo: {
-    titleTemplate: "%s | Quizora",
+    titleTemplate: "%s | QuizFlow",
+    defaultTitle: "QuizFlow - Create, Share & Play Quizzes",
+
     keywords: [
-      "quiz",
-      "education",
-      "learning",
-      "exam",
+      "QuizFlow",
+      "online quizzes",
+      "quiz maker",
+      "interactive quizzes",
+      "educational quizzes",
+      "online learning",
+      "knowledge tests",
+      "quiz platform",
+      "learning games",
+      "practice quizzes",
     ],
+
+    locale: "en_US",
+    language: "en",
+    type: "website",
+
+    robots: {
+      index: true,
+      follow: true,
+
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large" as const,
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
   },
 } as const;
