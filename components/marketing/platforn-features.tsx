@@ -1,4 +1,5 @@
 
+import { appConfig } from "@/lib/config/app";
 import {
   Sparkles,
   PencilRuler,
@@ -69,7 +70,7 @@ export function PaltformFeatures() {
       <div className="mb-6 flex flex-col gap-2">
         <div className="flex items-center gap-2 text-sm font-semibold text-primary">
           <Sparkles className="size-4" />
-          Discover Quizora
+          Discover {appConfig.name}
         </div>
 
         <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">

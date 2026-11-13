@@ -1,4 +1,5 @@
 
+import { appConfig } from "@/lib/config/app";
 import {
   Users,
   BookOpen,
@@ -52,7 +53,7 @@ export function PlatfromStats() {
   <div className="mb-8">
     <div className="mb-3 flex items-center gap-2 text-sm font-medium text-primary">
       <Sparkles className="size-4" />
-      A little about Quizora
+      A little about {appConfig.name}
     </div>
 
     <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">

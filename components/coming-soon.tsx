@@ -8,6 +8,7 @@ import {
 } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
+import { appConfig } from "@/lib/config/app";
 
 type ComingSoonProps = {
   title: string;
@@ -59,7 +60,7 @@ export function ComingSoon({
         </div>
 
         <p className="mt-10 text-xs text-muted-foreground">
-          Thanks for being part of Quizora.
+          Thanks for being part of {appConfig.name}.
         </p>
       </div>
     </div>

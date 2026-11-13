@@ -85,7 +85,7 @@ export function HeroSection({ isAuthenticated, userName }: HeroSectionProps) {
         <div className="relative mx-auto w-full max-w-[400px] lg:max-w-none">
           <Image
             src="/assets/images/quizora-hero.png"
-            alt="Interactive Quizora quiz illustration"
+            alt="Interactive QuizFlow quiz illustration"
             width={700}
             height={580}
             priority

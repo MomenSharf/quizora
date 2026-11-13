@@ -86,7 +86,7 @@
   --pending: oklch(0.714 0.203 41.116);
   --pending-foreground: oklch(0.98 0.016 73.684);
 
-  /* Quizora colors */
+  /* QuizFlow colors */
   --question-single: oklch(0.62 0.2 255);
   --question-multiple: oklch(0.6 0.22 305);
   --question-true-false: oklch(0.72 0.18 145);
