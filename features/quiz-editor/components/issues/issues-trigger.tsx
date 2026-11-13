@@ -1,6 +1,7 @@
+
 "use client";
 
-import { AlertCircle, X } from "lucide-react";
+import { AlertCircle, ListChecks, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,17 +23,11 @@ export function IssuesTrigger() {
     stopValidation,
   } = useEditorValidation();
 
-  if (!attempted) return null;
-
   const hasIssues = errorCount > 0;
 
   const label = hasIssues
     ? `${errorCount} ${errorCount === 1 ? "issue" : "issues"}`
     : "No issues";
-
-  const iconClass = hasIssues
-    ? "size-4 text-destructive"
-    : "size-4 text-emerald-500";
 
   const buttonClass =
     "rounded-xl border-border/70 bg-background/60 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-md active:translate-y-0 active:scale-[0.98]";
@@ -41,6 +36,39 @@ export function IssuesTrigger() {
     stopValidation();
     setActivePanel("questions");
   };
+
+  if (!attempted) {
+    return (
+<>
+{/* Check Issues — Desktop */}
+<Button
+  type="button"
+  variant="outline"
+  onClick={() => setActivePanel("issues")}
+  className="group relative hidden h-10 items-center gap-2 overflow-hidden rounded-xl border-border/70 bg-background/60 px-3.5 font-medium shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-md active:translate-y-0 active:scale-[0.98] md:flex"
+>
+  <ListChecks  className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
+  <span>Check issues</span>
+</Button>
+
+{/* Check Issues — Mobile */}
+<Button
+  type="button"
+  variant="outline"
+  size="icon"
+  onClick={() => setActivePanel("issues")}
+  aria-label="Check issues"
+  className="group size-8 rounded-xl border-border/70 bg-background/60 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-background hover:shadow-md active:translate-y-0 active:scale-[0.98] min-[400px]:size-10 md:hidden"
+>
+  <ListChecks  className="size-4 text-muted-foreground transition-colors group-hover:text-primary min-[400px]:size-5" />
+</Button></>
+    );
+  }
+
+  const iconClass = hasIssues
+    ? "size-4 text-destructive"
+    : "size-4 text-emerald-500";
+
   return (
     <TooltipProvider>
       {/* Desktop */}
@@ -57,7 +85,6 @@ export function IssuesTrigger() {
               <span>{label}</span>
             </Button>
           </TooltipTrigger>
-
           <TooltipContent>
             <p>View issues</p>
           </TooltipContent>
@@ -76,7 +103,6 @@ export function IssuesTrigger() {
               <X className="size-4" />
             </Button>
           </TooltipTrigger>
-
           <TooltipContent>
             <p>Clear issues</p>
           </TooltipContent>
@@ -101,7 +127,6 @@ export function IssuesTrigger() {
               )} />
             </Button>
           </TooltipTrigger>
-
           <TooltipContent>
             <p>View issues</p>
           </TooltipContent>
@@ -120,7 +145,6 @@ export function IssuesTrigger() {
               <X className="size-4" />
             </Button>
           </TooltipTrigger>
-
           <TooltipContent>
             <p>Clear issues</p>
           </TooltipContent>

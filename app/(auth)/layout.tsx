@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -18,32 +19,33 @@ export default async function AuthLayout({
   }
 
   return (
-    <main className="grid h-dvh overflow-hidden md:grid-cols-2">
-      {/* Form side */}
-      <div className="flex min-h-0 flex-col p-3">
-        <header className="mt-5 flex shrink-0 items-center justify-between">
-          <Logo />
-          <ThemeToggle />
-        </header>
+    <main className="flex min-h-dvh flex-col">
+      {/* Full-width header */}
+      <header className="flex h-20 shrink-0 items-center justify-between px-6 sm:px-10">
+        <Logo />
+        <ThemeToggle />
+      </header>
 
-        {/* Only this area scrolls */}
-        <div className="min-h-0 flex-1 overflow-y-auto pr-1 [scrollbar-color:var(--border)_transparent] scrollbar-thin">
-          <div className="flex min-h-full items-center justify-center p-6">
-            <AuthContent>{children}</AuthContent>
+      {/* Main content */}
+      <div className="grid flex-1 items-center md:grid-cols-2">
+        {/* Form */}
+        <section className="flex min-w-0 items-center justify-center px-6 py-10 sm:px-10">
+          <AuthContent>{children}</AuthContent>
+        </section>
+
+        {/* Illustration */}
+        <aside className="relative hidden h-full min-h-100 items-center justify-center p-8 md:flex lg:p-12">
+          <div className="relative aspect-4/3 w-full max-w-2xl">
+            <Image
+              src="/assets/images/login-image.png"
+              alt=""
+              fill
+              priority
+              sizes="50vw"
+              className="object-contain"
+            />
           </div>
-        </div>
-      </div>
-
-      {/* Fixed image side */}
-      <div className="relative hidden min-h-0 md:block">
-        <Image
-          src="/assets/images/login-image.jpg"
-          alt=""
-          fill
-          sizes="50vw"
-          className="object-cover"
-          priority
-        />
+        </aside>
       </div>
     </main>
   );

@@ -1,4 +1,3 @@
-
 import { appConfig } from "@/lib/config/app";
 import {
   Sparkles,
@@ -8,6 +7,7 @@ import {
   Compass,
   ArrowUpRight,
 } from "lucide-react";
+import { SectionHeading } from "../shared/section-heading";
 
 const features = [
   {
@@ -66,22 +66,13 @@ const features = [
 
 export function PaltformFeatures() {
   return (
-    <section className="w-full min-w-0 px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-      <div className="mb-6 flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-sm font-semibold text-primary">
-          <Sparkles className="size-4" />
-          Discover {appConfig.name}
-        </div>
-
-        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-          Everything you need to make learning fun.
-        </h2>
-
-        <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-          Create, play, and explore. Discover a better way to challenge
-          yourself and learn something new every day.
-        </p>
-      </div>
+    <section className="w-full min-w-0 py-8 sm:py-10">
+      <SectionHeading
+        className="mb-8"
+        eyebrow={`Discover ${appConfig.name}`}
+        title="Everything you need to make learning fun."
+        description="Create, play, and explore. Discover a better way to challenge yourself and learn something new every day."
+      />
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {features.map((feature) => {
@@ -107,7 +98,6 @@ export function PaltformFeatures() {
                   <span className="text-xs font-semibold tracking-wider text-muted-foreground/70">
                     {feature.number}
                   </span>
-            
                 </div>
               </div>
 

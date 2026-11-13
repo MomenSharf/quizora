@@ -5,13 +5,11 @@ import { Logo } from "@/components/logo";
 
 import { EditorActions } from "./ediotor-actions";
 import { EditableTitle } from "./editable-title";
-import { HistoryControls } from "./history-controls";
 import { SaveStatus } from "./save-status";
-import { IssuesTrigger } from "../issues/issues-trigger";
 
 export default function EditorHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/80 px-1 py-2 backdrop-blur-md flex items-center">
+    <header className="sticky top-0 z-40 border-b bg-background/80 p-2 backdrop-blur-md flex items-center">
       <div className="flex-1 flex h-10 items-center gap-2">
         {/* Navigation */}
         <Logo

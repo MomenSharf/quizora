@@ -1,4 +1,3 @@
-
 import { appConfig } from "@/lib/config/app";
 import {
   Users,
@@ -6,7 +5,9 @@ import {
   MessageCircleQuestion,
   Trophy,
   Sparkles,
+  ArrowUpRight,
 } from "lucide-react";
+import { SectionHeading } from "../shared/section-heading";
 
 const stats = [
   {
@@ -14,86 +15,109 @@ const stats = [
     value: "1,200+",
     description: "People learning and growing together.",
     icon: Users,
-    className: "sm:col-span-2 sm:row-span-1",
-    iconClassName: "bg-violet-500/10 text-violet-500",
-    background: "bg-violet-500/[0.04]",
   },
   {
     label: "Quizzes to explore",
     value: "850+",
     description: "Something new to discover every day.",
     icon: BookOpen,
-    className: "sm:col-span-1 sm:row-span-2",
-    iconClassName: "bg-sky-500/10 text-sky-500",
-    background: "bg-sky-500/[0.04]",
   },
   {
     label: "Questions answered",
     value: "24K+",
     description: "Every question makes you smarter.",
     icon: MessageCircleQuestion,
-    className: "sm:col-span-1 sm:row-span-1",
-    iconClassName: "bg-amber-500/10 text-amber-500",
-    background: "bg-amber-500/[0.04]",
   },
   {
     label: "Quiz challenges",
     value: "5K+",
     description: "And so many more to come!",
     icon: Trophy,
-    className: "sm:col-span-2 sm:row-span-1",
-    iconClassName: "bg-emerald-500/10 text-emerald-500",
-    background: "bg-emerald-500/[0.04]",
   },
 ];
 
 export function PlatfromStats() {
   return (
-   <section className="w-full px-4 py-12 sm:px-6 lg:px-8">
-  <div className="mb-8">
-    <div className="mb-3 flex items-center gap-2 text-sm font-medium text-primary">
-      <Sparkles className="size-4" />
-      A little about {appConfig.name}
-    </div>
+    <section className="w-full py-16">
+      <SectionHeading
+        className="mb-8"
+        eyebrow={`The ${appConfig.name} experience`}
+        title="Learning, but make it fun!"
+        description="Good things happen when curiosity meets a little challenge. Here's what makes learning with Quizora special."
+      />
 
-    <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-      Learning, but make it <span className="text-primary">fun!</span>
-    </h2>
+      <div className="relative overflow-hidden rounded-[2rem] border bg-muted/30 p-6 sm:p-10 lg:p-12">
+        <div className="relative grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+          {/* Featured statistic */}
+          <div className="flex flex-col justify-between gap-8">
+            <div>
+              <div className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <Sparkles className="size-6" />
+              </div>
 
-    <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
-      Good things happen when curiosity meets a little challenge.
-      Here&apos;s what our Quizora community is all about.
-    </p>
-  </div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Awesome learners
+              </p>
 
-<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-  {stats.map((stat) => {
-    const Icon = stat.icon;
+              <div className="mt-3 flex items-baseline gap-2">
+                <span className="text-6xl font-bold tracking-[-0.06em] sm:text-7xl">
+                  1.2K
+                </span>
+                <span className="text-2xl font-semibold text-primary">+</span>
+              </div>
 
-    return (
-      <div
-        key={stat.label}
-        className={`group flex min-h-44 flex-col justify-between overflow-hidden rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md sm:p-6 ${stat.background}`}
-      >
-        <div className="flex items-center justify-between">
-          <div className={`flex size-11 items-center justify-center rounded-2xl ${stat.iconClassName}`}>
-            <Icon className="size-5" />
+              <p className="mt-3 max-w-xs text-sm leading-6 text-muted-foreground">
+                People learning and growing together, one quiz at a time.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <Sparkles className="size-4 text-primary" />
+              Making every learning moment count.
+            </div>
+          </div>
+
+          {/* Supporting statistics */}
+          <div className="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+            {stats.slice(1).map((stat) => {
+              const Icon = stat.icon;
+
+              return (
+                <div
+                  key={stat.label}
+                  className="group flex flex-col justify-between border-t border-border/70 py-7 sm:py-8"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {stat.label}
+                    </span>
+                    <Icon className="size-4 text-muted-foreground transition-colors group-hover:text-primary" />
+                  </div>
+
+                  <div className="mt-5">
+                    <div className="text-4xl font-bold tracking-tight">
+                      {stat.value}
+                    </div>
+                    <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                      {stat.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        <div>
-          <p className="text-3xl font-bold tracking-tight sm:text-4xl">
-            {stat.value}
-          </p>
-          <p className="mt-1 font-medium">{stat.label}</p>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-            {stat.description}
-          </p>
+        <div className="mt-4 flex items-center justify-between border-t border-border/70 pt-5">
+          <span className="text-xs font-medium text-muted-foreground">
+            Learn. Play. Achieve.
+          </span>
+          {/* <span className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+            Discover more
+            <ArrowUpRight className="size-3.5" />
+          </span> */}
         </div>
       </div>
-    );
-  })}
-</div>
-</section>
+    </section>
   );
 }

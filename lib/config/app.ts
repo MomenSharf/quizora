@@ -37,7 +37,7 @@ export const appConfig = {
 
     // Authentication
     login: "/login",
-    register: "/sign-up",
+    register: "/signup",
 
     // User workspace
     dashboard: "/",
